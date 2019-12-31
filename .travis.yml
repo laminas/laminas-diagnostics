@@ -3,9 +3,6 @@ language: php
 services:
   - redis-server
   - rabbitmq
-
-sudo: false
-
 cache:
   directories:
     - $HOME/.composer/cache
@@ -28,5 +25,4 @@ script:
   - ./vendor/bin/php-cs-fixer fix -v --dry-run --level=psr2 .
 
 notifications:
-  irc: "irc.freenode.org#zftalk.dev"
   email: false
