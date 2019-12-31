@@ -1,6 +1,6 @@
 # Diagnostic Checks
 
-zendframework/zenddiagnostics provides several "just add water" checks you can
+laminas/laminas-diagnostics provides several "just add water" checks you can
 use straight away.
 
 The following built-in tests are currently available:
@@ -12,7 +12,7 @@ given threshold:
 
 ```php
 <?php
-use ZendDiagnostics\Check\ApcFragmentation;
+use Laminas\Diagnostics\Check\ApcFragmentation;
 
 // Display a warning with fragmentation > 50% and failure when above 90%
 $fragmentation = new ApcFragmentation(50, 90);
@@ -25,7 +25,7 @@ given threshold.
 
 ```php
 <?php
-use ZendDiagnostics\Check\ApcMemory;
+use Laminas\Diagnostics\Check\ApcMemory;
 
 // Display a warning with memory usage is above 70% and a failure above 90%
 $checkFreeMemory = new ApcMemory(70, 90);
@@ -37,9 +37,9 @@ Run a function (callback) and use its return value as the result:
 
 ```php
 <?php
-use ZendDiagnostics\Check\Callback;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\Failure;
+use Laminas\Diagnostics\Check\Callback;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Failure;
 
 $checkDbFile = new Callback(function() {
     $path = __DIR__ . '/data/db.sqlite';
@@ -55,7 +55,7 @@ $checkDbFile = new Callback(function() {
 > 
 > The callback must return either a `boolean` (true for success, false for
 > failure), or a valid instance of
-> [ResultInterface](https://github.com/zendframework/zend-diagnostics/tree/master/src/Result/ResultInterface.php).
+> [ResultInterface](https://github.com/laminas/laminas-diagnostics/tree/master/src/Result/ResultInterface.php).
 > All other objects will result in an exception, and scalars (i.e. a string) will
 > be interpreted as warnings.
 
@@ -65,7 +65,7 @@ Check if a class (or an array of classes) exists. For example:
 
 ```php
 <?php
-use ZendDiagnostics\Check\ClassExists;
+use Laminas\Diagnostics\Check\ClassExists;
 
 $checkLuaClass = new ClassExists('Lua');
 $checkRbacClasses = new ClassExists([
@@ -88,7 +88,7 @@ of EC2 Micro Instance:
 
 ```php
 <?php
-use ZendDiagnostics\Check\CpuPerformance;
+use Laminas\Diagnostics\Check\CpuPerformance;
 
 $checkMinCPUSpeed = new CpuPerformance(0.5); // at least 50% of EC2 micro instance
 ```
@@ -100,7 +100,7 @@ readable.
 
 ```php
 <?php
-use ZendDiagnostics\Check\DirReadable;
+use Laminas\Diagnostics\Check\DirReadable;
 
 $checkPublic = new DirReadable('public/');
 $checkAssets = new DirReadable([
@@ -116,7 +116,7 @@ written to.
 
 ```php
 <?php
-use ZendDiagnostics\Check\DirWritable;
+use Laminas\Diagnostics\Check\DirWritable;
 
 $checkTemporary = new DirWritable('/tmp');
 $checkAssets    = new DirWritable([
@@ -138,7 +138,7 @@ drive letter (e.g.  `"C:"`).
 
 ```php
 <?php
-use ZendDiagnostics\Check\DiskFree;
+use Laminas\Diagnostics\Check\DiskFree;
 
 $tempHasAtLeast100Megs  = new DiskFree('100MB', '/tmp');
 $homeHasAtLeast1TB      = new DiskFree('1TiB',  '/home');
@@ -151,7 +151,7 @@ Check if a PHP extension (or an array of extensions) is currently loaded.
 
 ```php
 <?php
-use ZendDiagnostics\Check\ExtensionLoaded;
+use Laminas\Diagnostics\Check\ExtensionLoaded;
 
 $checkMbstring    = new ExtensionLoaded('mbstring');
 $checkCompression = new ExtensionLoaded([
@@ -168,7 +168,7 @@ page. The check also supports checking response codes and page contents.
 
 ```php
 <?php
-use ZendDiagnostics\Check\HttpService;
+use Laminas\Diagnostics\Check\HttpService;
 
 // Try to connect to google.com
 $checkGoogle = new HttpService('www.google.com');
@@ -226,7 +226,7 @@ Examples:
 
 ```php
 <?php
-use ZendDiagnostics\Check\GuzzleHttpService;
+use Laminas\Diagnostics\Check\GuzzleHttpService;
 
 // Try to connect to google.com
 $checkGoogle = new GuzzleHttpService('www.google.com');
@@ -291,7 +291,7 @@ Attempt to connect to given Memcache server.
 
 ```php
 <?php
-use ZendDiagnostics\Check\Memcache;
+use Laminas\Diagnostics\Check\Memcache;
 
 $checkLocal  = new Memcache('127.0.0.1'); // default port
 $checkBackup = new Memcache('10.0.30.40', 11212);
@@ -303,7 +303,7 @@ Attempt to connect to the given Memcached server.
 
 ```php
 <?php
-use ZendDiagnostics\Check\Memcached;
+use Laminas\Diagnostics\Check\Memcached;
 
 $checkLocal  = new Memcached('127.0.0.1'); // default port
 $checkBackup = new Memcached('10.0.30.40', 11212);
@@ -314,7 +314,7 @@ Check if connection to MongoDb is possible
 
 ````php
 <?php
-use ZendDiagnostics\Check\Mongo;
+use Laminas\Diagnostics\Check\Mongo;
 
 $mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
 // and with user/password
@@ -329,7 +329,7 @@ Check if a connection to a given MongoDb server is possible.
 
 ```php
 <?php
-use ZendDiagnostics\Check\Mongo;
+use Laminas\Diagnostics\Check\Mongo;
 
 $mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
 // and with user/password
@@ -344,7 +344,7 @@ Check if the current PHP version matches the given requirement. The test accepts
 
 ```php
 <?php
-use ZendDiagnostics\Check\PhpVersion;
+use Laminas\Diagnostics\Check\PhpVersion;
 
 $require545orNewer  = new PhpVersion('5.4.5');
 $rejectBetaVersions = new PhpVersion('5.5.0', '<');
@@ -358,7 +358,7 @@ behavior-changing PHP settings.
 
 ```php
 <?php
-use ZendDiagnostics\Check\PhpFlag;
+use Laminas\Diagnostics\Check\PhpFlag;
 
 // This check will fail if use_only_cookies is not enabled
 $sessionOnlyUsesCookies = new PhpFlag('session.use_only_cookies', true);
@@ -381,7 +381,7 @@ names.
 
 ```php
 <?php
-use ZendDiagnostics\Check\ProcessRunning;
+use Laminas\Diagnostics\Check\ProcessRunning;
 
 $checkApache = new ProcessRunning('httpd');
 $checkProcess1000 = new ProcessRunning(1000);
@@ -393,7 +393,7 @@ Validate that a RabbitMQ service is running.
 
 ```php
 <?php
-use ZendDiagnostics\Check\RabbitMQ;
+use Laminas\Diagnostics\Check\RabbitMQ;
 
 $rabbitMQCheck = new RabbitMQ('localhost', 5672, 'guest', 'guest', '/');
 ```
@@ -404,7 +404,7 @@ Validate that a Redis service is running.
 
 ```php
 <?php
-use ZendDiagnostics\Check\Redis;
+use Laminas\Diagnostics\Check\Redis;
 
 $redisCheck = new Redis('localhost', 6379, 'secret');
 ```
@@ -418,7 +418,7 @@ security vulnerabilities.
 
 ```php
 <?php
-use ZendDiagnostics\Check\SecurityAdvisory;
+use Laminas\Diagnostics\Check\SecurityAdvisory;
 
 // Warn about any packages that might have security vulnerabilities
 // and require updating
@@ -435,7 +435,7 @@ example:
 
 ```php
 <?php
-use ZendDiagnostics\Check\StreamWrapperExists;
+use Laminas\Diagnostics\Check\StreamWrapperExists;
 
 $checkOGGStream   = new StreamWrapperExists('ogg');
 $checkCompression = new StreamWrapperExists([
@@ -453,7 +453,7 @@ Make sure all migrations are applied:
 <?php
 use Doctrine\Migrations\Configuration\Configuration;
 use Doctrine\ORM\EntityManager;
-use ZendDiagnostics\Check\DoctrineMigration;
+use Laminas\Diagnostics\Check\DoctrineMigration;
 
 $em = EntityManager::create(/* config */);
 $migrationConfig = new Configuration($em);

@@ -1,11 +1,12 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-diagnostics for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-diagnostics/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-diagnostics for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-diagnostics/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendDiagnosticsTest;
+namespace LaminasTest\Diagnostics;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Handler\MockHandler as Guzzle6MockHandler;
@@ -14,14 +15,14 @@ use GuzzleHttp\Message\Response as GuzzleResponse;
 use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Subscriber\Mock as Guzzle5MockSubscriber;
 use InvalidArgumentException;
+use Laminas\Diagnostics\Check\CouchDBCheck;
+use Laminas\Diagnostics\Check\GuzzleHttpService;
+use Laminas\Diagnostics\Result\FailureInterface;
+use Laminas\Diagnostics\Result\SuccessInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use ReflectionClass;
 use ReflectionProperty;
-use ZendDiagnostics\Check\CouchDBCheck;
-use ZendDiagnostics\Check\GuzzleHttpService;
-use ZendDiagnostics\Result\FailureInterface;
-use ZendDiagnostics\Result\SuccessInterface;
 
 use function GuzzleHttp\Psr7\parse_response;
 
