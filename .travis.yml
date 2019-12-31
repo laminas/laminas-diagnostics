@@ -3,9 +3,6 @@ language: php
 services:
   - redis-server
   - rabbitmq
-
-sudo: false
-
 cache:
   directories:
     - $HOME/.composer/cache
@@ -30,5 +27,4 @@ script:
   - if [ "$TRAVIS_PHP_VERSION" = "5.6" ]; then ./vendor/bin/php-cs-fixer fix -v --dry-run --level=psr2 .; fi
 
 notifications:
-  irc: "irc.freenode.org#zftalk.dev"
   email: false
