@@ -1,6 +1,6 @@
 docs_dir: docs/book
 site_dir: docs/html
-pages:
+nav:
     - index.md
     - usage.md
     - Checks:
@@ -10,7 +10,6 @@ pages:
         - Architecture: architecture.md
         - "Custom Checks": custom-checks.md
         - "Custom Reporters": custom-reporters.md
-site_name: ZendDiagnostics
+site_name: laminas-diagnostics
 site_description: 'A set of components for performing diagnostic tests in PHP applications.'
-repo_url: 'https://github.com/zendframework/zend-diagnostics'
-copyright: 'Copyright (c) 2013-2018 <a href="https://www.zend.com/">Zend Technologies USA Inc.</a>'
+repo_url: 'https://github.com/laminas/laminas-diagnostics'

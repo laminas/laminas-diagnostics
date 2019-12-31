@@ -3,5 +3,5 @@
 ### Using Composer
 
 ```bash
-$ composer require zendframework/zenddiagnostics
+$ composer require laminas/laminas-diagnostics
 ```

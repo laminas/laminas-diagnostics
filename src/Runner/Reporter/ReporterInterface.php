@@ -1,16 +1,17 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-diagnostics for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-diagnostics/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-diagnostics for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-diagnostics/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendDiagnostics\Runner\Reporter;
+namespace Laminas\Diagnostics\Runner\Reporter;
 
 use ArrayObject;
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\ResultInterface;
-use ZendDiagnostics\Result\Collection as ResultsCollection;
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\Collection as ResultsCollection;
+use Laminas\Diagnostics\Result\ResultInterface;
 
 /**
  * Interface for a Reporter that can be attached to Runner.
@@ -19,7 +20,7 @@ use ZendDiagnostics\Result\Collection as ResultsCollection;
  * as they are being invoked by the Runner. Some methods can be also be used to
  * stop the Runner in the middle of testing.
  *
- * @see \ZendDiagnostics\Runner\Runner::run()
+ * @see \Laminas\Diagnostics\Runner\Runner::run()
  */
 interface ReporterInterface
 {
