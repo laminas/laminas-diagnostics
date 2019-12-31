@@ -1,18 +1,19 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-diagnostics for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-diagnostics/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-diagnostics for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-diagnostics/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendDiagnosticsTest;
+namespace LaminasTest\Diagnostics;
 
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Check\DirWritable;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\Success;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Check\DirWritable;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\Success;
 
 class DirWritableTest extends TestCase
 {
