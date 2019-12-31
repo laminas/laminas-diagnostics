@@ -1,55 +1,21 @@
 {
-    "name": "zendframework/zenddiagnostics",
+    "name": "laminas/laminas-diagnostics",
     "description": "A set of components for performing diagnostic tests in PHP applications",
-    "homepage": "https://github.com/zendframework/zend-diagnostics",
     "license": "BSD-3-Clause",
     "keywords": [
-        "zf",
-        "zendframework",
+        "laminas",
         "php",
         "diagnostics",
         "test"
     ],
+    "homepage": "https://laminas.dev",
     "support": {
-        "issues": "https://github.com/zendframework/zend-diagnostics/issues",
-        "source": "https://github.com/zendframework/zend-diagnostics",
-        "rss": "https://github.com/zendframework/zend-diagnostics/releases.atom",
-        "chat": "https://zendframework-slack.herokuapp.com",
-        "forum": "https://discourse.zendframework.com/c/questions/components"
-    },
-    "require": {
-        "php": "^5.6 || ^7.0"
-    },
-    "require-dev": {
-        "doctrine/migrations": "^1.0",
-        "guzzlehttp/guzzle": "^5.3.2 || ^6.3.3",
-        "mikey179/vfsStream": "^1.6",
-        "php-amqplib/php-amqplib": "^2.0",
-        "phpunit/phpunit": "^5.7.27 || 6.5.8 || ^7.1.2",
-        "predis/predis": "^1.0",
-        "sensiolabs/security-checker": "^5.0",
-        "symfony/yaml": "^2.7 || ^3.0 || ^4.0",
-        "zendframework/zend-coding-standard": "~1.0.0",
-        "zendframework/zend-loader": "^2.0"
-    },
-    "suggest": {
-        "ext-bcmath": "Required by Check\\CpuPerformance",
-        "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory",
-        "symfony/yaml": "Required by Check\\YamlFile",
-        "guzzlehttp/guzzle": "Required by Check\\GuzzleHttpService",
-        "predis/predis": "Required by Check\\Redis",
-        "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ",
-        "doctrine/migrations": "Required by Check\\DoctrineMigration"
-    },
-    "autoload": {
-        "psr-4": {
-            "ZendDiagnostics\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "ZendDiagnosticsTest\\": "test/"
-        }
+        "docs": "https://docs.laminas.dev/laminas-diagnostics/",
+        "issues": "https://github.com/laminas/laminas-diagnostics/issues",
+        "source": "https://github.com/laminas/laminas-diagnostics",
+        "rss": "https://github.com/laminas/laminas-diagnostics/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
     },
     "config": {
         "sort-packages": true
@@ -58,6 +24,41 @@
         "branch-alias": {
             "dev-master": "1.4.x-dev",
             "dev-develop": "1.5.x-dev"
+        }
+    },
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "laminas/laminas-zendframework-bridge": "^1.0"
+    },
+    "require-dev": {
+        "doctrine/migrations": "^1.0",
+        "guzzlehttp/guzzle": "^5.3.2 || ^6.3.3",
+        "laminas/laminas-coding-standard": "~1.0.0",
+        "laminas/laminas-loader": "^2.0",
+        "mikey179/vfsstream": "^1.6",
+        "php-amqplib/php-amqplib": "^2.0",
+        "phpunit/phpunit": "^5.7.27 || 6.5.8 || ^7.1.2",
+        "predis/predis": "^1.0",
+        "sensiolabs/security-checker": "^5.0",
+        "symfony/yaml": "^2.7 || ^3.0 || ^4.0"
+    },
+    "suggest": {
+        "ext-bcmath": "Required by Check\\CpuPerformance",
+        "doctrine/migrations": "Required by Check\\DoctrineMigration",
+        "guzzlehttp/guzzle": "Required by Check\\GuzzleHttpService",
+        "predis/predis": "Required by Check\\Redis",
+        "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory",
+        "symfony/yaml": "Required by Check\\YamlFile",
+        "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Diagnostics\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\Diagnostics\\": "test/"
         }
     },
     "scripts": {
@@ -69,5 +70,8 @@
         "cs-fix": "phpcbf",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    },
+    "replace": {
+        "zendframework/zenddiagnostics": "self.version"
     }
 }

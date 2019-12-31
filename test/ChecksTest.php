@@ -1,46 +1,47 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-diagnostics for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-diagnostics/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-diagnostics for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-diagnostics/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendDiagnosticsTest;
+namespace LaminasTest\Diagnostics;
 
 use ArrayObject;
 use ErrorException;
 use Exception;
 use InvalidArgumentException;
+use Laminas\Diagnostics\Check\Callback;
+use Laminas\Diagnostics\Check\ClassExists;
+use Laminas\Diagnostics\Check\CpuPerformance;
+use Laminas\Diagnostics\Check\DirReadable;
+use Laminas\Diagnostics\Check\DirWritable;
+use Laminas\Diagnostics\Check\ExtensionLoaded;
+use Laminas\Diagnostics\Check\IniFile;
+use Laminas\Diagnostics\Check\JsonFile;
+use Laminas\Diagnostics\Check\Memcache;
+use Laminas\Diagnostics\Check\Memcached;
+use Laminas\Diagnostics\Check\Mongo;
+use Laminas\Diagnostics\Check\PhpFlag;
+use Laminas\Diagnostics\Check\PhpVersion;
+use Laminas\Diagnostics\Check\ProcessRunning;
+use Laminas\Diagnostics\Check\RabbitMQ;
+use Laminas\Diagnostics\Check\Redis;
+use Laminas\Diagnostics\Check\StreamWrapperExists;
+use Laminas\Diagnostics\Check\XmlFile;
+use Laminas\Diagnostics\Check\YamlFile;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\FailureInterface;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\SuccessInterface;
+use Laminas\Diagnostics\Result\Warning;
+use LaminasTest\Diagnostics\TestAsset\Check\AlwaysSuccess;
+use LaminasTest\Diagnostics\TestAsset\Check\SecurityAdvisory;
 use PHPUnit\Framework\TestCase;
 use SensioLabs\Security\Result;
 use SensioLabs\Security\SecurityChecker;
 use stdClass;
-use ZendDiagnostics\Check\Callback;
-use ZendDiagnostics\Check\ClassExists;
-use ZendDiagnostics\Check\CpuPerformance;
-use ZendDiagnostics\Check\DirReadable;
-use ZendDiagnostics\Check\DirWritable;
-use ZendDiagnostics\Check\ExtensionLoaded;
-use ZendDiagnostics\Check\IniFile;
-use ZendDiagnostics\Check\JsonFile;
-use ZendDiagnostics\Check\Memcache;
-use ZendDiagnostics\Check\Memcached;
-use ZendDiagnostics\Check\Mongo;
-use ZendDiagnostics\Check\PhpFlag;
-use ZendDiagnostics\Check\PhpVersion;
-use ZendDiagnostics\Check\ProcessRunning;
-use ZendDiagnostics\Check\RabbitMQ;
-use ZendDiagnostics\Check\Redis;
-use ZendDiagnostics\Check\StreamWrapperExists;
-use ZendDiagnostics\Check\XmlFile;
-use ZendDiagnostics\Check\YamlFile;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\FailureInterface;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\SuccessInterface;
-use ZendDiagnostics\Result\Warning;
-use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
-use ZendDiagnosticsTest\TestAsset\Check\SecurityAdvisory;
 
 class ChecksTest extends TestCase
 {
@@ -65,7 +66,7 @@ class ChecksTest extends TestCase
 
     public function testRabbitMQ()
     {
-        if (getenv('TESTS_ZEND_DIAGNOSTICS_RABBITMQ_ENABLED') !== 'true') {
+        if (getenv('TESTS_LAMINAS_DIAGNOSTICS_RABBITMQ_ENABLED') !== 'true') {
             $this->markTestSkipped('RabbitMQ tests are not enabled; enable them in phpunit.xml');
         }
 
@@ -83,7 +84,7 @@ class ChecksTest extends TestCase
 
     public function testRedis()
     {
-        if (getenv('TESTS_ZEND_DIAGNOSTICS_REDIS_ENABLED') !== 'true') {
+        if (getenv('TESTS_LAMINAS_DIAGNOSTICS_REDIS_ENABLED') !== 'true') {
             $this->markTestSkipped('Redis tests are not enabled; enable them in phpunit.xml');
         }
 
@@ -98,7 +99,7 @@ class ChecksTest extends TestCase
 
     public function testMemcache()
     {
-        if (getenv('TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED') !== 'true') {
+        if (getenv('TESTS_LAMINAS_DIAGNOSTICS_MEMCACHE_ENABLED') !== 'true') {
             $this->markTestSkipped('Memcache tests are not enabled; enable them in phpunit.xml');
         }
 
@@ -113,7 +114,7 @@ class ChecksTest extends TestCase
 
     public function testMemcached()
     {
-        if (getenv('TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED') !== 'true') {
+        if (getenv('TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED') !== 'true') {
             $this->markTestSkipped('Memcached tests are not enabled; enable them in phpunit.xml');
         }
 
@@ -128,7 +129,7 @@ class ChecksTest extends TestCase
 
     public function testMongo()
     {
-        if (getenv('TESTS_ZEND_DIAGNOSTICS_MONGO_ENABLED') !== 'true') {
+        if (getenv('TESTS_LAMINAS_DIAGNOSTICS_MONGO_ENABLED') !== 'true') {
             $this->markTestSkipped('Mongo tests are not enabled; enable them in phpunit.xml');
         }
 

@@ -1,13 +1,13 @@
 # Writing Custom Checks
 
-A Check class MUST implement [Check](https://github.com/zendframework/zend-diagnostics/tree/master/src/Check/CheckInterface.php)
+A Check class MUST implement [Check](https://github.com/laminas/laminas-diagnostics/tree/master/src/Check/CheckInterface.php)
 and provide the following methods:
 
 ```php
 <?php
-namespace ZendDiagnostics\Check;
+namespace Laminas\Diagnostics\Check;
 
-use ZendDiagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Result\ResultInterface;
 
 interface CheckInterface
 {
@@ -26,7 +26,7 @@ interface CheckInterface
 ```
 
 The main `check()` method is responsible for performing the actual check, and is
-expected to return a [Result](https://github.com/zendframework/zend-diagnostics/tree/master/src/Result/ResultInterface.php).
+expected to return a [Result](https://github.com/laminas/laminas-diagnostics/tree/master/src/Result/ResultInterface.php).
 It is recommended to use the built-in result classes for compatibility with the
 diagnostics Runner and other checks.
 
@@ -36,9 +36,9 @@ Below is an example class that checks if the PHP default timezone is set to UTC.
 <?php
 namespace MyApp\Diagnostics\Check;
 
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\Failure;
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Failure;
 
 class TimezoneSetToUTC implements CheckInterface
 {
