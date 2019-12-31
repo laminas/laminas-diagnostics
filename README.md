@@ -1,9 +1,9 @@
-ZendDiagnostics
+laminas-diagnostics
 ===============
 
 Simple component for performing diagnostic tests in real-world PHP applications.
 
-![ZendDiagnostics](http://i.imgur.com/xd2Na8y.png)
+![laminas-diagnostics](http://i.imgur.com/xd2Na8y.png)
 
 It currently ships with the following Diagnostic Checks:
 
@@ -34,10 +34,10 @@ File validation checks:
  * [XmlFile](#xmlfile) - check if given XML file is available and valid,
  * [YamlFile](#yamlfile) - check if given YAML file is available and valid
 
-## Using diagnostics with Zend Framework 2
+## Using diagnostics with Laminas
 
-1. Install the [ZFTool module](https://github.com/zendframework/ZFTool).
-2. Enable diagnostic tests in [your application config.php](https://github.com/zendframework/ZFTool/blob/master/docs/DIAGNOSTICS.md).
+1. Install the [LaminasTool module](https://github.com/laminas/LaminasTool).
+2. Enable diagnostic tests in [your application config.php](https://github.com/laminas/LaminasTool/blob/master/docs/DIAGNOSTICS.md).
 3. In your console type `php public/index.php diag` to run diagnostics.
 
 ## Using diagnostics with Symfony 2
@@ -48,12 +48,12 @@ File validation checks:
 
 ## Using diagnostics in plain PHP
 
-1. Add ZendDiagnostics component to your application
-    * via composer - run `composer require zendframework/zenddiagnostics:dev-master`
-    * via git - clone [https://github.com/zendframework/ZendDiagnostics.git](https://github.com/zendframework/ZendDiagnostics.git)
-    * manually - download and extract [zip package](https://github.com/zendframework/ZendDiagnostics/archive/master.zip)
+1. Add laminas-diagnostics component to your application
+    * via composer - run `composer require laminas/laminas-diagnostics:dev-master`
+    * via git - clone [https://github.com/laminas/laminas-diagnostics.git](https://github.com/laminas/laminas-diagnostics.git)
+    * manually - download and extract [zip package](https://github.com/laminas/laminas-diagnostics/archive/master.zip)
 2. If you are not using Composer, use `include "autoload_register.php";`
-3. Create an instance of `ZendDiagnostics\Runner`
+3. Create an instance of `Laminas\Diagnostics\Runner`
 4. Add tests using `Runner::addTest()`
 5. Optionally add a reporter to display progress using `Runner::addReporter()`
 6. Run diagnostics `Runner::run()`
@@ -63,10 +63,10 @@ For example:
 ````php
 // run_diagnostics.php
 
-use ZendDiagnostics\Check;
-use ZendDiagnostics\Runner\Runner;
-use ZendDiagnostics\Runner\Reporter\BasicConsole;
-use ZendDiagnostics\Check\DiskFree;
+use Laminas\Diagnostics\Check;
+use Laminas\Diagnostics\Runner\Runner;
+use Laminas\Diagnostics\Runner\Reporter\BasicConsole;
+use Laminas\Diagnostics\Check\DiskFree;
 
 include 'autoload_register.php';
 
@@ -99,7 +99,7 @@ OK (2 diagnostic tests)
 
 ## Using Result Collection
 
-The Runner will always return a [Result\Collection](src/ZendDiagnostics/Result/Collection.php) (even without any
+The Runner will always return a [Result\Collection](src/laminas-diagnostics/Result/Collection.php) (even without any
 attached Reporter). This collection contains results for all tests and failure counters.
 
 Simple example:
@@ -117,11 +117,11 @@ $results = $runner->run();
 echo "Number of successful tests: " . $results->getSuccessCount() . "\n";
 echo "Number of failed tests:     " . $results->getFailureCount() . "\n";
 
-if ($results[$checkSpace] instanceof \ZendDiagnostics\Result\FailureInterface) {
+if ($results[$checkSpace] instanceof \Laminas\Diagnostics\Result\FailureInterface) {
     echo "Oooops! We're running out of space on temp.\n";
 }
 
-if ($results[$checkTemp] instanceof \ZendDiagnostics\Result\FailureInterface) {
+if ($results[$checkTemp] instanceof \Laminas\Diagnostics\Result\FailureInterface) {
     echo "It seems that /tmp is not writable - this is a serious problem!\n";
 }
 
@@ -130,24 +130,24 @@ if ($results[$checkTemp] instanceof \ZendDiagnostics\Result\FailureInterface) {
 
 ## Architecture
 
-A single diagnostic [Check](src/ZendDiagnostics/Check/CheckInterface.php) performs one particular
+A single diagnostic [Check](src/laminas-diagnostics/Check/CheckInterface.php) performs one particular
 test on the application or environment.
 
-It must return a [Result](src/ZendDiagnostics/Result/ResultInterface.php)
+It must return a [Result](src/laminas-diagnostics/Result/ResultInterface.php)
 which implements one of the following result interfaces:
 
- * [Success](src/ZendDiagnostics/Result/SuccessInterface.php) - in case the check ran through without any issue.
- * [Warning](src/ZendDiagnostics/Result/WarningInterface.php) - in case there might be something wrong.
- * [Failure](src/ZendDiagnostics/Result/FailureInterface.php) - when the test failed and an intervention is required.
+ * [Success](src/laminas-diagnostics/Result/SuccessInterface.php) - in case the check ran through without any issue.
+ * [Warning](src/laminas-diagnostics/Result/WarningInterface.php) - in case there might be something wrong.
+ * [Failure](src/laminas-diagnostics/Result/FailureInterface.php) - when the test failed and an intervention is required.
 
-Each test [Result](src/ZendDiagnostics/Result/ResultInterface.php) can additionally return:
+Each test [Result](src/laminas-diagnostics/Result/ResultInterface.php) can additionally return:
 
  * **result message** via `getMessage()`. It can be used to describe the context of the result.
  * **result data** via `getData()`. This can be used for providing detailed information on the cause of particular
  result, which might be useful for debugging problems.
 
 
-One can define additional [result interfaces](src/ZendDiagnostics/Result/ResultInterface.php), i.e. denoting
+One can define additional [result interfaces](src/laminas-diagnostics/Result/ResultInterface.php), i.e. denoting
 severity levels (i.e. critical, alert, notice) or appropriate actions (i.e. missing, incomplete). However, it
 is recommended to extend the primary set of Success, Warning, Failure interfaces for compatibility with other
 applications and libraries.
@@ -155,7 +155,7 @@ applications and libraries.
 
 ## Writing custom Checks
 
-A Check class has to implement [Check](src/ZendDiagnostics/Check/CheckInterface.php) and provide the following methods:
+A Check class has to implement [Check](src/laminas-diagnostics/Check/CheckInterface.php) and provide the following methods:
 
 ````php
 interface CheckInterface
@@ -175,7 +175,7 @@ interface CheckInterface
 ````
 
 The main `check()` method is responsible for doing the actual check and is expected to return a
-[Result](src/ZendDiagnostics/Result/ResultInterface.php). It is recommended to use the built-in result classes for
+[Result](src/laminas-diagnostics/Result/ResultInterface.php). It is recommended to use the built-in result classes for
 compatibility with Runner and other checks.
 
 Here is an example trivial class, that will check if PHP default timezone is set to UTC.
@@ -183,9 +183,9 @@ Here is an example trivial class, that will check if PHP default timezone is set
 ````php
 namespace MyApp\Diagnostics\Check;
 
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\Failure;
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Failure;
 
 class TimezoneSetToUTC implements CheckInterface
 {
@@ -209,7 +209,7 @@ class TimezoneSetToUTC implements CheckInterface
 
 ## Writing custom Reporters
 
-A Reporter is a class implementing [ReporterInterface](src/ZendDiagnostics/Runner/Reporter/ReporterInterface.php).
+A Reporter is a class implementing [ReporterInterface](src/laminas-diagnostics/Runner/Reporter/ReporterInterface.php).
 
 ````php
 interface ReporterInterface
@@ -240,13 +240,13 @@ Some Reporter methods can be used to interrupt the operation of a Runner:
 
 All other return values are ignored.
 
-ZendDiagnostics ships with a [simple Console reporter](src/ZendDiagnostics/Runner/Reporter/BasicConsole.php) - it
+laminas-diagnostics ships with a [simple Console reporter](src/laminas-diagnostics/Runner/Reporter/BasicConsole.php) - it
 can serve as a good example on how to write your own Reporters.
 
 
 ## Built-in diagnostics checks
 
-ZendDiagnostics provides several "just add water" checks you can use straight away.
+laminas-diagnostics provides several "just add water" checks you can use straight away.
 
 The following built-in tests are currently available:
 
@@ -256,7 +256,7 @@ Make sure that [APC memory fragmentation level](www.php.net/apc/‎) is below gi
 
 ````php
 <?php
-use ZendDiagnostics\Check\ApcFragmentation;
+use Laminas\Diagnostics\Check\ApcFragmentation;
 
 // Display a warning with fragmentation > 50% and failure when above 90%
 $fragmentation = new ApcFragmentation(50, 90);
@@ -268,7 +268,7 @@ Check [APC memory usage percent](www.php.net/apc/‎) and make sure it's below g
 
 ````php
 <?php
-use ZendDiagnostics\Check\ApcMemory;
+use Laminas\Diagnostics\Check\ApcMemory;
 
 // Display a warning with memory usage is above 70% and a failure above 90%
 $checkFreeMemory = new ApcMemory(70, 90);
@@ -280,9 +280,9 @@ Run a function (callback) and use return value as the result:
 
 ````php
 <?php
-use ZendDiagnostics\Check\Callback;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\Failure;
+use Laminas\Diagnostics\Check\Callback;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Failure;
 
 $checkDbFile = new Callback(function(){
     $path = __DIR__ . '/data/db.sqlite';
@@ -295,7 +295,7 @@ $checkDbFile = new Callback(function(){
 ````
 
 **Note:** The callback must return either a `boolean` (true for success, false for failure) or a valid instance of
-[ResultInterface](src/ZendDiagnostics/Result/ResultInterface.php). All other objects will result in an exception
+[ResultInterface](src/laminas-diagnostics/Result/ResultInterface.php). All other objects will result in an exception
 and scalars (i.e. a string) will be interpreted as warnings.
 
 ### ClassExists
@@ -304,7 +304,7 @@ Check if a class (or an array of classes) exist. For example:
 
 ````php
 <?php
-use ZendDiagnostics\Check\ClassExists;
+use Laminas\Diagnostics\Check\ClassExists;
 
 $checkLuaClass    = new ClassExists('Lua');
 $checkRbacClasses = new ClassExists(array(
@@ -324,7 +324,7 @@ The following check will test if current server has at least half the CPU power 
 
 ````php
 <?php
-use ZendDiagnostics\Check\CpuPerformance;
+use Laminas\Diagnostics\Check\CpuPerformance;
 
 $checkMinCPUSpeed = new CpuPerformance(0.5); // at least 50% of EC2 micro instance
 ````
@@ -335,7 +335,7 @@ Check if a given path (or array of paths) points to a directory and it is readab
 
 ````php
 <?php
-use ZendDiagnostics\Check\DirReadable;
+use Laminas\Diagnostics\Check\DirReadable;
 
 $checkPublic = new DirReadable('public/');
 $checkAssets = new DirReadable(array(
@@ -350,7 +350,7 @@ Check if a given path (or array of paths) points to a directory and if it can be
 
 ````php
 <?php
-use ZendDiagnostics\Check\DirWritable;
+use Laminas\Diagnostics\Check\DirWritable;
 
 $checkTemporary = new DirWritable('/tmp');
 $checkAssets    = new DirWritable(array(
@@ -370,7 +370,7 @@ on *NIX systems it is an ordinary path (i.e. `/home`), on Windows systems it is 
 
 ````php
 <?php
-use ZendDiagnostics\Check\DiskFree;
+use Laminas\Diagnostics\Check\DiskFree;
 
 $tempHasAtLeast100Megs  = new DiskFree('100MB', '/tmp');
 $homeHasAtLeast1TB      = new DiskFree('1TiB',  '/home');
@@ -383,7 +383,7 @@ Check if a PHP extension (or an array of extensions) is currently loaded.
 
 ````php
 <?php
-use ZendDiagnostics\Check\ExtensionLoaded;
+use Laminas\Diagnostics\Check\ExtensionLoaded;
 
 $checkMbstring    = new ExtensionLoaded('mbstring');
 $checkCompression = new ExtensionLoaded(array(
@@ -400,7 +400,7 @@ checking response codes and page contents.
 
 ````php
 <?php
-use ZendDiagnostics\Check\HttpService;
+use Laminas\Diagnostics\Check\HttpService;
 
 // Try to connect to google.com
 $checkGoogle = new HttpService('www.google.com');
@@ -429,7 +429,7 @@ codes and page contents.
 
 ````php
 <?php
-use ZendDiagnostics\Check\GuzzleHttpService;
+use Laminas\Diagnostics\Check\GuzzleHttpService;
 
 // Try to connect to google.com
 $checkGoogle = new GuzzleHttpService('www.google.com');
@@ -456,7 +456,7 @@ Attempt to connect to given Memcache server.
 
 ````php
 <?php
-use ZendDiagnostics\Check\Memcache;
+use Laminas\Diagnostics\Check\Memcache;
 
 $checkLocal  = new Memcache('127.0.0.1'); // default port
 $checkBackup = new Memcache('10.0.30.40', 11212);
@@ -470,7 +470,7 @@ optional [comparison operator](http://www.php.net/manual/en/function.version-com
 
 ````php
 <?php
-use ZendDiagnostics\Check\PhpVersion;
+use Laminas\Diagnostics\Check\PhpVersion;
 
 $require545orNewer  = new PhpVersion('5.4.5');
 $rejectBetaVersions = new PhpVersion('5.5.0', '<');
@@ -483,7 +483,7 @@ alert the user about unsafe or behavior-changing PHP settings.
 
 ````php
 <?php
-use ZendDiagnostics\Check\PhpFlag;
+use Laminas\Diagnostics\Check\PhpFlag;
 
 // This check will fail if use_only_cookies is not enabled
 $sessionOnlyUsesCookies = new PhpFlag('session.use_only_cookies', true);
@@ -505,7 +505,7 @@ Check if a given unix process is running. This check supports PIDs and process n
 
 ````php
 <?php
-use ZendDiagnostics\Check\ProcessRunning;
+use Laminas\Diagnostics\Check\ProcessRunning;
 
 $checkApache = new ProcessRunning('httpd');
 
@@ -518,7 +518,7 @@ Validate that a RabbitMQ service is running.
 
 ```php
 <?php
-use ZendDiagnostics\Check\RabbitMQ;
+use Laminas\Diagnostics\Check\RabbitMQ;
 
 $rabbitMQCheck = new RabbitMQ('localhost', 5672, 'guest', 'guest', '/');
 ```
@@ -529,7 +529,7 @@ Validate that a Redis service is running.
 
 ```php
 <?php
-use ZendDiagnostics\Check\Redis;
+use Laminas\Diagnostics\Check\Redis;
 
 $redisCheck = new Redis('localhost', 6379);
 ```
@@ -542,7 +542,7 @@ security vulnerabilities.
 
 ````php
 <?php
-use ZendDiagnostics\Check\SecurityAdvisory;
+use Laminas\Diagnostics\Check\SecurityAdvisory;
 
 // Warn about any packages that might have security vulnerabilities and require updating
 $security = new SecurityAdvisory();
@@ -557,7 +557,7 @@ Check if a given stream wrapper (or an array of wrappers) is available. For exam
 
 ````php
 <?php
-use ZendDiagnostics\Check\StreamWrapperExists;
+use Laminas\Diagnostics\Check\StreamWrapperExists;
 
 $checkOGGStream   = new StreamWrapperExists('ogg');
 $checkCompression = new StreamWrapperExists(array(
@@ -573,7 +573,7 @@ Read an INI-file from the given path and try to parse it.
 
 ````php
 <?php
-use ZendDiagnostics\Check\IniFile;
+use Laminas\Diagnostics\Check\IniFile;
 
 $checkIniFile = new IniFile('/my/path/to/file.ini');
 $checkIniFile = new IniFile(['file1.ini', 'file2.ini', '...']);
@@ -585,7 +585,7 @@ Read a JSON-file from the given path and try to decode it.
 
 ````php
 <?php
-use ZendDiagnostics\Check\JsonFile;
+use Laminas\Diagnostics\Check\JsonFile;
 
 $checkJsonFile = new JsonFile('/my/path/to/file.json');
 $checkJsonFile = new JsonFile(['file1.json', 'file2.json', '...']);
@@ -598,7 +598,7 @@ Read an XML-file from the given path, try to parse it and validate it agaist its
 
 ````php
 <?php
-use ZendDiagnostics\Check\XmlFile;
+use Laminas\Diagnostics\Check\XmlFile;
 
 $checkXmlFile = new XmlFile('/my/path/to/file.xml');
 $checkXmlFile = new XmlFile(['file1.xml', 'file2.xml', '...']);
@@ -610,7 +610,7 @@ Read a YAML-file from the given path and try to parse it.
 
 ````php
 <?php
-use ZendDiagnostics\Check\YamlFile;
+use Laminas\Diagnostics\Check\YamlFile;
 
 $checkYamlFile = new YamlFile('/my/path/to/file.yml');
 $checkYamlFile = new YamlFile(['file1.yml', 'file2.yml', '...']);
