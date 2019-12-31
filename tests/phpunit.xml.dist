@@ -1,8 +1,8 @@
 <phpunit bootstrap="./Bootstrap.php" colors="true">
     <testsuites>
-        <testsuite name="ZendDiagnostics Test Suite">
-            <directory>./ZendDiagnosticsTest</directory>
-            <exclude>./ZendDiagnosticsTest/TestAsset</exclude>
+        <testsuite name="laminas-diagnostics Test Suite">
+            <directory>./LaminasTest\Diagnostics</directory>
+            <exclude>./LaminasTest\Diagnostics/TestAsset</exclude>
         </testsuite>
     </testsuites>
 
@@ -16,7 +16,7 @@
 
     <filter>
         <blacklist>
-            <directory suffix=".php">./ZendDiagnosticsTest</directory>
+            <directory suffix=".php">./LaminasTest\Diagnostics</directory>
             <directory>../vendor</directory>
         </blacklist>
     </filter>
