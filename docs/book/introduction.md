@@ -1,6 +1,6 @@
 # Introduction
 
-zenddiagnostics provides diagnostic tests for real-world PHP applications.
+laminas-diagnostics provides diagnostic tests for real-world PHP applications.
 
 It currently ships with the following diagnostic checks:
 

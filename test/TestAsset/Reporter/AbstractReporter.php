@@ -1,17 +1,18 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-diagnostics for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-diagnostics/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-diagnostics for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-diagnostics/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendDiagnosticsTest\TestAsset\Reporter;
+namespace LaminasTest\Diagnostics\TestAsset\Reporter;
 
 use ArrayObject;
-use ZendDiagnostics\Check\CheckInterface as Check;
-use ZendDiagnostics\Result\Collection as ResultsResult;
-use ZendDiagnostics\Result\ResultInterface as Result;
-use ZendDiagnostics\Runner\Reporter\ReporterInterface;
+use Laminas\Diagnostics\Check\CheckInterface as Check;
+use Laminas\Diagnostics\Result\Collection as ResultsResult;
+use Laminas\Diagnostics\Result\ResultInterface as Result;
+use Laminas\Diagnostics\Runner\Reporter\ReporterInterface;
 
 abstract class AbstractReporter implements ReporterInterface
 {

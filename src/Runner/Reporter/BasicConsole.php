@@ -1,20 +1,21 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-diagnostics for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-diagnostics/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-diagnostics for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-diagnostics/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendDiagnostics\Runner\Reporter;
+namespace Laminas\Diagnostics\Runner\Reporter;
 
 use ArrayObject;
-use ZendDiagnostics\Result\Collection as ResultsCollection;
-use ZendDiagnostics\Result\FailureInterface;
-use ZendDiagnostics\Result\SkipInterface;
-use ZendDiagnostics\Result\SuccessInterface;
-use ZendDiagnostics\Result\WarningInterface;
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\Collection as ResultsCollection;
+use Laminas\Diagnostics\Result\FailureInterface;
+use Laminas\Diagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Result\SkipInterface;
+use Laminas\Diagnostics\Result\SuccessInterface;
+use Laminas\Diagnostics\Result\WarningInterface;
 
 /**
  * A simple reporter for displaying Runner results in console window.
@@ -81,7 +82,7 @@ class BasicConsole implements ReporterInterface
     }
 
     /**
-     * @see \ZendDiagnostics\Runner\Reporter\ReporterInterface
+     * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
      * @param ArrayObject $checks
      * @param array       $runnerConfig
      */
@@ -105,7 +106,7 @@ class BasicConsole implements ReporterInterface
     }
 
     /**
-     * @see \ZendDiagnostics\Runner\Reporter\ReporterInterface
+     * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
      * @param  CheckInterface $check
      * @param  string|null    $checkAlias
      * @return bool|void
@@ -115,7 +116,7 @@ class BasicConsole implements ReporterInterface
     }
 
     /**
-     * @see \ZendDiagnostics\Runner\Reporter\ReporterInterface
+     * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
      * @param  CheckInterface  $check
      * @param  ResultInterface $result
      * @param  string|null     $checkAlias
@@ -161,7 +162,7 @@ class BasicConsole implements ReporterInterface
     }
 
     /**
-     * @see \ZendDiagnostics\Runner\Reporter\ReporterInterface
+     * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
      * @param ResultsCollection $results
      */
     public function onFinish(ResultsCollection $results)
@@ -214,8 +215,8 @@ class BasicConsole implements ReporterInterface
         $this->consoleWriteLn();
         // Display a list of failures and warnings
         foreach ($results as $check) {
-            /* @var $check  \ZendDiagnostics\Check\CheckInterface */
-            /* @var $result \ZendDiagnostics\Result\ResultInterface */
+            /* @var $check  \Laminas\Diagnostics\Check\CheckInterface */
+            /* @var $result \Laminas\Diagnostics\Result\ResultInterface */
             $result = $results[$check];
 
             if ($result instanceof FailureInterface) {
@@ -249,7 +250,7 @@ class BasicConsole implements ReporterInterface
     }
 
     /**
-     * @see \ZendDiagnostics\Runner\Reporter\ReporterInterface
+     * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
      * @param ResultsCollection $results
      */
     public function onStop(ResultsCollection $results)

@@ -1,16 +1,16 @@
 # Writing Custom Reporters
 
 A reporter is a class implementing
-  [ReporterInterface](https://github.com/zendframework/zend-diagnostics/tree/master/src/Runner/Reporter/ReporterInterface.php).
+  [ReporterInterface](https://github.com/laminas/laminas-diagnostics/tree/master/src/Runner/Reporter/ReporterInterface.php).
 
 ```php
 <?php
-namespace ZendDiagnostics\Runner\Reporter;
+namespace Laminas\Diagnostics\Runner\Reporter;
 
 use ArrayObject;
-use ZendDiagnostics\Check\CheckInterface as Check;
-use ZendDiagnostics\Result\Collection as ResultCollection;
-use ZendDiagnostics\Result\ResultInterface as Result;
+use Laminas\Diagnostics\Check\CheckInterface as Check;
+use Laminas\Diagnostics\Result\Collection as ResultCollection;
+use Laminas\Diagnostics\Result\ResultInterface as Result;
 
 interface ReporterInterface
 {
@@ -43,5 +43,5 @@ runner:
 
 All other return values are ignored.
 
-zendframework/zenddiagnostics ships with a [simple Console reporter](https://github.com/zendframework/zend-diagnostics/tree/master/src/Runner/Reporter/BasicConsole.php)
+laminas/laminas-diagnostics ships with a [simple Console reporter](https://github.com/laminas/laminas-diagnostics/tree/master/src/Runner/Reporter/BasicConsole.php)
 that can serve as an example of how to write your own reporters.
