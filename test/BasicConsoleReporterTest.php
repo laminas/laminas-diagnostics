@@ -1,21 +1,22 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-diagnostics for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-diagnostics/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-diagnostics for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-diagnostics/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendDiagnosticsTest;
+namespace LaminasTest\Diagnostics;
 
 use ArrayObject;
+use Laminas\Diagnostics\Result\Collection;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Warning;
+use Laminas\Diagnostics\Runner\Reporter\BasicConsole;
+use LaminasTest\Diagnostics\TestAsset\Check\AlwaysSuccess;
+use LaminasTest\Diagnostics\TestAsset\Result\Unknown;
 use PHPUnit\Framework\TestCase;
-use ZendDiagnostics\Result\Collection;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\Warning;
-use ZendDiagnostics\Runner\Reporter\BasicConsole;
-use ZendDiagnosticsTest\TestAsset\Result\Unknown;
-use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
 
 class BasicConsoleReporterTest extends TestCase
 {
@@ -330,7 +331,7 @@ class BasicConsoleReporterTest extends TestCase
 
         $this->reporter->onFinish($results);
         $this->assertStringMatchesFormat(
-            '%AUnknown result ZendDiagnosticsTest\TestAsset\Result\Unknown: Always Success%wbaz%A',
+            '%AUnknown result LaminasTest\Diagnostics\TestAsset\Result\Unknown: Always Success%wbaz%A',
             trim(ob_get_clean())
         );
     }

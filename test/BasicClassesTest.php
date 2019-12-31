@@ -1,25 +1,26 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-diagnostics for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-diagnostics/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-diagnostics for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-diagnostics/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendDiagnosticsTest;
+namespace LaminasTest\Diagnostics;
 
+use Laminas\Diagnostics\Check\AbstractCheck;
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\AbstractResult;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\FailureInterface;
+use Laminas\Diagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\SuccessInterface;
+use Laminas\Diagnostics\Result\Warning;
+use Laminas\Diagnostics\Result\WarningInterface;
+use LaminasTest\Diagnostics\TestAsset\Check\AlwaysSuccess;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use ZendDiagnostics\Check\AbstractCheck;
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\AbstractResult;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\FailureInterface;
-use ZendDiagnostics\Result\ResultInterface;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\SuccessInterface;
-use ZendDiagnostics\Result\Warning;
-use ZendDiagnostics\Result\WarningInterface;
-use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
 
 class BasicClassesTest extends TestCase
 {
