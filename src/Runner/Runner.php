@@ -1,27 +1,28 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-diagnostics for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-diagnostics/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-diagnostics for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-diagnostics/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendDiagnostics\Runner;
+namespace Laminas\Diagnostics\Runner;
 
 use ArrayObject;
+use BadMethodCallException;
 use ErrorException;
 use InvalidArgumentException;
+use Laminas\Diagnostics\Check\CheckCollectionInterface;
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\Collection as ResultsCollection;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\FailureInterface;
+use Laminas\Diagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Warning;
+use Laminas\Diagnostics\Runner\Reporter\ReporterInterface as Reporter;
 use RuntimeException;
-use BadMethodCallException;
 use Traversable;
-use ZendDiagnostics\Check\CheckCollectionInterface;
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\Collection as ResultsCollection;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\FailureInterface;
-use ZendDiagnostics\Result\ResultInterface;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\Warning;
-use ZendDiagnostics\Runner\Reporter\ReporterInterface as Reporter;
 
 /**
  * Diagnostics Checks runner.
@@ -254,7 +255,7 @@ class Runner
             if (! $check instanceof CheckInterface) {
                 $what = is_object($check) ? 'object of class ' . get_class($check) : gettype($check);
                 throw new InvalidArgumentException(
-                    'Cannot use ' . $what . ' as Check - expected ZendDiagnostics\Check\CheckInterface'
+                    'Cannot use ' . $what . ' as Check - expected Laminas\Diagnostics\Check\CheckInterface'
                 );
             }
             $alias = is_string($key) ? $key : null;

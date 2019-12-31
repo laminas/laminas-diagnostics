@@ -1,6 +1,6 @@
 # Introduction and Usage
 
-zendframework/zenddiagnostics provides diagnostic tests for real-world PHP
+laminas/laminas-diagnostics provides diagnostic tests for real-world PHP
 applications.
 
 It currently ships with the following diagnostic checks:
@@ -38,13 +38,13 @@ It also provides the following file validation checks:
 - [XmlFile](file-validation.md#xmlfile) - check if given XML file is available and valid,
 - [YamlFile](file-validation.md#yamlfile) - check if given YAML file is available and valid
 
-## Performing diagnostics with Zend Framework 2
+## Performing diagnostics with Laminas
 
-1. Install the [ZFTool module](https://github.com/zendframework/ZFTool).
-2. Enable diagnostic tests in [your application config.php](https://github.com/zendframework/ZFTool/blob/master/docs/DIAGNOSTICS.md).
+1. Install the [LaminasTool module](https://github.com/laminas/LaminasTool).
+2. Enable diagnostic tests in [your application config.php](https://github.com/laminas/LaminasTool/blob/master/docs/DIAGNOSTICS.md).
 3. In your console type `php public/index.php diag` to run diagnostics.
 
-Note: this does not work with Zend Framework 3; use the [plain PHP
+Note: this does not work with Laminas; use the [plain PHP
 diagnostics](#using-diagnostics-in-plain-php) instructions below when using that
 framework version.
 
@@ -60,7 +60,7 @@ Install the [rstgroup/diagnostics-middleware](https://github.com/rstgroup/diagno
 
 ## Using diagnostics in plain PHP
 
-1. Create an instance of `ZendDiagnostics\Runner`.
+1. Create an instance of `Laminas\Diagnostics\Runner`.
 2. Add tests using `Runner::addTest()`.
 3. Optionally add a reporter to display progress using `Runner::addReporter()`.
 4. Run diagnostics `Runner::run()`.
@@ -71,9 +71,9 @@ For example:
 <?php
 // run_diagnostics.php
 
-use ZendDiagnostics\Check;
-use ZendDiagnostics\Runner\Runner;
-use ZendDiagnostics\Runner\Reporter\BasicConsole;
+use Laminas\Diagnostics\Check;
+use Laminas\Diagnostics\Runner\Runner;
+use Laminas\Diagnostics\Runner\Reporter\BasicConsole;
 
 include 'vendor/autoload.php';
 
@@ -109,7 +109,7 @@ OK (2 diagnostic tests)
 ## Using a result collection
 
 The diagnostics runner will always return a
-[ZendDiagnostics\Result\Collection](https://github.com/zendframework/zend-diagnostics/src/Result/Collection.php),
+[Laminas\Diagnostics\Result\Collection](https://github.com/laminas/laminas-diagnostics/src/Result/Collection.php),
 even when no reporter is attached. This collection contains results for all
 tests and failure counters.
 
@@ -117,9 +117,9 @@ As an example:
 
 ```php
 <?php
-use ZendDiagnostics\Check;
-use ZendDiagnostics\Result;
-use ZendDiagnostics\Runner\Runner;
+use Laminas\Diagnostics\Check;
+use Laminas\Diagnostics\Result;
+use Laminas\Diagnostics\Runner\Runner;
 
 $runner = new Runner();
 $checkSpace = new Check\DiskFree(100000000, '/tmp');

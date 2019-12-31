@@ -1,22 +1,23 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-diagnostics for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-diagnostics/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-diagnostics for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-diagnostics/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendDiagnosticsTest;
+namespace LaminasTest\Diagnostics;
 
 use ArrayObject;
 use InvalidArgumentException;
+use Laminas\Diagnostics\Result\Collection;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Warning;
+use LaminasTest\Diagnostics\TestAsset\Check\AlwaysSuccess;
+use LaminasTest\Diagnostics\TestAsset\Result\Unknown;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use ZendDiagnostics\Result\Collection;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\Warning;
-use ZendDiagnosticsTest\TestAsset\Result\Unknown;
-use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
 
 class ResultCollectionTest extends TestCase
 {

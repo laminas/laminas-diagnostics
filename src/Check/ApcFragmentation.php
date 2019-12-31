@@ -1,17 +1,18 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-diagnostics for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-diagnostics/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-diagnostics for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-diagnostics/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendDiagnostics\Check;
+namespace Laminas\Diagnostics\Check;
 
 use InvalidArgumentException;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\Skip;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\Warning;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\Skip;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Warning;
 
 /**
  * Checks to see if the APC fragmentation is below warning/critical thresholds
@@ -77,7 +78,7 @@ class ApcFragmentation extends AbstractCheck implements CheckInterface
     /**
      * Perform the check
      *
-     * @see \ZendDiagnostics\Check\CheckInterface::check()
+     * @see \Laminas\Diagnostics\Check\CheckInterface::check()
      * @return Failure|Skip|Success|Warning
      */
     public function check()

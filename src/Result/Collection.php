@@ -1,14 +1,15 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-diagnostics for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-diagnostics/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-diagnostics for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-diagnostics/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendDiagnostics\Result;
+namespace Laminas\Diagnostics\Result;
 
 use InvalidArgumentException;
-use ZendDiagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Check\CheckInterface;
 
 /**
  * Utility class to store Results entities for corresponding Checks
