@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Universal set of diagnostic tests for PHP applications.">  
+    <link rel="canonical" href="https://docs.laminas.dev/diagnostics/">
+    <link rel="shortcut icon" href="/img/trademark-laminas-foundation-rgb.svg">
+
+    <title>Diagnostic Checks - laminas-diagnostics - Laminas Docs</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body id="page-top" class="components">
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        
+        <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+        </a>
+        <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
+            Documentation
+        </a>
+
+        
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
+                </li>
+            </ul>
+
+            
+            
+                <div class="d-block d-sm-none">
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">laminas-diagnostics</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item ">
+                                <a href="../introduction/" class="subnavigation__link">Introduction</a>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item ">
+                                <a href="../usage/" class="subnavigation__link">Basic Usage</a>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Checks</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Diagnostic Checks</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../file-validation/" class="subnavigation__link">File Validation Checks</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Reference</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../architecture/" class="subnavigation__link">Architecture</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../custom-checks/" class="subnavigation__link">Writing Custom Checks</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../custom-reporters/" class="subnavigation__link">Writing Custom Reporters</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+        </ul>
+    </div>
+
+                </div>
+            
+
+            
+            <div class="d-block d-sm-none">
+                <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <header class="header">
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="col-6 offset-md-2">
+                <h1 class="header__title">
+                    Components
+
+                    
+                        <small class="header__subtitle">laminas-diagnostics</small>
+                    
+                </h1>
+            </div>
+
+            
+            <div class="col-4 text-sm-right">
+                
+                    
+
+                    <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                    <a href="https://github.com/laminas/laminas-diagnostics/" class="header__link header__link--github" title="Go to repository of laminas-diagnostics">
+                        <i class="fa fa-github"></i> GitHub
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-12">
+                
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#apcfragmentation" class="toc__link">ApcFragmentation</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#apcmemory" class="toc__link">ApcMemory</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#callback" class="toc__link">Callback</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#classexists" class="toc__link">ClassExists</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#cpuperformance" class="toc__link">CpuPerformance</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#dirreadable" class="toc__link">DirReadable</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#dirwritable" class="toc__link">DirWritable</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#diskfree" class="toc__link">DiskFree</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#httpservice" class="toc__link">HttpService</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#guzzlehttpservice" class="toc__link">GuzzleHttpService</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#memcache" class="toc__link">Memcache</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#memcached" class="toc__link">Memcached</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#mongodb" class="toc__link">MongoDb</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#phpversion" class="toc__link">PhpVersion</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#phpflag" class="toc__link">PhpFlag</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#processrunning" class="toc__link">ProcessRunning</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#rabbitmq" class="toc__link">RabbitMQ</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#redis" class="toc__link">Redis</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#securityadvisory" class="toc__link">SecurityAdvisory</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#streamwrapperexists" class="toc__link">StreamWrapperExists</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#doctrinemigration" class="toc__link">DoctrineMigration</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+            </div>
+            <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
+                
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="">Overview</a></li>
+
+            
+                <li class="breadcrumb-item"><a href="..">laminas-diagnostics</a></li>
+
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Checks</li>
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Diagnostic Checks</li>
+            
+        
+    </ol>
+</nav>
+
+
+
+
+
+
+    
+    
+        <h2 class="chapter__headline">Checks</h2>
+    
+
+    <h1 id="diagnostic-checks">Diagnostic Checks</h1>
+<p>laminas/laminas-diagnostics provides several "just add water" checks you can
+use straight away.</p>
+<p>The following built-in tests are currently available:</p>
+<h2 id="apcfragmentation">ApcFragmentation</h2>
+<p>Make sure that <a href="www.php.net/apc/">APC memory fragmentation level</a> is below a
+given threshold:</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\ApcFragmentation</span><span class=p>;</span>
+
+<span class=c1>// Display a warning with fragmentation &gt; 50% and failure when above 90%</span>
+<span class=nv>$fragmentation</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ApcFragmentation</span><span class=p>(</span><span class=mi>50</span><span class=p>,</span> <span class=mi>90</span><span class=p>);</span>
+</pre></div></p>
+<h2 id="apcmemory">ApcMemory</h2>
+<p>Check <a href="www.php.net/apc/">APC memory usage percent</a> and make sure it's below a
+given threshold.</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\ApcMemory</span><span class=p>;</span>
+
+<span class=c1>// Display a warning with memory usage is above 70% and a failure above 90%</span>
+<span class=nv>$checkFreeMemory</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ApcMemory</span><span class=p>(</span><span class=mi>70</span><span class=p>,</span> <span class=mi>90</span><span class=p>);</span>
+</pre></div></p>
+<h2 id="callback">Callback</h2>
+<p>Run a function (callback) and use its return value as the result:</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\Callback</span><span class=p>;</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Result\Success</span><span class=p>;</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Result\Failure</span><span class=p>;</span>
+
+<span class=nv>$checkDbFile</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Callback</span><span class=p>(</span><span class=k>function</span><span class=p>()</span> <span class=p>{</span>
+    <span class=nv>$path</span> <span class=o>=</span> <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/data/db.sqlite&#39;</span><span class=p>;</span>
+    <span class=k>if</span> <span class=p>(</span><span class=nb>is_file</span><span class=p>(</span><span class=nv>$path</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=nb>is_readable</span><span class=p>(</span><span class=nv>$path</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=nb>filesize</span><span class=p>(</span><span class=nv>$path</span><span class=p>))</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=nx>Success</span><span class=p>(</span><span class=s1>&#39;Db file is ok&#39;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+        <span class=k>return</span> <span class=k>new</span> <span class=nx>Failure</span><span class=p>(</span><span class=s1>&#39;There is something wrong with the db file&#39;</span><span class=p>);</span>
+<span class=p>});</span>
+</pre></div></p>
+<blockquote>
+<h3>Callback signature</h3>
+<p>The callback must return either a <code>boolean</code> (true for success, false for
+failure), or a valid instance of
+<a href="https://github.com/laminas/laminas-diagnostics/tree/master/src/Result/ResultInterface.php">ResultInterface</a>.
+All other objects will result in an exception, and scalars (i.e. a string) will
+be interpreted as warnings.</p>
+</blockquote>
+<h2 id="classexists">ClassExists</h2>
+<p>Check if a class (or an array of classes) exists. For example:</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\ClassExists</span><span class=p>;</span>
+
+<span class=nv>$checkLuaClass</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ClassExists</span><span class=p>(</span><span class=s1>&#39;Lua&#39;</span><span class=p>);</span>
+<span class=nv>$checkRbacClasses</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ClassExists</span><span class=p>([</span>
+    <span class=s1>&#39;ZfcRbac\Module&#39;</span><span class=p>,</span>
+    <span class=s1>&#39;ZfcRbac\Controller\Plugin\IsGranted&#39;</span>
+<span class=p>]);</span>
+</pre></div></p>
+<h2 id="cpuperformance">CpuPerformance</h2>
+<p>Benchmark CPU performance and return failure if it is below the given ratio. The
+baseline for performance calculation is the speed of an Amazon EC2 Micro Instance
+(Q1 2013). You can specify the expected performance for the test, where a ratio
+of <code>1.0</code> (one) means at least the speed of EC2 Micro Instance. A ratio of <code>2</code>
+would mean "at least double the performance of EC2 Micro Instance" and a
+fraction of <code>0.5</code> means "at least half the performance of Micro Instance".</p>
+<p>The following check will test if current server has at least half the CPU power
+of EC2 Micro Instance:</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\CpuPerformance</span><span class=p>;</span>
+
+<span class=nv>$checkMinCPUSpeed</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>CpuPerformance</span><span class=p>(</span><span class=mf>0.5</span><span class=p>);</span> <span class=c1>// at least 50% of EC2 micro instance</span>
+</pre></div></p>
+<h2 id="dirreadable">DirReadable</h2>
+<p>Check if a given path (or array of paths) points to a directory and it is
+readable.</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\DirReadable</span><span class=p>;</span>
+
+<span class=nv>$checkPublic</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>DirReadable</span><span class=p>(</span><span class=s1>&#39;public/&#39;</span><span class=p>);</span>
+<span class=nv>$checkAssets</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>DirReadable</span><span class=p>([</span>
+    <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/assets/img&#39;</span><span class=p>,</span>
+    <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/assets/js&#39;</span><span class=p>,</span>
+<span class=p>]);</span>
+</pre></div></p>
+<h2 id="dirwritable">DirWritable</h2>
+<p>Check if a given path (or array of paths) points to a directory and if it can be
+written to.</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\DirWritable</span><span class=p>;</span>
+
+<span class=nv>$checkTemporary</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>DirWritable</span><span class=p>(</span><span class=s1>&#39;/tmp&#39;</span><span class=p>);</span>
+<span class=nv>$checkAssets</span>    <span class=o>=</span> <span class=k>new</span> <span class=nx>DirWritable</span><span class=p>([</span>
+    <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/assets/customImages&#39;</span><span class=p>,</span>
+    <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/assets/customJs&#39;</span><span class=p>,</span>
+    <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/assets/uploads&#39;</span><span class=p>,</span>
+<span class=p>]);</span>
+</pre></div></p>
+<h2 id="diskfree">DiskFree</h2>
+<p>Check if there is enough remaining free disk space.</p>
+<p>The first parameter is the minimum disk space, which can be supplied as an
+integer (in bytes, e.g. <code>1024</code>) or as a string with a multiplier (IEC, SI or
+Jedec; e.g.  <code>"150MB"</code>). The second parameter is the path to check; on *NIX
+systems it is an ordinary path (e.g. <code>/home</code>), while on Windows systems it is a
+drive letter (e.g.  <code>"C:"</code>).</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\DiskFree</span><span class=p>;</span>
+
+<span class=nv>$tempHasAtLeast100Megs</span>  <span class=o>=</span> <span class=k>new</span> <span class=nx>DiskFree</span><span class=p>(</span><span class=s1>&#39;100MB&#39;</span><span class=p>,</span> <span class=s1>&#39;/tmp&#39;</span><span class=p>);</span>
+<span class=nv>$homeHasAtLeast1TB</span>      <span class=o>=</span> <span class=k>new</span> <span class=nx>DiskFree</span><span class=p>(</span><span class=s1>&#39;1TiB&#39;</span><span class=p>,</span>  <span class=s1>&#39;/home&#39;</span><span class=p>);</span>
+<span class=nv>$dataHasAtLeast900Bytes</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>DiskFree</span><span class=p>(</span><span class=mi>900</span><span class=p>,</span> <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/data/&#39;</span><span class=p>);</span>
+</pre></div></p>
+<h3>ExtensionLoaded</h3>
+<p>Check if a PHP extension (or an array of extensions) is currently loaded.</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\ExtensionLoaded</span><span class=p>;</span>
+
+<span class=nv>$checkMbstring</span>    <span class=o>=</span> <span class=k>new</span> <span class=nx>ExtensionLoaded</span><span class=p>(</span><span class=s1>&#39;mbstring&#39;</span><span class=p>);</span>
+<span class=nv>$checkCompression</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ExtensionLoaded</span><span class=p>([</span>
+    <span class=s1>&#39;rar&#39;</span><span class=p>,</span>
+    <span class=s1>&#39;bzip2&#39;</span><span class=p>,</span>
+    <span class=s1>&#39;zip&#39;</span><span class=p>,</span>
+<span class=p>]);</span>
+</pre></div></p>
+<h2 id="httpservice">HttpService</h2>
+<p>Attempt connection to a given HTTP host or IP address and try to load a web
+page. The check also supports checking response codes and page contents.</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\HttpService</span><span class=p>;</span>
+
+<span class=c1>// Try to connect to google.com</span>
+<span class=nv>$checkGoogle</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>HttpService</span><span class=p>(</span><span class=s1>&#39;www.google.com&#39;</span><span class=p>);</span>
+
+<span class=c1>// Check port 8080 on localhost</span>
+<span class=nv>$checkLocal</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>HttpService</span><span class=p>(</span><span class=s1>&#39;127.0.0.1&#39;</span><span class=p>,</span> <span class=mi>8080</span><span class=p>);</span>
+
+<span class=c1>// Check that the page exists (response code must equal 200)</span>
+<span class=nv>$checkPage</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>HttpService</span><span class=p>(</span><span class=s1>&#39;www.example.com&#39;</span><span class=p>,</span> <span class=mi>80</span><span class=p>,</span> <span class=s1>&#39;/some/page.html&#39;</span><span class=p>,</span> <span class=mi>200</span><span class=p>);</span>
+
+<span class=c1>// Check page content</span>
+<span class=nv>$checkPageContent</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>HttpService</span><span class=p>(</span>
+    <span class=s1>&#39;www.example.com&#39;</span><span class=p>,</span>
+    <span class=mi>80</span><span class=p>,</span>
+    <span class=s1>&#39;/some/page.html&#39;</span><span class=p>,</span>
+    <span class=mi>200</span><span class=p>,</span>
+    <span class=s1>&#39;&lt;title&gt;Hello World&lt;/title&gt;&#39;</span>
+<span class=p>);</span>
+</pre></div></p>
+<h2 id="guzzlehttpservice">GuzzleHttpService</h2>
+<p>Attempt connection to a given HTTP host or IP address and try to load a web page
+using <a href="http://docs.guzzlephp.org">Guzzle</a>. The check also supports checking
+response codes and page contents.</p>
+<p>The constructor signature of the <code>GuzzleHttpService</code> is as follows:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>/**</span>
+<span class=x> * @param string|Psr\Http\Message\RequestInterface|GuzzleHttp\Message\RequestInterface $requestOrUrl</span>
+<span class=x> *     The absolute url to check, or a fully-formed request instance.</span>
+<span class=x> * @param array $headers An array of headers used to create the request</span>
+<span class=x> * @param array $options An array of guzzle options to use when sending the request</span>
+<span class=x> * @param int $statusCode The response status code to check</span>
+<span class=x> * @param null $content The response content to check</span>
+<span class=x> * @param null|GuzzleHttp\ClientInterface $guzzle Instance of guzzle to use</span>
+<span class=x> * @param string $method The method of the request</span>
+<span class=x> * @param mixed $body The body of the request (used for POST, PUT and DELETE requests)</span>
+<span class=x> * @throws InvalidArgumentException</span>
+<span class=x> */</span>
+<span class=x>public function __construct(</span>
+<span class=x>    $requestOrUrl,</span>
+<span class=x>    array $headers = [],</span>
+<span class=x>    array $options = [],</span>
+<span class=x>    $statusCode = 200,</span>
+<span class=x>    $content = null,</span>
+<span class=x>    $guzzle = null,</span>
+<span class=x>    $method = &#39;GET&#39;,</span>
+<span class=x>    $body = null</span>
+<span class=x>)</span>
+</pre></div></p>
+<p>Examples:</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\GuzzleHttpService</span><span class=p>;</span>
+
+<span class=c1>// Try to connect to google.com</span>
+<span class=nv>$checkGoogle</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>GuzzleHttpService</span><span class=p>(</span><span class=s1>&#39;www.google.com&#39;</span><span class=p>);</span>
+
+<span class=c1>// Check port 8080 on localhost</span>
+<span class=nv>$checkLocal</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>GuzzleHttpService</span><span class=p>(</span><span class=s1>&#39;127.0.0.1:8080&#39;</span><span class=p>);</span>
+
+<span class=c1>// Check that the page exists (response code must equal 200)</span>
+<span class=nv>$checkPage</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>GuzzleHttpService</span><span class=p>(</span><span class=s1>&#39;www.example.com/some/page.html&#39;</span><span class=p>);</span>
+
+<span class=c1>// Check page content</span>
+<span class=nv>$checkPageContent</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>GuzzleHttpService</span><span class=p>(</span>
+    <span class=s1>&#39;www.example.com/some/page.html&#39;</span><span class=p>,</span>
+    <span class=p>[],</span>
+    <span class=p>[],</span>
+    <span class=mi>200</span><span class=p>,</span>
+    <span class=s1>&#39;&lt;title&gt;Hello World&lt;/title&gt;&#39;</span>
+<span class=p>);</span>
+
+<span class=c1>// Check that the post request returns the content</span>
+<span class=nv>$checkPageContent</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>GuzzleHttpService</span><span class=p>(</span>
+    <span class=s1>&#39;www.example.com/user/update&#39;</span><span class=p>,</span>
+    <span class=p>[],</span>
+    <span class=p>[],</span>
+    <span class=mi>200</span><span class=p>,</span>
+    <span class=s1>&#39;{&quot;status&quot;:&quot;success&quot;}&#39;</span><span class=p>,</span>
+    <span class=s1>&#39;POST&#39;</span><span class=p>,</span>
+    <span class=p>[</span><span class=s1>&#39;post_field&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;post_value&#39;</span><span class=p>]</span>
+<span class=p>);</span>
+</pre></div></p>
+<p>You can send JSON data by either providing a <code>Content-Type</code> header that includes
+a JSON content type, or creating a request instance with JSON content:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// Send page content</span>
+<span class=x>$checkPageContent = new GuzzleHttpService(</span>
+<span class=x>    &#39;api.example.com/ping&#39;,</span>
+<span class=x>    [&#39;Content-Type&#39; =&gt; &#39;application/json&#39;],</span>
+<span class=x>    [],</span>
+<span class=x>    200,</span>
+<span class=x>    null,</span>
+<span class=x>    null,</span>
+<span class=x>    &#39;POST&#39;,</span>
+<span class=x>    [&#39;ping&#39; =&gt; microtime()]</span>
+<span class=x>);</span>
+
+<span class=x>// Assuming Guzzle 6:</span>
+<span class=x>use GuzzleHttp\Psr7\Request;</span>
+<span class=x>$request = new Request(</span>
+<span class=x>    &#39;POST&#39;,</span>
+<span class=x>    &#39;http://api.example.com/ping&#39;,</span>
+<span class=x>    [&#39;Content-Type&#39; =&gt; &#39;application/json&#39;],</span>
+<span class=x>    json_encode([&#39;ping&#39; =&gt; microtime()])</span>
+<span class=x>);</span>
+<span class=x>$checkPageContent = new GuzzleHttpService($request);</span>
+</pre></div></p>
+<h2 id="memcache">Memcache</h2>
+<p>Attempt to connect to given Memcache server.</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\Memcache</span><span class=p>;</span>
+
+<span class=nv>$checkLocal</span>  <span class=o>=</span> <span class=k>new</span> <span class=nx>Memcache</span><span class=p>(</span><span class=s1>&#39;127.0.0.1&#39;</span><span class=p>);</span> <span class=c1>// default port</span>
+<span class=nv>$checkBackup</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Memcache</span><span class=p>(</span><span class=s1>&#39;10.0.30.40&#39;</span><span class=p>,</span> <span class=mi>11212</span><span class=p>);</span>
+</pre></div></p>
+<h2 id="memcached">Memcached</h2>
+<p>Attempt to connect to the given Memcached server.</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\Memcached</span><span class=p>;</span>
+
+<span class=nv>$checkLocal</span>  <span class=o>=</span> <span class=k>new</span> <span class=nx>Memcached</span><span class=p>(</span><span class=s1>&#39;127.0.0.1&#39;</span><span class=p>);</span> <span class=c1>// default port</span>
+<span class=nv>$checkBackup</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Memcached</span><span class=p>(</span><span class=s1>&#39;10.0.30.40&#39;</span><span class=p>,</span> <span class=mi>11212</span><span class=p>);</span>
+</pre></div></p>
+<h3>MongoDb</h3>
+<p>Check if connection to MongoDb is possible</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\Mongo</span><span class=p>;</span>
+
+<span class=nv>$mongoCheck</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Mongo</span><span class=p>(</span><span class=s1>&#39;mongodb://127.0.0.1:27017&#39;</span><span class=p>);</span>
+<span class=c1>// and with user/password</span>
+<span class=nv>$mongoCheck</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Mongo</span><span class=p>(</span><span class=s1>&#39;mongodb://user:password@127.0.0.1:27017&#39;</span><span class=p>);</span>
+</pre></div></p>
+<h2 id="mongodb">MongoDb</h2>
+<p>Check if a connection to a given MongoDb server is possible.</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\Mongo</span><span class=p>;</span>
+
+<span class=nv>$mongoCheck</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Mongo</span><span class=p>(</span><span class=s1>&#39;mongodb://127.0.0.1:27017&#39;</span><span class=p>);</span>
+<span class=c1>// and with user/password</span>
+<span class=nv>$mongoCheck</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Mongo</span><span class=p>(</span><span class=s1>&#39;mongodb://user:password@127.0.0.1:27017&#39;</span><span class=p>);</span>
+</pre></div></p>
+<h2 id="phpversion">PhpVersion</h2>
+<p>Check if the current PHP version matches the given requirement. The test accepts
+2 parameters: baseline version and optional
+<a href="http://www.php.net/manual/en/function.version-compare.php">comparison operator</a>.</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\PhpVersion</span><span class=p>;</span>
+
+<span class=nv>$require545orNewer</span>  <span class=o>=</span> <span class=k>new</span> <span class=nx>PhpVersion</span><span class=p>(</span><span class=s1>&#39;5.4.5&#39;</span><span class=p>);</span>
+<span class=nv>$rejectBetaVersions</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>PhpVersion</span><span class=p>(</span><span class=s1>&#39;5.5.0&#39;</span><span class=p>,</span> <span class=s1>&#39;&lt;&#39;</span><span class=p>);</span>
+</pre></div></p>
+<h2 id="phpflag">PhpFlag</h2>
+<p>Make sure that the provided PHP flag(s) is enabled or disabled (as defined in
+<code>php.ini</code>). You can use this test to alert the user about unsafe or
+behavior-changing PHP settings.</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\PhpFlag</span><span class=p>;</span>
+
+<span class=c1>// This check will fail if use_only_cookies is not enabled</span>
+<span class=nv>$sessionOnlyUsesCookies</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>PhpFlag</span><span class=p>(</span><span class=s1>&#39;session.use_only_cookies&#39;</span><span class=p>,</span> <span class=k>true</span><span class=p>);</span>
+
+<span class=c1>// This check will fail if safe_mode has been enabled</span>
+<span class=nv>$noSafeMode</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>PhpFlag</span><span class=p>(</span><span class=s1>&#39;safe_mode&#39;</span><span class=p>,</span> <span class=k>false</span><span class=p>);</span>
+
+<span class=c1>// The following will fail if any of the flags is enabled</span>
+<span class=nv>$check</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>PhpFlag</span><span class=p>([</span>
+    <span class=s1>&#39;expose_php&#39;</span><span class=p>,</span>
+    <span class=s1>&#39;ignore_user_abort&#39;</span><span class=p>,</span>
+    <span class=s1>&#39;html_errors&#39;</span><span class=p>,</span>
+<span class=p>],</span> <span class=k>false</span><span class=p>);</span>
+</pre></div></p>
+<h2 id="processrunning">ProcessRunning</h2>
+<p>Check if a given unix process is running. This check supports PIDs and process
+names.</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\ProcessRunning</span><span class=p>;</span>
+
+<span class=nv>$checkApache</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ProcessRunning</span><span class=p>(</span><span class=s1>&#39;httpd&#39;</span><span class=p>);</span>
+<span class=nv>$checkProcess1000</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ProcessRunning</span><span class=p>(</span><span class=mi>1000</span><span class=p>);</span>
+</pre></div></p>
+<h2 id="rabbitmq">RabbitMQ</h2>
+<p>Validate that a RabbitMQ service is running.</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\RabbitMQ</span><span class=p>;</span>
+
+<span class=nv>$rabbitMQCheck</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>RabbitMQ</span><span class=p>(</span><span class=s1>&#39;localhost&#39;</span><span class=p>,</span> <span class=mi>5672</span><span class=p>,</span> <span class=s1>&#39;guest&#39;</span><span class=p>,</span> <span class=s1>&#39;guest&#39;</span><span class=p>,</span> <span class=s1>&#39;/&#39;</span><span class=p>);</span>
+</pre></div></p>
+<h2 id="redis">Redis</h2>
+<p>Validate that a Redis service is running.</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\Redis</span><span class=p>;</span>
+
+<span class=nv>$redisCheck</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Redis</span><span class=p>(</span><span class=s1>&#39;localhost&#39;</span><span class=p>,</span> <span class=mi>6379</span><span class=p>,</span> <span class=s1>&#39;secret&#39;</span><span class=p>);</span>
+</pre></div></p>
+<h2 id="securityadvisory">SecurityAdvisory</h2>
+<p>Run a security check of libraries locally installed by
+<a href="http://getcomposer.org">Composer</a> against <a href="https://security.sensiolabs.org/database">SensioLabs Security Advisory
+database</a>, and warn about potential
+security vulnerabilities.</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\SecurityAdvisory</span><span class=p>;</span>
+
+<span class=c1>// Warn about any packages that might have security vulnerabilities</span>
+<span class=c1>// and require updating</span>
+<span class=nv>$security</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>SecurityAdvisory</span><span class=p>();</span>
+
+<span class=c1>// Check another composer.lock</span>
+<span class=nv>$security</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>SecurityAdvisory</span><span class=p>(</span><span class=s1>&#39;/var/www/project/composer.lock&#39;</span><span class=p>);</span>
+</pre></div></p>
+<h2 id="streamwrapperexists">StreamWrapperExists</h2>
+<p>Check if a given stream wrapper (or an array of wrappers) is available. For
+example:</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\StreamWrapperExists</span><span class=p>;</span>
+
+<span class=nv>$checkOGGStream</span>   <span class=o>=</span> <span class=k>new</span> <span class=nx>StreamWrapperExists</span><span class=p>(</span><span class=s1>&#39;ogg&#39;</span><span class=p>);</span>
+<span class=nv>$checkCompression</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>StreamWrapperExists</span><span class=p>([</span>
+    <span class=s1>&#39;zlib&#39;</span><span class=p>,</span>
+    <span class=s1>&#39;bzip2&#39;</span><span class=p>,</span>
+    <span class=s1>&#39;zip&#39;</span><span class=p>,</span>
+<span class=p>]);</span>
+</pre></div></p>
+<h2 id="doctrinemigration">DoctrineMigration</h2>
+<p>Make sure all migrations are applied:</p>
+<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<span class=k>use</span> <span class=nx>Doctrine\Migrations\Configuration\Configuration</span><span class=p>;</span>
+<span class=k>use</span> <span class=nx>Doctrine\ORM\EntityManager</span><span class=p>;</span>
+<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\DoctrineMigration</span><span class=p>;</span>
+
+<span class=nv>$em</span> <span class=o>=</span> <span class=nx>EntityManager</span><span class=o>::</span><span class=na>create</span><span class=p>(</span><span class=cm>/* config */</span><span class=p>);</span>
+<span class=nv>$migrationConfig</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Configuration</span><span class=p>(</span><span class=nv>$em</span><span class=p>);</span>
+<span class=nv>$check</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>DoctrineMigration</span><span class=p>(</span><span class=nv>$migrationConfig</span><span class=p>);</span>
+</pre></div></p>
+
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../usage/">
+                    <i class="fa fa-chevron-left"></i> Previous
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../file-validation/">
+                    Next <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+
+    <div class="help-wanted">
+        <p>
+            Found a mistake or want to contribute to the documentation?
+            <a href="https://github.com/laminas/laminas-diagnostics/edit/master/docs/book/diagnostics.md" target="_blank" class="help-wanted__link">
+                Edit this page on GitHub!
+            </a>
+        </p>
+    </div>
+
+                
+            </div>
+            <div class="col-md-3 col-sm-12 sidebar">
+                
+                    <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">laminas-diagnostics</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item ">
+                                <a href="../introduction/" class="subnavigation__link">Introduction</a>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item ">
+                                <a href="../usage/" class="subnavigation__link">Basic Usage</a>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Checks</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Diagnostic Checks</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../file-validation/" class="subnavigation__link">File Validation Checks</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Reference</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../architecture/" class="subnavigation__link">Architecture</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../custom-checks/" class="subnavigation__link">Writing Custom Checks</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../custom-reporters/" class="subnavigation__link">Writing Custom Reporters</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+        </ul>
+    </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <footer class="footer">
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a class="footer__button" href="#page-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7 offset-md-2">
+                <h5>Laminas</h5>
+                <ul>
+                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
+                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+
+            
+            <div class="col-md-4 offset-md-2">
+                <h4 class="footer__headline">Support</h4>
+                <ul class="support__list">
+                    <li class="support__list-item">
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://laminas.dev/chat" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://github.com/laminas" class="support__link" title="Github"><i class="fa fa-github"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://twitter.com/getlaminas" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">License</h4>
+                <p>
+                    Code licensed under <a
+                        href="https://github.com/laminas/laminas-diagnostics//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                </p>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">Copyright</h4>
+                <p>
+                    <!--Built with love by the Laminas team with the help of our
+                    <a href="https://github.com/laminas/laminas-diagnostics//graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        let base_url = '..',
+            project  = "components",
+            siteName = 'laminas-diagnostics';
+    </script>
+    <script src="/js/scripts.js"></script>
+        <script src="../search/main.js"></script>
+
+    
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Search</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search in laminas-diagnostics" id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+</html>
