@@ -1,18 +1,19 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-diagnostics for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-diagnostics/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-diagnostics for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-diagnostics/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendDiagnosticsTest;
+namespace LaminasTest\Diagnostics;
 
 use InvalidArgumentException;
+use Laminas\Diagnostics\Check\DiskUsage;
+use Laminas\Diagnostics\Result\FailureInterface;
+use Laminas\Diagnostics\Result\SuccessInterface;
+use Laminas\Diagnostics\Result\WarningInterface;
 use PHPUnit\Framework\TestCase;
-use ZendDiagnostics\Check\DiskUsage;
-use ZendDiagnostics\Result\FailureInterface;
-use ZendDiagnostics\Result\SuccessInterface;
-use ZendDiagnostics\Result\WarningInterface;
 
 class DiskUsageTest extends TestCase
 {

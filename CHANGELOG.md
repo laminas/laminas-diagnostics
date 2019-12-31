@@ -8,7 +8,7 @@ Releases prior to 1.2.0 did not have entries.
 
 ### Added
 
-- [#93](https://github.com/zendframework/zenddiagnostics/pull/93) adds compatibility for apcu
+- [zendframework/zenddiagnostics#93](https://github.com/zendframework/zenddiagnostics/pull/93) adds compatibility for apcu
 
 ### Changed
 
@@ -30,21 +30,21 @@ Releases prior to 1.2.0 did not have entries.
 
 ### Added
 
-- [#88](https://github.com/zendframework/zenddiagnostics/pull/88) adds a new `Memcached` diagnostic check.
+- [zendframework/zenddiagnostics#88](https://github.com/zendframework/zenddiagnostics/pull/88) adds a new `Memcached` diagnostic check.
 
-- [#89](https://github.com/zendframework/zenddiagnostics/pull/89) adds full documentation at https://docs.zendframework.com/zend-diagnostics
+- [zendframework/zenddiagnostics#89](https://github.com/zendframework/zenddiagnostics/pull/89) adds full documentation at https://docs.laminas.dev/laminas-diagnostics
 
-- [#89](https://github.com/zendframework/zenddiagnostics/pull/89) adds support for Guzzle 6. While support was previously
+- [zendframework/zenddiagnostics#89](https://github.com/zendframework/zenddiagnostics/pull/89) adds support for Guzzle 6. While support was previously
   added, it included syntax that emitted deprecation notices; it now
   correctly uses the Guzzle HTTP client.
 
 ### Changed
 
-- [#90](https://github.com/zendframework/zenddiagnostics/pull/90) modifies what types are allowed for the `GuzzleHttpService` initial constructor
+- [zendframework/zenddiagnostics#90](https://github.com/zendframework/zenddiagnostics/pull/90) modifies what types are allowed for the `GuzzleHttpService` initial constructor
   argument. Previously, it only allowed a URL; it now allow any valid request instance the Guzzle client
   can accept. This change allows you to craft a custom request to send.
 
-- [#90](https://github.com/zendframework/zenddiagnostics/pull/90) modifies the behavior of `GuzzleHttpService` slightly in relation to how
+- [zendframework/zenddiagnostics#90](https://github.com/zendframework/zenddiagnostics/pull/90) modifies the behavior of `GuzzleHttpService` slightly in relation to how
   it handles its `$body` argument. It now allows stream instances, any object implementing `__toString()`,
   any iterator objects, any `JsonSerializable` objects, and strings and arrays. In the latter case, it
   checks to see if the request `Content-Type` is JSON, casting the value to JSON if so, and otherwise
@@ -56,7 +56,7 @@ Releases prior to 1.2.0 did not have entries.
 
 ### Removed
 
-- [#89](https://github.com/zendframework/zenddiagnostics/pull/89) removes support for Guzzle versions 3 and 4 when using the
+- [zendframework/zenddiagnostics#89](https://github.com/zendframework/zenddiagnostics/pull/89) removes support for Guzzle versions 3 and 4 when using the
   Guzzle HTTP checks. Guzzle 3 has been EOL for approximately 5 years, while version
   4 is incompatible with PHP versions 7.1 and 7.2 due to a syntax issue that only
   those versions detect correctly. Since version 5 has been available for almost 4
@@ -64,9 +64,9 @@ Releases prior to 1.2.0 did not have entries.
 
 ### Fixed
 
-- [#92](https://github.com/zendframework/zenddiagnostics/pull/92) fixes how the `ProcessRunning` diagnostic works when given
+- [zendframework/zenddiagnostics#92](https://github.com/zendframework/zenddiagnostics/pull/92) fixes how the `ProcessRunning` diagnostic works when given
   a process name, but the current window is too small to display it (a problem
   that only occurs on some operating systems).
 
-- [#80](https://github.com/zendframework/zenddiagnostics/pull/80) fixes how the `MongoDB\Client` instance is created when using ext-mongodb + mongodb/mongodb,
+- [zendframework/zenddiagnostics#80](https://github.com/zendframework/zenddiagnostics/pull/80) fixes how the `MongoDB\Client` instance is created when using ext-mongodb + mongodb/mongodb,
   ensuring it uses the provided connection URI.
