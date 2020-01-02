@@ -1,11 +1,16 @@
 docs_dir: docs/book
 site_dir: docs/html
 nav:
-    - { Home: index.md }
-    - { Introduction: introduction.md }
-    - { 'Basic Usage': usage.md }
-    - { Checks: [{ 'Diagnostic Checks': diagnostics.md }, { 'File Validation Checks': file-validation.md }] }
-    - { Reference: [{ Architecture: architecture.md }, { 'Writing Custom Checks': custom-checks.md }, { 'Writing Custom Reporters': custom-reporters.md }] }
+    - Home: index.md
+    - Introduction: introduction.md
+    - 'Basic Usage': usage.md
+    - Checks:
+        - "Diagnostic Checks": diagnostics.md
+        - "File Validation Checks": file-validation.md
+    - Reference:
+        - Architecture: architecture.md
+        - "Writing Custom Checks": custom-checks.md
+        - "Writing Custom Reporters": custom-reporters.md
 site_name: laminas-diagnostics
 site_description: 'Universal set of diagnostic tests for PHP applications.'
 repo_url: 'https://github.com/laminas/laminas-diagnostics'
