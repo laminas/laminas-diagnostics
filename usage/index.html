@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -298,71 +302,68 @@ framework version.</p>
 <li>Run diagnostics <code>Runner::run()</code>.</li>
 </ol>
 <p>For example:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=c1>// run_diagnostics.php</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+// run_diagnostics.php
 
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Runner\Runner</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Runner\Reporter\BasicConsole</span><span class=p>;</span>
+use Laminas\Diagnostics\Check;
+use Laminas\Diagnostics\Runner\Runner;
+use Laminas\Diagnostics\Runner\Reporter\BasicConsole;
 
-<span class=k>include</span> <span class=s1>&#39;vendor/autoload.php&#39;</span><span class=p>;</span>
+include 'vendor/autoload.php';
 
-<span class=c1>// Create Runner instance</span>
-<span class=nv>$runner</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Runner</span><span class=p>();</span>
+// Create Runner instance
+$runner = new Runner();
 
-<span class=c1>// Add checks</span>
-<span class=nv>$runner</span><span class=o>-&gt;</span><span class=na>addCheck</span><span class=p>(</span><span class=k>new</span> <span class=nx>Check\DirWritable</span><span class=p>(</span><span class=s1>&#39;/tmp&#39;</span><span class=p>));</span>
-<span class=nv>$runner</span><span class=o>-&gt;</span><span class=na>addCheck</span><span class=p>(</span><span class=k>new</span> <span class=nx>Check\DiskFree</span><span class=p>(</span><span class=mi>100000000</span><span class=p>,</span> <span class=s1>&#39;/tmp&#39;</span><span class=p>));</span>
+// Add checks
+$runner-&gt;addCheck(new Check\DirWritable('/tmp'));
+$runner-&gt;addCheck(new Check\DiskFree(100000000, '/tmp'));
 
-<span class=c1>// Add console reporter</span>
-<span class=nv>$runner</span><span class=o>-&gt;</span><span class=na>addReporter</span><span class=p>(</span><span class=k>new</span> <span class=nx>BasicConsole</span><span class=p>(</span><span class=mi>80</span><span class=p>,</span> <span class=k>true</span><span class=p>));</span>
+// Add console reporter
+$runner-&gt;addReporter(new BasicConsole(80, true));
 
-<span class=c1>// Run all checks</span>
-<span class=nv>$results</span> <span class=o>=</span> <span class=nv>$runner</span><span class=o>-&gt;</span><span class=na>run</span><span class=p>();</span>
+// Run all checks
+$results = $runner-&gt;run();
 
-<span class=c1>// Emit an appropriate exit code</span>
-<span class=nv>$status</span> <span class=o>=</span> <span class=p>(</span><span class=nv>$results</span><span class=o>-&gt;</span><span class=na>getFailureCount</span><span class=p>()</span> <span class=o>+</span> <span class=nv>$results</span><span class=o>-&gt;</span><span class=na>getWarningCount</span><span class=p>())</span> <span class=o>&gt;</span> <span class=mi>0</span> <span class=o>?</span> <span class=mi>1</span> <span class=o>:</span> <span class=mi>0</span><span class=p>;</span>
-<span class=k>exit</span><span class=p>(</span><span class=nv>$status</span><span class=p>);</span>
-</pre></div></p>
+// Emit an appropriate exit code
+$status = ($results-&gt;getFailureCount() + $results-&gt;getWarningCount()) &gt; 0 ? 1 : 0;
+exit($status);</code></pre>
 <p>You can now run the file in your console (command line):</p>
-<p> <div class=codehilite><pre><span></span>$ php run_diagnostics.php
+<pre class=codehilite><code class=language-bash>$ php run_diagnostics.php
 Starting diagnostics:
 
 ..
 
-OK <span class=o>(</span><span class=m>2</span> diagnostic tests<span class=o>)</span>
-</pre></div></p>
+OK (2 diagnostic tests)</code></pre>
 <h2 id="using-a-result-collection">Using a result collection</h2>
 <p>The diagnostics runner will always return a
 <a href="https://github.com/laminas/laminas-diagnostics/src/Result/Collection.php">Laminas\Diagnostics\Result\Collection</a>,
 even when no reporter is attached. This collection contains results for all
 tests and failure counters.</p>
 <p>As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Result</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Runner\Runner</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check;
+use Laminas\Diagnostics\Result;
+use Laminas\Diagnostics\Runner\Runner;
 
-<span class=nv>$runner</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Runner</span><span class=p>();</span>
-<span class=nv>$checkSpace</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Check\DiskFree</span><span class=p>(</span><span class=mi>100000000</span><span class=p>,</span> <span class=s1>&#39;/tmp&#39;</span><span class=p>);</span>
-<span class=nv>$checkTemp</span>  <span class=o>=</span> <span class=k>new</span> <span class=nx>Check\DirWritable</span><span class=p>(</span><span class=s1>&#39;/tmp&#39;</span><span class=p>);</span>
-<span class=nv>$runner</span><span class=o>-&gt;</span><span class=na>addCheck</span><span class=p>(</span><span class=nv>$checkSpace</span><span class=p>);</span>
-<span class=nv>$runner</span><span class=o>-&gt;</span><span class=na>addCheck</span><span class=p>(</span><span class=nv>$checkTemp</span><span class=p>);</span>
+$runner = new Runner();
+$checkSpace = new Check\DiskFree(100000000, '/tmp');
+$checkTemp  = new Check\DirWritable('/tmp');
+$runner-&gt;addCheck($checkSpace);
+$runner-&gt;addCheck($checkTemp);
 
-<span class=c1>// Run all checks</span>
-<span class=nv>$results</span> <span class=o>=</span> <span class=nv>$runner</span><span class=o>-&gt;</span><span class=na>run</span><span class=p>();</span>
+// Run all checks
+$results = $runner-&gt;run();
 
-<span class=k>echo</span> <span class=s2>&quot;Number of successful tests: &quot;</span> <span class=o>.</span> <span class=nv>$results</span><span class=o>-&gt;</span><span class=na>getSuccessCount</span><span class=p>()</span> <span class=o>.</span> <span class=s2>&quot;</span><span class=se>\n</span><span class=s2>&quot;</span><span class=p>;</span>
-<span class=k>echo</span> <span class=s2>&quot;Number of failed tests:     &quot;</span> <span class=o>.</span> <span class=nv>$results</span><span class=o>-&gt;</span><span class=na>getFailureCount</span><span class=p>()</span> <span class=o>.</span> <span class=s2>&quot;</span><span class=se>\n</span><span class=s2>&quot;</span><span class=p>;</span>
+echo &quot;Number of successful tests: &quot; . $results-&gt;getSuccessCount() . &quot;\n&quot;;
+echo &quot;Number of failed tests:     &quot; . $results-&gt;getFailureCount() . &quot;\n&quot;;
 
-<span class=k>if</span> <span class=p>(</span><span class=nv>$results</span><span class=p>[</span><span class=nv>$checkSpace</span><span class=p>]</span> <span class=nx>instanceof</span> <span class=nx>Result\FailureInterface</span><span class=p>)</span> <span class=p>{</span>
-    <span class=k>echo</span> <span class=s2>&quot;Oooops! We&#39;re running out of space on temp.</span><span class=se>\n</span><span class=s2>&quot;</span><span class=p>;</span>
-<span class=p>}</span>
+if ($results[$checkSpace] instanceof Result\FailureInterface) {
+    echo &quot;Oooops! We're running out of space on temp.\n&quot;;
+}
 
-<span class=k>if</span> <span class=p>(</span><span class=nv>$results</span><span class=p>[</span><span class=nv>$checkTemp</span><span class=p>]</span> <span class=nx>instanceof</span> <span class=nx>Result\FailureInterface</span><span class=p>)</span> <span class=p>{</span>
-    <span class=k>echo</span> <span class=s2>&quot;It seems that /tmp is not writable - this is a serious problem!</span><span class=se>\n</span><span class=s2>&quot;</span><span class=p>;</span>
-<span class=p>}</span>
-</pre></div></p>
+if ($results[$checkTemp] instanceof Result\FailureInterface) {
+    echo &quot;It seems that /tmp is not writable - this is a serious problem!\n&quot;;
+}</code></pre>
 
 
 
@@ -539,9 +540,10 @@ tests and failure counters.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -578,7 +580,7 @@ tests and failure counters.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-diagnostics//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -587,8 +589,8 @@ tests and failure counters.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-diagnostics//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-diagnostics/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

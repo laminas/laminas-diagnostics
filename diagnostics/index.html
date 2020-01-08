@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -352,37 +356,34 @@ use straight away.</p>
 <h2 id="apcfragmentation">ApcFragmentation</h2>
 <p>Make sure that <a href="www.php.net/apc/">APC memory fragmentation level</a> is below a
 given threshold:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\ApcFragmentation</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\ApcFragmentation;
 
-<span class=c1>// Display a warning with fragmentation &gt; 50% and failure when above 90%</span>
-<span class=nv>$fragmentation</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ApcFragmentation</span><span class=p>(</span><span class=mi>50</span><span class=p>,</span> <span class=mi>90</span><span class=p>);</span>
-</pre></div></p>
+// Display a warning with fragmentation &gt; 50% and failure when above 90%
+$fragmentation = new ApcFragmentation(50, 90);</code></pre>
 <h2 id="apcmemory">ApcMemory</h2>
 <p>Check <a href="www.php.net/apc/">APC memory usage percent</a> and make sure it's below a
 given threshold.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\ApcMemory</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\ApcMemory;
 
-<span class=c1>// Display a warning with memory usage is above 70% and a failure above 90%</span>
-<span class=nv>$checkFreeMemory</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ApcMemory</span><span class=p>(</span><span class=mi>70</span><span class=p>,</span> <span class=mi>90</span><span class=p>);</span>
-</pre></div></p>
+// Display a warning with memory usage is above 70% and a failure above 90%
+$checkFreeMemory = new ApcMemory(70, 90);</code></pre>
 <h2 id="callback">Callback</h2>
 <p>Run a function (callback) and use its return value as the result:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\Callback</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Result\Success</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Result\Failure</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\Callback;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Failure;
 
-<span class=nv>$checkDbFile</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Callback</span><span class=p>(</span><span class=k>function</span><span class=p>()</span> <span class=p>{</span>
-    <span class=nv>$path</span> <span class=o>=</span> <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/data/db.sqlite&#39;</span><span class=p>;</span>
-    <span class=k>if</span> <span class=p>(</span><span class=nb>is_file</span><span class=p>(</span><span class=nv>$path</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=nb>is_readable</span><span class=p>(</span><span class=nv>$path</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=nb>filesize</span><span class=p>(</span><span class=nv>$path</span><span class=p>))</span> <span class=p>{</span>
-        <span class=k>return</span> <span class=k>new</span> <span class=nx>Success</span><span class=p>(</span><span class=s1>&#39;Db file is ok&#39;</span><span class=p>);</span>
-    <span class=p>}</span>
+$checkDbFile = new Callback(function() {
+    $path = __DIR__ . '/data/db.sqlite';
+    if (is_file($path) &amp;&amp; is_readable($path) &amp;&amp; filesize($path)) {
+        return new Success('Db file is ok');
+    }
 
-        <span class=k>return</span> <span class=k>new</span> <span class=nx>Failure</span><span class=p>(</span><span class=s1>&#39;There is something wrong with the db file&#39;</span><span class=p>);</span>
-<span class=p>});</span>
-</pre></div></p>
+        return new Failure('There is something wrong with the db file');
+});</code></pre>
 <blockquote>
 <h3>Callback signature</h3>
 <p>The callback must return either a <code>boolean</code> (true for success, false for
@@ -393,15 +394,14 @@ be interpreted as warnings.</p>
 </blockquote>
 <h2 id="classexists">ClassExists</h2>
 <p>Check if a class (or an array of classes) exists. For example:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\ClassExists</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\ClassExists;
 
-<span class=nv>$checkLuaClass</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ClassExists</span><span class=p>(</span><span class=s1>&#39;Lua&#39;</span><span class=p>);</span>
-<span class=nv>$checkRbacClasses</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ClassExists</span><span class=p>([</span>
-    <span class=s1>&#39;ZfcRbac\Module&#39;</span><span class=p>,</span>
-    <span class=s1>&#39;ZfcRbac\Controller\Plugin\IsGranted&#39;</span>
-<span class=p>]);</span>
-</pre></div></p>
+$checkLuaClass = new ClassExists('Lua');
+$checkRbacClasses = new ClassExists([
+    'ZfcRbac\Module',
+    'ZfcRbac\Controller\Plugin\IsGranted'
+]);</code></pre>
 <h2 id="cpuperformance">CpuPerformance</h2>
 <p>Benchmark CPU performance and return failure if it is below the given ratio. The
 baseline for performance calculation is the speed of an Amazon EC2 Micro Instance
@@ -411,36 +411,33 @@ would mean "at least double the performance of EC2 Micro Instance" and a
 fraction of <code>0.5</code> means "at least half the performance of Micro Instance".</p>
 <p>The following check will test if current server has at least half the CPU power
 of EC2 Micro Instance:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\CpuPerformance</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\CpuPerformance;
 
-<span class=nv>$checkMinCPUSpeed</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>CpuPerformance</span><span class=p>(</span><span class=mf>0.5</span><span class=p>);</span> <span class=c1>// at least 50% of EC2 micro instance</span>
-</pre></div></p>
+$checkMinCPUSpeed = new CpuPerformance(0.5); // at least 50% of EC2 micro instance</code></pre>
 <h2 id="dirreadable">DirReadable</h2>
 <p>Check if a given path (or array of paths) points to a directory and it is
 readable.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\DirReadable</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\DirReadable;
 
-<span class=nv>$checkPublic</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>DirReadable</span><span class=p>(</span><span class=s1>&#39;public/&#39;</span><span class=p>);</span>
-<span class=nv>$checkAssets</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>DirReadable</span><span class=p>([</span>
-    <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/assets/img&#39;</span><span class=p>,</span>
-    <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/assets/js&#39;</span><span class=p>,</span>
-<span class=p>]);</span>
-</pre></div></p>
+$checkPublic = new DirReadable('public/');
+$checkAssets = new DirReadable([
+    __DIR__ . '/assets/img',
+    __DIR__ . '/assets/js',
+]);</code></pre>
 <h2 id="dirwritable">DirWritable</h2>
 <p>Check if a given path (or array of paths) points to a directory and if it can be
 written to.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\DirWritable</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\DirWritable;
 
-<span class=nv>$checkTemporary</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>DirWritable</span><span class=p>(</span><span class=s1>&#39;/tmp&#39;</span><span class=p>);</span>
-<span class=nv>$checkAssets</span>    <span class=o>=</span> <span class=k>new</span> <span class=nx>DirWritable</span><span class=p>([</span>
-    <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/assets/customImages&#39;</span><span class=p>,</span>
-    <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/assets/customJs&#39;</span><span class=p>,</span>
-    <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/assets/uploads&#39;</span><span class=p>,</span>
-<span class=p>]);</span>
-</pre></div></p>
+$checkTemporary = new DirWritable('/tmp');
+$checkAssets    = new DirWritable([
+    __DIR__ . '/assets/customImages',
+    __DIR__ . '/assets/customJs',
+    __DIR__ . '/assets/uploads',
+]);</code></pre>
 <h2 id="diskfree">DiskFree</h2>
 <p>Check if there is enough remaining free disk space.</p>
 <p>The first parameter is the minimum disk space, which can be supplied as an
@@ -448,260 +445,242 @@ integer (in bytes, e.g. <code>1024</code>) or as a string with a multiplier (IEC
 Jedec; e.g.  <code>"150MB"</code>). The second parameter is the path to check; on *NIX
 systems it is an ordinary path (e.g. <code>/home</code>), while on Windows systems it is a
 drive letter (e.g.  <code>"C:"</code>).</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\DiskFree</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\DiskFree;
 
-<span class=nv>$tempHasAtLeast100Megs</span>  <span class=o>=</span> <span class=k>new</span> <span class=nx>DiskFree</span><span class=p>(</span><span class=s1>&#39;100MB&#39;</span><span class=p>,</span> <span class=s1>&#39;/tmp&#39;</span><span class=p>);</span>
-<span class=nv>$homeHasAtLeast1TB</span>      <span class=o>=</span> <span class=k>new</span> <span class=nx>DiskFree</span><span class=p>(</span><span class=s1>&#39;1TiB&#39;</span><span class=p>,</span>  <span class=s1>&#39;/home&#39;</span><span class=p>);</span>
-<span class=nv>$dataHasAtLeast900Bytes</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>DiskFree</span><span class=p>(</span><span class=mi>900</span><span class=p>,</span> <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/data/&#39;</span><span class=p>);</span>
-</pre></div></p>
+$tempHasAtLeast100Megs  = new DiskFree('100MB', '/tmp');
+$homeHasAtLeast1TB      = new DiskFree('1TiB',  '/home');
+$dataHasAtLeast900Bytes = new DiskFree(900, __DIR__ . '/data/');</code></pre>
 <h3>ExtensionLoaded</h3>
 <p>Check if a PHP extension (or an array of extensions) is currently loaded.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\ExtensionLoaded</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\ExtensionLoaded;
 
-<span class=nv>$checkMbstring</span>    <span class=o>=</span> <span class=k>new</span> <span class=nx>ExtensionLoaded</span><span class=p>(</span><span class=s1>&#39;mbstring&#39;</span><span class=p>);</span>
-<span class=nv>$checkCompression</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ExtensionLoaded</span><span class=p>([</span>
-    <span class=s1>&#39;rar&#39;</span><span class=p>,</span>
-    <span class=s1>&#39;bzip2&#39;</span><span class=p>,</span>
-    <span class=s1>&#39;zip&#39;</span><span class=p>,</span>
-<span class=p>]);</span>
-</pre></div></p>
+$checkMbstring    = new ExtensionLoaded('mbstring');
+$checkCompression = new ExtensionLoaded([
+    'rar',
+    'bzip2',
+    'zip',
+]);</code></pre>
 <h2 id="httpservice">HttpService</h2>
 <p>Attempt connection to a given HTTP host or IP address and try to load a web
 page. The check also supports checking response codes and page contents.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\HttpService</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\HttpService;
 
-<span class=c1>// Try to connect to google.com</span>
-<span class=nv>$checkGoogle</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>HttpService</span><span class=p>(</span><span class=s1>&#39;www.google.com&#39;</span><span class=p>);</span>
+// Try to connect to google.com
+$checkGoogle = new HttpService('www.google.com');
 
-<span class=c1>// Check port 8080 on localhost</span>
-<span class=nv>$checkLocal</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>HttpService</span><span class=p>(</span><span class=s1>&#39;127.0.0.1&#39;</span><span class=p>,</span> <span class=mi>8080</span><span class=p>);</span>
+// Check port 8080 on localhost
+$checkLocal = new HttpService('127.0.0.1', 8080);
 
-<span class=c1>// Check that the page exists (response code must equal 200)</span>
-<span class=nv>$checkPage</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>HttpService</span><span class=p>(</span><span class=s1>&#39;www.example.com&#39;</span><span class=p>,</span> <span class=mi>80</span><span class=p>,</span> <span class=s1>&#39;/some/page.html&#39;</span><span class=p>,</span> <span class=mi>200</span><span class=p>);</span>
+// Check that the page exists (response code must equal 200)
+$checkPage = new HttpService('www.example.com', 80, '/some/page.html', 200);
 
-<span class=c1>// Check page content</span>
-<span class=nv>$checkPageContent</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>HttpService</span><span class=p>(</span>
-    <span class=s1>&#39;www.example.com&#39;</span><span class=p>,</span>
-    <span class=mi>80</span><span class=p>,</span>
-    <span class=s1>&#39;/some/page.html&#39;</span><span class=p>,</span>
-    <span class=mi>200</span><span class=p>,</span>
-    <span class=s1>&#39;&lt;title&gt;Hello World&lt;/title&gt;&#39;</span>
-<span class=p>);</span>
-</pre></div></p>
+// Check page content
+$checkPageContent = new HttpService(
+    'www.example.com',
+    80,
+    '/some/page.html',
+    200,
+    '&lt;title&gt;Hello World&lt;/title&gt;'
+);</code></pre>
 <h2 id="guzzlehttpservice">GuzzleHttpService</h2>
 <p>Attempt connection to a given HTTP host or IP address and try to load a web page
 using <a href="http://docs.guzzlephp.org">Guzzle</a>. The check also supports checking
 response codes and page contents.</p>
 <p>The constructor signature of the <code>GuzzleHttpService</code> is as follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>/**</span>
-<span class=x> * @param string|Psr\Http\Message\RequestInterface|GuzzleHttp\Message\RequestInterface $requestOrUrl</span>
-<span class=x> *     The absolute url to check, or a fully-formed request instance.</span>
-<span class=x> * @param array $headers An array of headers used to create the request</span>
-<span class=x> * @param array $options An array of guzzle options to use when sending the request</span>
-<span class=x> * @param int $statusCode The response status code to check</span>
-<span class=x> * @param null $content The response content to check</span>
-<span class=x> * @param null|GuzzleHttp\ClientInterface $guzzle Instance of guzzle to use</span>
-<span class=x> * @param string $method The method of the request</span>
-<span class=x> * @param mixed $body The body of the request (used for POST, PUT and DELETE requests)</span>
-<span class=x> * @throws InvalidArgumentException</span>
-<span class=x> */</span>
-<span class=x>public function __construct(</span>
-<span class=x>    $requestOrUrl,</span>
-<span class=x>    array $headers = [],</span>
-<span class=x>    array $options = [],</span>
-<span class=x>    $statusCode = 200,</span>
-<span class=x>    $content = null,</span>
-<span class=x>    $guzzle = null,</span>
-<span class=x>    $method = &#39;GET&#39;,</span>
-<span class=x>    $body = null</span>
-<span class=x>)</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>/**
+ * @param string|Psr\Http\Message\RequestInterface|GuzzleHttp\Message\RequestInterface $requestOrUrl
+ *     The absolute url to check, or a fully-formed request instance.
+ * @param array $headers An array of headers used to create the request
+ * @param array $options An array of guzzle options to use when sending the request
+ * @param int $statusCode The response status code to check
+ * @param null $content The response content to check
+ * @param null|GuzzleHttp\ClientInterface $guzzle Instance of guzzle to use
+ * @param string $method The method of the request
+ * @param mixed $body The body of the request (used for POST, PUT and DELETE requests)
+ * @throws InvalidArgumentException
+ */
+public function __construct(
+    $requestOrUrl,
+    array $headers = [],
+    array $options = [],
+    $statusCode = 200,
+    $content = null,
+    $guzzle = null,
+    $method = 'GET',
+    $body = null
+)</code></pre>
 <p>Examples:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\GuzzleHttpService</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\GuzzleHttpService;
 
-<span class=c1>// Try to connect to google.com</span>
-<span class=nv>$checkGoogle</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>GuzzleHttpService</span><span class=p>(</span><span class=s1>&#39;www.google.com&#39;</span><span class=p>);</span>
+// Try to connect to google.com
+$checkGoogle = new GuzzleHttpService('www.google.com');
 
-<span class=c1>// Check port 8080 on localhost</span>
-<span class=nv>$checkLocal</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>GuzzleHttpService</span><span class=p>(</span><span class=s1>&#39;127.0.0.1:8080&#39;</span><span class=p>);</span>
+// Check port 8080 on localhost
+$checkLocal = new GuzzleHttpService('127.0.0.1:8080');
 
-<span class=c1>// Check that the page exists (response code must equal 200)</span>
-<span class=nv>$checkPage</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>GuzzleHttpService</span><span class=p>(</span><span class=s1>&#39;www.example.com/some/page.html&#39;</span><span class=p>);</span>
+// Check that the page exists (response code must equal 200)
+$checkPage = new GuzzleHttpService('www.example.com/some/page.html');
 
-<span class=c1>// Check page content</span>
-<span class=nv>$checkPageContent</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>GuzzleHttpService</span><span class=p>(</span>
-    <span class=s1>&#39;www.example.com/some/page.html&#39;</span><span class=p>,</span>
-    <span class=p>[],</span>
-    <span class=p>[],</span>
-    <span class=mi>200</span><span class=p>,</span>
-    <span class=s1>&#39;&lt;title&gt;Hello World&lt;/title&gt;&#39;</span>
-<span class=p>);</span>
+// Check page content
+$checkPageContent = new GuzzleHttpService(
+    'www.example.com/some/page.html',
+    [],
+    [],
+    200,
+    '&lt;title&gt;Hello World&lt;/title&gt;'
+);
 
-<span class=c1>// Check that the post request returns the content</span>
-<span class=nv>$checkPageContent</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>GuzzleHttpService</span><span class=p>(</span>
-    <span class=s1>&#39;www.example.com/user/update&#39;</span><span class=p>,</span>
-    <span class=p>[],</span>
-    <span class=p>[],</span>
-    <span class=mi>200</span><span class=p>,</span>
-    <span class=s1>&#39;{&quot;status&quot;:&quot;success&quot;}&#39;</span><span class=p>,</span>
-    <span class=s1>&#39;POST&#39;</span><span class=p>,</span>
-    <span class=p>[</span><span class=s1>&#39;post_field&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;post_value&#39;</span><span class=p>]</span>
-<span class=p>);</span>
-</pre></div></p>
+// Check that the post request returns the content
+$checkPageContent = new GuzzleHttpService(
+    'www.example.com/user/update',
+    [],
+    [],
+    200,
+    '{&quot;status&quot;:&quot;success&quot;}',
+    'POST',
+    ['post_field' =&gt; 'post_value']
+);</code></pre>
 <p>You can send JSON data by either providing a <code>Content-Type</code> header that includes
 a JSON content type, or creating a request instance with JSON content:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Send page content</span>
-<span class=x>$checkPageContent = new GuzzleHttpService(</span>
-<span class=x>    &#39;api.example.com/ping&#39;,</span>
-<span class=x>    [&#39;Content-Type&#39; =&gt; &#39;application/json&#39;],</span>
-<span class=x>    [],</span>
-<span class=x>    200,</span>
-<span class=x>    null,</span>
-<span class=x>    null,</span>
-<span class=x>    &#39;POST&#39;,</span>
-<span class=x>    [&#39;ping&#39; =&gt; microtime()]</span>
-<span class=x>);</span>
+<pre class=codehilite><code class=language-php>// Send page content
+$checkPageContent = new GuzzleHttpService(
+    'api.example.com/ping',
+    ['Content-Type' =&gt; 'application/json'],
+    [],
+    200,
+    null,
+    null,
+    'POST',
+    ['ping' =&gt; microtime()]
+);
 
-<span class=x>// Assuming Guzzle 6:</span>
-<span class=x>use GuzzleHttp\Psr7\Request;</span>
-<span class=x>$request = new Request(</span>
-<span class=x>    &#39;POST&#39;,</span>
-<span class=x>    &#39;http://api.example.com/ping&#39;,</span>
-<span class=x>    [&#39;Content-Type&#39; =&gt; &#39;application/json&#39;],</span>
-<span class=x>    json_encode([&#39;ping&#39; =&gt; microtime()])</span>
-<span class=x>);</span>
-<span class=x>$checkPageContent = new GuzzleHttpService($request);</span>
-</pre></div></p>
+// Assuming Guzzle 6:
+use GuzzleHttp\Psr7\Request;
+$request = new Request(
+    'POST',
+    'http://api.example.com/ping',
+    ['Content-Type' =&gt; 'application/json'],
+    json_encode(['ping' =&gt; microtime()])
+);
+$checkPageContent = new GuzzleHttpService($request);</code></pre>
 <h2 id="memcache">Memcache</h2>
 <p>Attempt to connect to given Memcache server.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\Memcache</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\Memcache;
 
-<span class=nv>$checkLocal</span>  <span class=o>=</span> <span class=k>new</span> <span class=nx>Memcache</span><span class=p>(</span><span class=s1>&#39;127.0.0.1&#39;</span><span class=p>);</span> <span class=c1>// default port</span>
-<span class=nv>$checkBackup</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Memcache</span><span class=p>(</span><span class=s1>&#39;10.0.30.40&#39;</span><span class=p>,</span> <span class=mi>11212</span><span class=p>);</span>
-</pre></div></p>
+$checkLocal  = new Memcache('127.0.0.1'); // default port
+$checkBackup = new Memcache('10.0.30.40', 11212);</code></pre>
 <h2 id="memcached">Memcached</h2>
 <p>Attempt to connect to the given Memcached server.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\Memcached</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\Memcached;
 
-<span class=nv>$checkLocal</span>  <span class=o>=</span> <span class=k>new</span> <span class=nx>Memcached</span><span class=p>(</span><span class=s1>&#39;127.0.0.1&#39;</span><span class=p>);</span> <span class=c1>// default port</span>
-<span class=nv>$checkBackup</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Memcached</span><span class=p>(</span><span class=s1>&#39;10.0.30.40&#39;</span><span class=p>,</span> <span class=mi>11212</span><span class=p>);</span>
-</pre></div></p>
+$checkLocal  = new Memcached('127.0.0.1'); // default port
+$checkBackup = new Memcached('10.0.30.40', 11212);</code></pre>
 <h3>MongoDb</h3>
 <p>Check if connection to MongoDb is possible</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\Mongo</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\Mongo;
 
-<span class=nv>$mongoCheck</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Mongo</span><span class=p>(</span><span class=s1>&#39;mongodb://127.0.0.1:27017&#39;</span><span class=p>);</span>
-<span class=c1>// and with user/password</span>
-<span class=nv>$mongoCheck</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Mongo</span><span class=p>(</span><span class=s1>&#39;mongodb://user:password@127.0.0.1:27017&#39;</span><span class=p>);</span>
-</pre></div></p>
+$mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
+// and with user/password
+$mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');</code></pre>
 <h2 id="mongodb">MongoDb</h2>
 <p>Check if a connection to a given MongoDb server is possible.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\Mongo</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\Mongo;
 
-<span class=nv>$mongoCheck</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Mongo</span><span class=p>(</span><span class=s1>&#39;mongodb://127.0.0.1:27017&#39;</span><span class=p>);</span>
-<span class=c1>// and with user/password</span>
-<span class=nv>$mongoCheck</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Mongo</span><span class=p>(</span><span class=s1>&#39;mongodb://user:password@127.0.0.1:27017&#39;</span><span class=p>);</span>
-</pre></div></p>
+$mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
+// and with user/password
+$mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');</code></pre>
 <h2 id="phpversion">PhpVersion</h2>
 <p>Check if the current PHP version matches the given requirement. The test accepts
 2 parameters: baseline version and optional
 <a href="http://www.php.net/manual/en/function.version-compare.php">comparison operator</a>.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\PhpVersion</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\PhpVersion;
 
-<span class=nv>$require545orNewer</span>  <span class=o>=</span> <span class=k>new</span> <span class=nx>PhpVersion</span><span class=p>(</span><span class=s1>&#39;5.4.5&#39;</span><span class=p>);</span>
-<span class=nv>$rejectBetaVersions</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>PhpVersion</span><span class=p>(</span><span class=s1>&#39;5.5.0&#39;</span><span class=p>,</span> <span class=s1>&#39;&lt;&#39;</span><span class=p>);</span>
-</pre></div></p>
+$require545orNewer  = new PhpVersion('5.4.5');
+$rejectBetaVersions = new PhpVersion('5.5.0', '&lt;');</code></pre>
 <h2 id="phpflag">PhpFlag</h2>
 <p>Make sure that the provided PHP flag(s) is enabled or disabled (as defined in
 <code>php.ini</code>). You can use this test to alert the user about unsafe or
 behavior-changing PHP settings.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\PhpFlag</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\PhpFlag;
 
-<span class=c1>// This check will fail if use_only_cookies is not enabled</span>
-<span class=nv>$sessionOnlyUsesCookies</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>PhpFlag</span><span class=p>(</span><span class=s1>&#39;session.use_only_cookies&#39;</span><span class=p>,</span> <span class=k>true</span><span class=p>);</span>
+// This check will fail if use_only_cookies is not enabled
+$sessionOnlyUsesCookies = new PhpFlag('session.use_only_cookies', true);
 
-<span class=c1>// This check will fail if safe_mode has been enabled</span>
-<span class=nv>$noSafeMode</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>PhpFlag</span><span class=p>(</span><span class=s1>&#39;safe_mode&#39;</span><span class=p>,</span> <span class=k>false</span><span class=p>);</span>
+// This check will fail if safe_mode has been enabled
+$noSafeMode = new PhpFlag('safe_mode', false);
 
-<span class=c1>// The following will fail if any of the flags is enabled</span>
-<span class=nv>$check</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>PhpFlag</span><span class=p>([</span>
-    <span class=s1>&#39;expose_php&#39;</span><span class=p>,</span>
-    <span class=s1>&#39;ignore_user_abort&#39;</span><span class=p>,</span>
-    <span class=s1>&#39;html_errors&#39;</span><span class=p>,</span>
-<span class=p>],</span> <span class=k>false</span><span class=p>);</span>
-</pre></div></p>
+// The following will fail if any of the flags is enabled
+$check = new PhpFlag([
+    'expose_php',
+    'ignore_user_abort',
+    'html_errors',
+], false);</code></pre>
 <h2 id="processrunning">ProcessRunning</h2>
 <p>Check if a given unix process is running. This check supports PIDs and process
 names.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\ProcessRunning</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\ProcessRunning;
 
-<span class=nv>$checkApache</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ProcessRunning</span><span class=p>(</span><span class=s1>&#39;httpd&#39;</span><span class=p>);</span>
-<span class=nv>$checkProcess1000</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ProcessRunning</span><span class=p>(</span><span class=mi>1000</span><span class=p>);</span>
-</pre></div></p>
+$checkApache = new ProcessRunning('httpd');
+$checkProcess1000 = new ProcessRunning(1000);</code></pre>
 <h2 id="rabbitmq">RabbitMQ</h2>
 <p>Validate that a RabbitMQ service is running.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\RabbitMQ</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\RabbitMQ;
 
-<span class=nv>$rabbitMQCheck</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>RabbitMQ</span><span class=p>(</span><span class=s1>&#39;localhost&#39;</span><span class=p>,</span> <span class=mi>5672</span><span class=p>,</span> <span class=s1>&#39;guest&#39;</span><span class=p>,</span> <span class=s1>&#39;guest&#39;</span><span class=p>,</span> <span class=s1>&#39;/&#39;</span><span class=p>);</span>
-</pre></div></p>
+$rabbitMQCheck = new RabbitMQ('localhost', 5672, 'guest', 'guest', '/');</code></pre>
 <h2 id="redis">Redis</h2>
 <p>Validate that a Redis service is running.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\Redis</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\Redis;
 
-<span class=nv>$redisCheck</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Redis</span><span class=p>(</span><span class=s1>&#39;localhost&#39;</span><span class=p>,</span> <span class=mi>6379</span><span class=p>,</span> <span class=s1>&#39;secret&#39;</span><span class=p>);</span>
-</pre></div></p>
+$redisCheck = new Redis('localhost', 6379, 'secret');</code></pre>
 <h2 id="securityadvisory">SecurityAdvisory</h2>
 <p>Run a security check of libraries locally installed by
 <a href="http://getcomposer.org">Composer</a> against <a href="https://security.sensiolabs.org/database">SensioLabs Security Advisory
 database</a>, and warn about potential
 security vulnerabilities.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\SecurityAdvisory</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\SecurityAdvisory;
 
-<span class=c1>// Warn about any packages that might have security vulnerabilities</span>
-<span class=c1>// and require updating</span>
-<span class=nv>$security</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>SecurityAdvisory</span><span class=p>();</span>
+// Warn about any packages that might have security vulnerabilities
+// and require updating
+$security = new SecurityAdvisory();
 
-<span class=c1>// Check another composer.lock</span>
-<span class=nv>$security</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>SecurityAdvisory</span><span class=p>(</span><span class=s1>&#39;/var/www/project/composer.lock&#39;</span><span class=p>);</span>
-</pre></div></p>
+// Check another composer.lock
+$security = new SecurityAdvisory('/var/www/project/composer.lock');</code></pre>
 <h2 id="streamwrapperexists">StreamWrapperExists</h2>
 <p>Check if a given stream wrapper (or an array of wrappers) is available. For
 example:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\StreamWrapperExists</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Diagnostics\Check\StreamWrapperExists;
 
-<span class=nv>$checkOGGStream</span>   <span class=o>=</span> <span class=k>new</span> <span class=nx>StreamWrapperExists</span><span class=p>(</span><span class=s1>&#39;ogg&#39;</span><span class=p>);</span>
-<span class=nv>$checkCompression</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>StreamWrapperExists</span><span class=p>([</span>
-    <span class=s1>&#39;zlib&#39;</span><span class=p>,</span>
-    <span class=s1>&#39;bzip2&#39;</span><span class=p>,</span>
-    <span class=s1>&#39;zip&#39;</span><span class=p>,</span>
-<span class=p>]);</span>
-</pre></div></p>
+$checkOGGStream   = new StreamWrapperExists('ogg');
+$checkCompression = new StreamWrapperExists([
+    'zlib',
+    'bzip2',
+    'zip',
+]);</code></pre>
 <h2 id="doctrinemigration">DoctrineMigration</h2>
 <p>Make sure all migrations are applied:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Doctrine\Migrations\Configuration\Configuration</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Doctrine\ORM\EntityManager</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\DoctrineMigration</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Doctrine\Migrations\Configuration\Configuration;
+use Doctrine\ORM\EntityManager;
+use Laminas\Diagnostics\Check\DoctrineMigration;
 
-<span class=nv>$em</span> <span class=o>=</span> <span class=nx>EntityManager</span><span class=o>::</span><span class=na>create</span><span class=p>(</span><span class=cm>/* config */</span><span class=p>);</span>
-<span class=nv>$migrationConfig</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Configuration</span><span class=p>(</span><span class=nv>$em</span><span class=p>);</span>
-<span class=nv>$check</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>DoctrineMigration</span><span class=p>(</span><span class=nv>$migrationConfig</span><span class=p>);</span>
-</pre></div></p>
+$em = EntityManager::create(/* config */);
+$migrationConfig = new Configuration($em);
+$check = new DoctrineMigration($migrationConfig);</code></pre>
 
 
 
@@ -878,9 +857,10 @@ example:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -917,7 +897,7 @@ example:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-diagnostics//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -926,8 +906,8 @@ example:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-diagnostics//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-diagnostics/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

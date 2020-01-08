@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -257,57 +261,55 @@
     <h1 id="writing-custom-checks">Writing Custom Checks</h1>
 <p>A Check class MUST implement <a href="https://github.com/laminas/laminas-diagnostics/tree/master/src/Check/CheckInterface.php">Check</a>
 and provide the following methods:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>namespace</span> <span class=nx>Laminas\Diagnostics\Check</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+namespace Laminas\Diagnostics\Check;
 
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Result\ResultInterface</span><span class=p>;</span>
+use Laminas\Diagnostics\Result\ResultInterface;
 
-<span class=k>interface</span> <span class=nx>CheckInterface</span>
-<span class=p>{</span>
-    <span class=sd>/**</span>
-<span class=sd>     * @return ResultInterface</span>
-<span class=sd>     */</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=nf>check</span><span class=p>();</span>
+interface CheckInterface
+{
+    /**
+     * @return ResultInterface
+     */
+    public function check();
 
-    <span class=sd>/**</span>
-<span class=sd>     * Return a label describing this test instance.</span>
-<span class=sd>     *</span>
-<span class=sd>     * @return string</span>
-<span class=sd>     */</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=nf>getLabel</span><span class=p>();</span>
-<span class=p>}</span>
-</pre></div></p>
+    /**
+     * Return a label describing this test instance.
+     *
+     * @return string
+     */
+    public function getLabel();
+}</code></pre>
 <p>The main <code>check()</code> method is responsible for performing the actual check, and is
 expected to return a <a href="https://github.com/laminas/laminas-diagnostics/tree/master/src/Result/ResultInterface.php">Result</a>.
 It is recommended to use the built-in result classes for compatibility with the
 diagnostics Runner and other checks.</p>
 <p>Below is an example class that checks if the PHP default timezone is set to UTC.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>namespace</span> <span class=nx>MyApp\Diagnostics\Check</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+namespace MyApp\Diagnostics\Check;
 
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Check\CheckInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Result\Success</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Diagnostics\Result\Failure</span><span class=p>;</span>
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Failure;
 
-<span class=k>class</span> <span class=nc>TimezoneSetToUTC</span> <span class=k>implements</span> <span class=nx>CheckInterface</span>
-<span class=p>{</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=nf>check</span><span class=p>()</span>
-    <span class=p>{</span>
-        <span class=nv>$tz</span> <span class=o>=</span> <span class=nb>date_default_timezone_get</span><span class=p>();</span>
+class TimezoneSetToUTC implements CheckInterface
+{
+    public function check()
+    {
+        $tz = date_default_timezone_get();
 
-        <span class=k>if</span> <span class=p>(</span><span class=nv>$tz</span> <span class=o>===</span> <span class=s1>&#39;UTC&#39;</span><span class=p>)</span> <span class=p>{</span>
-            <span class=k>return</span> <span class=k>new</span> <span class=nx>Success</span><span class=p>(</span><span class=s1>&#39;Default timezone is UTC&#39;</span><span class=p>);</span>
-        <span class=p>}</span>
+        if ($tz === 'UTC') {
+            return new Success('Default timezone is UTC');
+        }
 
-        <span class=k>return</span> <span class=k>new</span> <span class=nx>Failure</span><span class=p>(</span><span class=s1>&#39;Default timezone is not UTC! It is actually &#39;</span> <span class=o>.</span> <span class=nv>$tz</span><span class=p>);</span>
-    <span class=p>}</span>
+        return new Failure('Default timezone is not UTC! It is actually ' . $tz);
+    }
 
-    <span class=k>public</span> <span class=k>function</span> <span class=nf>getLabel</span><span class=p>()</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=s1>&#39;Check if PHP default timezone is set to UTC&#39;</span><span class=p>;</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+    public function getLabel()
+    {
+        return 'Check if PHP default timezone is set to UTC';
+    }
+}</code></pre>
 
 
 
@@ -484,9 +486,10 @@ diagnostics Runner and other checks.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -523,7 +526,7 @@ diagnostics Runner and other checks.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-diagnostics//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-diagnostics/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -532,8 +535,8 @@ diagnostics Runner and other checks.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-diagnostics//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-diagnostics/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

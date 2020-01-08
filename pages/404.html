@@ -6,10 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Universal set of diagnostic tests for PHP applications.">  
-    <link rel="canonical" href="https://docs.laminas.dev/architecture/">
     <link rel="shortcut icon" href="/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>Architecture - laminas-diagnostics - Laminas Docs</title>
+    <title>laminas-diagnostics - Laminas Docs</title>
 
     <link rel="stylesheet" href="/css/styles.css">
 </head>
@@ -59,7 +58,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">laminas-diagnostics</a>
+            <a href="../.">laminas-diagnostics</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -135,8 +134,8 @@
                                 <ul class="subnavigation__list">
                                     
                                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Architecture</a>
+    <li class="subnavigation__list-item ">
+        <a href="../architecture/" class="subnavigation__link">Architecture</a>
     </li>
 
                                     
@@ -217,108 +216,21 @@
         <div class="row">
             <div class="col-md-2 col-sm-12">
                 
-    
-
-    
-    
-
             </div>
             <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
                 
-                    <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        
-            <li class="breadcrumb-item"><a href="">Overview</a></li>
 
-            
-                <li class="breadcrumb-item"><a href="..">laminas-diagnostics</a></li>
+<h1 class="content__title">404</h1>
+<blockquote>
+    <h3>Something went wrong!</h3>
+    <p>
+        We're sorry, but the page you are looking for does not exist.
+    </p>
+</blockquote>
 
-                
-                    
-                        
-                        
-                            <li class="breadcrumb-item">Reference</li>
-                        
-                    
-                
-
-                <li class="breadcrumb-item active" aria-current="page">Architecture</li>
-            
-        
-    </ol>
-</nav>
+<a href="../." class="btn btn-default" role="button">Go to homepage</a>
 
 
-
-
-
-
-    
-    
-        <h2 class="chapter__headline">Reference</h2>
-    
-
-    <h1 id="architecture">Architecture</h1>
-<p>A single diagnostic <a href="https://github.com/laminas/tree/master/src/Check/CheckInterface.php">Check</a>
-performs one particular test on the application or environment.</p>
-<p>It MUST return a <a href="src/laminas-diagnostics/Result/ResultInterface.php">Result</a>
-which implements one of the following result interfaces:</p>
-<ul>
-<li><a href="https://github.com/laminas/tree/master/src/Result/SuccessInterface.php">Success</a> - in case the check ran through without any issue.</li>
-<li><a href="https://github.com/laminas/tree/master/src/Result/WarningInterface.php">Warning</a> - in case there might be something wrong.</li>
-<li><a href="https://github.com/laminas/tree/master/src/Result/FailureInterface.php">Failure</a> - when the test failed and an intervention is required.</li>
-</ul>
-<p>Each test <a href="https://github.com/laminas/tree/master/src/Result/ResultInterface.php">Result</a> can additionally return:</p>
-<ul>
-<li><strong>result message</strong> via <code>getMessage()</code>. It can be used to describe the context of the result.</li>
-<li><strong>result data</strong> via <code>getData()</code>. This can be used for providing detailed information on the cause of particular
-  result, which might be useful for debugging problems.</li>
-</ul>
-<p>One can define additional <a href="https://github.com/laminas/tree/master/src/Result/ResultInterface.php">result interfaces</a>,
-to denote additional severity levels (e.g. critical, alert, notice) or
-appropriate actions (i.e. missing, incomplete). However, it is recommended to
-extend the primary set of success, warning, and failure interfaces for
-compatibility with other applications and libraries.</p>
-
-
-
-
-    <nav>
-    <ul class="page-nav hidden-print">
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../file-validation/">
-                    <i class="fa fa-chevron-left"></i> Previous
-                </a>
-            
-        </li>
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../custom-checks/">
-                    Next <i class="fa fa-chevron-right"></i>
-                </a>
-            
-        </li>
-    </ul>
-</nav>
-
-
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-diagnostics/edit/master/docs/book/architecture.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
-
-                
             </div>
             <div class="col-md-3 col-sm-12 sidebar">
                 
@@ -333,7 +245,7 @@ compatibility with other applications and libraries.</p>
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">laminas-diagnostics</a>
+            <a href="../.">laminas-diagnostics</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -409,8 +321,8 @@ compatibility with other applications and libraries.</p>
                                 <ul class="subnavigation__list">
                                     
                                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Architecture</a>
+    <li class="subnavigation__list-item ">
+        <a href="../architecture/" class="subnavigation__link">Architecture</a>
     </li>
 
                                     
