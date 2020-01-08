@@ -16,4 +16,3 @@ site_description: 'Universal set of diagnostic tests for PHP applications.'
 repo_url: 'https://github.com/laminas/laminas-diagnostics'
 extra:
     project: Components
-    project_url: 'https://docs.laminas.dev'
