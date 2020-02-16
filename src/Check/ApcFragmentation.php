@@ -87,7 +87,7 @@ class ApcFragmentation extends AbstractCheck implements CheckInterface
             return new Skip('APC has not been enabled or installed.');
         }
 
-        if (php_sapi_name() == 'cli' && ! ini_get('apc.enabled_cli')) {
+        if (php_sapi_name() == 'cli' && ! ini_get('apc.enable_cli')) {
             return new Skip('APC has not been enabled in CLI.');
         }
 
