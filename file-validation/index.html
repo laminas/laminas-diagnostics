@@ -344,29 +344,32 @@
 <p>laminas/laminas-diagnostics ships with the following file validation checks.</p>
 <h2 id="inifile">IniFile</h2>
 <p>Read an INI-file from the given path and try to parse it.</p>
-<pre class=codehilite><code class=language-php>&lt;?php
+<pre class="highlight"><code class="language-php">&lt;?php
 use Laminas\Diagnostics\Check\IniFile;
 
 $checkIniFile = new IniFile('/my/path/to/file.ini');
 $checkIniFile = new IniFile(['file1.ini', 'file2.ini', '...']);</code></pre>
+
 <h2 id="jsonfile">JsonFile</h2>
 <p>Read a JSON-file from the given path and try to decode it.</p>
-<pre class=codehilite><code class=language-php>&lt;?php
+<pre class="highlight"><code class="language-php">&lt;?php
 use Laminas\Diagnostics\Check\JsonFile;
 
 $checkJsonFile = new JsonFile('/my/path/to/file.json');
 $checkJsonFile = new JsonFile(['file1.json', 'file2.json', '...']);</code></pre>
+
 <h2 id="xmlfile">XmlFile</h2>
 <p>Read an XML-file from the given path, try to parse it, and attempt to validate
 it agaist its DTD schema if possible.</p>
-<pre class=codehilite><code class=language-php>&lt;?php
+<pre class="highlight"><code class="language-php">&lt;?php
 use Laminas\Diagnostics\Check\XmlFile;
 
 $checkXmlFile = new XmlFile('/my/path/to/file.xml');
 $checkXmlFile = new XmlFile(['file1.xml', 'file2.xml', '...']);</code></pre>
+
 <h2 id="yamlfile">YamlFile</h2>
 <p>Read a YAML-file from the given path and try to parse it.</p>
-<pre class=codehilite><code class=language-php>&lt;?php
+<pre class="highlight"><code class="language-php">&lt;?php
 use Laminas\Diagnostics\Check\YamlFile;
 
 $checkYamlFile = new YamlFile('/my/path/to/file.yml');
