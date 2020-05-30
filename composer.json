@@ -31,6 +31,7 @@
         "laminas/laminas-zendframework-bridge": "^1.0"
     },
     "require-dev": {
+        "ext-curl": "*",
         "doctrine/migrations": "^1.0 || ^2.0",
         "guzzlehttp/guzzle": "^5.3.3 || ^6.3.3",
         "laminas/laminas-coding-standard": "~1.0.0",
@@ -47,6 +48,7 @@
     },
     "suggest": {
         "ext-bcmath": "Required by Check\\CpuPerformance",
+        "ext-curl": "Required by Check\\CurlHttpService",
         "doctrine/migrations": "Required by Check\\DoctrineMigration",
         "guzzlehttp/guzzle": "Required by Check\\GuzzleHttpService",
         "predis/predis": "Required by Check\\Redis",
