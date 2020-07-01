@@ -32,7 +32,7 @@
     },
     "require-dev": {
         "doctrine/migrations": "^1.0 || ^2.0",
-        "guzzlehttp/guzzle": "^5.3.3 || ^6.3.3",
+        "guzzlehttp/guzzle": "^5.3.3 || ^6.3.3 || ^7.0.1",
         "laminas/laminas-coding-standard": "~1.0.0",
         "laminas/laminas-loader": "^2.0",
         "mikey179/vfsstream": "^1.6",
