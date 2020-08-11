@@ -145,7 +145,7 @@ $homeHasAtLeast1TB      = new DiskFree('1TiB',  '/home');
 $dataHasAtLeast900Bytes = new DiskFree(900, __DIR__ . '/data/');
 ```
 
-### ExtensionLoaded
+## ExtensionLoaded
 
 Check if a PHP extension (or an array of extensions) is currently loaded.
 
@@ -309,7 +309,7 @@ $checkLocal  = new Memcached('127.0.0.1'); // default port
 $checkBackup = new Memcached('10.0.30.40', 11212);
 ```
 
-### MongoDb
+## MongoDb
 Check if connection to MongoDb is possible
 
 ````php
