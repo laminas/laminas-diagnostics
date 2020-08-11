@@ -2,11 +2,11 @@
 
 ## Performing diagnostics with Laminas
 
-1. Install the [LaminasTool module](https://github.com/laminas/LaminasTool).
-2. Enable diagnostic tests in [your application config.php](https://github.com/laminas/LaminasTool/blob/master/docs/DIAGNOSTICS.md).
+1. Install the [ZFTool module](https://github.com/zendframework/ZFTool).
+2. Enable diagnostic tests in [your application config.php](https://github.com/zendframework/ZFTool/blob/master/docs/DIAGNOSTICS.md).
 3. In your console type `php public/index.php diag` to run diagnostics.
 
-Note: this does not work with Laminas; use the [plain PHP
+Note: this does not work with Laminas MVC version 3; use the [plain PHP
 diagnostics](#using-diagnostics-in-plain-php) instructions below when using that
 framework version.
 
