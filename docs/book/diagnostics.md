@@ -340,6 +340,19 @@ $mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
 $mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');
 ```
 
+## OpCacheMemory
+
+Check [OPcache memory usage percent](https://www.php.net/opcache) and make sure it's below a
+given threshold.
+
+```php
+<?php
+use Laminas\Diagnostics\Check\OpCacheMemory;
+
+// Display a warning with memory usage is above 70% and a failure above 90%
+$checkFreeMemory = new OpCacheMemory(70, 90);
+```
+
 ## PhpVersion
 
 Check if the current PHP version matches the given requirement. The test accepts
