@@ -318,22 +318,22 @@
     
 
     <h1 id="architecture">Architecture</h1>
-<p>A single diagnostic <a href="https://github.com/laminas/tree/master/src/Check/CheckInterface.php">Check</a>
+<p>A single diagnostic <a href="https://github.com/laminas/laminas-diagnostics/blob/master/src/Check/CheckInterface.php">Check</a>
 performs one particular test on the application or environment.</p>
-<p>It MUST return a <a href="src/laminas-diagnostics/Result/ResultInterface.php">Result</a>
+<p>It MUST return a <a href="https://github.com/laminas/laminas-diagnostics/blob/master/src/Result/ResultInterface.php">Result</a>
 which implements one of the following result interfaces:</p>
 <ul>
-<li><a href="https://github.com/laminas/tree/master/src/Result/SuccessInterface.php">Success</a> - in case the check ran through without any issue.</li>
-<li><a href="https://github.com/laminas/tree/master/src/Result/WarningInterface.php">Warning</a> - in case there might be something wrong.</li>
-<li><a href="https://github.com/laminas/tree/master/src/Result/FailureInterface.php">Failure</a> - when the test failed and an intervention is required.</li>
+<li><a href="https://github.com/laminas/laminas-diagnostics/blob/master/src/Result/SuccessInterface.php">Success</a> - in case the check ran through without any issue.</li>
+<li><a href="https://github.com/laminas/laminas-diagnostics/blob/master/src/Result/WarningInterface.php">Warning</a> - in case there might be something wrong.</li>
+<li><a href="https://github.com/laminas/laminas-diagnostics/blob/master/src/Result/FailureInterface.php">Failure</a> - when the test failed and an intervention is required.</li>
 </ul>
-<p>Each test <a href="https://github.com/laminas/tree/master/src/Result/ResultInterface.php">Result</a> can additionally return:</p>
+<p>Each test <a href="https://github.com/laminas/laminas-diagnostics/blob/master/src/Result/ResultInterface.php">Result</a> can additionally return:</p>
 <ul>
 <li><strong>result message</strong> via <code>getMessage()</code>. It can be used to describe the context of the result.</li>
 <li><strong>result data</strong> via <code>getData()</code>. This can be used for providing detailed information on the cause of particular
   result, which might be useful for debugging problems.</li>
 </ul>
-<p>One can define additional <a href="https://github.com/laminas/tree/master/src/Result/ResultInterface.php">result interfaces</a>,
+<p>One can define additional <a href="https://github.com/laminas/laminas-diagnostics/blob/master/src/Result/ResultInterface.php">result interfaces</a>,
 to denote additional severity levels (e.g. critical, alert, notice) or
 appropriate actions (i.e. missing, incomplete). However, it is recommended to
 extend the primary set of success, warning, and failure interfaces for

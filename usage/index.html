@@ -338,11 +338,11 @@
     <h1 id="basic-usage">Basic Usage</h1>
 <h2 id="performing-diagnostics-with-laminas">Performing diagnostics with Laminas</h2>
 <ol>
-<li>Install the <a href="https://github.com/laminas/LaminasTool">LaminasTool module</a>.</li>
-<li>Enable diagnostic tests in <a href="https://github.com/laminas/LaminasTool/blob/master/docs/DIAGNOSTICS.md">your application config.php</a>.</li>
+<li>Install the <a href="https://github.com/zendframework/ZFTool">ZFTool module</a>.</li>
+<li>Enable diagnostic tests in <a href="https://github.com/zendframework/ZFTool/blob/master/docs/DIAGNOSTICS.md">your application config.php</a>.</li>
 <li>In your console type <code>php public/index.php diag</code> to run diagnostics.</li>
 </ol>
-<p>Note: this does not work with Laminas; use the <a href="#using-diagnostics-in-plain-php">plain PHP
+<p>Note: this does not work with Laminas MVC version 3; use the <a href="#using-diagnostics-in-plain-php">plain PHP
 diagnostics</a> instructions below when using that
 framework version.</p>
 <h2 id="using-diagnostics-with-symfony-2">Using diagnostics with Symfony 2</h2>
@@ -397,7 +397,7 @@ OK (2 diagnostic tests)</code></pre>
 
 <h2 id="using-a-result-collection">Using a result collection</h2>
 <p>The diagnostics runner will always return a
-<a href="https://github.com/laminas/laminas-diagnostics/src/Result/Collection.php">Laminas\Diagnostics\Result\Collection</a>,
+<a href="https://github.com/laminas/laminas-diagnostics/blob/master/src/Result/Collection.php">Laminas\Diagnostics\Result\Collection</a>,
 even when no reporter is attached. This collection contains results for all
 tests and failure counters.</p>
 <p>As an example:</p>

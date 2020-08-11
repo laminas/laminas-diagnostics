@@ -300,6 +300,10 @@
                     </li>
                 
                     <li class="toc__entry">
+                        <a href="#couchdbcheck" class="toc__link nav-link">CouchDBCheck</a>
+                    </li>
+                
+                    <li class="toc__entry">
                         <a href="#cpuperformance" class="toc__link nav-link">CpuPerformance</a>
                     </li>
                 
@@ -313,6 +317,14 @@
                 
                     <li class="toc__entry">
                         <a href="#diskfree" class="toc__link nav-link">DiskFree</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#diskusage" class="toc__link nav-link">DiskUsage</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#extensionloaded" class="toc__link nav-link">ExtensionLoaded</a>
                     </li>
                 
                     <li class="toc__entry">
@@ -333,6 +345,14 @@
                 
                     <li class="toc__entry">
                         <a href="#mongodb" class="toc__link nav-link">MongoDb</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#opcachememory" class="toc__link nav-link">OpCacheMemory</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#pdocheck" class="toc__link nav-link">PDOCheck</a>
                     </li>
                 
                     <li class="toc__entry">
@@ -413,7 +433,7 @@
 use straight away.</p>
 <p>The following built-in tests are currently available:</p>
 <h2 id="apcfragmentation">ApcFragmentation</h2>
-<p>Make sure that <a href="www.php.net/apc/">APC memory fragmentation level</a> is below a
+<p>Make sure that <a href="https://www.php.net/apc/">APC memory fragmentation level</a> is below a
 given threshold:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
 use Laminas\Diagnostics\Check\ApcFragmentation;
@@ -422,7 +442,7 @@ use Laminas\Diagnostics\Check\ApcFragmentation;
 $fragmentation = new ApcFragmentation(50, 90);</code></pre>
 
 <h2 id="apcmemory">ApcMemory</h2>
-<p>Check <a href="www.php.net/apc/">APC memory usage percent</a> and make sure it's below a
+<p>Check <a href="https://www.php.net/apc/">APC memory usage percent</a> and make sure it's below a
 given threshold.</p>
 <pre class="highlight"><code class="language-php">&lt;?php
 use Laminas\Diagnostics\Check\ApcMemory;
@@ -464,6 +484,25 @@ $checkRbacClasses = new ClassExists([
     'ZfcRbac\Module',
     'ZfcRbac\Controller\Plugin\IsGranted'
 ]);</code></pre>
+
+<h2 id="couchdbcheck">CouchDBCheck</h2>
+<p>Check if a connection to a given CouchDB server is possible.</p>
+<pre class="highlight"><code class="language-php">&lt;?php
+use Laminas\Diagnostics\Check\CouchDBCheck;
+
+// Simple check without credentials
+$couchDbNoCredentials = new CouchDBCheck(['url' =&gt; 'http://127.0.0.1:5984']);
+
+// Check with user and password
+$couchDbSettings = [
+    'protocol' =&gt; 'http',
+    'host'     =&gt; '127.0.0.1',
+    'port'     =&gt; '5984',
+    'username' =&gt; 'my_username',
+    'password' =&gt; 'I0z&amp;+oFP^FHdd9%i',
+    'dbname'   =&gt; 'my_database',
+];
+$couchDbWithCredentials = new CouchDBCheck($couchDbSettings);</code></pre>
 
 <h2 id="cpuperformance">CpuPerformance</h2>
 <p>Benchmark CPU performance and return failure if it is below the given ratio. The
@@ -518,7 +557,20 @@ $tempHasAtLeast100Megs  = new DiskFree('100MB', '/tmp');
 $homeHasAtLeast1TB      = new DiskFree('1TiB',  '/home');
 $dataHasAtLeast900Bytes = new DiskFree(900, __DIR__ . '/data/');</code></pre>
 
-<h3>ExtensionLoaded</h3>
+<h2 id="diskusage">DiskUsage</h2>
+<p>Check if the disk usage is below warning/critical percent thresholds.</p>
+<p>The first parameter is the warning threshold, which can be supplied as an
+integer (in percent, e.g. <code>80</code>). The second parameter is the critical
+threshold, which is also supplied as an integer (in percent, e.g. <code>90</code>). The
+third parameter is the disk path to check; on *NIX systems it is an ordinary
+path (e.g. <code>/tmp</code>), while on Windows systems it is a drive letter (e.g.  <code>C:</code>).</p>
+<pre class="highlight"><code class="language-php">&lt;?php
+use Laminas\Diagnostics\Check\DiskUsage;
+
+$diskUsageNix = new DiskUsage(80, 90, '/tmp');
+$diskUsageWin = new DiskUsage(80, 90,  'C:');</code></pre>
+
+<h2 id="extensionloaded">ExtensionLoaded</h2>
 <p>Check if a PHP extension (or an array of extensions) is currently loaded.</p>
 <pre class="highlight"><code class="language-php">&lt;?php
 use Laminas\Diagnostics\Check\ExtensionLoaded;
@@ -556,8 +608,8 @@ $checkPageContent = new HttpService(
 
 <h2 id="guzzlehttpservice">GuzzleHttpService</h2>
 <p>Attempt connection to a given HTTP host or IP address and try to load a web page
-using <a href="http://docs.guzzlephp.org">Guzzle</a>. The check also supports checking
-response codes and page contents.</p>
+using <a href="https://docs.guzzlephp.org/en/stable/">Guzzle</a>. The check also supports
+checking response codes and page contents.</p>
 <p>The constructor signature of the <code>GuzzleHttpService</code> is as follows:</p>
 <pre class="highlight"><code class="language-php">/**
  * @param string|Psr\Http\Message\RequestInterface|GuzzleHttp\Message\RequestInterface $requestOrUrl
@@ -655,15 +707,6 @@ use Laminas\Diagnostics\Check\Memcached;
 $checkLocal  = new Memcached('127.0.0.1'); // default port
 $checkBackup = new Memcached('10.0.30.40', 11212);</code></pre>
 
-<h3>MongoDb</h3>
-<p>Check if connection to MongoDb is possible</p>
-<pre class="highlight"><code class="language-php">&lt;?php
-use Laminas\Diagnostics\Check\Mongo;
-
-$mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
-// and with user/password
-$mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');</code></pre>
-
 <h2 id="mongodb">MongoDb</h2>
 <p>Check if a connection to a given MongoDb server is possible.</p>
 <pre class="highlight"><code class="language-php">&lt;?php
@@ -673,10 +716,27 @@ $mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
 // and with user/password
 $mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');</code></pre>
 
+<h2 id="opcachememory">OpCacheMemory</h2>
+<p>Check <a href="https://www.php.net/opcache">OPcache memory usage percent</a> and make sure it's below a
+given threshold.</p>
+<pre class="highlight"><code class="language-php">&lt;?php
+use Laminas\Diagnostics\Check\OpCacheMemory;
+
+// Display a warning with memory usage is above 70% and a failure above 90%
+$opCacheMemory = new OpCacheMemory(70, 90);</code></pre>
+
+<h2 id="pdocheck">PDOCheck</h2>
+<p>Check if a connection to a given database server is possible.</p>
+<pre class="highlight"><code class="language-php">&lt;?php
+use Laminas\Diagnostics\Check\PDOCheck;
+
+$pdoMySql = new PDOCheck('mysql://localhost/my_database', 'my_username', 'oFPZc!W&amp;zV&gt;,YCrz');
+$pdoSqlite = new PDOCheck('sqlite:example.db', '', '');</code></pre>
+
 <h2 id="phpversion">PhpVersion</h2>
 <p>Check if the current PHP version matches the given requirement. The test accepts
 2 parameters: baseline version and optional
-<a href="http://www.php.net/manual/en/function.version-compare.php">comparison operator</a>.</p>
+<a href="https://www.php.net/version_compare">comparison operator</a>.</p>
 <pre class="highlight"><code class="language-php">&lt;?php
 use Laminas\Diagnostics\Check\PhpVersion;
 
@@ -728,7 +788,7 @@ $redisCheck = new Redis('localhost', 6379, 'secret');</code></pre>
 
 <h2 id="securityadvisory">SecurityAdvisory</h2>
 <p>Run a security check of libraries locally installed by
-<a href="http://getcomposer.org">Composer</a> against <a href="https://security.sensiolabs.org/database">SensioLabs Security Advisory
+<a href="https://getcomposer.org/">Composer</a> against <a href="https://security.symfony.com/">SensioLabs Security Advisory
 database</a>, and warn about potential
 security vulnerabilities.</p>
 <pre class="highlight"><code class="language-php">&lt;?php

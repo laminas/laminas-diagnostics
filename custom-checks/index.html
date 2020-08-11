@@ -318,7 +318,7 @@
     
 
     <h1 id="writing-custom-checks">Writing Custom Checks</h1>
-<p>A Check class MUST implement <a href="https://github.com/laminas/laminas-diagnostics/tree/master/src/Check/CheckInterface.php">Check</a>
+<p>A Check class MUST implement <a href="https://github.com/laminas/laminas-diagnostics/tree/master/src/Check/CheckInterface.php">CheckInterface</a>
 and provide the following methods:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
 namespace Laminas\Diagnostics\Check;
@@ -341,9 +341,9 @@ interface CheckInterface
 }</code></pre>
 
 <p>The main <code>check()</code> method is responsible for performing the actual check, and is
-expected to return a <a href="https://github.com/laminas/laminas-diagnostics/tree/master/src/Result/ResultInterface.php">Result</a>.
-It is recommended to use the built-in result classes for compatibility with the
-diagnostics Runner and other checks.</p>
+expected to return a <a href="https://github.com/laminas/laminas-diagnostics/tree/master/src/Result/ResultInterface.php">ResultInterface</a> 
+instance. It is recommended to use the built-in result classes for
+compatibility with the diagnostics Runner and other checks.</p>
 <p>Below is an example class that checks if the PHP default timezone is set to UTC.</p>
 <pre class="highlight"><code class="language-php">&lt;?php
 namespace MyApp\Diagnostics\Check;
