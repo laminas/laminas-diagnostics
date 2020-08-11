@@ -328,20 +328,6 @@ $checkBackup = new Memcached('10.0.30.40', 11212);
 ```
 
 ## MongoDb
-Check if connection to MongoDb is possible
-
-````php
-<?php
-use Laminas\Diagnostics\Check\Mongo;
-
-$mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
-// and with user/password
-$mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');
-````
-
-
-
-## MongoDb
 
 Check if a connection to a given MongoDb server is possible.
 
