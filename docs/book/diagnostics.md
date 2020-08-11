@@ -145,6 +145,24 @@ $homeHasAtLeast1TB      = new DiskFree('1TiB',  '/home');
 $dataHasAtLeast900Bytes = new DiskFree(900, __DIR__ . '/data/');
 ```
 
+## DiskUsage
+
+Check if the disk usage is below warning/critical percent thresholds.
+
+The first parameter is the warning threshold, which can be supplied as an
+integer (in percent, e.g. `80`). The second parameter is the critical
+threshold, which is also supplied as an integer (in percent, e.g. `90`). The
+third parameter is the disk path to check; on \*NIX systems it is an ordinary
+path (e.g. `/tmp`), while on Windows systems it is a drive letter (e.g.  `C:`).
+
+```php
+<?php
+use Laminas\Diagnostics\Check\DiskUsage;
+
+$tempHasAtLeast100Megs  = new DiskUsage(80, 90, '/tmp');
+$homeHasAtLeast1TB      = new DiskUsage(80, 90,  'C:');
+```
+
 ## ExtensionLoaded
 
 Check if a PHP extension (or an array of extensions) is currently loaded.
