@@ -353,6 +353,18 @@ use Laminas\Diagnostics\Check\OpCacheMemory;
 $opCacheMemory = new OpCacheMemory(70, 90);
 ```
 
+## PDOCheck
+
+Check if a connection to a given database server is possible.
+
+```php
+<?php
+use Laminas\Diagnostics\Check\PDOCheck;
+
+$pdoMySql = new PDOCheck('mysql://localhost/my_database', 'my_username', 'oFPZc!W&zV>,YCrz');
+$pdoSqlite = new PDOCheck('sqlite:example.db', '', '');
+```
+
 ## PhpVersion
 
 Check if the current PHP version matches the given requirement. The test accepts
