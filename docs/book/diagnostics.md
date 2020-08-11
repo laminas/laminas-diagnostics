@@ -7,7 +7,7 @@ The following built-in tests are currently available:
 
 ## ApcFragmentation
 
-Make sure that [APC memory fragmentation level](www.php.net/apc/) is below a
+Make sure that [APC memory fragmentation level](https://www.php.net/apc/) is below a
 given threshold:
 
 ```php
@@ -20,7 +20,7 @@ $fragmentation = new ApcFragmentation(50, 90);
 
 ## ApcMemory
 
-Check [APC memory usage percent](www.php.net/apc/) and make sure it's below a
+Check [APC memory usage percent](https://www.php.net/apc/) and make sure it's below a
 given threshold.
 
 ```php
@@ -233,8 +233,8 @@ $checkPageContent = new HttpService(
 ## GuzzleHttpService
 
 Attempt connection to a given HTTP host or IP address and try to load a web page
-using [Guzzle](http://docs.guzzlephp.org). The check also supports checking
-response codes and page contents.
+using [Guzzle](https://docs.guzzlephp.org/en/stable/). The check also supports
+checking response codes and page contents.
 
 The constructor signature of the `GuzzleHttpService` is as follows:
 
@@ -392,7 +392,7 @@ $pdoSqlite = new PDOCheck('sqlite:example.db', '', '');
 
 Check if the current PHP version matches the given requirement. The test accepts
 2 parameters: baseline version and optional
-[comparison operator](http://www.php.net/manual/en/function.version-compare.php).
+[comparison operator](https://www.php.net/version_compare).
 
 ```php
 <?php
@@ -464,8 +464,8 @@ $redisCheck = new Redis('localhost', 6379, 'secret');
 ## SecurityAdvisory
 
 Run a security check of libraries locally installed by
-[Composer](http://getcomposer.org) against [SensioLabs Security Advisory
-database](https://security.sensiolabs.org/database), and warn about potential
+[Composer](https://getcomposer.org/) against [SensioLabs Security Advisory
+database](https://security.symfony.com/), and warn about potential
 security vulnerabilities.
 
 ```php
