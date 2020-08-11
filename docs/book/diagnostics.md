@@ -7,7 +7,7 @@ The following built-in tests are currently available:
 
 ## ApcFragmentation
 
-Make sure that [APC memory fragmentation level](www.php.net/apc/) is below a
+Make sure that [APC memory fragmentation level](https://www.php.net/apc/) is below a
 given threshold:
 
 ```php
@@ -20,7 +20,7 @@ $fragmentation = new ApcFragmentation(50, 90);
 
 ## ApcMemory
 
-Check [APC memory usage percent](www.php.net/apc/) and make sure it's below a
+Check [APC memory usage percent](https://www.php.net/apc/) and make sure it's below a
 given threshold.
 
 ```php
@@ -72,6 +72,29 @@ $checkRbacClasses = new ClassExists([
     'ZfcRbac\Module',
     'ZfcRbac\Controller\Plugin\IsGranted'
 ]);
+```
+
+## CouchDBCheck
+
+Check if a connection to a given CouchDB server is possible.
+
+```php
+<?php
+use Laminas\Diagnostics\Check\CouchDBCheck;
+
+// Simple check without credentials
+$couchDbNoCredentials = new CouchDBCheck(['url' => 'http://127.0.0.1:5984']);
+
+// Check with user and password
+$couchDbSettings = [
+    'protocol' => 'http',
+    'host'     => '127.0.0.1',
+    'port'     => '5984',
+    'username' => 'my_username',
+    'password' => 'I0z&+oFP^FHdd9%i',
+    'dbname'   => 'my_database',
+];
+$couchDbWithCredentials = new CouchDBCheck($couchDbSettings);
 ```
 
 ## CpuPerformance
@@ -145,7 +168,25 @@ $homeHasAtLeast1TB      = new DiskFree('1TiB',  '/home');
 $dataHasAtLeast900Bytes = new DiskFree(900, __DIR__ . '/data/');
 ```
 
-### ExtensionLoaded
+## DiskUsage
+
+Check if the disk usage is below warning/critical percent thresholds.
+
+The first parameter is the warning threshold, which can be supplied as an
+integer (in percent, e.g. `80`). The second parameter is the critical
+threshold, which is also supplied as an integer (in percent, e.g. `90`). The
+third parameter is the disk path to check; on \*NIX systems it is an ordinary
+path (e.g. `/tmp`), while on Windows systems it is a drive letter (e.g.  `C:`).
+
+```php
+<?php
+use Laminas\Diagnostics\Check\DiskUsage;
+
+$diskUsageNix = new DiskUsage(80, 90, '/tmp');
+$diskUsageWin = new DiskUsage(80, 90,  'C:');
+```
+
+## ExtensionLoaded
 
 Check if a PHP extension (or an array of extensions) is currently loaded.
 
@@ -192,8 +233,8 @@ $checkPageContent = new HttpService(
 ## GuzzleHttpService
 
 Attempt connection to a given HTTP host or IP address and try to load a web page
-using [Guzzle](http://docs.guzzlephp.org). The check also supports checking
-response codes and page contents.
+using [Guzzle](https://docs.guzzlephp.org/en/stable/). The check also supports
+checking response codes and page contents.
 
 The constructor signature of the `GuzzleHttpService` is as follows:
 
@@ -309,20 +350,6 @@ $checkLocal  = new Memcached('127.0.0.1'); // default port
 $checkBackup = new Memcached('10.0.30.40', 11212);
 ```
 
-### MongoDb
-Check if connection to MongoDb is possible
-
-````php
-<?php
-use Laminas\Diagnostics\Check\Mongo;
-
-$mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
-// and with user/password
-$mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');
-````
-
-
-
 ## MongoDb
 
 Check if a connection to a given MongoDb server is possible.
@@ -336,11 +363,36 @@ $mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
 $mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');
 ```
 
+## OpCacheMemory
+
+Check [OPcache memory usage percent](https://www.php.net/opcache) and make sure it's below a
+given threshold.
+
+```php
+<?php
+use Laminas\Diagnostics\Check\OpCacheMemory;
+
+// Display a warning with memory usage is above 70% and a failure above 90%
+$opCacheMemory = new OpCacheMemory(70, 90);
+```
+
+## PDOCheck
+
+Check if a connection to a given database server is possible.
+
+```php
+<?php
+use Laminas\Diagnostics\Check\PDOCheck;
+
+$pdoMySql = new PDOCheck('mysql://localhost/my_database', 'my_username', 'oFPZc!W&zV>,YCrz');
+$pdoSqlite = new PDOCheck('sqlite:example.db', '', '');
+```
+
 ## PhpVersion
 
 Check if the current PHP version matches the given requirement. The test accepts
 2 parameters: baseline version and optional
-[comparison operator](http://www.php.net/manual/en/function.version-compare.php).
+[comparison operator](https://www.php.net/version_compare).
 
 ```php
 <?php
@@ -412,8 +464,8 @@ $redisCheck = new Redis('localhost', 6379, 'secret');
 ## SecurityAdvisory
 
 Run a security check of libraries locally installed by
-[Composer](http://getcomposer.org) against [SensioLabs Security Advisory
-database](https://security.sensiolabs.org/database), and warn about potential
+[Composer](https://getcomposer.org/) against [SensioLabs Security Advisory
+database](https://security.symfony.com/), and warn about potential
 security vulnerabilities.
 
 ```php

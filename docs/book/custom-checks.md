@@ -1,6 +1,6 @@
 # Writing Custom Checks
 
-A Check class MUST implement [Check](https://github.com/laminas/laminas-diagnostics/tree/master/src/Check/CheckInterface.php)
+A Check class MUST implement [CheckInterface](https://github.com/laminas/laminas-diagnostics/tree/master/src/Check/CheckInterface.php)
 and provide the following methods:
 
 ```php
@@ -26,9 +26,9 @@ interface CheckInterface
 ```
 
 The main `check()` method is responsible for performing the actual check, and is
-expected to return a [Result](https://github.com/laminas/laminas-diagnostics/tree/master/src/Result/ResultInterface.php).
-It is recommended to use the built-in result classes for compatibility with the
-diagnostics Runner and other checks.
+expected to return a [ResultInterface](https://github.com/laminas/laminas-diagnostics/tree/master/src/Result/ResultInterface.php) 
+instance. It is recommended to use the built-in result classes for
+compatibility with the diagnostics Runner and other checks.
 
 Below is an example class that checks if the PHP default timezone is set to UTC.
 
