@@ -74,6 +74,29 @@ $checkRbacClasses = new ClassExists([
 ]);
 ```
 
+## CouchDBCheck
+
+Check if a connection to a given CouchDB server is possible.
+
+```php
+<?php
+use Laminas\Diagnostics\Check\CouchDBCheck;
+
+// Simple check without credentials
+$couchDbNoCredentials = new CouchDBCheck(['url' => 'http://127.0.0.1:5984']);
+
+// Check with user and password
+$couchDbSettings = [
+    'protocol' => 'http',
+    'host'     => '127.0.0.1',
+    'port'     => '5984',
+    'username' => 'my_username',
+    'password' => 'I0z&+oFP^FHdd9%i',
+    'dbname'   => 'my_database',
+];
+$couchDbWithCredentials = new CouchDBCheck($couchDbSettings);
+```
+
 ## CpuPerformance
 
 Benchmark CPU performance and return failure if it is below the given ratio. The
