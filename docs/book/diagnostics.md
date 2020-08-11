@@ -159,8 +159,8 @@ path (e.g. `/tmp`), while on Windows systems it is a drive letter (e.g.  `C:`).
 <?php
 use Laminas\Diagnostics\Check\DiskUsage;
 
-$tempHasAtLeast100Megs  = new DiskUsage(80, 90, '/tmp');
-$homeHasAtLeast1TB      = new DiskUsage(80, 90,  'C:');
+$diskUsageNix = new DiskUsage(80, 90, '/tmp');
+$diskUsageWin = new DiskUsage(80, 90,  'C:');
 ```
 
 ## ExtensionLoaded
@@ -350,7 +350,7 @@ given threshold.
 use Laminas\Diagnostics\Check\OpCacheMemory;
 
 // Display a warning with memory usage is above 70% and a failure above 90%
-$checkFreeMemory = new OpCacheMemory(70, 90);
+$opCacheMemory = new OpCacheMemory(70, 90);
 ```
 
 ## PhpVersion
