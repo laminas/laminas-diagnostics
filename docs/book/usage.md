@@ -71,7 +71,7 @@ OK (2 diagnostic tests)
 ## Using a result collection
 
 The diagnostics runner will always return a
-[Laminas\Diagnostics\Result\Collection](https://github.com/laminas/laminas-diagnostics/src/Result/Collection.php),
+[Laminas\Diagnostics\Result\Collection](https://github.com/laminas/laminas-diagnostics/blob/master/src/Result/Collection.php),
 even when no reporter is attached. This collection contains results for all
 tests and failure counters.
 
