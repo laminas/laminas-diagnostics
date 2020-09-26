@@ -31,7 +31,7 @@
         "laminas/laminas-zendframework-bridge": "^1.0"
     },
     "require-dev": {
-        "doctrine/migrations": "^1.0 || ^2.0",
+        "doctrine/migrations": "^1.0 || ^2.0 || ^3.0",
         "guzzlehttp/guzzle": "^5.3.3 || ^6.3.3",
         "laminas/laminas-coding-standard": "~1.0.0",
         "laminas/laminas-loader": "^2.0",

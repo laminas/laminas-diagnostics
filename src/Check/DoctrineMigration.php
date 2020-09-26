@@ -9,6 +9,9 @@
 namespace Laminas\Diagnostics\Check;
 
 use Doctrine\Migrations\Configuration\Configuration;
+use Doctrine\Migrations\DependencyFactory;
+use Doctrine\Migrations\Metadata\AvailableMigration;
+use Doctrine\Migrations\Metadata\ExecutedMigration;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
@@ -16,16 +19,13 @@ use Laminas\Diagnostics\Result\Success;
 class DoctrineMigration extends AbstractCheck
 {
     /**
-     * @var Configuration
+     * @var DependencyFactory
      */
-    private $migrationConfiguration;
+    private $dependencyFactory;
 
-    /**
-     * @param Configuration $migrationConfiguration
-     */
-    public function __construct(Configuration $migrationConfiguration)
+    public function __construct(DependencyFactory $dependencyFactory)
     {
-        $this->migrationConfiguration = $migrationConfiguration;
+        $this->dependencyFactory = $dependencyFactory;
     }
 
     /**
@@ -35,8 +35,16 @@ class DoctrineMigration extends AbstractCheck
      */
     public function check()
     {
-        $availableVersions = $this->migrationConfiguration->getAvailableVersions();
-        $migratedVersions = $this->migrationConfiguration->getMigratedVersions();
+        $allMigrations = $this->dependencyFactory->getMigrationRepository()->getMigrations();
+        $executedMigrations = $this->dependencyFactory->getMetadataStorage()->getExecutedMigrations();
+
+        $availableVersions = array_map(static function (AvailableMigration $availableMigration) {
+            return $availableMigration->getVersion();
+        }, $allMigrations->getItems());
+
+        $migratedVersions = array_map(static function (ExecutedMigration $executedMigration) {
+            return $executedMigration->getVersion();
+        }, $executedMigrations->getItems());
 
         $notMigratedVersions = array_diff($availableVersions, $migratedVersions);
         if (! empty($notMigratedVersions)) {
