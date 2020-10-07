@@ -44,10 +44,16 @@ matrix:
       env:
         - DEPS=lowest
         - COMPOSER_ARGS="--ignore-platform-reqs"
+        - TESTS_LAMINAS_DIAGNOSTICS_APCU_ENABLED=false
+        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHE_ENABLED=false
+        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
     - php: nightly
       env:
         - DEPS=latest
         - COMPOSER_ARGS="--ignore-platform-reqs"
+        - TESTS_LAMINAS_DIAGNOSTICS_APCU_ENABLED=false
+        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHE_ENABLED=false
+        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
