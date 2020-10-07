@@ -26,12 +26,12 @@ class ResultCollectionTest extends TestCase
      */
     protected $collection;
 
-    public function setUp()
+    protected function setUp() : void
     {
         $this->collection = new Collection();
     }
 
-    public function tearDown()
+    protected function tearDown() : void
     {
     }
 

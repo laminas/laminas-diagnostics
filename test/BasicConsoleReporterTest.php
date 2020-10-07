@@ -25,7 +25,7 @@ class BasicConsoleReporterTest extends TestCase
      */
     protected $reporter;
 
-    public function setUp()
+    protected function setUp() : void
     {
         $this->reporter = new BasicConsole();
     }

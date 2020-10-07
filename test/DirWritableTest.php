@@ -14,9 +14,12 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class DirWritableTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var string
      */
@@ -71,7 +74,7 @@ class DirWritableTest extends TestCase
         $object = new DirWritable('notadir');
         $r = $object->check();
         $this->assertInstanceOf(Failure::class, $r);
-        $this->assertContains('notadir is not a valid directory.', $r->getMessage());
+        $this->assertStringContainsString('notadir is not a valid directory.', $r->getMessage());
     }
 
     public function testCheckFailureMultipleInvalidDirs()
@@ -79,7 +82,7 @@ class DirWritableTest extends TestCase
         $object = new DirWritable(['notadir1', 'notadir2']);
         $r = $object->check();
         $this->assertInstanceOf(Failure::class, $r);
-        $this->assertContains('The following paths are not valid directories: notadir1, notadir2.', $r->getMessage());
+        $this->assertStringContainsString('The following paths are not valid directories: notadir1, notadir2.', $r->getMessage());
     }
 
     public function testCheckFailureSingleUnwritableDir()

@@ -20,6 +20,7 @@ use Laminas\Diagnostics\Check\GuzzleHttpService;
 use Laminas\Diagnostics\Result\FailureInterface;
 use Laminas\Diagnostics\Result\SuccessInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\RequestInterface;
 use ReflectionClass;
 use ReflectionProperty;
@@ -28,6 +29,8 @@ use function GuzzleHttp\Psr7\parse_response;
 
 class GuzzleHttpServiceTest extends TestCase
 {
+    use ProphecyTrait;
+
     protected $responseTemplate = <<< 'EOR'
 HTTP/1.1 %d
 
@@ -117,7 +120,9 @@ EOR;
 
         $diagnostic = new GuzzleHttpService($request);
 
-        $this->assertAttributeSame($request, 'request', $diagnostic);
+        $r = new ReflectionProperty($diagnostic ,'request');
+        $r->setAccessible(true);
+        $this->assertSame($request, $r->getValue($diagnostic));
     }
 
     public function checkProvider()

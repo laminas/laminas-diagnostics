@@ -37,6 +37,7 @@
         "laminas/laminas-loader": "^2.0",
         "mikey179/vfsstream": "^1.6",
         "php-amqplib/php-amqplib": "^2.0",
+        "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.3",
         "predis/predis": "^1.0",
         "sensiolabs/security-checker": "^5.0 || ^6.0.3",

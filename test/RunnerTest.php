@@ -41,7 +41,7 @@ class RunnerTest extends TestCase
      */
     protected $runner;
 
-    public function setUp()
+    protected function setUp() : void
     {
         $this->runner = new Runner();
     }
