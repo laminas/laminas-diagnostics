@@ -37,11 +37,13 @@ matrix:
     - php: nightly
       env:
         - DEPS=lowest
+        - MONGO_LEGACY=true
         - TESTS_LAMINAS_DIAGNOSTICS_APCU_ENABLED=false
         - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
     - php: nightly
       env:
         - DEPS=latest
+        - MONGO_LEGACY=true
         - TESTS_LAMINAS_DIAGNOSTICS_APCU_ENABLED=false
         - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
 
