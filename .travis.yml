@@ -38,12 +38,12 @@ matrix:
       env:
         - DEPS=lowest
         - TESTS_LAMINAS_DIAGNOSTICS_APCU_ENABLED=false
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
+        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
     - php: nightly
       env:
         - DEPS=latest
         - TESTS_LAMINAS_DIAGNOSTICS_APCU_ENABLED=false
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
+        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
