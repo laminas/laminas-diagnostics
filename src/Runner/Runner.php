@@ -10,7 +10,6 @@ namespace Laminas\Diagnostics\Runner;
 
 use ArrayObject;
 use BadMethodCallException;
-use Error;
 use ErrorException;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Check\CheckCollectionInterface;
@@ -23,6 +22,7 @@ use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 use Laminas\Diagnostics\Runner\Reporter\ReporterInterface as Reporter;
 use RuntimeException;
+use Throwable;
 use Traversable;
 
 /**
@@ -122,11 +122,18 @@ class Runner
                 $this->startErrorHandler();
                 $result = $check->check();
                 $this->stopErrorHandler();
-            } catch (Error $e) {
-                $result = new Failure(
-                    'PHP ' . static::getSeverityDescription($e->getSeverity()) . ': ' . $e->getMessage(),
-                    $e
-                );
+            } catch (Throwable $e) {
+                if ($t instanceof ErrorException) {
+                    $result = new Failure(
+                        'PHP ' . static::getSeverityDescription($e->getSeverity()) . ': ' . $e->getMessage(),
+                        $e
+                    );
+                } else {
+                    $result = new Failure(
+                        'PHP ' . static::getSeverityDescription(3) . ': ' . $e->getMessage(),
+                        $e
+                    );
+                }
             } catch (\Exception $e) {
                 $this->stopErrorHandler();
                 $result = new Failure(
