@@ -36,12 +36,6 @@ matrix:
         - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - php: nightly
       env:
-        - DEPS=lowest
-        - TESTS_LAMINAS_DIAGNOSTICS_APCU_ENABLED=false
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
-        - TESTS_LAMINAS_DIAGNOSTICS_RABBITMQ_ENABLED=false
-    - php: nightly
-      env:
         - DEPS=latest
         - MONGO_LEGACY=true
         - TESTS_LAMINAS_DIAGNOSTICS_APCU_ENABLED=false
