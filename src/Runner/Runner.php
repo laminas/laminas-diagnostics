@@ -22,6 +22,7 @@ use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 use Laminas\Diagnostics\Runner\Reporter\ReporterInterface as Reporter;
 use RuntimeException;
+use Throwable;
 use Traversable;
 
 /**
@@ -121,7 +122,7 @@ class Runner
                 $this->startErrorHandler();
                 $result = $check->check();
                 $this->stopErrorHandler();
-            } catch (ErrorException $e) {
+            } catch (Throwable $e) {
                 $result = new Failure(
                     'PHP ' . static::getSeverityDescription($e->getSeverity()) . ': ' . $e->getMessage(),
                     $e
