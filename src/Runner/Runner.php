@@ -123,7 +123,7 @@ class Runner
                 $result = $check->check();
                 $this->stopErrorHandler();
             } catch (Throwable $e) {
-                if ($t instanceof ErrorException) {
+                if ($e instanceof ErrorException) {
                     $result = new Failure(
                         'PHP ' . static::getSeverityDescription($e->getSeverity()) . ': ' . $e->getMessage(),
                         $e
