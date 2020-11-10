@@ -14,7 +14,7 @@ use PDO;
 /**
  * Ensures a connection to the MySQL server/database is possible.
  */
-class PDOCheck implements CheckInterface
+class PDOCheck extends AbstractCheck
 {
     private $dsn;
     private $password;
