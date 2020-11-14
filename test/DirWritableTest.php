@@ -82,7 +82,10 @@ class DirWritableTest extends TestCase
         $object = new DirWritable(['notadir1', 'notadir2']);
         $r = $object->check();
         self::assertInstanceOf(Failure::class, $r);
-        self::assertStringContainsString('The following paths are not valid directories: notadir1, notadir2.', $r->getMessage());
+        self::assertStringContainsString(
+            'The following paths are not valid directories: notadir1, notadir2.',
+            $r->getMessage()
+        );
     }
 
     public function testCheckFailureSingleUnwritableDir(): void
