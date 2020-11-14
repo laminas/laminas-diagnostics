@@ -16,7 +16,7 @@ addons:
 
 env:
   global:
-    - COMPOSER_ARGS="--no-interaction --no-plugins"
+    - COMPOSER_ARGS="--no-interaction --no-plugins --ignore-platform-reqs"
     - COVERAGE_DEPS="php-coveralls/php-coveralls"
     - TESTS_LAMINAS_DIAGNOSTICS_APCU_ENABLED=true
     - TESTS_LAMINAS_DIAGNOSTICS_MONGO_ENABLED=true
@@ -26,51 +26,27 @@ env:
 matrix:
   fast_finish: true
   include:
-    - php: 5.6
-      env:
-        - DEPS=lowest
-        - MONGO_LEGACY=true
-        - TESTS_LAMINAS_DIAGNOSTICS_APCU_ENABLED=false
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHE_ENABLED=true
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
-    - php: 5.6
-      env:
-        - DEPS=latest
-        - MONGO_LEGACY=true
-        - TESTS_LAMINAS_DIAGNOSTICS_APCU_ENABLED=false
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHE_ENABLED=true
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
-    - php: 7
-      env:
-        - DEPS=lowest
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
-    - php: 7
-      env:
-        - DEPS=latest
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
-    - php: 7.1
-      env:
-        - DEPS=lowest
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
-    - php: 7.1
-      env:
-        - DEPS=latest
-        - CS_CHECK=true
-        - TEST_COVERAGE=true
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
-    - php: 7.2
-      env:
-        - DEPS=lowest
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
-    - php: 7.2
-      env:
-        - DEPS=latest
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - php: 7.3
       env:
         - DEPS=lowest
         - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - php: 7.3
+      env:
+        - DEPS=latest
+        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
+    - php: 7.4
+      env:
+        - DEPS=lowest
+        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
+    - php: 7.4
+      env:
+        - DEPS=latest
+        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
+    - php: nightly
+      env:
+        - DEPS=lowest
+        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
+    - php: nightly
       env:
         - DEPS=latest
         - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
