@@ -25,7 +25,7 @@ use PHPUnit\Framework\TestCase;
  */
 class DiskFreeTest extends TestCase
 {
-    public static function stringToBytesProvider()
+    public static function stringToBytesProvider(): array
     {
         $values = [1, 10, 12.34];
         $prefix_symbol = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'K', 'M', 'G'];
@@ -60,7 +60,7 @@ class DiskFreeTest extends TestCase
         return $data;
     }
 
-    public static function stringToBytesExceptionProvider()
+    public static function stringToBytesExceptionProvider(): array
     {
         return [
             ['Not a size.', false, InvalidArgumentException::class],
@@ -70,7 +70,7 @@ class DiskFreeTest extends TestCase
         ];
     }
 
-    public static function bytesToStringProvider()
+    public static function bytesToStringProvider(): array
     {
         return [
             [1125899906842624, 5, '1 PiB'],
@@ -99,15 +99,15 @@ class DiskFreeTest extends TestCase
     /**
      * @dataProvider  stringToBytesProvider
      */
-    public function testStringToBytes($a, $b, $c)
+    public function testStringToBytes($a, $b, $c): void
     {
-        $this->assertEquals(DiskFree::stringToBytes($a, $b), $c);
+        self::assertEquals(DiskFree::stringToBytes($a, $b), $c);
     }
 
     /**
      * @dataProvider  stringToBytesExceptionProvider
      */
-    public function testStringToBytesException($a, $b, $c)
+    public function testStringToBytesException($a, $b, $c): void
     {
         $this->expectException($c);
         DiskFree::stringToBytes($a, $b);
@@ -116,33 +116,33 @@ class DiskFreeTest extends TestCase
     /**
      * @dataProvider  bytesToStringProvider
      */
-    public function testBytesToString($bytes, $precision, $string)
+    public function testBytesToString($bytes, $precision, $string): void
     {
-        $this->assertEquals($string, DiskFree::bytesToString($bytes, $precision));
+        self::assertEquals($string, DiskFree::bytesToString($bytes, $precision));
     }
 
-    public function testJitFreeSpace()
+    public function testJitFreeSpace(): void
     {
         $tmp = $this->getTempDir();
         $freeRightNow = disk_free_space($tmp);
         $check = new DiskFree($freeRightNow * 0.5, $tmp);
         $result = $check->check();
 
-        $this->assertInstanceof(SuccessInterface::class, $result);
+        self::assertInstanceof(SuccessInterface::class, $result);
 
         $freeRightNow = disk_free_space($tmp);
         $check = new DiskFree($freeRightNow + 1073741824, $tmp);
         $result = $check->check();
 
-        $this->assertInstanceof(FailureInterface::class, $result);
+        self::assertInstanceof(FailureInterface::class, $result);
     }
 
-    public function testSpaceWithStringConversion()
+    public function testSpaceWithStringConversion(): void
     {
         $tmp = $this->getTempDir();
         $freeRightNow = disk_free_space($tmp);
         if ($freeRightNow < 1024) {
-            $this->markTestSkipped('There is less that 1024 bytes free in temp dir');
+            self::markTestSkipped('There is less that 1024 bytes free in temp dir');
         }
 
         // give some margin of error
@@ -151,35 +151,35 @@ class DiskFreeTest extends TestCase
         $check = new DiskFree($freeRightNowString, $tmp);
         $result = $check->check();
 
-        $this->assertInstanceof(SuccessInterface::class, $result);
+        self::assertInstanceof(SuccessInterface::class, $result);
     }
 
-    public function testInvalidPathShouldReturnWarning()
+    public function testInvalidPathShouldReturnWarning(): void
     {
         $check = new DiskFree(1024, __DIR__ . '/someImprobablePath99999999999999999');
         $result = $check->check();
-        $this->assertInstanceof(WarningInterface::class, $result);
+        self::assertInstanceof(WarningInterface::class, $result);
     }
 
-    public function testInvalidSizeParamThrowsException()
+    public function testInvalidSizeParamThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new DiskFree(-1, $this->getTempDir());
     }
 
-    public function testInvalidSizeParamThrowsException2()
+    public function testInvalidSizeParamThrowsException2(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new DiskFree(-1, $this->getTempDir());
     }
 
-    public function testInvalidSizeParamThrowsException3()
+    public function testInvalidSizeParamThrowsException3(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new DiskFree([], $this->getTempDir());
     }
 
-    public function testInvalidPathParamThrowsException()
+    public function testInvalidPathParamThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new DiskFree(1024, 100);
@@ -192,7 +192,7 @@ class DiskFreeTest extends TestCase
 
         // make sure there is any space there
         if (! $tmp || ! is_writable($tmp) || ! disk_free_space($tmp)) {
-            $this->markTestSkipped(
+            self::markTestSkipped(
                 'Cannot find a writable temporary directory with free disk space for Check\DiskFree tests'
             );
         }

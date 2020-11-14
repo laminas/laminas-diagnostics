@@ -16,69 +16,69 @@ use PHPUnit\Framework\TestCase;
 
 class DoctrineMigrationTest extends TestCase
 {
-    public function testEverythingMigrated()
+    public function testEverythingMigrated(): void
     {
         $configuration = $this->getMockBuilder(Configuration::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $configuration
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAvailableVersions')
-            ->will($this->returnValue(['Version1', 'Version2']));
+            ->willReturn(['Version1', 'Version2']);
 
         $configuration
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getMigratedVersions')
-            ->will($this->returnValue(['Version1', 'Version2']));
+            ->willReturn(['Version1', 'Version2']);
 
         $check = new DoctrineMigration($configuration);
         $result = $check->check();
 
-        $this->assertInstanceof(SuccessInterface::class, $result);
+        self::assertInstanceof(SuccessInterface::class, $result);
     }
 
-    public function testNotAllMigrationsMigrated()
+    public function testNotAllMigrationsMigrated(): void
     {
         $configuration = $this->getMockBuilder(Configuration::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $configuration
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAvailableVersions')
-            ->will($this->returnValue(['Version1', 'Version2']));
+            ->willReturn(['Version1', 'Version2']);
 
         $configuration
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getMigratedVersions')
-            ->will($this->returnValue(['Version1']));
+            ->willReturn(['Version1']);
 
         $check = new DoctrineMigration($configuration);
         $result = $check->check();
 
-        $this->assertInstanceof(FailureInterface::class, $result);
+        self::assertInstanceof(FailureInterface::class, $result);
     }
 
-    public function testNoExistingMigrationMigrated()
+    public function testNoExistingMigrationMigrated(): void
     {
         $configuration = $this->getMockBuilder(Configuration::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $configuration
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAvailableVersions')
-            ->will($this->returnValue(['Version1']));
+            ->willReturn(['Version1']);
 
         $configuration
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getMigratedVersions')
-            ->will($this->returnValue(['Version1', 'Version2']));
+            ->willReturn(['Version1', 'Version2']);
 
         $check = new DoctrineMigration($configuration);
         $result = $check->check();
 
-        $this->assertInstanceof(FailureInterface::class, $result);
+        self::assertInstanceof(FailureInterface::class, $result);
     }
 }

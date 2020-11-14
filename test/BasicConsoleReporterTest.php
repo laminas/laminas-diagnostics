@@ -25,20 +25,20 @@ class BasicConsoleReporterTest extends TestCase
      */
     protected $reporter;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->reporter = new BasicConsole();
     }
 
-    public function testStartMessage()
+    public function testStartMessage(): void
     {
         ob_start();
         $checks = new ArrayObject([new AlwaysSuccess()]);
         $this->reporter->onStart($checks, []);
-        $this->assertStringMatchesFormat('Starting%A', ob_get_clean());
+        self::assertStringMatchesFormat('Starting%A', ob_get_clean());
     }
 
-    public function testProgressDots()
+    public function testProgressDots(): void
     {
         $checks = new ArrayObject(array_fill(0, 5, new AlwaysSuccess()));
 
@@ -51,10 +51,10 @@ class BasicConsoleReporterTest extends TestCase
             $this->reporter->onAfterRun($check, $result, $alias);
         }
 
-        $this->assertEquals('.....', ob_get_clean());
+        self::assertEquals('.....', ob_get_clean());
     }
 
-    public function testWarningSymbols()
+    public function testWarningSymbols(): void
     {
         $checks = new ArrayObject(array_fill(0, 5, new AlwaysSuccess()));
 
@@ -67,10 +67,10 @@ class BasicConsoleReporterTest extends TestCase
             $this->reporter->onAfterRun($check, $result, $alias);
         }
 
-        $this->assertEquals('!!!!!', ob_get_clean());
+        self::assertEquals('!!!!!', ob_get_clean());
     }
 
-    public function testFailureSymbols()
+    public function testFailureSymbols(): void
     {
         $checks = new ArrayObject(array_fill(0, 5, new AlwaysSuccess()));
 
@@ -83,10 +83,10 @@ class BasicConsoleReporterTest extends TestCase
             $this->reporter->onAfterRun($check, $result, $alias);
         }
 
-        $this->assertEquals('FFFFF', ob_get_clean());
+        self::assertEquals('FFFFF', ob_get_clean());
     }
 
-    public function testUnknownSymbols()
+    public function testUnknownSymbols(): void
     {
         $checks = new ArrayObject(array_fill(0, 5, new AlwaysSuccess()));
 
@@ -99,10 +99,10 @@ class BasicConsoleReporterTest extends TestCase
             $this->reporter->onAfterRun($check, $result, $alias);
         }
 
-        $this->assertEquals('?????', ob_get_clean());
+        self::assertEquals('?????', ob_get_clean());
     }
 
-    public function testProgressDotsNoGutter()
+    public function testProgressDotsNoGutter(): void
     {
         $this->reporter = new BasicConsole(40);
         $checks = new ArrayObject(array_fill(0, 40, new AlwaysSuccess()));
@@ -116,10 +116,10 @@ class BasicConsoleReporterTest extends TestCase
             $this->reporter->onAfterRun($check, $result, $alias);
         }
 
-        $this->assertEquals(str_repeat('.', 40), ob_get_clean());
+        self::assertEquals(str_repeat('.', 40), ob_get_clean());
     }
 
-    public function testProgressOverflow()
+    public function testProgressOverflow(): void
     {
         $this->reporter = new BasicConsole(40);
         $checks = new ArrayObject(array_fill(0, 80, new AlwaysSuccess()));
@@ -138,10 +138,10 @@ class BasicConsoleReporterTest extends TestCase
         $expected .= '......................... 75 / 80 ( 94%)';
         $expected .= '.....';
 
-        $this->assertEquals($expected, ob_get_clean());
+        self::assertEquals($expected, ob_get_clean());
     }
 
-    public function testProgressOverflowMatch()
+    public function testProgressOverflowMatch(): void
     {
         $this->reporter = new BasicConsole(40);
         $checks = new ArrayObject(array_fill(0, 75, new AlwaysSuccess()));
@@ -159,10 +159,10 @@ class BasicConsoleReporterTest extends TestCase
         $expected .= '......................... 50 / 75 ( 67%)';
         $expected .= '......................... 75 / 75 (100%)';
 
-        $this->assertEquals($expected, ob_get_clean());
+        self::assertEquals($expected, ob_get_clean());
     }
 
-    public function testSummaryAllSuccessful()
+    public function testSummaryAllSuccessful(): void
     {
         $checks = new ArrayObject();
         $check = null;
@@ -177,10 +177,10 @@ class BasicConsoleReporterTest extends TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
-        $this->assertStringStartsWith('OK (20 diagnostic tests)', trim(ob_get_clean()));
+        self::assertStringStartsWith('OK (20 diagnostic tests)', trim(ob_get_clean()));
     }
 
-    public function testSummaryWithWarnings()
+    public function testSummaryWithWarnings(): void
     {
         $checks = new ArrayObject();
         $check = null;
@@ -200,10 +200,10 @@ class BasicConsoleReporterTest extends TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
-        $this->assertStringStartsWith('5 warnings, 15 successful tests', trim(ob_get_clean()));
+        self::assertStringStartsWith('5 warnings, 15 successful tests', trim(ob_get_clean()));
     }
 
-    public function testSummaryWithFailures()
+    public function testSummaryWithFailures(): void
     {
         $checks = new ArrayObject();
         $check = null;
@@ -228,10 +228,10 @@ class BasicConsoleReporterTest extends TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
-        $this->assertStringStartsWith('5 failures, 5 warnings, 15 successful tests', trim(ob_get_clean()));
+        self::assertStringStartsWith('5 failures, 5 warnings, 15 successful tests', trim(ob_get_clean()));
     }
 
-    public function testSummaryWithUnknowns()
+    public function testSummaryWithUnknowns(): void
     {
         $checks = new ArrayObject();
         $check = null;
@@ -261,10 +261,10 @@ class BasicConsoleReporterTest extends TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
-        $this->assertStringMatchesFormat('%A5 unknown test results%A', trim(ob_get_clean()));
+        self::assertStringMatchesFormat('%A5 unknown test results%A', trim(ob_get_clean()));
     }
 
-    public function testWarnings()
+    public function testWarnings(): void
     {
         $checks = new ArrayObject();
         $check = null;
@@ -282,13 +282,13 @@ class BasicConsoleReporterTest extends TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
-        $this->assertStringMatchesFormat(
+        self::assertStringMatchesFormat(
             '%AWarning: Always Success%wfoo',
             trim(ob_get_clean())
         );
     }
 
-    public function testFailures()
+    public function testFailures(): void
     {
         $checks = new ArrayObject();
         $check = null;
@@ -306,13 +306,13 @@ class BasicConsoleReporterTest extends TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
-        $this->assertStringMatchesFormat(
+        self::assertStringMatchesFormat(
             '%AFailure: Always Success%wbar',
             trim(ob_get_clean())
         );
     }
 
-    public function testUnknowns()
+    public function testUnknowns(): void
     {
         $checks = new ArrayObject();
         $check = null;
@@ -330,13 +330,13 @@ class BasicConsoleReporterTest extends TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
-        $this->assertStringMatchesFormat(
+        self::assertStringMatchesFormat(
             '%AUnknown result LaminasTest\Diagnostics\TestAsset\Result\Unknown: Always Success%wbaz%A',
             trim(ob_get_clean())
         );
     }
 
-    public function testStoppedNotice()
+    public function testStoppedNotice(): void
     {
         $checks = new ArrayObject();
         $check = null;
@@ -353,10 +353,10 @@ class BasicConsoleReporterTest extends TestCase
         $this->reporter->onStop($results);
 
         $this->reporter->onFinish($results);
-        $this->assertStringMatchesFormat('%ADiagnostics aborted%A', trim(ob_get_clean()));
+        self::assertStringMatchesFormat('%ADiagnostics aborted%A', trim(ob_get_clean()));
     }
 
-    public function testOnBeforeRun()
+    public function testOnBeforeRun(): void
     {
         // currently unused
         $this->reporter->onBeforeRun(new AlwaysSuccess(), null);

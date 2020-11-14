@@ -24,7 +24,7 @@ use ReflectionClass;
 
 class BasicClassesTest extends TestCase
 {
-    public function testCoreClassTree()
+    public function testCoreClassTree(): void
     {
         foreach ([
             CheckInterface::class,
@@ -32,7 +32,7 @@ class BasicClassesTest extends TestCase
             FailureInterface::class,
             WarningInterface::class,
         ] as $class) {
-            $this->assertTrue(interface_exists($class, true), 'Class "' . $class . '" exists.');
+            self::assertTrue(interface_exists($class, true), 'Class "' . $class . '" exists.');
         }
 
         foreach ([
@@ -42,7 +42,7 @@ class BasicClassesTest extends TestCase
             Failure::class,
             Warning::class,
         ] as $class) {
-            $this->assertTrue(class_exists($class, true), 'Class "' . $class . '" exists.');
+            self::assertTrue(class_exists($class, true), 'Class "' . $class . '" exists.');
         }
         foreach ([
             Success::class,
@@ -53,53 +53,53 @@ class BasicClassesTest extends TestCase
             WarningInterface::class,
         ] as $class) {
             $reflection = new ReflectionClass($class);
-            $this->assertTrue($reflection->implementsInterface(ResultInterface::class));
+            self::assertTrue($reflection->implementsInterface(ResultInterface::class));
         }
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $result = new Success('foo', 'bar');
-        $this->assertInstanceOf(ResultInterface::class, $result);
-        $this->assertSame('foo', $result->getMessage());
-        $this->assertSame('bar', $result->getData());
+        self::assertInstanceOf(ResultInterface::class, $result);
+        self::assertSame('foo', $result->getMessage());
+        self::assertSame('bar', $result->getData());
 
         $result = new Failure('foo', 'bar');
-        $this->assertInstanceOf(ResultInterface::class, $result);
-        $this->assertSame('foo', $result->getMessage());
-        $this->assertSame('bar', $result->getData());
+        self::assertInstanceOf(ResultInterface::class, $result);
+        self::assertSame('foo', $result->getMessage());
+        self::assertSame('bar', $result->getData());
 
         $result = new Warning('foo', 'bar');
-        $this->assertInstanceOf(ResultInterface::class, $result);
-        $this->assertSame('foo', $result->getMessage());
-        $this->assertSame('bar', $result->getData());
+        self::assertInstanceOf(ResultInterface::class, $result);
+        self::assertSame('foo', $result->getMessage());
+        self::assertSame('bar', $result->getData());
     }
 
-    public function testSetters()
+    public function testSetters(): void
     {
         $result = new Success();
-        $this->assertSame('', $result->getMessage());
-        $this->assertSame(null, $result->getData());
+        self::assertSame('', $result->getMessage());
+        self::assertNull($result->getData());
 
         $result->setMessage('foo');
         $result->setData('bar');
-        $this->assertSame('foo', $result->getMessage());
-        $this->assertSame('bar', $result->getData());
+        self::assertSame('foo', $result->getMessage());
+        self::assertSame('bar', $result->getData());
     }
 
-    public function testSimpleCheck()
+    public function testSimpleCheck(): void
     {
         $alwaysSuccess = new AlwaysSuccess();
-        $this->assertNotNull($alwaysSuccess->getLabel());
-        $this->assertSame($alwaysSuccess->getName(), $alwaysSuccess->getLabel());
-        $this->assertSame('Always Success', trim($alwaysSuccess->getLabel()), 'Class-deferred label');
+        self::assertNotNull($alwaysSuccess->getLabel());
+        self::assertSame($alwaysSuccess->getName(), $alwaysSuccess->getLabel());
+        self::assertSame('Always Success', trim($alwaysSuccess->getLabel()), 'Class-deferred label');
 
         $alwaysSuccess->setLabel('foobar');
-        $this->assertSame('foobar', $alwaysSuccess->getName(), 'Explicitly set label');
-        $this->assertSame($alwaysSuccess->getName(), $alwaysSuccess->getLabel());
+        self::assertSame('foobar', $alwaysSuccess->getName(), 'Explicitly set label');
+        self::assertSame($alwaysSuccess->getName(), $alwaysSuccess->getLabel());
 
         $result = $alwaysSuccess->check();
-        $this->assertInstanceOf(ResultInterface::class, $result);
-        $this->assertNotNull($result->getMessage());
+        self::assertInstanceOf(ResultInterface::class, $result);
+        self::assertNotNull($result->getMessage());
     }
 }

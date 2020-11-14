@@ -20,13 +20,13 @@ class ApcFragmentationTest extends TestCase
     /**
      * @dataProvider invalidArgumentProvider
      */
-    public function testInvalidArguments($warningThreshold, $criticalThreshold)
+    public function testInvalidArguments($warningThreshold, $criticalThreshold): void
     {
         $this->expectException(InvalidArgumentException::class);
         new ApcFragmentation($warningThreshold, $criticalThreshold);
     }
 
-    public function invalidArgumentProvider()
+    public function invalidArgumentProvider(): array
     {
         return [
             ['Not an integer.', 'Not an integer.'],
