@@ -19,8 +19,8 @@ env:
     - COMPOSER_ARGS="--no-interaction --no-plugins --ignore-platform-reqs"
     - COVERAGE_DEPS="php-coveralls/php-coveralls"
     - APCU_PECL_VERSION="apcu"
+    - MONGODB_PECL_VERSION="mongodb"
     - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
-    - TESTS_LAMINAS_DIAGNOSTICS_MONGO_ENABLED=true
     - TESTS_LAMINAS_DIAGNOSTICS_RABBITMQ_ENABLED=true
     - TESTS_LAMINAS_DIAGNOSTICS_REDIS_ENABLED=true
 
@@ -44,11 +44,13 @@ matrix:
         - DEPS=lowest
         - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
         - APCU_PECL_VERSION="apcu-5.1.19"
+        - MONGODB_PECL_VERSION="mongodb-1.9.0RC1"
     - php: nightly
       env:
         - DEPS=latest
         - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
         - APCU_PECL_VERSION="apcu-5.1.19"
+        - MONGODB_PECL_VERSION="mongodb-1.9.0RC1"
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
@@ -58,16 +60,17 @@ before_install:
     fi ;
   - if [[ $TESTS_LAMINAS_DIAGNOSTICS_MEMCACHE_ENABLED == 'true' ]]; then yes|CFLAGS="-fgnu89-inline" pecl install -f memcache ; fi
   - if [[ $TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED == 'true' ]]; then echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
-  - if [[ $MONGO_LEGACY == 'true' ]]; then echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
-  - if [[ $MONGO_LEGACY != 'true' ]]; then pecl upgrade mongodb ; fi
-  - if [[ $MONGO_LEGACY != 'true' ]]; then echo "extension = mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
+  - if [[ $MONGODB_PECL_VERSION != '' ]]; then
+    echo "yes\nno\n" | pecl install -f $MONGODB_PECL_VERSION || return 0 ;
+    echo "extension = mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ;
+    fi ;
 
 install:
   - travis_retry composer install $COMPOSER_ARGS --ignore-platform-reqs
   - if [[ $LEGACY_DEPS != '' ]]; then travis_retry composer update $COMPOSER_ARGS --with-dependencies $LEGACY_DEPS ; fi
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update $COMPOSER_ARGS ; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable $COMPOSER_ARGS ; fi
-  - if [[ $MONGO_LEGACY != 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS mongodb/mongodb ; fi
+  - if [[ $MONGODB_PECL_VERSION != '' ]]; then travis_retry composer require --dev $COMPOSER_ARGS mongodb/mongodb ; fi
   - stty cols 120 && php -m
   - stty cols 120 && composer show
 
