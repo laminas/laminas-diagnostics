@@ -18,7 +18,7 @@ env:
   global:
     - COMPOSER_ARGS="--no-interaction --no-plugins --ignore-platform-reqs"
     - COVERAGE_DEPS="php-coveralls/php-coveralls"
-    - TESTS_LAMINAS_DIAGNOSTICS_APCU_ENABLED=true
+    - APCU_PECL_VERSION="apcu"
     - TESTS_LAMINAS_DIAGNOSTICS_MONGO_ENABLED=true
     - TESTS_LAMINAS_DIAGNOSTICS_RABBITMQ_ENABLED=true
     - TESTS_LAMINAS_DIAGNOSTICS_REDIS_ENABLED=true
@@ -46,14 +46,22 @@ matrix:
       env:
         - DEPS=lowest
         - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
+        - APCU_PECL_VERSION="apcu-5.1.19"
     - php: nightly
       env:
         - DEPS=latest
         - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
+        - APCU_PECL_VERSION="apcu-5.1.19"
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
-  - if [[ $TESTS_LAMINAS_DIAGNOSTICS_APCU_ENABLED == 'true' ]]; then echo "extension = apcu.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
+    - if [[ $APCU_PECL_VERSION != '' ]]; then
+      echo "yes\nno\n" | pecl install -f $APCU_PECL_VERSION || return 0 ;
+      sed -i 's/extension="apcu.so"//' ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ;
+      fi ;
+    - if [[ $APCU_PECL_VERSION != '' ]]; then
+      phpenv config-add .ci/apcu.ini ;
+      fi ;
   - if [[ $TESTS_LAMINAS_DIAGNOSTICS_MEMCACHE_ENABLED == 'true' ]]; then yes|CFLAGS="-fgnu89-inline" pecl install -f memcache ; fi
   - if [[ $TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED == 'true' ]]; then echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
   - if [[ $MONGO_LEGACY == 'true' ]]; then echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
