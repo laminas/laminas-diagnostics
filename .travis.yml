@@ -19,6 +19,7 @@ env:
     - COMPOSER_ARGS="--no-interaction --no-plugins --ignore-platform-reqs"
     - COVERAGE_DEPS="php-coveralls/php-coveralls"
     - APCU_PECL_VERSION="apcu"
+    - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - TESTS_LAMINAS_DIAGNOSTICS_MONGO_ENABLED=true
     - TESTS_LAMINAS_DIAGNOSTICS_RABBITMQ_ENABLED=true
     - TESTS_LAMINAS_DIAGNOSTICS_REDIS_ENABLED=true
@@ -29,28 +30,24 @@ matrix:
     - php: 7.3
       env:
         - DEPS=lowest
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - php: 7.3
       env:
         - DEPS=latest
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - php: 7.4
       env:
         - DEPS=lowest
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - php: 7.4
       env:
         - DEPS=latest
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - php: nightly
       env:
         - DEPS=lowest
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
+        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
         - APCU_PECL_VERSION="apcu-5.1.19"
     - php: nightly
       env:
         - DEPS=latest
-        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=true
+        - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
         - APCU_PECL_VERSION="apcu-5.1.19"
 
 before_install:
