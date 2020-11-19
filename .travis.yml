@@ -16,7 +16,7 @@ addons:
 
 env:
   global:
-    - COMPOSER_ARGS="--no-interaction --no-plugins --ignore-platform-reqs"
+    - COMPOSER_ARGS="--no-interaction --no-plugins"
     - COVERAGE_DEPS="php-coveralls/php-coveralls"
     - APCU_PECL_VERSION="apcu"
     - MONGODB_PECL_VERSION="mongodb"
@@ -45,12 +45,14 @@ matrix:
         - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
         - APCU_PECL_VERSION="apcu-5.1.19"
         - MONGODB_PECL_VERSION="mongodb-1.9.0RC1"
+        - COMPOSER_ARGS="--no-interaction --no-plugins --ignore-platform-reqs"
     - php: nightly
       env:
         - DEPS=latest
         - TESTS_LAMINAS_DIAGNOSTICS_MEMCACHED_ENABLED=false
         - APCU_PECL_VERSION="apcu-5.1.19"
         - MONGODB_PECL_VERSION="mongodb-1.9.0RC1"
+        - COMPOSER_ARGS="--no-interaction --no-plugins --ignore-platform-reqs"
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
