@@ -8,7 +8,6 @@
 
 namespace LaminasTest\Diagnostics;
 
-use Doctrine\Migrations\Configuration\Configuration;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Metadata\Storage\MetadataStorage;
 use Doctrine\Migrations\MigrationsRepository;
@@ -124,12 +123,7 @@ class DoctrineMigrationTest extends TestCase
     public function testThrowsExceptionForInvalidInput(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'Invalid Argument for DoctrineMigration check.
-            If you are using doctrine/migrations ^3.0, pass the Doctrine\Migrations\DependencyFactory as argument.
-            If you are using doctrine/migrations ^2.0, pass the Doctrine\Migrations\Configuration\Configuration as argument.
-            If you are using doctrine/migrations ^1.0, pass the Doctrine\DBAL\Migrations\Configuration\Configuration as argument.'
-        );
+        $this->expectExceptionMessage('Invalid Argument for DoctrineMigration check.');
 
         new DoctrineMigration(new \stdClass());
     }

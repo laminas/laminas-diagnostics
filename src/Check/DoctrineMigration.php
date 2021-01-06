@@ -33,20 +33,26 @@ class DoctrineMigration extends AbstractCheck
         if ($input instanceof DependencyFactory) {
             $this->availableVersions = $this->getAvailableVersionsFromDependencyFactory($input);
             $this->migratedVersions = $this->getMigratedVersionsFromDependencyFactory($input);
-        } elseif ($input instanceof Doctrine\Migrations\Configuration\Configuration
+            return;
+        }
+        
+        if ($input instanceof Doctrine\Migrations\Configuration\Configuration
             && method_exists($input, 'getAvailableVersions')
             && method_exists($input, 'getMigratedVersions')
         ) {
             $this->availableVersions = $input->getAvailableVersions();
             $this->migratedVersions = $input->getMigratedVersions();
-        } else {
-            throw new InvalidArgumentException(
-                'Invalid Argument for DoctrineMigration check.
-                If you are using doctrine/migrations ^3.0, pass the Doctrine\Migrations\DependencyFactory as argument.
-                If you are using doctrine/migrations ^2.0, pass the Doctrine\Migrations\Configuration\Configuration as argument.
-                If you are using doctrine/migrations ^1.0, pass the Doctrine\DBAL\Migrations\Configuration\Configuration as argument.'
-            );
+            return;
         }
+
+        // phpcs:disable Generic.Files.LineLength.MaxExceeded,Generic.Files.LineLength.TooLong
+        throw new InvalidArgumentException(
+            'Invalid Argument for DoctrineMigration check.' . PHP_EOL
+            . 'If you are using doctrine/migrations ^3.0, pass the Doctrine\Migrations\DependencyFactory as argument.' . PHP_EOL
+            . 'If you are using doctrine/migrations ^2.0, pass the Doctrine\Migrations\Configuration\Configuration as argument.' . PHP_EOL
+            . 'If you are using doctrine/migrations ^1.0, pass the Doctrine\DBAL\Migrations\Configuration\Configuration as argument.'
+        );
+        // phpcs:enable
     }
 
     /**
