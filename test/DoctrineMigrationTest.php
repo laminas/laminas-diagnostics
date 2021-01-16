@@ -32,7 +32,7 @@ class DoctrineMigrationTest extends TestCase
         array $availableVersions,
         array $migratedVersions,
         string $expectedResult
-    ): void {
+    ) {
         if (! $this->isDoctrineVersion3Installed()) {
             self::markTestSkipped('Doctrine Version 3 is not installed, skipping test.');
         }
@@ -91,7 +91,7 @@ class DoctrineMigrationTest extends TestCase
         array $availableVersions,
         array $migratedVersions,
         string $expectedResult
-    ): void {
+    ) {
         if (! $this->isDoctrineVersion2Installed()) {
             self::markTestSkipped('Doctrine Version 2 is not installed, skipping test.');
         }
@@ -123,7 +123,7 @@ class DoctrineMigrationTest extends TestCase
         array $availableVersions,
         array $migratedVersions,
         string $expectedResult
-    ): void {
+    ) {
         if (! $this->isDoctrineVersion1Installed()) {
             self::markTestSkipped('Doctrine Version 1 is not installed, skipping test.');
         }
@@ -148,7 +148,7 @@ class DoctrineMigrationTest extends TestCase
         self::assertInstanceof($expectedResult, $result);
     }
 
-    public function testThrowsExceptionForInvalidInput(): void
+    public function testThrowsExceptionForInvalidInput()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid Argument for DoctrineMigration check.');
@@ -156,7 +156,7 @@ class DoctrineMigrationTest extends TestCase
         new DoctrineMigration(new \stdClass());
     }
 
-    public function provideMigrationTestCases(): Generator
+    public function provideMigrationTestCases()
     {
         yield 'everything migrated' => [
             ['Version1', 'Version2'],
@@ -175,19 +175,19 @@ class DoctrineMigrationTest extends TestCase
         ];
     }
 
-    private function isDoctrineVersion1Installed(): bool
+    private function isDoctrineVersion1Installed()
     {
         return class_exists('\Doctrine\DBAL\Migrations\Configuration\Configuration');
     }
 
-    private function isDoctrineVersion2Installed(): bool
+    private function isDoctrineVersion2Installed()
     {
         return class_exists('\Doctrine\Migrations\Configuration\Configuration') &&
             ! class_exists('\Doctrine\DBAL\Migrations\Configuration\Configuration') &&
             ! interface_exists(MigrationsRepository::class);
     }
 
-    private function isDoctrineVersion3Installed(): bool
+    private function isDoctrineVersion3Installed()
     {
         return interface_exists(MigrationsRepository::class);
     }
