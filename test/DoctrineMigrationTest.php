@@ -8,9 +8,15 @@
 
 namespace LaminasTest\Diagnostics;
 
+use Doctrine\Migrations\AbstractMigration;
 use Doctrine\Migrations\DependencyFactory;
+use Doctrine\Migrations\Metadata\AvailableMigration;
+use Doctrine\Migrations\Metadata\AvailableMigrationsSet;
+use Doctrine\Migrations\Metadata\ExecutedMigration;
+use Doctrine\Migrations\Metadata\ExecutedMigrationsList;
 use Doctrine\Migrations\Metadata\Storage\MetadataStorage;
 use Doctrine\Migrations\MigrationsRepository;
+use Doctrine\Migrations\Version\Version;
 use Laminas\Diagnostics\Check\DoctrineMigration;
 use Laminas\Diagnostics\Result\FailureInterface;
 use Laminas\Diagnostics\Result\SuccessInterface;
@@ -34,19 +40,28 @@ class DoctrineMigrationTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $migrationMock = $this->createMock(AbstractMigration::class);
+        $availableMigrations = array_map(static function ($version) use ($migrationMock) {
+            return new AvailableMigration(new Version($version), $migrationMock);
+        }, $availableVersions);
+
         $migrationRepository
             ->expects(self::once())
             ->method('getMigrations')
-            ->willReturn($availableVersions);
+            ->willReturn(new AvailableMigrationsSet($availableMigrations));
 
         $metadataStorage = $this->getMockBuilder(MetadataStorage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
+        $executedMigrations = array_map(static function ($version) {
+            return new ExecutedMigration(new Version($version));
+        }, $migratedVersions);
+
         $metadataStorage
             ->expects(self::once())
             ->method('getExecutedMigrations')
-            ->willReturn($migratedVersions);
+            ->willReturn(new ExecutedMigrationsList($executedMigrations));
 
         $dependencyFactory = $this->getMockBuilder(DependencyFactory::class)
             ->disableOriginalConstructor()
@@ -167,12 +182,12 @@ class DoctrineMigrationTest extends TestCase
     private function isDoctrineVersion2Installed(): bool
     {
         return class_exists('\Doctrine\Migrations\Configuration\Configuration') &&
-            method_exists('\Doctrine\Migrations\Configuration\Configuration', 'getAvailableVersions') &&
-            method_exists('\Doctrine\Migrations\Configuration\Configuration', 'getMigratedVersions');
+            !class_exists('\Doctrine\DBAL\Migrations\Configuration\Configuration') &&
+            !interface_exists(MigrationsRepository::class);
     }
 
     private function isDoctrineVersion3Installed(): bool
     {
-        return class_exists(MigrationsRepository::class);
+        return interface_exists(MigrationsRepository::class);
     }
 }
