@@ -36,7 +36,7 @@ class DoctrineMigration extends AbstractCheck
             return;
         }
         
-        if ($input instanceof Doctrine\Migrations\Configuration\Configuration
+        if ($input instanceof \Doctrine\Migrations\Configuration\Configuration
             && method_exists($input, 'getAvailableVersions')
             && method_exists($input, 'getMigratedVersions')
         ) {
