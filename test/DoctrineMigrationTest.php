@@ -26,6 +26,10 @@ class DoctrineMigrationTest extends TestCase
         array $migratedVersions,
         string $expectedResult
     ): void {
+        if (!$this->isDoctrineVersion3Installed()) {
+            self::markTestSkipped('Doctrine Version 3 is not installed, skipping test.');
+        }
+
         $migrationRepository = $this->getMockBuilder(MigrationsRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -72,7 +76,11 @@ class DoctrineMigrationTest extends TestCase
         array $migratedVersions,
         string $expectedResult
     ): void {
-        $configuration = $this->getMockBuilder(Doctrine\Migrations\Configuration\Configuration::class)
+        if (!$this->isDoctrineVersion2Installed()) {
+            self::markTestSkipped('Doctrine Version 2 is not installed, skipping test.');
+        }
+
+        $configuration = $this->getMockBuilder(\Doctrine\Migrations\Configuration\Configuration::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -100,7 +108,11 @@ class DoctrineMigrationTest extends TestCase
         array $migratedVersions,
         string $expectedResult
     ): void {
-        $configuration = $this->getMockBuilder(Doctrine\DBAL\Migrations\Configuration\Configuration::class)
+        if (!$this->isDoctrineVersion1Installed()) {
+            self::markTestSkipped('Doctrine Version 1 is not installed, skipping test.');
+        }
+        
+        $configuration = $this->getMockBuilder(\Doctrine\DBAL\Migrations\Configuration\Configuration::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -145,5 +157,22 @@ class DoctrineMigrationTest extends TestCase
             ['Version1', 'Version2'],
             FailureInterface::class
         ];
+    }
+
+    private function isDoctrineVersion1Installed(): bool
+    {
+        return class_exists('\Doctrine\DBAL\Migrations\Configuration\Configuration');
+    }
+
+    private function isDoctrineVersion2Installed(): bool
+    {
+        return class_exists('\Doctrine\Migrations\Configuration\Configuration') &&
+            method_exists('\Doctrine\Migrations\Configuration\Configuration', 'getAvailableVersions') &&
+            method_exists('\Doctrine\Migrations\Configuration\Configuration', 'getMigratedVersions');
+    }
+
+    private function isDoctrineVersion3Installed(): bool
+    {
+        return class_exists(MigrationsRepository::class);
     }
 }
