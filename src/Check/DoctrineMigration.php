@@ -48,9 +48,12 @@ class DoctrineMigration extends AbstractCheck
         // phpcs:disable Generic.Files.LineLength.MaxExceeded,Generic.Files.LineLength.TooLong
         throw new InvalidArgumentException(
             'Invalid Argument for DoctrineMigration check.' . PHP_EOL
-            . 'If you are using doctrine/migrations ^3.0, pass the Doctrine\Migrations\DependencyFactory as argument.' . PHP_EOL
-            . 'If you are using doctrine/migrations ^2.0, pass the Doctrine\Migrations\Configuration\Configuration as argument.' . PHP_EOL
-            . 'If you are using doctrine/migrations ^1.0, pass the Doctrine\DBAL\Migrations\Configuration\Configuration as argument.'
+            . 'If you are using doctrine/migrations ^3.0, '
+            . 'pass the Doctrine\Migrations\DependencyFactory as argument.' . PHP_EOL
+            . 'If you are using doctrine/migrations ^2.0, '
+            . 'pass the Doctrine\Migrations\Configuration\Configuration as argument.' . PHP_EOL
+            . 'If you are using doctrine/migrations ^1.0, '
+            . 'pass the Doctrine\DBAL\Migrations\Configuration\Configuration as argument.'
         );
         // phpcs:enable
     }

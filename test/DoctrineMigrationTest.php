@@ -17,6 +17,7 @@ use Doctrine\Migrations\Metadata\ExecutedMigrationsList;
 use Doctrine\Migrations\Metadata\Storage\MetadataStorage;
 use Doctrine\Migrations\MigrationsRepository;
 use Doctrine\Migrations\Version\Version;
+use Generator;
 use Laminas\Diagnostics\Check\DoctrineMigration;
 use Laminas\Diagnostics\Result\FailureInterface;
 use Laminas\Diagnostics\Result\SuccessInterface;
@@ -155,7 +156,7 @@ class DoctrineMigrationTest extends TestCase
         new DoctrineMigration(new \stdClass());
     }
 
-    public function provideMigrationTestCases(): iterable
+    public function provideMigrationTestCases(): Generator
     {
         yield 'everything migrated' => [
             ['Version1', 'Version2'],
