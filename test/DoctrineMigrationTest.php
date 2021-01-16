@@ -32,7 +32,7 @@ class DoctrineMigrationTest extends TestCase
         array $migratedVersions,
         string $expectedResult
     ): void {
-        if (!$this->isDoctrineVersion3Installed()) {
+        if (! $this->isDoctrineVersion3Installed()) {
             self::markTestSkipped('Doctrine Version 3 is not installed, skipping test.');
         }
 
@@ -91,7 +91,7 @@ class DoctrineMigrationTest extends TestCase
         array $migratedVersions,
         string $expectedResult
     ): void {
-        if (!$this->isDoctrineVersion2Installed()) {
+        if (! $this->isDoctrineVersion2Installed()) {
             self::markTestSkipped('Doctrine Version 2 is not installed, skipping test.');
         }
 
@@ -123,10 +123,10 @@ class DoctrineMigrationTest extends TestCase
         array $migratedVersions,
         string $expectedResult
     ): void {
-        if (!$this->isDoctrineVersion1Installed()) {
+        if (! $this->isDoctrineVersion1Installed()) {
             self::markTestSkipped('Doctrine Version 1 is not installed, skipping test.');
         }
-        
+
         $configuration = $this->getMockBuilder(\Doctrine\DBAL\Migrations\Configuration\Configuration::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -182,8 +182,8 @@ class DoctrineMigrationTest extends TestCase
     private function isDoctrineVersion2Installed(): bool
     {
         return class_exists('\Doctrine\Migrations\Configuration\Configuration') &&
-            !class_exists('\Doctrine\DBAL\Migrations\Configuration\Configuration') &&
-            !interface_exists(MigrationsRepository::class);
+            ! class_exists('\Doctrine\DBAL\Migrations\Configuration\Configuration') &&
+            ! interface_exists(MigrationsRepository::class);
     }
 
     private function isDoctrineVersion3Installed(): bool

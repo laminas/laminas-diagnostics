@@ -35,7 +35,7 @@ class DoctrineMigration extends AbstractCheck
             $this->migratedVersions = $this->getMigratedVersionsFromDependencyFactory($input);
             return;
         }
-        
+
         if ($input instanceof \Doctrine\Migrations\Configuration\Configuration
             && method_exists($input, 'getAvailableVersions')
             && method_exists($input, 'getMigratedVersions')
