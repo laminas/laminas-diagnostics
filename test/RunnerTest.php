@@ -302,6 +302,10 @@ class RunnerTest extends TestCase
 
     public function testPHPWarningResultsInFailure(): void
     {
+        if (PHP_MAJOR_VERSION >= 8) {
+            $this->markTestSkipped('Test case raises a TypeError under PHP 8, instead of a warning');
+        }
+
         $check = new TriggerWarning();
         $this->runner->addCheck($check);
         $results = $this->runner->run();
