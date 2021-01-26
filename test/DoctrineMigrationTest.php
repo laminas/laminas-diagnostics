@@ -32,7 +32,7 @@ class DoctrineMigrationTest extends TestCase
         array $availableVersions,
         array $migratedVersions,
         string $expectedResult
-    ) {
+    ): void {
         if (! $this->isDoctrineVersion3Installed()) {
             self::markTestSkipped('Doctrine Version 3 is not installed, skipping test.');
         }
@@ -91,7 +91,7 @@ class DoctrineMigrationTest extends TestCase
         array $availableVersions,
         array $migratedVersions,
         string $expectedResult
-    ) {
+    ): void {
         if (! $this->isDoctrineVersion2Installed()) {
             self::markTestSkipped('Doctrine Version 2 is not installed, skipping test.');
         }
@@ -123,7 +123,7 @@ class DoctrineMigrationTest extends TestCase
         array $availableVersions,
         array $migratedVersions,
         string $expectedResult
-    ) {
+    ): void {
         if (! $this->isDoctrineVersion1Installed()) {
             self::markTestSkipped('Doctrine Version 1 is not installed, skipping test.');
         }
@@ -156,7 +156,7 @@ class DoctrineMigrationTest extends TestCase
         new DoctrineMigration(new \stdClass());
     }
 
-    public function provideMigrationTestCases()
+    public function provideMigrationTestCases(): Generator
     {
         yield 'everything migrated' => [
             ['Version1', 'Version2'],
@@ -175,19 +175,19 @@ class DoctrineMigrationTest extends TestCase
         ];
     }
 
-    private function isDoctrineVersion1Installed()
+    private function isDoctrineVersion1Installed(): bool
     {
         return class_exists('\Doctrine\DBAL\Migrations\Configuration\Configuration');
     }
 
-    private function isDoctrineVersion2Installed()
+    private function isDoctrineVersion2Installed(): bool
     {
         return class_exists('\Doctrine\Migrations\Configuration\Configuration') &&
             ! class_exists('\Doctrine\DBAL\Migrations\Configuration\Configuration') &&
             ! interface_exists(MigrationsRepository::class);
     }
 
-    private function isDoctrineVersion3Installed()
+    private function isDoctrineVersion3Installed(): bool
     {
         return interface_exists(MigrationsRepository::class);
     }
