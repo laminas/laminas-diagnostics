@@ -8,7 +8,17 @@
 
 namespace LaminasTest\Diagnostics;
 
+use Doctrine\Migrations\AbstractMigration;
 use Doctrine\Migrations\Configuration\Configuration;
+use Doctrine\Migrations\DependencyFactory;
+use Doctrine\Migrations\Metadata\AvailableMigration;
+use Doctrine\Migrations\Metadata\AvailableMigrationsSet;
+use Doctrine\Migrations\Metadata\ExecutedMigration;
+use Doctrine\Migrations\Metadata\ExecutedMigrationsList;
+use Doctrine\Migrations\Metadata\Storage\MetadataStorage;
+use Doctrine\Migrations\MigrationsRepository;
+use Doctrine\Migrations\Version\Version;
+use Generator;
 use Laminas\Diagnostics\Check\DoctrineMigration;
 use Laminas\Diagnostics\Result\FailureInterface;
 use Laminas\Diagnostics\Result\SuccessInterface;
@@ -16,30 +26,77 @@ use PHPUnit\Framework\TestCase;
 
 class DoctrineMigrationTest extends TestCase
 {
-    public function testEverythingMigrated(): void
-    {
-        $configuration = $this->getMockBuilder(Configuration::class)
+    /**
+     * @dataProvider provideMigrationTestCases
+     */
+    public function testDoctrineMigrationsVersion3(
+        array $availableVersions,
+        array $migratedVersions,
+        string $expectedResult
+    ): void {
+        if (! $this->isDoctrineVersion3Installed()) {
+            self::markTestSkipped('Doctrine Version 3 is not installed, skipping test.');
+        }
+
+        $migrationRepository = $this->getMockBuilder(MigrationsRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $configuration
-            ->expects(self::once())
-            ->method('getAvailableVersions')
-            ->willReturn(['Version1', 'Version2']);
+        $migrationMock = $this->createMock(AbstractMigration::class);
+        $availableMigrations = array_map(static function ($version) use ($migrationMock) {
+            return new AvailableMigration(new Version($version), $migrationMock);
+        }, $availableVersions);
 
-        $configuration
+        $migrationRepository
             ->expects(self::once())
-            ->method('getMigratedVersions')
-            ->willReturn(['Version1', 'Version2']);
+            ->method('getMigrations')
+            ->willReturn(new AvailableMigrationsSet($availableMigrations));
 
-        $check = new DoctrineMigration($configuration);
+        $metadataStorage = $this->getMockBuilder(MetadataStorage::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $executedMigrations = array_map(static function ($version) {
+            return new ExecutedMigration(new Version($version));
+        }, $migratedVersions);
+
+        $metadataStorage
+            ->expects(self::once())
+            ->method('getExecutedMigrations')
+            ->willReturn(new ExecutedMigrationsList($executedMigrations));
+
+        $dependencyFactory = $this->getMockBuilder(DependencyFactory::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $dependencyFactory
+            ->expects(self::once())
+            ->method('getMigrationRepository')
+            ->willReturn($migrationRepository);
+
+        $dependencyFactory
+            ->expects(self::once())
+            ->method('getMetadataStorage')
+            ->willReturn($metadataStorage);
+
+        $check = new DoctrineMigration($dependencyFactory);
         $result = $check->check();
 
-        self::assertInstanceof(SuccessInterface::class, $result);
+        self::assertInstanceof($expectedResult, $result);
     }
 
-    public function testNotAllMigrationsMigrated(): void
-    {
+    /**
+     * @dataProvider provideMigrationTestCases
+     */
+    public function testDoctrineMigrationsVersion2(
+        array $availableVersions,
+        array $migratedVersions,
+        string $expectedResult
+    ): void {
+        if (! $this->isDoctrineVersion2Installed()) {
+            self::markTestSkipped('Doctrine Version 2 is not installed, skipping test.');
+        }
+
         $configuration = $this->getMockBuilder(Configuration::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -47,38 +104,55 @@ class DoctrineMigrationTest extends TestCase
         $configuration
             ->expects(self::once())
             ->method('getAvailableVersions')
-            ->willReturn(['Version1', 'Version2']);
+            ->willReturn($availableVersions);
 
         $configuration
             ->expects(self::once())
             ->method('getMigratedVersions')
-            ->willReturn(['Version1']);
+            ->willReturn($migratedVersions);
 
         $check = new DoctrineMigration($configuration);
         $result = $check->check();
 
-        self::assertInstanceof(FailureInterface::class, $result);
+        self::assertInstanceof($expectedResult, $result);
     }
 
-    public function testNoExistingMigrationMigrated(): void
+    public function testThrowsExceptionForInvalidInput()
     {
-        $configuration = $this->getMockBuilder(Configuration::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid Argument for DoctrineMigration check.');
 
-        $configuration
-            ->expects(self::once())
-            ->method('getAvailableVersions')
-            ->willReturn(['Version1']);
+        new DoctrineMigration(new \stdClass());
+    }
 
-        $configuration
-            ->expects(self::once())
-            ->method('getMigratedVersions')
-            ->willReturn(['Version1', 'Version2']);
+    public function provideMigrationTestCases(): Generator
+    {
+        yield 'everything migrated' => [
+            ['Version1', 'Version2'],
+            ['Version1', 'Version2'],
+            SuccessInterface::class
+        ];
+        yield 'not all migration migrated' => [
+            ['Version1', 'Version2'],
+            ['Version1'],
+            FailureInterface::class
+        ];
+        yield 'not existing migration migrated' => [
+            ['Version1'],
+            ['Version1', 'Version2'],
+            FailureInterface::class
+        ];
+    }
 
-        $check = new DoctrineMigration($configuration);
-        $result = $check->check();
+    private function isDoctrineVersion2Installed(): bool
+    {
+        return class_exists(Configuration::class) &&
+            ! class_exists('\Doctrine\DBAL\Migrations\Configuration\Configuration') &&
+            ! interface_exists(MigrationsRepository::class);
+    }
 
-        self::assertInstanceof(FailureInterface::class, $result);
+    private function isDoctrineVersion3Installed(): bool
+    {
+        return interface_exists(MigrationsRepository::class);
     }
 }
