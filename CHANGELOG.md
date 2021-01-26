@@ -4,27 +4,24 @@ All notable changes to this project will be documented in this file, in reverse 
 
 Releases prior to 1.2.0 did not have entries.
 
-## 1.8.0 - TBD
+## 1.8.0 - 2021-01-26
 
-### Added
 
-- Nothing.
+-----
 
-### Changed
+### Release Notes for [1.8.0](https://github.com/laminas/laminas-diagnostics/milestone/4)
 
-- Nothing.
+Feature release (minor)
 
-### Deprecated
+### 1.8.0
 
-- Nothing.
+- Total issues resolved: **1**
+- Total pull requests resolved: **1**
+- Total contributors: **2**
 
-### Removed
+#### Enhancement
 
-- Nothing.
-
-### Fixed
-
-- Nothing.
+ - [10: Support for `doctrine/migrations:^3`](https://github.com/laminas/laminas-diagnostics/pull/10) thanks to @cgrabenstein and @michalbundyra
 
 ## 1.6.1 - TBD
 
