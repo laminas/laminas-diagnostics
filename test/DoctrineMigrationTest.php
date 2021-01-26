@@ -9,6 +9,7 @@
 namespace LaminasTest\Diagnostics;
 
 use Doctrine\Migrations\AbstractMigration;
+use Doctrine\Migrations\Configuration\Configuration;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Metadata\AvailableMigration;
 use Doctrine\Migrations\Metadata\AvailableMigrationsSet;
@@ -96,7 +97,7 @@ class DoctrineMigrationTest extends TestCase
             self::markTestSkipped('Doctrine Version 2 is not installed, skipping test.');
         }
 
-        $configuration = $this->getMockBuilder(\Doctrine\Migrations\Configuration\Configuration::class)
+        $configuration = $this->getMockBuilder(Configuration::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -145,7 +146,7 @@ class DoctrineMigrationTest extends TestCase
 
     private function isDoctrineVersion2Installed(): bool
     {
-        return class_exists('\Doctrine\Migrations\Configuration\Configuration') &&
+        return class_exists(Configuration::class) &&
             ! class_exists('\Doctrine\DBAL\Migrations\Configuration\Configuration') &&
             ! interface_exists(MigrationsRepository::class);
     }

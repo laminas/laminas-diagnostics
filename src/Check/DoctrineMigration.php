@@ -8,9 +8,11 @@
 
 namespace Laminas\Diagnostics\Check;
 
+use Doctrine\Migrations\Configuration\Configuration;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Metadata\AvailableMigration;
 use Doctrine\Migrations\Metadata\ExecutedMigration;
+use Doctrine\Migrations\Version\Version;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
@@ -19,24 +21,32 @@ use Laminas\Diagnostics\Result\Success;
 class DoctrineMigration extends AbstractCheck
 {
     /**
-     * @var array
+     * Type depends on the installed version of doctrine/migrations:
+     * for ^2.0 it is string[], for ^3.0 it is Version[]
+     *
+     * @var Version[]|string[]
      */
     private $availableVersions;
 
     /**
-     * @var array
+     * Type depends on the installed version of doctrine/migrations:
+     * for ^2.0 it is string[], for ^3.0 it is Version[]
+     *
+     * @var Version[]|string[]
      */
     private $migratedVersions;
 
     public function __construct($input)
     {
+        // check for doctrine/migrations:^3.0
         if ($input instanceof DependencyFactory) {
             $this->availableVersions = $this->getAvailableVersionsFromDependencyFactory($input);
             $this->migratedVersions = $this->getMigratedVersionsFromDependencyFactory($input);
             return;
         }
 
-        if ($input instanceof \Doctrine\Migrations\Configuration\Configuration
+        // check for doctrine/migrations:^2.0
+        if ($input instanceof Configuration
             && method_exists($input, 'getAvailableVersions')
             && method_exists($input, 'getMigratedVersions')
         ) {
@@ -55,10 +65,8 @@ class DoctrineMigration extends AbstractCheck
 
     /**
      * Perform the actual check and return a ResultInterface
-     *
-     * @return ResultInterface
      */
-    public function check()
+    public function check(): ResultInterface
     {
         $notMigratedVersions = array_diff($this->availableVersions, $this->migratedVersions);
         if (! empty($notMigratedVersions)) {
@@ -73,8 +81,10 @@ class DoctrineMigration extends AbstractCheck
         return new Success();
     }
 
-
-    private function getAvailableVersionsFromDependencyFactory(DependencyFactory $dependencyFactory)
+    /**
+     * @return Version[]
+     */
+    private function getAvailableVersionsFromDependencyFactory(DependencyFactory $dependencyFactory): array
     {
         $allMigrations = $dependencyFactory->getMigrationRepository()->getMigrations();
 
@@ -83,7 +93,10 @@ class DoctrineMigration extends AbstractCheck
         }, $allMigrations->getItems());
     }
 
-    private function getMigratedVersionsFromDependencyFactory(DependencyFactory $dependencyFactory)
+    /**
+     * @return Version[]
+     */
+    private function getMigratedVersionsFromDependencyFactory(DependencyFactory $dependencyFactory): array
     {
         $executedMigrations = $dependencyFactory->getMetadataStorage()->getExecutedMigrations();
 
