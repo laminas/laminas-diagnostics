@@ -116,38 +116,6 @@ class DoctrineMigrationTest extends TestCase
         self::assertInstanceof($expectedResult, $result);
     }
 
-    /**
-     * @dataProvider provideMigrationTestCases
-     */
-    public function testDoctrineMigrationsVersion1(
-        array $availableVersions,
-        array $migratedVersions,
-        string $expectedResult
-    ): void {
-        if (! $this->isDoctrineVersion1Installed()) {
-            self::markTestSkipped('Doctrine Version 1 is not installed, skipping test.');
-        }
-
-        $configuration = $this->getMockBuilder(\Doctrine\DBAL\Migrations\Configuration\Configuration::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $configuration
-            ->expects(self::once())
-            ->method('getAvailableVersions')
-            ->willReturn($availableVersions);
-
-        $configuration
-            ->expects(self::once())
-            ->method('getMigratedVersions')
-            ->willReturn($migratedVersions);
-
-        $check = new DoctrineMigration($configuration);
-        $result = $check->check();
-
-        self::assertInstanceof($expectedResult, $result);
-    }
-
     public function testThrowsExceptionForInvalidInput()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -173,11 +141,6 @@ class DoctrineMigrationTest extends TestCase
             ['Version1', 'Version2'],
             FailureInterface::class
         ];
-    }
-
-    private function isDoctrineVersion1Installed(): bool
-    {
-        return class_exists('\Doctrine\DBAL\Migrations\Configuration\Configuration');
     }
 
     private function isDoctrineVersion2Installed(): bool
