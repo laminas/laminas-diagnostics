@@ -20,13 +20,13 @@ class DiskUsageTest extends TestCase
     /**
      * @dataProvider invalidArgumentProvider
      */
-    public function testInvalidArguments($warningThreshold, $criticalThreshold, $path)
+    public function testInvalidArguments($warningThreshold, $criticalThreshold, $path): void
     {
         $this->expectException(InvalidArgumentException::class);
         new DiskUsage($warningThreshold, $criticalThreshold, $path);
     }
 
-    public function testCheck()
+    public function testCheck(): void
     {
         $df = disk_free_space($this->getTempDir());
         $dt = disk_total_space($this->getTempDir());
@@ -36,20 +36,20 @@ class DiskUsageTest extends TestCase
         $check = new DiskUsage($dp + 1, $dp + 2, $this->getTempDir());
         $result = $check->check();
 
-        $this->assertInstanceof(SuccessInterface::class, $result);
+        self::assertInstanceof(SuccessInterface::class, $result);
 
         $check = new DiskUsage($dp - 1, 100, $this->getTempDir());
         $result = $check->check();
 
-        $this->assertInstanceof(WarningInterface::class, $result);
+        self::assertInstanceof(WarningInterface::class, $result);
 
         $check = new DiskUsage(0, $dp - 1, $this->getTempDir());
         $result = $check->check();
 
-        $this->assertInstanceof(FailureInterface::class, $result);
+        self::assertInstanceof(FailureInterface::class, $result);
     }
 
-    public function invalidArgumentProvider()
+    public function invalidArgumentProvider(): array
     {
         return [
             ['Not an integer.', 'Not an integer.', $this->getTempDir()],
@@ -70,7 +70,7 @@ class DiskUsageTest extends TestCase
 
         // make sure there is any space there
         if (! $tmp || ! is_writable($tmp) || ! disk_free_space($tmp)) {
-            $this->markTestSkipped(
+            self::markTestSkipped(
                 'Cannot find a writable temporary directory with free disk space for Check\DiskUsage tests'
             );
         }

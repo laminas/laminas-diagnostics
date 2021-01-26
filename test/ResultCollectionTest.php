@@ -26,16 +26,12 @@ class ResultCollectionTest extends TestCase
      */
     protected $collection;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->collection = new Collection();
     }
 
-    public function tearDown()
-    {
-    }
-
-    public static function invalidKeysProvider()
+    public static function invalidKeysProvider(): array
     {
         return [
             [0],
@@ -47,7 +43,7 @@ class ResultCollectionTest extends TestCase
         ];
     }
 
-    public static function invalidValuesProvider()
+    public static function invalidValuesProvider(): array
     {
         return [
             [0],
@@ -59,47 +55,47 @@ class ResultCollectionTest extends TestCase
         ];
     }
 
-    public function testClassCapabilities()
+    public function testClassCapabilities(): void
     {
-        $this->assertInstanceOf('Traversable', $this->collection);
-        $this->assertInstanceOf('Iterator', $this->collection);
+        self::assertInstanceOf('Traversable', $this->collection);
+        self::assertInstanceOf('Iterator', $this->collection);
     }
 
-    public function testBasicTypesData()
+    public function testBasicTypesData(): void
     {
         $test = new Success('foo', 'bar');
-        $this->assertEquals('foo', $test->getMessage());
-        $this->assertEquals('bar', $test->getData());
+        self::assertEquals('foo', $test->getMessage());
+        self::assertEquals('bar', $test->getData());
 
         $test = new Warning('foo', 'bar');
-        $this->assertEquals('foo', $test->getMessage());
-        $this->assertEquals('bar', $test->getData());
+        self::assertEquals('foo', $test->getMessage());
+        self::assertEquals('bar', $test->getData());
 
         $test = new Failure('foo', 'bar');
-        $this->assertEquals('foo', $test->getMessage());
-        $this->assertEquals('bar', $test->getData());
+        self::assertEquals('foo', $test->getMessage());
+        self::assertEquals('bar', $test->getData());
 
         $test = new Unknown('foo', 'bar');
-        $this->assertEquals('foo', $test->getMessage());
-        $this->assertEquals('bar', $test->getData());
+        self::assertEquals('foo', $test->getMessage());
+        self::assertEquals('bar', $test->getData());
     }
 
-    public function testBasicGettingAndSetting()
+    public function testBasicGettingAndSetting(): void
     {
         $test = new AlwaysSuccess();
         $result = new Success();
 
         $this->collection[$test] = $result;
-        $this->assertSame($result, $this->collection[$test]);
+        self::assertSame($result, $this->collection[$test]);
 
         unset($this->collection[$test]);
-        $this->assertFalse($this->collection->offsetExists($test));
+        self::assertFalse($this->collection->offsetExists($test));
     }
 
     /**
      * @dataProvider invalidKeysProvider
      */
-    public function testInvalidKeySet($key)
+    public function testInvalidKeySet($key): void
     {
         $result = new Success();
 
@@ -110,7 +106,7 @@ class ResultCollectionTest extends TestCase
     /**
      * @dataProvider invalidKeysProvider
      */
-    public function testInvalidKeyGet($key)
+    public function testInvalidKeyGet($key): void
     {
         $result = new Success();
 
@@ -121,7 +117,7 @@ class ResultCollectionTest extends TestCase
     /**
      * @dataProvider invalidKeysProvider
      */
-    public function testInvalidKeyUnset($key)
+    public function testInvalidKeyUnset($key): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->collection->offsetUnset($key);
@@ -130,7 +126,7 @@ class ResultCollectionTest extends TestCase
     /**
      * @dataProvider invalidKeysProvider
      */
-    public function testInvalidKeyExists($key)
+    public function testInvalidKeyExists($key): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->collection->offsetExists($key);
@@ -139,7 +135,7 @@ class ResultCollectionTest extends TestCase
     /**
      * @dataProvider invalidValuesProvider
      */
-    public function testInvalidValuesSet($value)
+    public function testInvalidValuesSet($value): void
     {
         $key = new AlwaysSuccess();
 
@@ -147,104 +143,104 @@ class ResultCollectionTest extends TestCase
         $this->collection[$key] = $value;
     }
 
-    public function testCounters()
+    public function testCounters(): void
     {
-        $this->assertEquals(0, $this->collection->getSuccessCount());
-        $this->assertEquals(0, $this->collection->getWarningCount());
-        $this->assertEquals(0, $this->collection->getFailureCount());
-        $this->assertEquals(0, $this->collection->getUnknownCount());
+        self::assertEquals(0, $this->collection->getSuccessCount());
+        self::assertEquals(0, $this->collection->getWarningCount());
+        self::assertEquals(0, $this->collection->getFailureCount());
+        self::assertEquals(0, $this->collection->getUnknownCount());
 
         $success1 = new Success();
         $test1 = new AlwaysSuccess();
         $this->collection[$test1] = $success1;
-        $this->assertEquals(1, $this->collection->getSuccessCount());
-        $this->assertEquals(0, $this->collection->getWarningCount());
-        $this->assertEquals(0, $this->collection->getFailureCount());
-        $this->assertEquals(0, $this->collection->getUnknownCount());
+        self::assertEquals(1, $this->collection->getSuccessCount());
+        self::assertEquals(0, $this->collection->getWarningCount());
+        self::assertEquals(0, $this->collection->getFailureCount());
+        self::assertEquals(0, $this->collection->getUnknownCount());
 
         $success2 = new Success();
         $test2 = new AlwaysSuccess();
         $this->collection[$test2] = $success2;
-        $this->assertEquals(2, $this->collection->getSuccessCount());
-        $this->assertEquals(0, $this->collection->getWarningCount());
-        $this->assertEquals(0, $this->collection->getFailureCount());
-        $this->assertEquals(0, $this->collection->getUnknownCount());
+        self::assertEquals(2, $this->collection->getSuccessCount());
+        self::assertEquals(0, $this->collection->getWarningCount());
+        self::assertEquals(0, $this->collection->getFailureCount());
+        self::assertEquals(0, $this->collection->getUnknownCount());
 
         $failure1 = new Failure();
         $test3 = new AlwaysSuccess();
         $this->collection[$test3] = $failure1;
-        $this->assertEquals(2, $this->collection->getSuccessCount());
-        $this->assertEquals(0, $this->collection->getWarningCount());
-        $this->assertEquals(1, $this->collection->getFailureCount());
-        $this->assertEquals(0, $this->collection->getUnknownCount());
+        self::assertEquals(2, $this->collection->getSuccessCount());
+        self::assertEquals(0, $this->collection->getWarningCount());
+        self::assertEquals(1, $this->collection->getFailureCount());
+        self::assertEquals(0, $this->collection->getUnknownCount());
 
         $warning1 = new Warning();
         $test4 = new AlwaysSuccess();
         $this->collection[$test4] = $warning1;
-        $this->assertEquals(2, $this->collection->getSuccessCount());
-        $this->assertEquals(1, $this->collection->getWarningCount());
-        $this->assertEquals(1, $this->collection->getFailureCount());
-        $this->assertEquals(0, $this->collection->getUnknownCount());
+        self::assertEquals(2, $this->collection->getSuccessCount());
+        self::assertEquals(1, $this->collection->getWarningCount());
+        self::assertEquals(1, $this->collection->getFailureCount());
+        self::assertEquals(0, $this->collection->getUnknownCount());
 
         $unknown = new Unknown();
         $test5 = new AlwaysSuccess();
         $this->collection[$test5] = $unknown;
-        $this->assertEquals(2, $this->collection->getSuccessCount());
-        $this->assertEquals(1, $this->collection->getWarningCount());
-        $this->assertEquals(1, $this->collection->getFailureCount());
-        $this->assertEquals(1, $this->collection->getUnknownCount());
+        self::assertEquals(2, $this->collection->getSuccessCount());
+        self::assertEquals(1, $this->collection->getWarningCount());
+        self::assertEquals(1, $this->collection->getFailureCount());
+        self::assertEquals(1, $this->collection->getUnknownCount());
 
         $failure2 = new Failure();
         $this->collection[$test2] = $failure2;
-        $this->assertEquals(1, $this->collection->getSuccessCount());
-        $this->assertEquals(1, $this->collection->getWarningCount());
-        $this->assertEquals(2, $this->collection->getFailureCount());
-        $this->assertEquals(1, $this->collection->getUnknownCount());
+        self::assertEquals(1, $this->collection->getSuccessCount());
+        self::assertEquals(1, $this->collection->getWarningCount());
+        self::assertEquals(2, $this->collection->getFailureCount());
+        self::assertEquals(1, $this->collection->getUnknownCount());
 
         unset($this->collection[$test4]);
-        $this->assertEquals(1, $this->collection->getSuccessCount());
-        $this->assertEquals(0, $this->collection->getWarningCount());
-        $this->assertEquals(2, $this->collection->getFailureCount());
-        $this->assertEquals(1, $this->collection->getUnknownCount());
+        self::assertEquals(1, $this->collection->getSuccessCount());
+        self::assertEquals(0, $this->collection->getWarningCount());
+        self::assertEquals(2, $this->collection->getFailureCount());
+        self::assertEquals(1, $this->collection->getUnknownCount());
 
         unset($this->collection[$test2]);
-        $this->assertEquals(1, $this->collection->getSuccessCount());
-        $this->assertEquals(0, $this->collection->getWarningCount());
-        $this->assertEquals(1, $this->collection->getFailureCount());
-        $this->assertEquals(1, $this->collection->getUnknownCount());
+        self::assertEquals(1, $this->collection->getSuccessCount());
+        self::assertEquals(0, $this->collection->getWarningCount());
+        self::assertEquals(1, $this->collection->getFailureCount());
+        self::assertEquals(1, $this->collection->getUnknownCount());
 
         unset($this->collection[$test5]);
-        $this->assertEquals(1, $this->collection->getSuccessCount());
-        $this->assertEquals(0, $this->collection->getWarningCount());
-        $this->assertEquals(1, $this->collection->getFailureCount());
-        $this->assertEquals(0, $this->collection->getUnknownCount());
+        self::assertEquals(1, $this->collection->getSuccessCount());
+        self::assertEquals(0, $this->collection->getWarningCount());
+        self::assertEquals(1, $this->collection->getFailureCount());
+        self::assertEquals(0, $this->collection->getUnknownCount());
 
         $this->collection[$test1] = $unknown;
-        $this->assertEquals(0, $this->collection->getSuccessCount());
-        $this->assertEquals(0, $this->collection->getWarningCount());
-        $this->assertEquals(1, $this->collection->getFailureCount());
-        $this->assertEquals(1, $this->collection->getUnknownCount());
+        self::assertEquals(0, $this->collection->getSuccessCount());
+        self::assertEquals(0, $this->collection->getWarningCount());
+        self::assertEquals(1, $this->collection->getFailureCount());
+        self::assertEquals(1, $this->collection->getUnknownCount());
 
         $this->collection[$test3] = $warning1;
-        $this->assertEquals(0, $this->collection->getSuccessCount());
-        $this->assertEquals(1, $this->collection->getWarningCount());
-        $this->assertEquals(0, $this->collection->getFailureCount());
-        $this->assertEquals(1, $this->collection->getUnknownCount());
+        self::assertEquals(0, $this->collection->getSuccessCount());
+        self::assertEquals(1, $this->collection->getWarningCount());
+        self::assertEquals(0, $this->collection->getFailureCount());
+        self::assertEquals(1, $this->collection->getUnknownCount());
 
         $this->collection[$test3] = $success1;
-        $this->assertEquals(1, $this->collection->getSuccessCount());
-        $this->assertEquals(0, $this->collection->getWarningCount());
-        $this->assertEquals(0, $this->collection->getFailureCount());
-        $this->assertEquals(1, $this->collection->getUnknownCount());
+        self::assertEquals(1, $this->collection->getSuccessCount());
+        self::assertEquals(0, $this->collection->getWarningCount());
+        self::assertEquals(0, $this->collection->getFailureCount());
+        self::assertEquals(1, $this->collection->getUnknownCount());
 
         $this->collection[$test1] = $success2;
-        $this->assertEquals(2, $this->collection->getSuccessCount());
-        $this->assertEquals(0, $this->collection->getWarningCount());
-        $this->assertEquals(0, $this->collection->getFailureCount());
-        $this->assertEquals(0, $this->collection->getUnknownCount());
+        self::assertEquals(2, $this->collection->getSuccessCount());
+        self::assertEquals(0, $this->collection->getWarningCount());
+        self::assertEquals(0, $this->collection->getFailureCount());
+        self::assertEquals(0, $this->collection->getUnknownCount());
     }
 
-    public function testIteration()
+    public function testIteration(): void
     {
         $tests = $results = [];
         $test = $result = null;
@@ -260,8 +256,8 @@ class ResultCollectionTest extends TestCase
         $x = 0;
         $this->collection->rewind();
         foreach ($this->collection as $test) {
-            $this->assertSame($tests[$x], $test);
-            $this->assertSame($results[$x], $this->collection[$test]);
+            self::assertSame($tests[$x], $test);
+            self::assertSame($results[$x], $this->collection[$test]);
             $x++;
         }
     }

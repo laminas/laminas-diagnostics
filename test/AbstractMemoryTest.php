@@ -19,13 +19,13 @@ abstract class AbstractMemoryTest extends TestCase
     /**
      * @dataProvider invalidArgumentProvider
      */
-    public function testInvalidArguments($warningThreshold, $criticalThreshold)
+    public function testInvalidArguments($warningThreshold, $criticalThreshold): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->createCheck($warningThreshold, $criticalThreshold);
     }
 
-    public function invalidArgumentProvider()
+    public function invalidArgumentProvider(): array
     {
         return [
             ['Not an integer.', 'Not an integer.'],

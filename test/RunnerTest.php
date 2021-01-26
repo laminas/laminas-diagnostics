@@ -41,12 +41,12 @@ class RunnerTest extends TestCase
      */
     protected $runner;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->runner = new Runner();
     }
 
-    public function checksAndResultsProvider()
+    public function checksAndResultsProvider(): array
     {
         return [
             [
@@ -88,45 +88,45 @@ class RunnerTest extends TestCase
         ];
     }
 
-    public function testConfig()
+    public function testConfig(): void
     {
-        $this->assertFalse($this->runner->getBreakOnFailure());
-        $this->assertTrue(is_numeric($this->runner->getCatchErrorSeverity()));
+        self::assertFalse($this->runner->getBreakOnFailure());
+        self::assertIsNumeric($this->runner->getCatchErrorSeverity());
 
         $this->runner->setConfig([
             'break_on_failure'     => true,
             'catch_error_severity' => 100
         ]);
 
-        $this->assertTrue($this->runner->getBreakOnFailure());
-        $this->assertSame(100, $this->runner->getCatchErrorSeverity());
+        self::assertTrue($this->runner->getBreakOnFailure());
+        self::assertSame(100, $this->runner->getCatchErrorSeverity());
 
         $this->runner->setBreakOnFailure(false);
         $this->runner->setCatchErrorSeverity(200);
 
-        $this->assertFalse($this->runner->getBreakOnFailure());
-        $this->assertSame(200, $this->runner->getCatchErrorSeverity());
+        self::assertFalse($this->runner->getBreakOnFailure());
+        self::assertSame(200, $this->runner->getCatchErrorSeverity());
 
         $this->runner = new Runner([
             'break_on_failure'     => true,
             'catch_error_severity' => 300
         ]);
 
-        $this->assertTrue($this->runner->getBreakOnFailure());
-        $this->assertSame(300, $this->runner->getCatchErrorSeverity());
-        $this->assertEquals([
+        self::assertTrue($this->runner->getBreakOnFailure());
+        self::assertSame(300, $this->runner->getCatchErrorSeverity());
+        self::assertEquals([
             'break_on_failure'     => true,
             'catch_error_severity' => 300
         ], $this->runner->getConfig());
     }
 
-    public function testInvalidValueForSetConfig()
+    public function testInvalidValueForSetConfig(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->runner->setConfig(10);
     }
 
-    public function testUnknownValueInConfig()
+    public function testUnknownValueInConfig(): void
     {
         $this->expectException(BadMethodCallException::class);
         $this->runner->setConfig([
@@ -134,7 +134,7 @@ class RunnerTest extends TestCase
         ]);
     }
 
-    public function testManagingChecks()
+    public function testManagingChecks(): void
     {
         $check1 = new AlwaysSuccess();
         $check2 = new AlwaysSuccess();
@@ -144,125 +144,125 @@ class RunnerTest extends TestCase
             $check2,
             $check3
         ]);
-        $this->assertContains($check1, $this->runner->getChecks());
-        $this->assertContains($check2, $this->runner->getChecks());
-        $this->assertContains($check3, $this->runner->getChecks());
+        self::assertContains($check1, $this->runner->getChecks());
+        self::assertContains($check2, $this->runner->getChecks());
+        self::assertContains($check3, $this->runner->getChecks());
     }
 
-    public function testManagingChecksWithAliases()
+    public function testManagingChecksWithAliases(): void
     {
         $check1 = new AlwaysSuccess();
         $check2 = new AlwaysSuccess();
         $check3 = new AlwaysSuccess();
         $this->runner->addCheck($check1, 'foo');
         $this->runner->addCheck($check2, 'bar');
-        $this->assertSame($check1, $this->runner->getCheck('foo'));
-        $this->assertSame($check2, $this->runner->getCheck('bar'));
+        self::assertSame($check1, $this->runner->getCheck('foo'));
+        self::assertSame($check2, $this->runner->getCheck('bar'));
 
         $this->runner->addChecks([
             'baz' => $check3,
         ]);
-        $this->assertSame($check3, $this->runner->getCheck('baz'));
+        self::assertSame($check3, $this->runner->getCheck('baz'));
     }
 
-    public function testGetNonExistentAliasThrowsException()
+    public function testGetNonExistentAliasThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
         $this->runner->getCheck('non-existent-check');
     }
 
-    public function testConstructionWithChecks()
+    public function testConstructionWithChecks(): void
     {
         $check1 = new AlwaysSuccess();
         $check2 = new AlwaysSuccess();
         $this->runner = new Runner([], [$check1, $check2]);
-        $this->assertEquals(2, count($this->runner->getChecks()));
-        $this->assertContains($check1, $this->runner->getChecks());
-        $this->assertContains($check2, $this->runner->getChecks());
+        self::assertCount(2, $this->runner->getChecks());
+        self::assertContains($check1, $this->runner->getChecks());
+        self::assertContains($check2, $this->runner->getChecks());
     }
 
-    public function testConstructionWithReporter()
+    public function testConstructionWithReporter(): void
     {
         $reporter = $this->createMock(AbstractReporter::class);
         $this->runner = new Runner([], [], $reporter);
-        $this->assertEquals(1, count($this->runner->getReporters()));
-        $this->assertContains($reporter, $this->runner->getReporters());
+        self::assertCount(1, $this->runner->getReporters());
+        self::assertContains($reporter, $this->runner->getReporters());
     }
 
-    public function testAddInvalidCheck()
+    public function testAddInvalidCheck(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->runner->addChecks([new stdClass()]);
     }
 
-    public function testAddWrongParam()
+    public function testAddWrongParam(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->runner->addChecks('foo');
     }
 
-    public function testAddReporter()
+    public function testAddReporter(): void
     {
         $reporter = new BasicConsole();
         $this->runner->addReporter($reporter);
-        $this->assertContains($reporter, $this->runner->getReporters());
+        self::assertContains($reporter, $this->runner->getReporters());
     }
 
-    public function testRemoveReporter()
+    public function testRemoveReporter(): void
     {
         $reporter1 = new BasicConsole();
         $reporter2 = new BasicConsole();
         $this->runner->addReporter($reporter1);
         $this->runner->addReporter($reporter2);
-        $this->assertContains($reporter1, $this->runner->getReporters());
-        $this->assertContains($reporter2, $this->runner->getReporters());
+        self::assertContains($reporter1, $this->runner->getReporters());
+        self::assertContains($reporter2, $this->runner->getReporters());
         $this->runner->removeReporter($reporter1);
-        $this->assertNotContains($reporter1, $this->runner->getReporters());
-        $this->assertContains($reporter2, $this->runner->getReporters());
+        self::assertNotContains($reporter1, $this->runner->getReporters());
+        self::assertContains($reporter2, $this->runner->getReporters());
     }
 
-    public function testStart()
+    public function testStart(): void
     {
         $this->runner->addCheck(new AlwaysSuccess());
         $mock = $this->createMock(AbstractReporter::class);
-        $mock->expects($this
-            ->once())
+        $mock->expects(self
+            ::once())
             ->method('onStart')
-            ->with($this->isInstanceOf(ArrayObject::class), $this->isType('array'));
+            ->with(self::isInstanceOf(ArrayObject::class), self::isType('array'));
         $this->runner->addReporter($mock);
         $this->runner->run();
     }
 
-    public function testBeforeRun()
+    public function testBeforeRun(): void
     {
         $check = new AlwaysSuccess();
         $this->runner->addCheck($check);
         $mock = $this->createMock(AbstractReporter::class);
-        $mock->expects($this->once())->method('onBeforeRun')->with($this->identicalTo($check));
+        $mock->expects(self::once())->method('onBeforeRun')->with(self::identicalTo($check));
         $this->runner->addReporter($mock);
         $this->runner->run();
     }
 
-    public function testAfterRun()
+    public function testAfterRun(): void
     {
         $check = new AlwaysSuccess();
         $this->runner->addCheck($check);
         $mock = $this->createMock(AbstractReporter::class);
-        $mock->expects($this->once())->method('onAfterRun')->with($this->identicalTo($check));
+        $mock->expects(self::once())->method('onAfterRun')->with(self::identicalTo($check));
         $this->runner->addReporter($mock);
         $this->runner->run();
     }
 
-    public function testAliasIsKeptAfterRun()
+    public function testAliasIsKeptAfterRun(): void
     {
         $checkAlias = 'foo';
         $check = new AlwaysSuccess();
         $this->runner->addCheck($check, $checkAlias);
         $mock = $this->createMock(AbstractReporter::class);
-        $mock->expects($this
-            ->once())
+        $mock->expects(self
+            ::once())
             ->method('onAfterRun')
-            ->with($this->identicalTo($check), $check->check(), $checkAlias);
+            ->with(self::identicalTo($check), $check->check(), $checkAlias);
         $this->runner->addReporter($mock);
         $this->runner->run($checkAlias);
     }
@@ -270,57 +270,61 @@ class RunnerTest extends TestCase
     /**
      * @dataProvider checksAndResultsProvider
      */
-    public function testStandardResults($value, $expectedResult)
+    public function testStandardResults($value, $expectedResult): void
     {
         $check = new ReturnThis($value);
         $this->runner->addCheck($check);
         $results = $this->runner->run();
 
         if (is_string($expectedResult)) {
-            $this->assertInstanceOf($expectedResult, $results[$check]);
+            self::assertInstanceOf($expectedResult, $results[$check]);
         } else {
-            $this->assertSame($expectedResult, $results[$check]);
+            self::assertSame($expectedResult, $results[$check]);
         }
     }
 
-    public function testGetLastResult()
+    public function testGetLastResult(): void
     {
         $this->runner->addCheck(new AlwaysSuccess());
         $result = $this->runner->run();
-        $this->assertInstanceOf(Collection::class, $result);
-        $this->assertSame($result, $this->runner->getLastResults());
+        self::assertInstanceOf(Collection::class, $result);
+        self::assertSame($result, $this->runner->getLastResults());
     }
 
-    public function testExceptionResultsInFailure()
+    public function testExceptionResultsInFailure(): void
     {
         $exception = new Exception();
         $check = new ThrowException($exception);
         $this->runner->addCheck($check);
         $results = $this->runner->run();
-        $this->assertInstanceOf(Failure::class, $results[$check]);
+        self::assertInstanceOf(Failure::class, $results[$check]);
     }
 
-    public function testPHPWarningResultsInFailure()
+    public function testPHPWarningResultsInFailure(): void
     {
+        if (PHP_MAJOR_VERSION >= 8) {
+            $this->markTestSkipped('Test case raises a TypeError under PHP 8, instead of a warning');
+        }
+
         $check = new TriggerWarning();
         $this->runner->addCheck($check);
         $results = $this->runner->run();
-        $this->assertInstanceOf(Failure::class, $results[$check]);
-        $this->assertInstanceOf(ErrorException::class, $results[$check]->getData());
-        $this->assertEquals(E_WARNING, $results[$check]->getData()->getSeverity());
+        self::assertInstanceOf(Failure::class, $results[$check]);
+        self::assertInstanceOf(ErrorException::class, $results[$check]->getData());
+        self::assertEquals(E_WARNING, $results[$check]->getData()->getSeverity());
     }
 
-    public function testPHPUserErrorResultsInFailure()
+    public function testPHPUserErrorResultsInFailure(): void
     {
         $check = new TriggerUserError('error', E_USER_ERROR);
         $this->runner->addCheck($check);
         $results = $this->runner->run();
-        $this->assertInstanceOf(Failure::class, $results[$check]);
-        $this->assertInstanceOf(ErrorException::class, $results[$check]->getData());
-        $this->assertEquals(E_USER_ERROR, $results[$check]->getData()->getSeverity());
+        self::assertInstanceOf(Failure::class, $results[$check]);
+        self::assertInstanceOf(ErrorException::class, $results[$check]->getData());
+        self::assertEquals(E_USER_ERROR, $results[$check]->getData()->getSeverity());
     }
 
-    public function testBreakOnFirstFailure()
+    public function testBreakOnFirstFailure(): void
     {
         $check1 = new AlwaysFailure();
         $check2 = new AlwaysSuccess();
@@ -330,13 +334,13 @@ class RunnerTest extends TestCase
 
         $results = $this->runner->run();
 
-        $this->assertInstanceOf(Collection::class, $results);
-        $this->assertEquals(1, $results->count());
-        $this->assertFalse($results->offsetExists($check2));
-        $this->assertInstanceOf(FailureInterface::class, $results->offsetGet($check1));
+        self::assertInstanceOf(Collection::class, $results);
+        self::assertEquals(1, $results->count());
+        self::assertFalse($results->offsetExists($check2));
+        self::assertInstanceOf(FailureInterface::class, $results->offsetGet($check1));
     }
 
-    public function testBeforeRunSkipTest()
+    public function testBeforeRunSkipTest(): void
     {
         $check1 = new AlwaysSuccess();
         $check2 = new AlwaysSuccess();
@@ -344,10 +348,10 @@ class RunnerTest extends TestCase
         $this->runner->addCheck($check2);
 
         $mock = $this->createMock(AbstractReporter::class);
-        $mock->expects($this->atLeastOnce())
+        $mock->expects(self::atLeastOnce())
             ->method('onBeforeRun')
-            ->with($this->isInstanceOf(CheckInterface::class))
-            ->will($this->onConsecutiveCalls(
+            ->with(self::isInstanceOf(CheckInterface::class))
+            ->will(self::onConsecutiveCalls(
                 false,
                 true
             ))
@@ -356,13 +360,13 @@ class RunnerTest extends TestCase
 
         $results = $this->runner->run();
 
-        $this->assertInstanceOf(Collection::class, $results);
-        $this->assertEquals(1, $results->count());
-        $this->assertFalse($results->offsetExists($check1));
-        $this->assertInstanceOf(SuccessInterface::class, $results->offsetGet($check2));
+        self::assertInstanceOf(Collection::class, $results);
+        self::assertEquals(1, $results->count());
+        self::assertFalse($results->offsetExists($check1));
+        self::assertInstanceOf(SuccessInterface::class, $results->offsetGet($check2));
     }
 
-    public function testAfterRunStopTesting()
+    public function testAfterRunStopTesting(): void
     {
         $check1 = new AlwaysSuccess();
         $check2 = new AlwaysSuccess();
@@ -370,10 +374,10 @@ class RunnerTest extends TestCase
         $this->runner->addCheck($check2);
 
         $mock = $this->createMock(AbstractReporter::class);
-        $mock->expects($this->atLeastOnce())
+        $mock->expects(self::atLeastOnce())
             ->method('onAfterRun')
-            ->with($this->isInstanceOf(CheckInterface::class))
-            ->will($this->onConsecutiveCalls(
+            ->with(self::isInstanceOf(CheckInterface::class))
+            ->will(self::onConsecutiveCalls(
                 false,
                 true
             ))
@@ -382,9 +386,9 @@ class RunnerTest extends TestCase
 
         $results = $this->runner->run();
 
-        $this->assertInstanceOf(Collection::class, $results);
-        $this->assertEquals(1, $results->count());
-        $this->assertFalse($results->offsetExists($check2));
-        $this->assertInstanceOf(SuccessInterface::class, $results->offsetGet($check1));
+        self::assertInstanceOf(Collection::class, $results);
+        self::assertEquals(1, $results->count());
+        self::assertFalse($results->offsetExists($check2));
+        self::assertInstanceOf(SuccessInterface::class, $results->offsetGet($check1));
     }
 }
