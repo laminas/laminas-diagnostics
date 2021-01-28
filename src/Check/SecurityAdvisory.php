@@ -12,8 +12,10 @@ use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
-use SensioLabs\Security\Result;
-use SensioLabs\Security\SecurityChecker;
+use Enlightn\SecurityChecker\AdvisoryAnalyzer;
+use Enlightn\SecurityChecker\AdvisoryFetcher;
+use Enlightn\SecurityChecker\AdvisoryParser;
+use Enlightn\SecurityChecker\Composer;
 
 /**
  * Checks installed composer dependencies against the SensioLabs Security Advisory database.
@@ -26,28 +28,22 @@ class SecurityAdvisory extends AbstractCheck
     protected $lockFilePath;
 
     /**
-     * @var SecurityChecker
+     * @var \Enlightn\SecurityChecker\AdvisoryAnalyzer
      */
-    protected $securityChecker;
+    protected $advisoryAnalyzer;
 
     /**
      * @param  string $lockFilePath Path to composer.lock
-     * @throws InvalidArgumentException
+     * @throws InvalidArgumentException|\GuzzleHttp\Exception\GuzzleException
      */
     public function __construct($lockFilePath = null)
     {
-        if (! class_exists('SensioLabs\Security\SecurityChecker')) {
+        if (! class_exists('Enlightn\SecurityChecker\AdvisoryAnalyzer')) {
             throw new InvalidArgumentException(sprintf(
                 'Unable to find "%s" class. Please install "%s" library to use this Check.',
-                'SensioLabs\Security\SecurityChecker',
-                'sensiolabs/security-checker'
+                'Enlightn\SecurityChecker\AdvisoryAnalyzer',
+                'enlightn/security-checker'
             ));
-        }
-
-        if (! class_exists('SensioLabs\Security\Result')) {
-            throw new InvalidArgumentException(
-                'You must have sensiolabs/security-checker version 5+ to use this check.'
-            );
         }
 
         if (! $lockFilePath) {
@@ -66,7 +62,10 @@ class SecurityAdvisory extends AbstractCheck
         }
 
         $this->lockFilePath    = $lockFilePath;
-        $this->securityChecker = new SecurityChecker();
+
+        $parser = new AdvisoryParser((new AdvisoryFetcher)->fetchAdvisories());
+
+        $this->advisoryAnalyzer = new AdvisoryAnalyzer($parser->getAdvisories());
     }
 
     public function check()
@@ -84,13 +83,9 @@ class SecurityAdvisory extends AbstractCheck
                 ), $this->lockFilePath);
             }
 
-            $advisories = $this->securityChecker->check($this->lockFilePath, 'json');
+            $dependencies = (new Composer)->getDependencies($this->lockFilePath);
 
-            $advisories = @json_decode((string) $advisories, true);
-
-            if (! is_array($advisories)) {
-                return new Warning('Could not parse response from security advisory service.');
-            }
+            $advisories = $this->advisoryAnalyzer->analyzeDependencies($dependencies);
 
             if (! empty($advisories)) {
                 return new Failure(sprintf(
