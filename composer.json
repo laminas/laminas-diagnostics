@@ -51,7 +51,7 @@
         "doctrine/migrations": "Required by Check\\DoctrineMigration",
         "guzzlehttp/guzzle": "Required by Check\\GuzzleHttpService",
         "predis/predis": "Required by Check\\Redis",
-        "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory",
+        "enlightn/security-checker": "Required by Check\\SecurityAdvisory",
         "symfony/yaml": "Required by Check\\YamlFile",
         "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ"
     },
