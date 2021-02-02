@@ -47,7 +47,7 @@ $checkDbFile = new Callback(function() {
         return new Success('Db file is ok');
     }
 
-		return new Failure('There is something wrong with the db file');
+    return new Failure('There is something wrong with the db file');
 });
 ```
 
