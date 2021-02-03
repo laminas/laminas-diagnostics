@@ -1,7 +1,6 @@
 laminas-diagnostics
 ===============
 
-[![Build Status](https://travis-ci.com/laminas/laminas-diagnostics.svg?branch=master)](https://travis-ci.com/laminas/laminas-diagnostics)
 [![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-diagnostics/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-diagnostics?branch=master)
 
 Perform diagnostic tests within real-world PHP applications.
