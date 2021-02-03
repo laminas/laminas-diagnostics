@@ -11,50 +11,33 @@ use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use LogicException;
 
 class DoctrineMigration extends AbstractCheck
 {
     /**
      * Type depends on the installed version of doctrine/migrations:
-     * for ^2.0 it is string[], for ^3.0 it is Version[]
+     * for ^2.0 the input is a Configuration instance,
+     * for ^3.0 the input is a DependencyFactory instance
      *
-     * @var Version[]|string[]
+     * @var DependencyFactory|Configuration
      */
-    private $availableVersions;
-
-    /**
-     * Type depends on the installed version of doctrine/migrations:
-     * for ^2.0 it is string[], for ^3.0 it is Version[]
-     *
-     * @var Version[]|string[]
-     */
-    private $migratedVersions;
+    private $input;
 
     public function __construct($input)
     {
-        // check for doctrine/migrations:^3.0
-        if ($input instanceof DependencyFactory) {
-            $this->availableVersions = $this->getAvailableVersionsFromDependencyFactory($input);
-            $this->migratedVersions = $this->getMigratedVersionsFromDependencyFactory($input);
-            return;
+        if (! $input instanceof DependencyFactory && ! $input instanceof Configuration) {
+            throw new InvalidArgumentException(<<<'MESSAGE'
+                Invalid Argument for DoctrineMigration check.
+                If you are using doctrine/migrations ^3.0,
+                pass Doctrine\Migrations\DependencyFactory as argument.
+                If you are using doctrine/migrations ^2.0,
+                pass Doctrine\Migrations\Configuration\Configuration as argument.
+                MESSAGE
+            );
         }
 
-        // check for doctrine/migrations:^2.0
-        if ($input instanceof Configuration
-            && method_exists($input, 'getAvailableVersions')
-            && method_exists($input, 'getMigratedVersions')
-        ) {
-            $this->availableVersions = $input->getAvailableVersions();
-            $this->migratedVersions = $input->getMigratedVersions();
-            return;
-        }
-
-        throw new InvalidArgumentException(<<<'MESSAGE'
-            Invalid Argument for DoctrineMigration check.
-            If you are using doctrine/migrations ^3.0, pass Doctrine\Migrations\DependencyFactory as argument.
-            If you are using doctrine/migrations ^2.0, pass Doctrine\Migrations\Configuration\Configuration as argument.
-            MESSAGE
-        );
+        $this->input = $input;
     }
 
     /**
@@ -62,17 +45,60 @@ class DoctrineMigration extends AbstractCheck
      */
     public function check(): ResultInterface
     {
-        $notMigratedVersions = array_diff($this->availableVersions, $this->migratedVersions);
+        $availableVersions = $this->getAvailableVersionsFromInput($this->input);
+        $migratedVersions = $this->getMigratedVersionsFromInput($this->input);
+
+        $notMigratedVersions = array_diff($availableVersions, $migratedVersions);
         if (! empty($notMigratedVersions)) {
             return new Failure('Not all migrations applied', $notMigratedVersions);
         }
 
-        $notAvailableVersion = array_diff($this->migratedVersions, $this->availableVersions);
+        $notAvailableVersion = array_diff($migratedVersions, $availableVersions);
         if (! empty($notAvailableVersion)) {
             return new Failure('Migrations applied which are not available', $notMigratedVersions);
         }
 
         return new Success();
+    }
+
+    /**
+     * @param DependencyFactory|Configuration $input
+     * @return Version[]
+     */
+    private function getAvailableVersionsFromInput($input): array
+    {
+        if ($this->input instanceof DependencyFactory) {
+            return $this->getAvailableVersionsFromDependencyFactory($input);
+        }
+
+        if ($this->input instanceof Configuration) {
+            return $this->input->getAvailableVersions();
+        }
+
+        throw new LogicException(<<<'MESSAGE'
+            Unexpected class for $input detected. Could not check for Doctrine Migrations.
+            MESSAGE
+        );
+    }
+
+    /**
+     * @param DependencyFactory|Configuration $input
+     * @return Version[]
+     */
+    private function getMigratedVersionsFromInput($input): array
+    {
+        if ($this->input instanceof DependencyFactory) {
+            return $this->getMigratedVersionsFromDependencyFactory($input);
+        }
+
+        if ($this->input instanceof Configuration) {
+            return $this->input->getMigratedVersions();
+        }
+
+        throw new LogicException(<<<'MESSAGE'
+            Unexpected class for $input detected. Could not check for Doctrine Migrations.
+            MESSAGE
+        );
     }
 
     /**
