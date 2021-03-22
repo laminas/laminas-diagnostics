@@ -10,7 +10,7 @@ namespace Laminas\Diagnostics\Check;
 
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
-use PhpAmqpLib\Connection\AMQPConnection;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 /**
  * Validate that a RabbitMQ service is running
@@ -71,11 +71,11 @@ class RabbitMQ extends AbstractCheck
      */
     public function check()
     {
-        if (! class_exists('PhpAmqpLib\Connection\AMQPConnection')) {
+        if (! class_exists('PhpAmqpLib\Connection\AMQPStreamConnection')) {
             return new Failure('PhpAmqpLib is not installed');
         }
 
-        $conn = new AMQPConnection(
+        $conn = new AMQPStreamConnection(
             $this->host,
             $this->port,
             $this->user,
