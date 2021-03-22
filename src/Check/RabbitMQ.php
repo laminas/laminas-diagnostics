@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Check;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use PhpAmqpLib\Connection\AMQPConnection;
+use PhpAmqpLib\Connection\AMQPSocketConnection;
 
 /**
  * Validate that a RabbitMQ service is running
@@ -58,6 +59,36 @@ class RabbitMQ extends AbstractCheck
     }
 
     /**
+     * @return AMQPSocketConnection|AMQPConnection
+     *
+     * @throws \RuntimeException
+     */
+    private function createClient()
+    {
+        if (class_exists(AMQPSocketConnection::class)) {
+            return new AMQPSocketConnection(
+                $this->host,
+                $this->port,
+                $this->user,
+                $this->password,
+                $this->vhost
+            );
+        }
+
+        if (class_exists(AMQPConnection::class)) {
+            return new AMQPConnection(
+                $this->host,
+                $this->port,
+                $this->user,
+                $this->password,
+                $this->vhost
+            );
+        }
+
+        throw new \RuntimeException('PhpAmqpLib is not installed');
+    }
+
+    /**
      * Perform the check
      *
      * @see \Laminas\Diagnostics\Check\CheckInterface::check()
@@ -65,20 +96,15 @@ class RabbitMQ extends AbstractCheck
      */
     public function check()
     {
-        if (! class_exists('PhpAmqpLib\Connection\AMQPConnection')) {
-            return new Failure('PhpAmqpLib is not installed');
+        try {
+            $this->createClient()->channel();
+            return new Success();
+        } catch (\Exception $e) {
+            return new Failure(sprintf(
+                'Failed to connect to RabbitMQ server. Reason: `%s`',
+                $e->getMessage()
+            ));
         }
-
-        $conn = new AMQPConnection(
-            $this->host,
-            $this->port,
-            $this->user,
-            $this->password,
-            $this->vhost
-        );
-
-        $conn->channel();
-
-        return new Success();
     }
+
 }
