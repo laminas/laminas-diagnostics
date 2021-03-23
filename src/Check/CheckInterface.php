@@ -8,6 +8,7 @@
 
 namespace Laminas\Diagnostics\Check;
 
+use Exception;
 use Laminas\Diagnostics\Result\ResultInterface;
 
 interface CheckInterface
@@ -16,6 +17,7 @@ interface CheckInterface
      * Perform the actual check and return a ResultInterface
      *
      * @return ResultInterface
+     * @throws Exception
      */
     public function check();
 
