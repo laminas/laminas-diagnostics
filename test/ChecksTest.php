@@ -68,11 +68,8 @@ class ChecksTest extends TestCase
         self::assertInstanceOf(Success::class, $result);
 
         $check = new RabbitMQ('127.0.0.250', 9999);
-        // Exception type varies between different versions of php-amqplib;
-        // sometimes it is a descendent of ErrorException, sometimes
-        // RuntimeException. As such, catching any exception here.
-        $this->expectException(Exception::class);
-        $check->check();
+        $result = $check->check();
+        self::assertInstanceOf(Failure::class, $result);
     }
 
     public function testRedis(): void
