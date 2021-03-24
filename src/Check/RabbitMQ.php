@@ -106,5 +106,4 @@ class RabbitMQ extends AbstractCheck
             ));
         }
     }
-
 }
