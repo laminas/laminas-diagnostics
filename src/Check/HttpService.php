@@ -71,8 +71,10 @@ class HttpService extends AbstractCheck
             ));
         }
 
+        $headerHost = preg_replace('/^((?:ssl|tls):\/\/)/', '', $this->host);
+
         $header = "GET {$this->path} HTTP/1.0\r\n";
-        $header .= "Host: {$this->host}\r\n";
+        $header .= "Host: $headerHost\r\n";
         $header .= "Connection: close\r\n\r\n";
         fputs($fp, $header);
         $str = '';
