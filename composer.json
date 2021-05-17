@@ -1,7 +1,6 @@
 {
     "name": "laminas/laminas-diagnostics",
     "description": "A set of components for performing diagnostic tests in PHP applications",
-    "license": "BSD-3-Clause",
     "keywords": [
         "laminas",
         "php",
@@ -9,26 +8,16 @@
         "test"
     ],
     "homepage": "https://laminas.dev",
-    "support": {
-        "docs": "https://docs.laminas.dev/laminas-diagnostics/",
-        "issues": "https://github.com/laminas/laminas-diagnostics/issues",
-        "source": "https://github.com/laminas/laminas-diagnostics",
-        "rss": "https://github.com/laminas/laminas-diagnostics/releases.atom",
-        "chat": "https://laminas.dev/chat",
-        "forum": "https://discourse.laminas.dev"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.6.x-dev",
-            "dev-develop": "1.7.x-dev"
-        }
-    },
+    "license": "BSD-3-Clause",
     "require": {
         "php": "^7.3 || ~8.0.0",
         "laminas/laminas-zendframework-bridge": "^1.0"
+    },
+    "replace": {
+        "zendframework/zenddiagnostics": "^1.6.0"
+    },
+    "conflict": {
+        "guzzlehttp/ringphp": "<1.1.1"
     },
     "require-dev": {
         "doctrine/migrations": "^2.0 || ^3.0",
@@ -43,9 +32,6 @@
         "sensiolabs/security-checker": "^5.0 || ^6.0.3",
         "symfony/yaml": "^2.7 || ^3.0 || ^4.0 || ^5.0"
     },
-    "conflict": {
-        "guzzlehttp/ringphp": "<1.1.1"
-    },
     "suggest": {
         "ext-bcmath": "Required by Check\\CpuPerformance",
         "doctrine/migrations": "Required by Check\\DoctrineMigration",
@@ -55,13 +41,22 @@
         "symfony/yaml": "Required by Check\\YamlFile",
         "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ"
     },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "1.7.x-dev",
+            "dev-master": "1.6.x-dev"
+        }
+    },
     "autoload": {
-        "files": [
-            "src/autoload.php"
-        ],
         "psr-4": {
             "Laminas\\Diagnostics\\": "src/"
-        }
+        },
+        "files": [
+            "src/autoload.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -78,7 +73,12 @@
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     },
-    "replace": {
-        "zendframework/zenddiagnostics": "^1.6.0"
+    "support": {
+        "issues": "https://github.com/laminas/laminas-diagnostics/issues",
+        "forum": "https://discourse.laminas.dev",
+        "chat": "https://laminas.dev/chat",
+        "source": "https://github.com/laminas/laminas-diagnostics",
+        "docs": "https://docs.laminas.dev/laminas-diagnostics/",
+        "rss": "https://github.com/laminas/laminas-diagnostics/releases.atom"
     }
 }
