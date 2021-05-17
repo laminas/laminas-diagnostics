@@ -39,7 +39,7 @@
         "mikey179/vfsstream": "dev-master#08a798577d677436f4f4ea3d0b3c949f64655548 as 1.6.9",
         "php-amqplib/php-amqplib": "^2.0",
         "phpspec/prophecy-phpunit": "^2.0",
-        "phpunit/phpunit": "^9.4.1",
+        "phpunit/phpunit": "^9.5",
         "psalm/plugin-phpunit": "^0.15.1",
         "predis/predis": "^1.0",
         "symfony/yaml": "^2.7 || ^3.0 || ^4.0 || ^5.0",
