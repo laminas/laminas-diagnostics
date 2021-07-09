@@ -119,6 +119,52 @@ class DoctrineMigrationTest extends TestCase
         new DoctrineMigration(new \stdClass());
     }
 
+    public function testConstructorDoesNotOpenConnectionToDatabaseDoctrineVersion3()
+    {
+        if (! $this->isDoctrineVersion3Installed()) {
+            self::markTestSkipped('Doctrine Version 3 is not installed, skipping test.');
+        }
+
+        $dependencyFactory = $this->getMockBuilder(DependencyFactory::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $dependencyFactory
+            ->expects(self::never())
+            ->method('getMigrationRepository');
+
+        $dependencyFactory
+            ->expects(self::never())
+            ->method('getMetadataStorage');
+
+        new DoctrineMigration($dependencyFactory);
+
+        $this->expectNotToPerformAssertions();
+    }
+
+    public function testConstructorDoesNotOpenConnectionToDatabaseDoctrineVersion2()
+    {
+        if (! $this->isDoctrineVersion2Installed()) {
+            self::markTestSkipped('Doctrine Version 2 is not installed, skipping test.');
+        }
+
+        $configuration = $this->getMockBuilder(Configuration::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $configuration
+            ->expects(self::never())
+            ->method('getAvailableVersions');
+
+        $configuration
+            ->expects(self::never())
+            ->method('getMigratedVersions');
+
+        new DoctrineMigration($configuration);
+
+        $this->expectNotToPerformAssertions();
+    }
+
     public function provideMigrationTestCases(): Generator
     {
         yield 'everything migrated' => [
