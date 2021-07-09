@@ -111,7 +111,7 @@ class DoctrineMigrationTest extends TestCase
         self::assertInstanceof($expectedResult, $result);
     }
 
-    public function testThrowsExceptionForInvalidInput()
+    public function testThrowsExceptionForInvalidInput(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid Argument for DoctrineMigration check.');
@@ -119,7 +119,7 @@ class DoctrineMigrationTest extends TestCase
         new DoctrineMigration(new \stdClass());
     }
 
-    public function testConstructorDoesNotOpenConnectionToDatabaseDoctrineVersion3()
+    public function testConstructorDoesNotOpenConnectionToDatabaseDoctrineVersion3(): void
     {
         if (! $this->isDoctrineVersion3Installed()) {
             self::markTestSkipped('Doctrine Version 3 is not installed, skipping test.');
@@ -142,7 +142,7 @@ class DoctrineMigrationTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
-    public function testConstructorDoesNotOpenConnectionToDatabaseDoctrineVersion2()
+    public function testConstructorDoesNotOpenConnectionToDatabaseDoctrineVersion2(): void
     {
         if (! $this->isDoctrineVersion2Installed()) {
             self::markTestSkipped('Doctrine Version 2 is not installed, skipping test.');
