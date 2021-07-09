@@ -644,13 +644,17 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Check/RabbitMQ.php">
-    <DeprecatedClass occurrences="1"/>
-    <InvalidScalarArgument occurrences="1">
-      <code>$this-&gt;port</code>
-    </InvalidScalarArgument>
+    <MixedInferredReturnType occurrences="1">
+      <code>AMQPSocketConnection|AMQPConnection</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1"/>
     <PropertyNotSetInConstructor occurrences="1">
       <code>RabbitMQ</code>
     </PropertyNotSetInConstructor>
+    <UndefinedDocblockClass occurrences="2">
+      <code>$this-&gt;createClient()</code>
+      <code>AMQPSocketConnection|AMQPConnection</code>
+    </UndefinedDocblockClass>
   </file>
   <file src="src/Check/Redis.php">
     <MixedAssignment occurrences="1">
