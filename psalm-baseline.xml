@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.7.2@83a0325c0a95c0ab531d6b90c877068b464377b5">
+<files psalm-version="4.8.1@f73f2299dbc59a3e6c4d66cff4605176e728ee69">
   <file src="src/Check/AbstractCheck.php">
     <MissingConstructor occurrences="4">
       <code>$label</code>
@@ -70,9 +70,11 @@
       <code>$info['block_lists'][$i]</code>
       <code>$info['block_lists'][$i]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="3">
+    <MixedAssignment occurrences="5">
       <code>$block</code>
       <code>$fragPercent</code>
+      <code>$fragsize</code>
+      <code>$freetotal</code>
       <code>$ptr</code>
     </MixedAssignment>
     <MixedOperand occurrences="5">
@@ -287,13 +289,16 @@
       <code>$this-&gt;path</code>
       <code>$this-&gt;path</code>
     </MixedArgument>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment occurrences="3">
+      <code>$bytes</code>
+      <code>$bytes</code>
       <code>$i</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
       <code>int</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="2">
+    <MixedOperand occurrences="3">
+      <code>$bytes</code>
       <code>$this-&gt;path</code>
       <code>$x[$i]</code>
     </MixedOperand>
@@ -678,6 +683,9 @@
     <DocblockTypeContradiction occurrences="1">
       <code>is_scalar($lockFilePath)</code>
     </DocblockTypeContradiction>
+    <MixedArgument occurrences="1">
+      <code>$advisories</code>
+    </MixedArgument>
     <MixedAssignment occurrences="1">
       <code>$advisories</code>
     </MixedAssignment>
@@ -944,7 +952,7 @@
       <code>shell_exec('ps -o command= -p ' . $phpPid)</code>
     </ForbiddenCode>
     <InvalidArgument occurrences="13">
-      <code>$this-&gt;createMock(SecurityChecker::class)</code>
+      <code>$this-&gt;createMock(AdvisoryAnalyzer::class)</code>
       <code>15</code>
       <code>[$this, 'foobarbar']</code>
       <code>[]</code>
@@ -1041,7 +1049,7 @@
       <code>$name</code>
     </PossiblyUndefinedVariable>
     <TooManyArguments occurrences="1">
-      <code>new SecurityAdvisory($this-&gt;createMock(SecurityChecker::class), new stdClass())</code>
+      <code>new SecurityAdvisory($this-&gt;createMock(AdvisoryAnalyzer::class), new stdClass())</code>
     </TooManyArguments>
     <UnusedVariable occurrences="3">
       <code>$check</code>
@@ -1337,7 +1345,7 @@
   </file>
   <file src="test/TestAsset/Check/SecurityAdvisory.php">
     <MissingReturnType occurrences="1">
-      <code>setSecurityChecker</code>
+      <code>setAdvisoryAnalyzer</code>
     </MissingReturnType>
     <PropertyNotSetInConstructor occurrences="1">
       <code>SecurityAdvisory</code>
