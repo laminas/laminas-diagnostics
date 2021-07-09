@@ -70,14 +70,7 @@ class DoctrineMigration extends AbstractCheck
             return $this->getAvailableVersionsFromDependencyFactory($this->input);
         }
 
-        if ($this->input instanceof Configuration) {
-            return $this->input->getAvailableVersions();
-        }
-
-        throw new LogicException(<<<'MESSAGE'
-            Unexpected class for $input detected. Could not check for Doctrine Migrations.
-            MESSAGE
-        );
+        return $this->input->getAvailableVersions();
     }
 
     /**
@@ -89,14 +82,7 @@ class DoctrineMigration extends AbstractCheck
             return $this->getMigratedVersionsFromDependencyFactory($this->input);
         }
 
-        if ($this->input instanceof Configuration) {
-            return $this->input->getMigratedVersions();
-        }
-
-        throw new LogicException(<<<'MESSAGE'
-            Unexpected class for $input detected. Could not check for Doctrine Migrations.
-            MESSAGE
-        );
+        return $this->input->getMigratedVersions();
     }
 
     /**
