@@ -9,6 +9,7 @@
 namespace LaminasTest\Diagnostics;
 
 use ArrayObject;
+use Enlightn\SecurityChecker\AdvisoryAnalyzer;
 use ErrorException;
 use Exception;
 use InvalidArgumentException;
@@ -39,8 +40,6 @@ use Laminas\Diagnostics\Result\Warning;
 use LaminasTest\Diagnostics\TestAsset\Check\AlwaysSuccess;
 use LaminasTest\Diagnostics\TestAsset\Check\SecurityAdvisory;
 use PHPUnit\Framework\TestCase;
-use SensioLabs\Security\Result;
-use SensioLabs\Security\SecurityChecker;
 use stdClass;
 
 class ChecksTest extends TestCase
@@ -567,10 +566,10 @@ class ChecksTest extends TestCase
 
     public function testSecurityAdvisory(): void
     {
-        if (! class_exists(SecurityChecker::class)) {
+        if (! class_exists(AdvisoryAnalyzer::class)) {
             self::markTestSkipped(
-                'Unable to find SensioLabs\Security\SecurityChecker class - probably missing ' .
-                'sensiolabs/security-checker package. Have you installed all dependencies, ' .
+                'Unable to find Enlightn\SecurityChecker\AdvisoryAnalyzer class - probably missing ' .
+                'enlightn/security-checker package. Have you installed all dependencies, ' .
                 'including those specified require-dev in composer.json?'
             );
         }
@@ -612,14 +611,13 @@ class ChecksTest extends TestCase
     public function testSecurityAdvisoryFailure(): void
     {
         $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
-        $checker = $this->createMock(SecurityChecker::class);
-        $checker->expects(self::once())
-            ->method('check')
-            ->with(self::equalTo($secureComposerLock))
-            ->willReturn(new Result(3, '[{"a":1},{"b":2},{"c":3}]', 'json'));
+        $analyzer = $this->createMock(AdvisoryAnalyzer::class);
+        $analyzer->expects(self::once())
+            ->method('analyzeDependencies')
+            ->willReturn([['a' => 1], ['b' => 2], ['c' => 3]]);
 
         $check = new SecurityAdvisory($secureComposerLock);
-        $check->setSecurityChecker($checker);
+        $check->setAdvisoryAnalyzer($analyzer);
         $result = $check->check();
         self::assertInstanceOf(Failure::class, $result);
         self::assertSame('Found security advisories for 3 composer package(s)', $result->getMessage());
@@ -628,32 +626,15 @@ class ChecksTest extends TestCase
     /**
      * @depends testSecurityAdvisory
      */
-    public function testSecurityAdvisoryInvalidServerResponse(): void
-    {
-        $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
-        $checker = $this->createMock(SecurityChecker::class);
-        $checker->expects(self::once())
-            ->method('check')
-            ->with(self::equalTo($secureComposerLock))
-            ->willReturn('404 error');
-        $check = new SecurityAdvisory($secureComposerLock);
-        $check->setSecurityChecker($checker);
-        $result = $check->check();
-        self::assertInstanceOf(Warning::class, $result);
-    }
-    /**
-     * @depends testSecurityAdvisory
-     */
     public function testSecurityAdvisoryCheckerException(): void
     {
         $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
-        $checker = $this->createMock(SecurityChecker::class);
-        $checker->expects(self::once())
-            ->method('check')
-            ->with(self::equalTo($secureComposerLock))
+        $analyzer = $this->createMock(AdvisoryAnalyzer::class);
+        $analyzer->expects(self::once())
+            ->method('analyzeDependencies')
             ->will(self::throwException(new Exception));
         $check = new SecurityAdvisory($secureComposerLock);
-        $check->setSecurityChecker($checker);
+        $check->setAdvisoryAnalyzer($analyzer);
         $result = $check->check();
         self::assertInstanceOf(Warning::class, $result);
     }
@@ -664,13 +645,12 @@ class ChecksTest extends TestCase
     public function testSecurityAdvisoryCheckerSuccess(): void
     {
         $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
-        $checker = $this->createMock(SecurityChecker::class);
+        $checker = $this->createMock(AdvisoryAnalyzer::class);
         $checker->expects(self::once())
-            ->method('check')
-            ->with(self::equalTo($secureComposerLock))
-            ->willReturn(new Result(0, '[]', 'json'));
+            ->method('analyzeDependencies')
+            ->willReturn([]);
         $check = new SecurityAdvisory($secureComposerLock);
-        $check->setSecurityChecker($checker);
+        $check->setAdvisoryAnalyzer($checker);
         $result = $check->check();
         self::assertInstanceOf(Success::class, $result);
     }
@@ -801,7 +781,7 @@ class ChecksTest extends TestCase
     public function testSecurityAdvisoryInvalidArgument1(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        new SecurityAdvisory($this->createMock(SecurityChecker::class), new stdClass());
+        new SecurityAdvisory($this->createMock(AdvisoryAnalyzer::class), new stdClass());
     }
 
     public function testAbstractFileCheckArgument1(): void
