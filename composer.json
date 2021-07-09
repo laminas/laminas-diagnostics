@@ -37,7 +37,7 @@
         "laminas/laminas-coding-standard": "~1.0.0",
         "laminas/laminas-loader": "^2.0",
         "mikey179/vfsstream": "dev-master#08a798577d677436f4f4ea3d0b3c949f64655548 as 1.6.9",
-        "php-amqplib/php-amqplib": "^2.0",
+        "php-amqplib/php-amqplib": "^2.0 || ^3.0",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-phpunit": "^0.15.1",
@@ -55,7 +55,7 @@
         "predis/predis": "Required by Check\\Redis",
         "enlightn/security-checker": "Required by Check\\SecurityAdvisory",
         "symfony/yaml": "Required by Check\\YamlFile",
-        "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ"
+        "php-amqplib/php-amqplib": "Required by Check\\RabbitMQ"
     },
     "autoload": {
         "files": [
