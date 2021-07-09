@@ -10,11 +10,11 @@ Note: this does not work with Laminas MVC version 3; use the [plain PHP
 diagnostics](#using-diagnostics-in-plain-php) instructions below when using that
 framework version.
 
-## Using diagnostics with Symfony 2
+## Using diagnostics with Symfony
 
 1. Install the [LiipMonitorBundle](https://github.com/liip/LiipMonitorBundle).
 2. Enable diagnostic tests in [your application configuration](https://github.com/liip/LiipMonitorBundle/blob/master/README.md).
-3. In your console type `./app/console monitor:health` to run diagnostics.
+3. In your console type `./bin/console monitor:health` to run diagnostics.
 
 ## Using diagnostics with PSR-7 middleware
 
