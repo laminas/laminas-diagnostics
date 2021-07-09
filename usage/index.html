@@ -288,7 +288,7 @@
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#using-diagnostics-with-symfony-2" class="toc__link nav-link">Using diagnostics with Symfony 2</a>
+                        <a href="#using-diagnostics-with-symfony" class="toc__link nav-link">Using diagnostics with Symfony</a>
                     </li>
                 
                     <li class="toc__entry">
@@ -345,11 +345,11 @@
 <p>Note: this does not work with Laminas MVC version 3; use the <a href="#using-diagnostics-in-plain-php">plain PHP
 diagnostics</a> instructions below when using that
 framework version.</p>
-<h2 id="using-diagnostics-with-symfony-2">Using diagnostics with Symfony 2</h2>
+<h2 id="using-diagnostics-with-symfony">Using diagnostics with Symfony</h2>
 <ol>
 <li>Install the <a href="https://github.com/liip/LiipMonitorBundle">LiipMonitorBundle</a>.</li>
 <li>Enable diagnostic tests in <a href="https://github.com/liip/LiipMonitorBundle/blob/master/README.md">your application configuration</a>.</li>
-<li>In your console type <code>./app/console monitor:health</code> to run diagnostics.</li>
+<li>In your console type <code>./bin/console monitor:health</code> to run diagnostics.</li>
 </ol>
 <h2 id="using-diagnostics-with-psr-7-middleware">Using diagnostics with PSR-7 middleware</h2>
 <p>Install the <a href="https://github.com/rstgroup/diagnostics-middleware">rstgroup/diagnostics-middleware</a>.</p>
@@ -451,16 +451,6 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-diagnostics/edit/master/docs/book/usage.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>

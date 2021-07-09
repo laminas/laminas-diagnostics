@@ -461,10 +461,10 @@ $checkDbFile = new Callback(function() {
         return new Success('Db file is ok');
     }
 
-        return new Failure('There is something wrong with the db file');
+    return new Failure('There is something wrong with the db file');
 });</code></pre>
 <blockquote>
-<h3>Callback signature</h3>
+<h3 id="callback-signature">Callback signature</h3>
 <p>The callback must return either a <code>boolean</code> (true for success, false for
 failure), or a valid instance of
 <a href="https://github.com/laminas/laminas-diagnostics/tree/master/src/Result/ResultInterface.php">ResultInterface</a>.
@@ -825,16 +825,6 @@ $check = new DoctrineMigration($migrationConfig);</code></pre>
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-diagnostics/edit/master/docs/book/diagnostics.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>
