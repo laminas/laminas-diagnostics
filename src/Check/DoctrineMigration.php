@@ -45,8 +45,8 @@ class DoctrineMigration extends AbstractCheck
      */
     public function check(): ResultInterface
     {
-        $availableVersions = $this->getAvailableVersionsFromInput($this->input);
-        $migratedVersions = $this->getMigratedVersionsFromInput($this->input);
+        $availableVersions = $this->getAvailableVersions();
+        $migratedVersions = $this->getMigratedVersions();
 
         $notMigratedVersions = array_diff($availableVersions, $migratedVersions);
         if (! empty($notMigratedVersions)) {
@@ -62,13 +62,12 @@ class DoctrineMigration extends AbstractCheck
     }
 
     /**
-     * @param DependencyFactory|Configuration $input
      * @return Version[]
      */
-    private function getAvailableVersionsFromInput($input): array
+    private function getAvailableVersions(): array
     {
         if ($this->input instanceof DependencyFactory) {
-            return $this->getAvailableVersionsFromDependencyFactory($input);
+            return $this->getAvailableVersionsFromDependencyFactory($this->input);
         }
 
         if ($this->input instanceof Configuration) {
@@ -82,13 +81,12 @@ class DoctrineMigration extends AbstractCheck
     }
 
     /**
-     * @param DependencyFactory|Configuration $input
      * @return Version[]
      */
-    private function getMigratedVersionsFromInput($input): array
+    private function getMigratedVersions(): array
     {
         if ($this->input instanceof DependencyFactory) {
-            return $this->getMigratedVersionsFromDependencyFactory($input);
+            return $this->getMigratedVersionsFromDependencyFactory($this->input);
         }
 
         if ($this->input instanceof Configuration) {
