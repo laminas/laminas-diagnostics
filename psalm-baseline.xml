@@ -340,18 +340,24 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Check/DoctrineMigration.php">
-    <MissingParamType occurrences="1">
-      <code>$input</code>
-    </MissingParamType>
-    <MixedAssignment occurrences="2">
-      <code>$this-&gt;availableVersions</code>
-      <code>$this-&gt;migratedVersions</code>
-    </MixedAssignment>
-    <PropertyNotSetInConstructor occurrences="3">
-      <code>$availableVersions</code>
-      <code>$migratedVersions</code>
+    <DocblockTypeContradiction occurrences="1">
+      <code>! $input instanceof DependencyFactory &amp;&amp; ! $input instanceof Configuration</code>
+    </DocblockTypeContradiction>
+    <MixedInferredReturnType occurrences="2">
+      <code>Version[]</code>
+      <code>Version[]</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="2">
+      <code>$this-&gt;input-&gt;getAvailableVersions()</code>
+      <code>$this-&gt;input-&gt;getMigratedVersions()</code>
+    </MixedReturnStatement>
+    <PropertyNotSetInConstructor occurrences="1">
       <code>DoctrineMigration</code>
     </PropertyNotSetInConstructor>
+    <UndefinedMethod occurrences="2">
+      <code>getAvailableVersions</code>
+      <code>getMigratedVersions</code>
+    </UndefinedMethod>
   </file>
   <file src="src/Check/ExtensionLoaded.php">
     <ArgumentTypeCoercion occurrences="1">
@@ -1175,9 +1181,9 @@
       <code>$expectedResult</code>
       <code>$expectedResult</code>
     </ArgumentTypeCoercion>
-    <MissingReturnType occurrences="1">
-      <code>testThrowsExceptionForInvalidInput</code>
-    </MissingReturnType>
+    <InvalidArgument occurrences="1">
+      <code>new \stdClass()</code>
+    </InvalidArgument>
     <MixedArgument occurrences="2">
       <code>$version</code>
       <code>$version</code>

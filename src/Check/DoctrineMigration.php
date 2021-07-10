@@ -11,50 +11,39 @@ use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use LogicException;
 
 class DoctrineMigration extends AbstractCheck
 {
     /**
      * Type depends on the installed version of doctrine/migrations:
-     * for ^2.0 it is string[], for ^3.0 it is Version[]
+     * for ^2.0 the input is a Configuration instance,
+     * for ^3.0 the input is a DependencyFactory instance
      *
-     * @var Version[]|string[]
+     * @var DependencyFactory|Configuration
      */
-    private $availableVersions;
+    private $input;
 
     /**
-     * Type depends on the installed version of doctrine/migrations:
-     * for ^2.0 it is string[], for ^3.0 it is Version[]
+     * @param DependencyFactory|Configuration $input
      *
-     * @var Version[]|string[]
+     * @throws InvalidArgumentException if an invalid $input is given - note that this exception will
+     *                                  be removed once PHP 8 union types are introduced here.
      */
-    private $migratedVersions;
-
     public function __construct($input)
     {
-        // check for doctrine/migrations:^3.0
-        if ($input instanceof DependencyFactory) {
-            $this->availableVersions = $this->getAvailableVersionsFromDependencyFactory($input);
-            $this->migratedVersions = $this->getMigratedVersionsFromDependencyFactory($input);
-            return;
+        if (! $input instanceof DependencyFactory && ! $input instanceof Configuration) {
+            throw new InvalidArgumentException(<<<'MESSAGE'
+                Invalid Argument for DoctrineMigration check.
+                If you are using doctrine/migrations ^3.0,
+                pass Doctrine\Migrations\DependencyFactory as argument.
+                If you are using doctrine/migrations ^2.0,
+                pass Doctrine\Migrations\Configuration\Configuration as argument.
+                MESSAGE
+            );
         }
 
-        // check for doctrine/migrations:^2.0
-        if ($input instanceof Configuration
-            && method_exists($input, 'getAvailableVersions')
-            && method_exists($input, 'getMigratedVersions')
-        ) {
-            $this->availableVersions = $input->getAvailableVersions();
-            $this->migratedVersions = $input->getMigratedVersions();
-            return;
-        }
-
-        throw new InvalidArgumentException(<<<'MESSAGE'
-            Invalid Argument for DoctrineMigration check.
-            If you are using doctrine/migrations ^3.0, pass Doctrine\Migrations\DependencyFactory as argument.
-            If you are using doctrine/migrations ^2.0, pass Doctrine\Migrations\Configuration\Configuration as argument.
-            MESSAGE
-        );
+        $this->input = $input;
     }
 
     /**
@@ -62,17 +51,44 @@ class DoctrineMigration extends AbstractCheck
      */
     public function check(): ResultInterface
     {
-        $notMigratedVersions = array_diff($this->availableVersions, $this->migratedVersions);
+        $availableVersions = $this->getAvailableVersions();
+        $migratedVersions = $this->getMigratedVersions();
+
+        $notMigratedVersions = array_diff($availableVersions, $migratedVersions);
         if (! empty($notMigratedVersions)) {
             return new Failure('Not all migrations applied', $notMigratedVersions);
         }
 
-        $notAvailableVersion = array_diff($this->migratedVersions, $this->availableVersions);
+        $notAvailableVersion = array_diff($migratedVersions, $availableVersions);
         if (! empty($notAvailableVersion)) {
             return new Failure('Migrations applied which are not available', $notMigratedVersions);
         }
 
         return new Success();
+    }
+
+    /**
+     * @return Version[]
+     */
+    private function getAvailableVersions(): array
+    {
+        if ($this->input instanceof DependencyFactory) {
+            return $this->getAvailableVersionsFromDependencyFactory($this->input);
+        }
+
+        return $this->input->getAvailableVersions();
+    }
+
+    /**
+     * @return Version[]
+     */
+    private function getMigratedVersions(): array
+    {
+        if ($this->input instanceof DependencyFactory) {
+            return $this->getMigratedVersionsFromDependencyFactory($this->input);
+        }
+
+        return $this->input->getMigratedVersions();
     }
 
     /**
