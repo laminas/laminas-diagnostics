@@ -24,6 +24,12 @@ class DoctrineMigration extends AbstractCheck
      */
     private $input;
 
+    /**
+     * @param DependencyFactory|Configuration $input
+     *
+     * @throws InvalidArgumentException if an invalid $input is given - note that this exception will
+     *                                  be removed once PHP 8 union types are introduced here.
+     */
     public function __construct($input)
     {
         if (! $input instanceof DependencyFactory && ! $input instanceof Configuration) {
