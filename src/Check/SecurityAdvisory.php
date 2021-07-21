@@ -56,14 +56,14 @@ class SecurityAdvisory extends AbstractCheck
         }
 
         $this->lockFilePath    = $lockFilePath;
-
-        $parser = new AdvisoryParser((new AdvisoryFetcher)->fetchAdvisories());
-
-        $this->advisoryAnalyzer = new AdvisoryAnalyzer($parser->getAdvisories());
     }
 
     public function check()
     {
+        $parser = new AdvisoryParser((new AdvisoryFetcher)->fetchAdvisories());
+
+        $this->advisoryAnalyzer = new AdvisoryAnalyzer($parser->getAdvisories());
+
         try {
             if (! file_exists($this->lockFilePath) || ! is_file($this->lockFilePath)) {
                 return new Failure(sprintf(
