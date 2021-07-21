@@ -22,9 +22,9 @@ class SecurityAdvisory extends AbstractCheck
     protected $lockFilePath;
 
     /**
-     * @var \Enlightn\SecurityChecker\AdvisoryAnalyzer
+     * @var \Enlightn\SecurityChecker\AdvisoryAnalyzer|null
      */
-    protected $advisoryAnalyzer;
+    protected $advisoryAnalyzer = null;
 
     /**
      * @param  string $lockFilePath Path to composer.lock
@@ -60,9 +60,11 @@ class SecurityAdvisory extends AbstractCheck
 
     public function check()
     {
-        $parser = new AdvisoryParser((new AdvisoryFetcher)->fetchAdvisories());
+        if($this->advisoryAnalyzer === null) {
+            $parser = new AdvisoryParser((new AdvisoryFetcher)->fetchAdvisories());
 
-        $this->advisoryAnalyzer = new AdvisoryAnalyzer($parser->getAdvisories());
+            $this->advisoryAnalyzer = new AdvisoryAnalyzer($parser->getAdvisories());
+        }
 
         try {
             if (! file_exists($this->lockFilePath) || ! is_file($this->lockFilePath)) {
