@@ -60,7 +60,7 @@ class SecurityAdvisory extends AbstractCheck
 
     public function check()
     {
-        if($this->advisoryAnalyzer === null) {
+        if ($this->advisoryAnalyzer === null) {
             $parser = new AdvisoryParser((new AdvisoryFetcher)->fetchAdvisories());
 
             $this->advisoryAnalyzer = new AdvisoryAnalyzer($parser->getAdvisories());
