@@ -72,7 +72,9 @@ class SecurityAdvisory extends AbstractCheck
                     'Cannot find composer lock file at %s',
                     $this->lockFilePath
                 ), $this->lockFilePath);
-            } elseif (! is_readable($this->lockFilePath)) {
+            }
+
+            if (! is_readable($this->lockFilePath)) {
                 return new Failure(sprintf(
                     'Cannot open composer lock file at %s',
                     $this->lockFilePath
