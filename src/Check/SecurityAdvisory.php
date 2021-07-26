@@ -115,7 +115,7 @@ class SecurityAdvisory extends AbstractCheck
      */
     private function downloadAdvisoriesAndReturnPath(): string
     {
-        if($this->advisoryFetcher === null) {
+        if ($this->advisoryFetcher === null) {
             $this->advisoryFetcher = new AdvisoryFetcher();
         }
 

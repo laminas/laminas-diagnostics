@@ -23,6 +23,4 @@ class SecurityAdvisory extends BaseCheck
     {
         $this->advisoryFetcher = $advisoryFetcher;
     }
-
-
 }
