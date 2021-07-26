@@ -27,8 +27,13 @@ class SecurityAdvisory extends AbstractCheck
     protected $advisoryAnalyzer = null;
 
     /**
+     * @var \Enlightn\SecurityChecker\AdvisoryFetcher null
+     */
+    protected $advisoryFetcher = null;
+
+    /**
      * @param  string $lockFilePath Path to composer.lock
-     * @throws InvalidArgumentException|\GuzzleHttp\Exception\GuzzleException
+     * @throws InvalidArgumentException
      */
     public function __construct($lockFilePath = null)
     {
@@ -58,10 +63,13 @@ class SecurityAdvisory extends AbstractCheck
         $this->lockFilePath    = $lockFilePath;
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function check()
     {
         if ($this->advisoryAnalyzer === null) {
-            $parser = new AdvisoryParser((new AdvisoryFetcher)->fetchAdvisories());
+            $parser = new AdvisoryParser($this->downloadAdvisoriesAndReturnPath());
 
             $this->advisoryAnalyzer = new AdvisoryAnalyzer($parser->getAdvisories());
         }
@@ -99,5 +107,18 @@ class SecurityAdvisory extends AbstractCheck
             'There are currently no security advisories for packages specified in %s',
             $this->lockFilePath
         ));
+    }
+
+    /**
+     * @return string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private function downloadAdvisoriesAndReturnPath(): string
+    {
+        if($this->advisoryFetcher === null) {
+            $this->advisoryFetcher = new AdvisoryFetcher();
+        }
+
+        return $this->advisoryFetcher->fetchAdvisories();
     }
 }
