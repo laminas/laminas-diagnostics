@@ -14,5 +14,4 @@ class SecurityAdvisory extends BaseCheck
     {
         $this->advisoryAnalyzer = $advisoryAnalyzer;
     }
-
 }
