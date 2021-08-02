@@ -647,22 +647,6 @@ class ChecksTest extends TestCase
         self::assertInstanceOf(Success::class, $result);
     }
 
-    /**
-     * @depends testSecurityAdvisory
-     */
-    public function testSecurityAdvisoryFetcherException(): void
-    {
-        $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
-        $fetcher = $this->createMock(AdvisoryFetcher::class);
-        $fetcher->expects($this->once())
-            ->method('fetchAdvisories')
-            ->will(self::throwException(new \UnexpectedValueException()));
-        $check = new SecurityAdvisory($secureComposerLock);
-        $check->setAdvisoryFetcher($fetcher);
-        $this->expectException(\UnexpectedValueException::class);
-        $check->check();
-    }
-
     public function testPhpVersionInvalidVersion(): void
     {
         $this->expectException(InvalidArgumentException::class);

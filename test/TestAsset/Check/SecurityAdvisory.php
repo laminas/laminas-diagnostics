@@ -4,7 +4,6 @@ namespace LaminasTest\Diagnostics\TestAsset\Check;
 
 use Laminas\Diagnostics\Check\SecurityAdvisory as BaseCheck;
 use Enlightn\SecurityChecker\AdvisoryAnalyzer;
-use Enlightn\SecurityChecker\AdvisoryFetcher;
 
 class SecurityAdvisory extends BaseCheck
 {
@@ -16,11 +15,4 @@ class SecurityAdvisory extends BaseCheck
         $this->advisoryAnalyzer = $advisoryAnalyzer;
     }
 
-    /**
-     * @param \Enlightn\SecurityChecker\AdvisoryFetcher $advisoryFetcher
-     */
-    public function setAdvisoryFetcher(AdvisoryFetcher $advisoryFetcher): void
-    {
-        $this->advisoryFetcher = $advisoryFetcher;
-    }
 }
