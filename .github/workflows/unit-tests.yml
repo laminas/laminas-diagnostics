@@ -45,12 +45,13 @@ jobs:
           - "7.3"
           - "7.4"
           - "8.0"
+          - "8.1"
         deps-version:
           - "lowest"
           - "latest"
         include:
           - php-version: "8.0"
-            composer-args: "--no-interaction --no-progress --no-suggest --ignore-platform-reqs"
+            composer-args: "--no-interaction --no-progress --ignore-platform-reqs"
             memcached-enabled: 'false'
 
     steps:
@@ -78,7 +79,7 @@ jobs:
       - name: Install dependencies
         env:
           DEPS: ${{ matrix.deps-version }}
-          COMPOSER_ARGS: ${{ matrix.composer-args || '--no-interaction --no-progress --no-suggest' }}
+          COMPOSER_ARGS: ${{ matrix.composer-args || '--no-interaction --no-progress' }}
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
