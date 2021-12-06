@@ -22,13 +22,13 @@ class SecurityAdvisory extends AbstractCheck
     protected $lockFilePath;
 
     /**
-     * @var \Enlightn\SecurityChecker\AdvisoryAnalyzer
+     * @var \Enlightn\SecurityChecker\AdvisoryAnalyzer|null
      */
-    protected $advisoryAnalyzer;
+    protected $advisoryAnalyzer = null;
 
     /**
      * @param  string $lockFilePath Path to composer.lock
-     * @throws InvalidArgumentException|\GuzzleHttp\Exception\GuzzleException
+     * @throws InvalidArgumentException
      */
     public function __construct($lockFilePath = null)
     {
@@ -56,21 +56,29 @@ class SecurityAdvisory extends AbstractCheck
         }
 
         $this->lockFilePath    = $lockFilePath;
-
-        $parser = new AdvisoryParser((new AdvisoryFetcher)->fetchAdvisories());
-
-        $this->advisoryAnalyzer = new AdvisoryAnalyzer($parser->getAdvisories());
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function check()
     {
+        if ($this->advisoryAnalyzer === null) {
+            $advisoriesDirectory = (new AdvisoryFetcher())->fetchAdvisories();
+            $parser = new AdvisoryParser($advisoriesDirectory);
+
+            $this->advisoryAnalyzer = new AdvisoryAnalyzer($parser->getAdvisories());
+        }
+
         try {
             if (! file_exists($this->lockFilePath) || ! is_file($this->lockFilePath)) {
                 return new Failure(sprintf(
                     'Cannot find composer lock file at %s',
                     $this->lockFilePath
                 ), $this->lockFilePath);
-            } elseif (! is_readable($this->lockFilePath)) {
+            }
+
+            if (! is_readable($this->lockFilePath)) {
                 return new Failure(sprintf(
                     'Cannot open composer lock file at %s',
                     $this->lockFilePath

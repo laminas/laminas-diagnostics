@@ -10,7 +10,7 @@ class SecurityAdvisory extends BaseCheck
     /**
      * @param \Enlightn\SecurityChecker\AdvisoryAnalyzer $advisoryAnalyzer
      */
-    public function setAdvisoryAnalyzer(AdvisoryAnalyzer $advisoryAnalyzer)
+    public function setAdvisoryAnalyzer(AdvisoryAnalyzer $advisoryAnalyzer): void
     {
         $this->advisoryAnalyzer = $advisoryAnalyzer;
     }

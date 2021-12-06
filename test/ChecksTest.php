@@ -4,6 +4,7 @@ namespace LaminasTest\Diagnostics;
 
 use ArrayObject;
 use Enlightn\SecurityChecker\AdvisoryAnalyzer;
+use Enlightn\SecurityChecker\AdvisoryFetcher;
 use ErrorException;
 use Exception;
 use InvalidArgumentException;
