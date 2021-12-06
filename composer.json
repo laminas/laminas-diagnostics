@@ -27,8 +27,7 @@
         }
     },
     "require": {
-        "php": "^7.4 || ~8.0.0 || ~8.1.0",
-        "laminas/laminas-zendframework-bridge": "^1.0"
+        "php": "^7.4 || ~8.0.0 || ~8.1.0"
     },
     "require-dev": {
         "doctrine/migrations": "^2.0 || ^3.0",
@@ -47,7 +46,8 @@
         "vimeo/psalm": "^4.7"
     },
     "conflict": {
-        "guzzlehttp/ringphp": "<1.1.1"
+        "guzzlehttp/ringphp": "<1.1.1",
+        "zendframework/zenddiagnostics": "*"
     },
     "suggest": {
         "ext-bcmath": "Required by Check\\CpuPerformance",
@@ -81,8 +81,5 @@
         "static-analysis": "psalm --shepherd --stats",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
-    },
-    "replace": {
-        "zendframework/zenddiagnostics": "^1.6.0"
     }
 }
