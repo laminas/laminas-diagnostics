@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f6740e06d39f13ec7bab1304f62163f",
+    "content-hash": "688afdd2ca8f26c15d938676c5e20125",
     "packages": [],
     "packages-dev": [
         {
@@ -1399,44 +1399,42 @@
         },
         {
             "name": "laminas/laminas-code",
-            "version": "4.5.x-dev",
+            "version": "4.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-code.git",
-                "reference": "fbdaecda0c91ea0c7aa81c89eda16b2f345d0657"
+                "reference": "c99ef8e5629c33bfaa3a8f1df773e916af564cd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/fbdaecda0c91ea0c7aa81c89eda16b2f345d0657",
-                "reference": "fbdaecda0c91ea0c7aa81c89eda16b2f345d0657",
+                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/c99ef8e5629c33bfaa3a8f1df773e916af564cd6",
+                "reference": "c99ef8e5629c33bfaa3a8f1df773e916af564cd6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4, <8.2"
             },
-            "conflict": {
-                "phpspec/prophecy": "<1.9.0"
-            },
             "require-dev": {
-                "doctrine/annotations": "^1.10.4",
+                "doctrine/annotations": "^1.13.2",
                 "ext-phar": "*",
                 "laminas/laminas-coding-standard": "^2.3.0",
-                "laminas/laminas-stdlib": "^3.6.0",
-                "phpunit/phpunit": "^9.5.9",
+                "laminas/laminas-stdlib": "^3.6.1",
+                "phpunit/phpunit": "^9.5.10",
                 "psalm/plugin-phpunit": "^0.16.1",
-                "vimeo/psalm": "^4.10.0"
+                "vimeo/psalm": "^4.13.1"
             },
             "suggest": {
                 "doctrine/annotations": "Doctrine\\Common\\Annotations >=1.0 for annotation features",
-                "laminas/laminas-stdlib": "Laminas\\Stdlib component",
-                "laminas/laminas-zendframework-bridge": "A bridge with Zend Framework"
+                "laminas/laminas-stdlib": "Laminas\\Stdlib component"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "Laminas\\Code\\": "src/"
-                }
+                },
+                "files": [
+                    "polyfill/ReflectionEnumPolyfill.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1463,7 +1461,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-11-29T16:36:30+00:00"
+            "time": "2021-12-07T06:00:32+00:00"
         },
         {
             "name": "laminas/laminas-coding-standard",
@@ -5955,12 +5953,6 @@
     ],
     "aliases": [
         {
-            "package": "laminas/laminas-code",
-            "version": "4.5.9999999.9999999-dev",
-            "alias": "4.5.0",
-            "alias_normalized": "4.5.0.0"
-        },
-        {
             "package": "mikey179/vfsstream",
             "version": "9999999-dev",
             "alias": "1.6.9",
@@ -5969,7 +5961,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "laminas/laminas-code": 20,
         "mikey179/vfsstream": 20
     },
     "prefer-stable": false,
