@@ -72,7 +72,7 @@ class Memcached extends AbstractCheck
                 || false === $stats[$authority]
             ) {
                 // Attempt a connection to make sure that the server is really down
-                if (! @$memcached->getLastDisconnectedServer($this->host, $this->port)) {
+                if (@$memcached->getLastDisconnectedServer() !== false) {
                     return new Failure(sprintf(
                         'No memcached server running at host %s on port %s',
                         $this->host,

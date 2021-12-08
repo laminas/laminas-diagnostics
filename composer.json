@@ -27,7 +27,7 @@
         }
     },
     "require": {
-        "php": "^7.3 || ~8.0.0"
+        "php": "^7.4 || ~8.0.0 || ~8.1.0"
     },
     "require-dev": {
         "doctrine/migrations": "^2.0 || ^3.0",
