@@ -6,6 +6,7 @@
          executionOrder="depends,defects"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
+         convertDeprecationsToExceptions="true"
          verbose="true">
     <testsuites>
         <testsuite name="laminas-diagnostics">
