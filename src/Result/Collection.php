@@ -100,6 +100,7 @@ class Collection extends \SplObjectStorage
      * @return mixed
      * @link http://php.net/manual/en/splobjectstorage.offsetget.php
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($index)
     {
         $this->validateIndex($index);
@@ -112,6 +113,7 @@ class Collection extends \SplObjectStorage
      * @return bool
      * @link http://php.net/manual/en/splobjectstorage.offsetexists.php
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($index)
     {
         $this->validateIndex($index);
@@ -124,6 +126,7 @@ class Collection extends \SplObjectStorage
      * @param mixed|null $checkResult
      * @link http://php.net/manual/en/splobjectstorage.offsetset.php
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($index, $checkResult = null)
     {
         $this->validateIndex($index);
@@ -145,6 +148,7 @@ class Collection extends \SplObjectStorage
      * @param object $index
      * @link http://php.net/manual/en/splobjectstorage.offsetunset.php
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($index)
     {
         $this->validateIndex($index);
