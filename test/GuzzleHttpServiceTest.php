@@ -6,6 +6,7 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Handler\MockHandler as Guzzle6MockHandler;
 use GuzzleHttp\Message\RequestInterface as GuzzleRequestInterface;
 use GuzzleHttp\Message\Response as GuzzleResponse;
+use GuzzleHttp\Psr7\Message;
 use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Subscriber\Mock as Guzzle5MockSubscriber;
 use InvalidArgumentException;
@@ -159,7 +160,11 @@ EOR;
             return $this->getMockLegacyGuzzleClient($statusCode, $content);
         }
 
-        $response = parse_response(sprintf($this->responseTemplate, $statusCode, (string) $content));
+        if (function_exists('GuzzleHttp\Psr7\parse_response')) {
+            $response = parse_response(sprintf($this->responseTemplate, $statusCode, (string) $content));
+        } else {
+            $response = Message::parseResponse(sprintf($this->responseTemplate, $statusCode, (string) $content));
+        }
 
         $handler = new Guzzle6MockHandler();
         $handler->append($response);

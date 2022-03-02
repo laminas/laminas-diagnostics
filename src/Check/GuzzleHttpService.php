@@ -8,6 +8,7 @@ use GuzzleHttp\ClientInterface as GuzzleClientInterface;
 use GuzzleHttp\Message\Request as GuzzleRequest;
 use GuzzleHttp\Message\RequestInterface as GuzzleRequestInterface;
 use GuzzleHttp\Psr7\Request as PsrRequest;
+use GuzzleHttp\Psr7\Utils;
 use GuzzleHttp\Stream\Stream;
 use InvalidArgumentException;
 use Iterator;
@@ -173,7 +174,9 @@ class GuzzleHttpService extends AbstractCheck
             || $body instanceof Iterator
             || (is_object($body) && method_exists($body, '__toString'))
         ) {
-            return $request->withBody(stream_for($body));
+            return function_exists('GuzzleHttp\Psr7\stream_for') ?
+                $request->withBody(stream_for($body)) :
+                $request->withBody(Utils::streamFor($body));
         }
 
         // If we have an array or JSON serializable object of data, and we've
@@ -182,13 +185,17 @@ class GuzzleHttpService extends AbstractCheck
         if (strstr($request->getHeaderLine('Content-Type'), 'json')
             && (is_array($body) || $body instanceof JsonSerializable)
         ) {
-            return $request->withBody(stream_for(json_encode($body)));
+            return function_exists('GuzzleHttp\Psr7\stream_for') ?
+                $request->withBody(stream_for(json_encode($body))) :
+                $request->withBody(Utils::streamFor(json_encode($body)));
         }
 
         // If we have an array of data at this point, we'll assume we want
         // form-encoded data.
         if (is_array($body)) {
-            return $request->withBody(stream_for(http_build_query($body, '', '&')));
+            return function_exists('GuzzleHttp\Psr7\stream_for') ?
+                $request->withBody(stream_for(http_build_query($body, '', '&'))) :
+                $request->withBody(Utils::streamFor(http_build_query($body, '', '&')));
         }
 
         throw new InvalidArgumentException(
