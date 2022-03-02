@@ -4,10 +4,7 @@ namespace LaminasTest\Diagnostics;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Handler\MockHandler as Guzzle6MockHandler;
-use GuzzleHttp\Message\RequestInterface as GuzzleRequestInterface;
-use GuzzleHttp\Message\Response as GuzzleResponse;
-use GuzzleHttp\Stream\Stream;
-use GuzzleHttp\Subscriber\Mock as Guzzle5MockSubscriber;
+use GuzzleHttp\Psr7\Message;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Check\CouchDBCheck;
 use Laminas\Diagnostics\Check\GuzzleHttpService;
@@ -17,8 +14,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use ReflectionClass;
 use ReflectionProperty;
-
-use function GuzzleHttp\Psr7\parse_response;
 
 class GuzzleHttpServiceTest extends TestCase
 {
@@ -106,10 +101,7 @@ EOR;
     {
         self::markTestSkipped('Clarify what to do with assertion of protected property.');
 
-        $toMock = interface_exists(GuzzleRequestInterface::class)
-            ? GuzzleRequestInterface::class
-            : RequestInterface::class;
-        $request = $this->prophesize($toMock)->reveal();
+        $request = $this->prophesize(RequestInterface::class)->reveal();
 
         $diagnostic = new GuzzleHttpService($request);
 
@@ -153,26 +145,11 @@ EOR;
 
     private function getMockGuzzleClient($statusCode = 200, $content = null)
     {
-        $r = new ReflectionClass(GuzzleClient::class);
-        if ($r->hasMethod('getEmitter')) {
-            // Guzzle 4 and 5:
-            return $this->getMockLegacyGuzzleClient($statusCode, $content);
-        }
-
-        $response = parse_response(sprintf($this->responseTemplate, $statusCode, (string) $content));
+        $response = Message::parseResponse(sprintf($this->responseTemplate, $statusCode, (string) $content));
 
         $handler = new Guzzle6MockHandler();
         $handler->append($response);
 
         return new GuzzleClient(['handler' => $handler]);
-    }
-
-    private function getMockLegacyGuzzleClient($statusCode = 200, $content = null): GuzzleClient
-    {
-        $response = new GuzzleResponse($statusCode, [], Stream::factory((string) $content));
-        $client = new GuzzleClient();
-        $client->getEmitter()
-            ->attach(new Guzzle5MockSubscriber([$response]));
-        return $client;
     }
 }

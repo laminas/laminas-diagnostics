@@ -5,10 +5,8 @@ namespace Laminas\Diagnostics\Check;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface as GuzzleClientInterface;
-use GuzzleHttp\Message\Request as GuzzleRequest;
-use GuzzleHttp\Message\RequestInterface as GuzzleRequestInterface;
 use GuzzleHttp\Psr7\Request as PsrRequest;
-use GuzzleHttp\Stream\Stream;
+use GuzzleHttp\Psr7\Utils;
 use InvalidArgumentException;
 use Iterator;
 use JsonSerializable;
@@ -16,8 +14,6 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Psr\Http\Message\RequestInterface as PsrRequestInterface;
 use RuntimeException;
-
-use function GuzzleHttp\Psr7\stream_for;
 
 class GuzzleHttpService extends AbstractCheck
 {
@@ -28,7 +24,7 @@ class GuzzleHttpService extends AbstractCheck
     protected $guzzle;
 
     /**
-     * @param string|PsrRequestInterface|GuzzleRequestInterface $requestOrUrl
+     * @param string|PsrRequestInterface $requestOrUrl
      *     The absolute url to check, or a fully-formed request instance.
      * @param array $headers An array of headers used to create the request
      * @param array $options An array of guzzle options to use when sending the request
@@ -61,7 +57,7 @@ class GuzzleHttpService extends AbstractCheck
 
         $this->guzzle = $guzzle;
 
-        $this->request = $requestOrUrl instanceof PsrRequestInterface || $requestOrUrl instanceof GuzzleRequestInterface
+        $this->request = $requestOrUrl instanceof PsrRequestInterface
             ? $requestOrUrl
             : $this->createRequestFromConstructorArguments($requestOrUrl, $method, $headers, $body, $options);
 
@@ -75,10 +71,7 @@ class GuzzleHttpService extends AbstractCheck
      */
     public function check()
     {
-        // GuzzleHttp\Message\RequestInterface only exists in v4 and v5.
-        return class_exists(GuzzleRequest::class)
-            ? $this->performLegacyGuzzleRequest()
-            : $this->performGuzzleRequest();
+        return $this->performGuzzleRequest();
     }
 
     /**
@@ -87,69 +80,11 @@ class GuzzleHttpService extends AbstractCheck
      * @param array $headers
      * @param mixed $body
      * @param array $options
-     * @return PsrRequestInterface|GuzzleRequestInterface
+     * @return PsrRequestInterface
      */
     private function createRequestFromConstructorArguments($url, $method, array $headers, $body, array $options)
     {
-        return class_exists(GuzzleRequest::class)
-            ? $this->createGuzzleRequest($url, $method, $headers, $body, $options)
-            : $this->createPsr7Request($url, $method, $headers, $body);
-    }
-
-    /**
-     * @param string $url
-     * @param string $method
-     * @param array $headers
-     * @param null|string|array|object $body
-     * @param array $options
-     * @return GuzzleRequestInterface
-     * @throws InvalidArgumentException if unable to determine how to serialize
-     *     the body content.
-     */
-    private function createGuzzleRequest($url, $method, array $headers, $body, array $options)
-    {
-        $request = $this->guzzle->createRequest(
-            $method,
-            $url,
-            array_merge(
-                ['headers' => $headers, 'exceptions' => false],
-                $options
-            )
-        );
-
-        if (empty($body)) {
-            return $request;
-        }
-
-        // These can all be handled directly by the stream factory
-        if (is_string($body)
-            || $body instanceof Iterator
-            || (is_object($body) && method_exists($body, '__toString'))
-        ) {
-            $request->setBody(Stream::factory($body));
-            return $request;
-        }
-
-        // If we have an array or JSON serializable object of data, and we've
-        // indicated JSON payload content, we can serialize it and create a
-        // stream.
-        if (strstr($request->getHeader('Content-Type'), 'json')
-            && (is_array($body) || $body instanceof JsonSerializable)
-        ) {
-            $request->setBody(Stream::factory(json_encode($body)));
-            return $request;
-        }
-
-        // If we have an array of data at this point, we'll assume we want
-        // form-encoded data.
-        if (is_array($body)) {
-            $request->setBody(Stream::factory(http_build_query($body, '', '&')));
-            return $request;
-        }
-
-        throw new InvalidArgumentException(
-            'Unable to create Guzzle request; invalid $body provided'
-        );
+        return $this->createPsr7Request($url, $method, $headers, $body);
     }
 
     /**
@@ -173,7 +108,7 @@ class GuzzleHttpService extends AbstractCheck
             || $body instanceof Iterator
             || (is_object($body) && method_exists($body, '__toString'))
         ) {
-            return $request->withBody(stream_for($body));
+            return $request->withBody(Utils::streamFor($body));
         }
 
         // If we have an array or JSON serializable object of data, and we've
@@ -182,13 +117,13 @@ class GuzzleHttpService extends AbstractCheck
         if (strstr($request->getHeaderLine('Content-Type'), 'json')
             && (is_array($body) || $body instanceof JsonSerializable)
         ) {
-            return $request->withBody(stream_for(json_encode($body)));
+            return $request->withBody(Utils::streamFor(json_encode($body)));
         }
 
         // If we have an array of data at this point, we'll assume we want
         // form-encoded data.
         if (is_array($body)) {
-            return $request->withBody(stream_for(http_build_query($body, '', '&')));
+            return $request->withBody(Utils::streamFor(http_build_query($body, '', '&')));
         }
 
         throw new InvalidArgumentException(
@@ -197,7 +132,7 @@ class GuzzleHttpService extends AbstractCheck
     }
 
     /**
-     * @return \Guzzle\Http\Client|\GuzzleHttp\Client
+     * @return \GuzzleHttp\Client
      *
      * @throws \Exception
      */
@@ -228,16 +163,7 @@ class GuzzleHttpService extends AbstractCheck
     }
 
     /**
-     * @return \Laminas\Diagnostics\Result\ResultInterface
-     */
-    private function performLegacyGuzzleRequest()
-    {
-        $response = $this->guzzle->send($this->request);
-        return $this->analyzeResponse($response);
-    }
-
-    /**
-     * @param \GuzzleHttp\Message\ResponseInterface|Psr\Http\Message\ResponseInterface $response
+     * @param \Psr\Http\Message\ResponseInterface $response
      * @return \Laminas\Diagnostics\Result\ResultInterface
      */
     private function analyzeResponse($response)
@@ -293,8 +219,6 @@ class GuzzleHttpService extends AbstractCheck
      */
     private function getUri()
     {
-        return $this->request instanceof PsrRequestInterface
-            ? (string) $this->request->getUri() // guzzle 6
-            : $this->request->getUrl();         // guzzle 4 and 5
+        return (string) $this->request->getUri();
     }
 }
