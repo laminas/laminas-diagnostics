@@ -109,7 +109,6 @@ class GuzzleHttpService extends AbstractCheck
             || (is_object($body) && method_exists($body, '__toString'))
         ) {
             return $request->withBody(Utils::streamFor($body));
-
         }
 
         // If we have an array or JSON serializable object of data, and we've
