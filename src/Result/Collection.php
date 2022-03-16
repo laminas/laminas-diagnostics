@@ -124,6 +124,7 @@ class Collection extends \SplObjectStorage
     /**
      * @param object     $index
      * @param mixed|null $checkResult
+     * @return void
      * @link http://php.net/manual/en/splobjectstorage.offsetset.php
      */
     #[\ReturnTypeWillChange]
@@ -146,6 +147,7 @@ class Collection extends \SplObjectStorage
 
     /**
      * @param object $index
+     * @return void
      * @link http://php.net/manual/en/splobjectstorage.offsetunset.php
      */
     #[\ReturnTypeWillChange]
