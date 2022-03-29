@@ -11,7 +11,6 @@ use Memcached as MemcachedService;
 
 use function class_exists;
 use function gettype;
-use function is_array;
 use function is_string;
 use function sprintf;
 
