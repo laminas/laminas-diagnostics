@@ -2,29 +2,40 @@
 
 namespace Laminas\Diagnostics\Check;
 
-use InvalidArgumentException;
-use Laminas\Diagnostics\Result\Failure;
-use Laminas\Diagnostics\Result\Success;
-use Laminas\Diagnostics\Result\Warning;
 use Enlightn\SecurityChecker\AdvisoryAnalyzer;
 use Enlightn\SecurityChecker\AdvisoryFetcher;
 use Enlightn\SecurityChecker\AdvisoryParser;
 use Enlightn\SecurityChecker\Composer;
+use Exception;
+use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Warning;
+
+use function class_exists;
+use function count;
+use function file_exists;
+use function getcwd;
+use function gettype;
+use function is_file;
+use function is_readable;
+use function is_scalar;
+use function sprintf;
+
+use const DIRECTORY_SEPARATOR;
 
 /**
  * Checks installed composer dependencies against the SensioLabs Security Advisory database.
  */
 class SecurityAdvisory extends AbstractCheck
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $lockFilePath;
 
-    /**
-     * @var \Enlightn\SecurityChecker\AdvisoryAnalyzer|null
-     */
-    protected $advisoryAnalyzer = null;
+    /** @var AdvisoryAnalyzer|null */
+    protected $advisoryAnalyzer;
 
     /**
      * @param  string $lockFilePath Path to composer.lock
@@ -32,10 +43,10 @@ class SecurityAdvisory extends AbstractCheck
      */
     public function __construct($lockFilePath = null)
     {
-        if (! class_exists('Enlightn\SecurityChecker\AdvisoryAnalyzer')) {
+        if (! class_exists(AdvisoryAnalyzer::class)) {
             throw new InvalidArgumentException(sprintf(
                 'Unable to find "%s" class. Please install "%s" library to use this Check.',
-                'Enlightn\SecurityChecker\AdvisoryAnalyzer',
+                AdvisoryAnalyzer::class,
                 'enlightn/security-checker'
             ));
         }
@@ -55,17 +66,18 @@ class SecurityAdvisory extends AbstractCheck
             ));
         }
 
-        $this->lockFilePath    = $lockFilePath;
+        $this->lockFilePath = $lockFilePath;
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return ResultInterface
+     * @throws GuzzleException
      */
     public function check()
     {
         if ($this->advisoryAnalyzer === null) {
             $advisoriesDirectory = (new AdvisoryFetcher())->fetchAdvisories();
-            $parser = new AdvisoryParser($advisoriesDirectory);
+            $parser              = new AdvisoryParser($advisoriesDirectory);
 
             $this->advisoryAnalyzer = new AdvisoryAnalyzer($parser->getAdvisories());
         }
@@ -85,7 +97,7 @@ class SecurityAdvisory extends AbstractCheck
                 ), $this->lockFilePath);
             }
 
-            $dependencies = (new Composer)->getDependencies($this->lockFilePath);
+            $dependencies = (new Composer())->getDependencies($this->lockFilePath);
 
             $advisories = $this->advisoryAnalyzer->analyzeDependencies($dependencies);
 
@@ -95,7 +107,7 @@ class SecurityAdvisory extends AbstractCheck
                     count($advisories)
                 ), $advisories);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new Warning($e->getMessage());
         }
 

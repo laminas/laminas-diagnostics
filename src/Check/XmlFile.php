@@ -7,6 +7,9 @@ use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use XMLReader;
 
+use function simplexml_load_file;
+use function sprintf;
+
 /**
  * Checks if an XML file is available and valid
  */

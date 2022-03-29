@@ -3,15 +3,15 @@
 namespace LaminasTest\Diagnostics;
 
 use InvalidArgumentException;
+use Laminas\Diagnostics\Check\CheckInterface;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Kevin Bond <kevinbond@gmail.com>
- */
 abstract class AbstractMemoryTest extends TestCase
 {
     /**
      * @dataProvider invalidArgumentProvider
+     * @param string|int $warningThreshold
+     * @param string|int $criticalThreshold
      */
     public function testInvalidArguments($warningThreshold, $criticalThreshold): void
     {
@@ -28,9 +28,14 @@ abstract class AbstractMemoryTest extends TestCase
             [-10, 100],
             [105, 100],
             [10, -10],
-            [10, 105]
+            [10, 105],
         ];
     }
 
+    /**
+     * @param string|int $warningThreshold
+     * @param string|int $criticalThreshold
+     * @return CheckInterface
+     */
     abstract protected function createCheck($warningThreshold, $criticalThreshold);
 }

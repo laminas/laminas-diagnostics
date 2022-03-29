@@ -9,14 +9,20 @@ use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use Traversable;
 
+use function get_class;
+use function is_array;
+use function is_file;
+use function is_object;
+use function is_readable;
+use function is_string;
+use function sprintf;
+
 /**
  * Abstract class for handling different file checks
  */
 abstract class AbstractFileCheck extends AbstractCheck
 {
-    /**
-     * @var array|Traversable
-     */
+    /** @var array|Traversable */
     protected $files;
 
     /**
@@ -48,7 +54,7 @@ abstract class AbstractFileCheck extends AbstractCheck
     public function check()
     {
         foreach ($this->files as $file) {
-            if (! is_file($file) or ! is_readable($file)) {
+            if (! is_file($file) || ! is_readable($file)) {
                 return new Failure(sprintf('File "%s" does not exist or is not readable!', $file));
             }
 

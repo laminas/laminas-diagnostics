@@ -15,9 +15,7 @@ use stdClass;
 
 class ResultCollectionTest extends TestCase
 {
-    /**
-     * @var Collection
-     */
+    /** @var Collection */
     protected $collection;
 
     protected function setUp(): void
@@ -31,8 +29,8 @@ class ResultCollectionTest extends TestCase
             [0],
             [1],
             ['foo'],
-            [new stdClass],
-            [new ArrayObject],
+            [new stdClass()],
+            [new ArrayObject()],
             [new Success()],
         ];
     }
@@ -43,8 +41,8 @@ class ResultCollectionTest extends TestCase
             [0],
             [1],
             ['foo'],
-            [new stdClass],
-            [new ArrayObject],
+            [new stdClass()],
+            [new ArrayObject()],
             [new AlwaysSuccess()],
         ];
     }
@@ -76,7 +74,7 @@ class ResultCollectionTest extends TestCase
 
     public function testBasicGettingAndSetting(): void
     {
-        $test = new AlwaysSuccess();
+        $test   = new AlwaysSuccess();
         $result = new Success();
 
         $this->collection[$test] = $result;
@@ -88,6 +86,7 @@ class ResultCollectionTest extends TestCase
 
     /**
      * @dataProvider invalidKeysProvider
+     * @param mixed $key
      */
     public function testInvalidKeySet($key): void
     {
@@ -99,6 +98,7 @@ class ResultCollectionTest extends TestCase
 
     /**
      * @dataProvider invalidKeysProvider
+     * @param mixed $key
      */
     public function testInvalidKeyGet($key): void
     {
@@ -110,6 +110,7 @@ class ResultCollectionTest extends TestCase
 
     /**
      * @dataProvider invalidKeysProvider
+     * @param mixed $key
      */
     public function testInvalidKeyUnset($key): void
     {
@@ -119,6 +120,7 @@ class ResultCollectionTest extends TestCase
 
     /**
      * @dataProvider invalidKeysProvider
+     * @param mixed $key
      */
     public function testInvalidKeyExists($key): void
     {
@@ -128,6 +130,7 @@ class ResultCollectionTest extends TestCase
 
     /**
      * @dataProvider invalidValuesProvider
+     * @param mixed $value
      */
     public function testInvalidValuesSet($value): void
     {
@@ -144,47 +147,47 @@ class ResultCollectionTest extends TestCase
         self::assertEquals(0, $this->collection->getFailureCount());
         self::assertEquals(0, $this->collection->getUnknownCount());
 
-        $success1 = new Success();
-        $test1 = new AlwaysSuccess();
+        $success1                 = new Success();
+        $test1                    = new AlwaysSuccess();
         $this->collection[$test1] = $success1;
         self::assertEquals(1, $this->collection->getSuccessCount());
         self::assertEquals(0, $this->collection->getWarningCount());
         self::assertEquals(0, $this->collection->getFailureCount());
         self::assertEquals(0, $this->collection->getUnknownCount());
 
-        $success2 = new Success();
-        $test2 = new AlwaysSuccess();
+        $success2                 = new Success();
+        $test2                    = new AlwaysSuccess();
         $this->collection[$test2] = $success2;
         self::assertEquals(2, $this->collection->getSuccessCount());
         self::assertEquals(0, $this->collection->getWarningCount());
         self::assertEquals(0, $this->collection->getFailureCount());
         self::assertEquals(0, $this->collection->getUnknownCount());
 
-        $failure1 = new Failure();
-        $test3 = new AlwaysSuccess();
+        $failure1                 = new Failure();
+        $test3                    = new AlwaysSuccess();
         $this->collection[$test3] = $failure1;
         self::assertEquals(2, $this->collection->getSuccessCount());
         self::assertEquals(0, $this->collection->getWarningCount());
         self::assertEquals(1, $this->collection->getFailureCount());
         self::assertEquals(0, $this->collection->getUnknownCount());
 
-        $warning1 = new Warning();
-        $test4 = new AlwaysSuccess();
+        $warning1                 = new Warning();
+        $test4                    = new AlwaysSuccess();
         $this->collection[$test4] = $warning1;
         self::assertEquals(2, $this->collection->getSuccessCount());
         self::assertEquals(1, $this->collection->getWarningCount());
         self::assertEquals(1, $this->collection->getFailureCount());
         self::assertEquals(0, $this->collection->getUnknownCount());
 
-        $unknown = new Unknown();
-        $test5 = new AlwaysSuccess();
+        $unknown                  = new Unknown();
+        $test5                    = new AlwaysSuccess();
         $this->collection[$test5] = $unknown;
         self::assertEquals(2, $this->collection->getSuccessCount());
         self::assertEquals(1, $this->collection->getWarningCount());
         self::assertEquals(1, $this->collection->getFailureCount());
         self::assertEquals(1, $this->collection->getUnknownCount());
 
-        $failure2 = new Failure();
+        $failure2                 = new Failure();
         $this->collection[$test2] = $failure2;
         self::assertEquals(1, $this->collection->getSuccessCount());
         self::assertEquals(1, $this->collection->getWarningCount());
@@ -237,13 +240,13 @@ class ResultCollectionTest extends TestCase
     public function testIteration(): void
     {
         $tests = $results = [];
-        $test = $result = null;
+        $test  = $result = null;
 
         for ($x = 0; $x < 10; $x++) {
-            $test     = new AlwaysSuccess();
-            $result   = new Success();
-            $tests[]  = $test;
-            $results[] = $result;
+            $test                    = new AlwaysSuccess();
+            $result                  = new Success();
+            $tests[]                 = $test;
+            $results[]               = $result;
             $this->collection[$test] = $result;
         }
 

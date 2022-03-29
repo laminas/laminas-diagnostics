@@ -7,14 +7,10 @@ namespace Laminas\Diagnostics\Result;
  */
 abstract class AbstractResult implements ResultInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $message;
 
-    /**
-     * @var mixed|null
-     */
+    /** @var mixed|null */
     protected $data;
 
     /**

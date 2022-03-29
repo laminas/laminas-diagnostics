@@ -11,6 +11,18 @@ use Laminas\Diagnostics\Result\SkipInterface;
 use Laminas\Diagnostics\Result\SuccessInterface;
 use Laminas\Diagnostics\Result\WarningInterface;
 
+use function count;
+use function floor;
+use function get_class;
+use function log10;
+use function round;
+use function sprintf;
+use function str_pad;
+
+use const PHP_EOL;
+use const STR_PAD_LEFT;
+use const STR_PAD_RIGHT;
+
 /**
  * A simple reporter for displaying Runner results in console window.
  */
@@ -77,22 +89,22 @@ class BasicConsole implements ReporterInterface
 
     /**
      * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
-     * @param ArrayObject $checks
+     *
      * @param array       $runnerConfig
      */
     public function onStart(ArrayObject $checks, $runnerConfig)
     {
-        $this->stopped = false;
+        $this->stopped   = false;
         $this->iteration = 1;
-        $this->pos = 1;
-        $this->total = count($checks);
+        $this->pos       = 1;
+        $this->total     = count($checks);
 
         // Calculate gutter width to accommodate number of tests passed
         if ($this->total <= $this->width) {
             $this->gutter = 0; // everything fits well
         } else {
             $this->countLength = floor(log10($this->total)) + 1;
-            $this->gutter = ($this->countLength * 2) + 11;
+            $this->gutter      = ($this->countLength * 2) + 11;
         }
 
         $this->consoleWriteLn('Starting diagnostics:');
@@ -101,7 +113,7 @@ class BasicConsole implements ReporterInterface
 
     /**
      * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
-     * @param  CheckInterface $check
+     *
      * @param  string|null    $checkAlias
      * @return bool|void
      */
@@ -111,8 +123,7 @@ class BasicConsole implements ReporterInterface
 
     /**
      * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
-     * @param  CheckInterface  $check
-     * @param  ResultInterface $result
+     *
      * @param  string|null     $checkAlias
      * @return bool|void
      */
@@ -157,7 +168,6 @@ class BasicConsole implements ReporterInterface
 
     /**
      * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
-     * @param ResultsCollection $results
      */
     public function onFinish(ResultsCollection $results)
     {
@@ -165,15 +175,16 @@ class BasicConsole implements ReporterInterface
         $this->consoleWriteLn();
 
         // Display a summary line
-        if ($results->getFailureCount() == 0
-            && $results->getWarningCount() == 0
-            && $results->getUnknownCount() == 0
-            && $results->getSkipCount() == 0
+        if (
+            $results->getFailureCount() === 0
+            && $results->getWarningCount() === 0
+            && $results->getUnknownCount() === 0
+            && $results->getSkipCount() === 0
         ) {
             $line = 'OK (' . $this->total . ' diagnostic tests)';
             $this->consoleWrite(str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT));
-        } elseif ($results->getFailureCount() == 0) {
-            $line = $results->getWarningCount() . ' warnings, ';
+        } elseif ($results->getFailureCount() === 0) {
+            $line  = $results->getWarningCount() . ' warnings, ';
             $line .= $results->getSuccessCount() . ' successful tests';
 
             if ($results->getSkipCount() > 0) {
@@ -188,7 +199,7 @@ class BasicConsole implements ReporterInterface
 
             $this->consoleWrite(str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT));
         } else {
-            $line = $results->getFailureCount() . ' failures, ';
+            $line  = $results->getFailureCount() . ' failures, ';
             $line .= $results->getWarningCount() . ' warnings, ';
             $line .= $results->getSuccessCount() . ' successful tests';
 
@@ -209,8 +220,6 @@ class BasicConsole implements ReporterInterface
         $this->consoleWriteLn();
         // Display a list of failures and warnings
         foreach ($results as $check) {
-            /* @var $check  \Laminas\Diagnostics\Check\CheckInterface */
-            /* @var $result \Laminas\Diagnostics\Result\ResultInterface */
             $result = $results[$check];
 
             if ($result instanceof FailureInterface) {
@@ -245,7 +254,6 @@ class BasicConsole implements ReporterInterface
 
     /**
      * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
-     * @param ResultsCollection $results
      */
     public function onStop(ResultsCollection $results)
     {

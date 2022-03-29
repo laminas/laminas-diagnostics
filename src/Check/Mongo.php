@@ -3,17 +3,20 @@
 namespace Laminas\Diagnostics\Check;
 
 use Exception;
+use Iterator;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use MongoClient;
+use MongoConnectionException;
 use MongoDB\Client as MongoDBClient;
 use RuntimeException;
 
+use function class_exists;
+use function sprintf;
+
 class Mongo extends AbstractCheck
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $connectionUri;
 
     /**
@@ -42,11 +45,10 @@ class Mongo extends AbstractCheck
     }
 
     /**
-     * @return array|\Iterator
-     *
-     * @throws \RuntimeException
+     * @return array|Iterator
+     * @throws RuntimeException
      * @throws \MongoDB\Driver\Exception
-     * @throws \MongoConnectionException
+     * @throws MongoConnectionException
      */
     private function getListDBs()
     {

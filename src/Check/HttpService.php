@@ -3,36 +3,36 @@
 namespace Laminas\Diagnostics\Check;
 
 use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+
+use function fclose;
+use function feof;
+use function fgets;
+use function fsockopen;
+use function fwrite;
+use function preg_match;
+use function sprintf;
+use function strpos;
 
 /**
  * Attempt connection to given HTTP host and (optionally) check status code and page content.
  */
 class HttpService extends AbstractCheck
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $host;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $port;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $path;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $statusCode;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $content;
 
     /**
@@ -44,15 +44,17 @@ class HttpService extends AbstractCheck
      */
     public function __construct($host, $port = 80, $path = '/', $statusCode = null, $content = null)
     {
-        $this->host = $host;
-        $this->port = $port;
-        $this->path = $path;
+        $this->host       = $host;
+        $this->port       = $port;
+        $this->path       = $path;
         $this->statusCode = $statusCode;
-        $this->content = $content;
+        $this->content    = $content;
     }
 
     /**
      * @see Laminas\Diagnostics\CheckInterface::check()
+     *
+     * @return ResultInterface
      */
     public function check()
     {
@@ -65,10 +67,10 @@ class HttpService extends AbstractCheck
             ));
         }
 
-        $header = "GET {$this->path} HTTP/1.0\r\n";
+        $header  = "GET {$this->path} HTTP/1.0\r\n";
         $header .= "Host: {$this->host}\r\n";
         $header .= "Connection: close\r\n\r\n";
-        fputs($fp, $header);
+        fwrite($fp, $header);
         $str = '';
         while (! feof($fp)) {
             $str .= fgets($fp, 1024);

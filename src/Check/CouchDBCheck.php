@@ -4,6 +4,10 @@ namespace Laminas\Diagnostics\Check;
 
 use Laminas\Diagnostics\Result;
 
+use function array_key_exists;
+use function preg_replace;
+use function sprintf;
+
 /**
  * Ensures a connection to CouchDB is possible.
  */
@@ -13,8 +17,6 @@ class CouchDBCheck extends GuzzleHttpService
      * @param array $couchDbSettings
      * @param array $headers    An array of headers used to create the request
      * @param array $options    An array of guzzle options used to create the request
-     *
-     * @return self
      */
     public function __construct(array $couchDbSettings, array $headers = [], array $options = [])
     {
@@ -40,9 +42,7 @@ class CouchDBCheck extends GuzzleHttpService
         $msg = $result->getMessage();
         $msg = preg_replace('=\/\/(.+):{1}(.+)(\@){1}=i', '//', $msg);
 
-        $failure = new Result\Failure($msg, $result->getData());
-
-        return $failure;
+        return new Result\Failure($msg, $result->getData());
     }
 
     /**
@@ -59,7 +59,6 @@ class CouchDBCheck extends GuzzleHttpService
      *  - password (optional)
      *
      * @param array $couchDbSettings
-     *
      * @return string
      */
     private function createUrlFromParameters(array $couchDbSettings)
