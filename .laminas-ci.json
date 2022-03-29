@@ -1,0 +1,8 @@
+{
+    "extensions": [
+        "redis",
+        "apcu",
+        "mongodb",
+        "memcached"
+    ]
+}
