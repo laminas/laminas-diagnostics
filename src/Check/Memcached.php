@@ -72,9 +72,7 @@ class Memcached extends AbstractCheck
             $authority = sprintf('%s:%d', $this->host, $this->port);
 
             if (
-                ! $stats
-                || ! is_array($stats)
-                || ! isset($stats[$authority])
+                ! isset($stats[$authority])
                 || false === $stats[$authority]
             ) {
                 // Attempt a connection to make sure that the server is really down

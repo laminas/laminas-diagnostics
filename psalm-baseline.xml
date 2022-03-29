@@ -460,15 +460,6 @@
     <DocblockTypeContradiction occurrences="1">
       <code>is_string($host)</code>
     </DocblockTypeContradiction>
-    <MixedAssignment occurrences="2">
-      <code>$memcached</code>
-      <code>$stats</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="3">
-      <code>addServer</code>
-      <code>getLastDisconnectedServer</code>
-      <code>getStats</code>
-    </MixedMethodCall>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Memcached</code>
     </PropertyNotSetInConstructor>
@@ -618,9 +609,8 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>Redis</code>
     </PropertyNotSetInConstructor>
-    <UndefinedClass occurrences="2">
+    <UndefinedClass occurrences="1">
       <code>RedisException</code>
-      <code>RedisExtensionClient</code>
     </UndefinedClass>
     <UndefinedDocblockClass occurrences="3">
       <code>$this-&gt;createClient()</code>
