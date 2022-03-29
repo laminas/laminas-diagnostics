@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.8.1@f73f2299dbc59a3e6c4d66cff4605176e728ee69">
+<files psalm-version="4.22.0@fc2c6ab4d5fa5d644d8617089f012f3bb84b8703">
   <file src="src/Check/AbstractCheck.php">
     <MissingConstructor occurrences="4">
       <code>$label</code>
@@ -18,18 +18,14 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Check/AbstractFileCheck.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>is_object($files) &amp;&amp; ! $files instanceof Traversable</code>
-    </DocblockTypeContradiction>
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$files</code>
     </InvalidPropertyAssignmentValue>
-    <MixedArgument occurrences="5">
+    <MixedArgument occurrences="4">
       <code>$file</code>
       <code>$file</code>
       <code>$file</code>
       <code>$file</code>
-      <code>$files</code>
     </MixedArgument>
     <MixedAssignment occurrences="1">
       <code>$file</code>
@@ -47,8 +43,8 @@
       <code>AbstractMemoryCheck</code>
     </PropertyNotSetInConstructor>
     <RedundantCastGivenDocblockType occurrences="2">
-      <code>(int)$criticalThreshold</code>
-      <code>(int)$warningThreshold</code>
+      <code>(int) $criticalThreshold</code>
+      <code>(int) $warningThreshold</code>
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Check/ApcFragmentation.php">
@@ -123,16 +119,15 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Check/ClassExists.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>is_object($classNames) &amp;&amp; ! $classNames instanceof Traversable</code>
-    </DocblockTypeContradiction>
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$classNames</code>
     </InvalidPropertyAssignmentValue>
-    <MixedArgument occurrences="2">
+    <MixedArgument occurrences="1">
       <code>$class</code>
-      <code>$classNames</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$missing</code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="2">
       <code>$class</code>
       <code>$missing[]</code>
@@ -184,17 +179,6 @@
       <code>2</code>
       <code>4</code>
     </InvalidScalarArgument>
-    <MissingParamType occurrences="1">
-      <code>$precision</code>
-    </MissingParamType>
-    <MixedArgument occurrences="3">
-      <code>$precision</code>
-      <code>$precision</code>
-      <code>$precision + 6</code>
-    </MixedArgument>
-    <MixedOperand occurrences="1">
-      <code>$precision</code>
-    </MixedOperand>
     <NullArgument occurrences="2">
       <code>null</code>
       <code>null</code>
@@ -202,12 +186,11 @@
     <NullableReturnStatement occurrences="1">
       <code>bcdiv(bcpow(bcadd($a, $b), 2), bcmul(4, $t), $precision)</code>
     </NullableReturnStatement>
-    <PossiblyNullArgument occurrences="5">
+    <PossiblyNullArgument occurrences="4">
       <code>$b</code>
       <code>$b</code>
       <code>$b</code>
       <code>$x</code>
-      <code>bcsqrt(2)</code>
     </PossiblyNullArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>CpuPerformance</code>
@@ -220,17 +203,17 @@
     <ArgumentTypeCoercion occurrences="1">
       <code>$this-&gt;dir</code>
     </ArgumentTypeCoercion>
-    <DocblockTypeContradiction occurrences="1">
-      <code>is_object($path) &amp;&amp; ! $path instanceof Traversable</code>
-    </DocblockTypeContradiction>
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$path</code>
     </InvalidPropertyAssignmentValue>
-    <MixedArgument occurrences="3">
+    <MixedArgument occurrences="2">
       <code>$dir</code>
       <code>$dir</code>
-      <code>$path</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="2">
+      <code>$nonDirs</code>
+      <code>$unreadable</code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="3">
       <code>$dir</code>
       <code>$nonDirs[]</code>
@@ -248,19 +231,19 @@
     <ArgumentTypeCoercion occurrences="1">
       <code>$this-&gt;dir</code>
     </ArgumentTypeCoercion>
-    <DocblockTypeContradiction occurrences="1">
-      <code>is_object($path) &amp;&amp; ! $path instanceof Traversable</code>
-    </DocblockTypeContradiction>
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$path</code>
     </InvalidPropertyAssignmentValue>
-    <MixedArgument occurrences="5">
+    <MixedArgument occurrences="4">
       <code>$dir</code>
       <code>$dir</code>
-      <code>$path</code>
       <code>current($nonDirs)</code>
       <code>current($unwritable)</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="2">
+      <code>$nonDirs</code>
+      <code>$unwritable</code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="3">
       <code>$dir</code>
       <code>$nonDirs[]</code>
@@ -289,6 +272,7 @@
       <code>$this-&gt;path</code>
       <code>$this-&gt;path</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1"/>
     <MixedAssignment occurrences="3">
       <code>$bytes</code>
       <code>$bytes</code>
@@ -340,9 +324,6 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Check/DoctrineMigration.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>! $input instanceof DependencyFactory &amp;&amp; ! $input instanceof Configuration</code>
-    </DocblockTypeContradiction>
     <MixedInferredReturnType occurrences="2">
       <code>Version[]</code>
       <code>Version[]</code>
@@ -363,22 +344,20 @@
     <ArgumentTypeCoercion occurrences="1">
       <code>$this-&gt;extensions</code>
     </ArgumentTypeCoercion>
-    <DocblockTypeContradiction occurrences="1">
-      <code>is_object($extensionName) &amp;&amp; ! $extensionName instanceof Traversable</code>
-    </DocblockTypeContradiction>
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$extensionName</code>
     </InvalidPropertyAssignmentValue>
-    <MissingPropertyType occurrences="1">
-      <code>$autoload</code>
-    </MissingPropertyType>
-    <MixedArgument occurrences="5">
+    <MixedArgument occurrences="4">
       <code>$ext</code>
       <code>$ext</code>
       <code>$ext</code>
       <code>$ext</code>
-      <code>$extensionName</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="3">
+      <code>$missing</code>
+      <code>$missing</code>
+      <code>$this-&gt;extensions</code>
+    </MixedArgumentTypeCoercion>
     <MixedArrayOffset occurrences="1">
       <code>$versions[$ext]</code>
     </MixedArrayOffset>
@@ -392,9 +371,6 @@
       <code>$ext</code>
       <code>$ext</code>
     </MixedOperand>
-    <PossiblyInvalidArgument occurrences="1">
-      <code>$this-&gt;extensions</code>
-    </PossiblyInvalidArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>ExtensionLoaded</code>
     </PropertyNotSetInConstructor>
@@ -403,66 +379,43 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="src/Check/GuzzleHttpService.php">
-    <DeprecatedFunction occurrences="3">
-      <code>stream_for($body)</code>
-      <code>stream_for(http_build_query($body, '', '&amp;'))</code>
-      <code>stream_for(json_encode($body))</code>
-    </DeprecatedFunction>
+    <DocblockTypeContradiction occurrences="2">
+      <code>$result instanceof Failure</code>
+      <code>$result instanceof Failure</code>
+    </DocblockTypeContradiction>
     <InvalidReturnStatement occurrences="2"/>
     <InvalidReturnType occurrences="2">
       <code>bool|FailureInterface</code>
       <code>bool|FailureInterface</code>
     </InvalidReturnType>
-    <MissingPropertyType occurrences="5">
-      <code>$content</code>
-      <code>$guzzle</code>
-      <code>$options</code>
-      <code>$request</code>
-      <code>$statusCode</code>
-    </MissingPropertyType>
-    <MixedArgument occurrences="6">
-      <code>$body</code>
-      <code>$response</code>
-      <code>$response</code>
-      <code>$this-&gt;content</code>
-      <code>$this-&gt;options</code>
-      <code>$this-&gt;statusCode</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="3">
-      <code>$request</code>
-      <code>$response</code>
-      <code>$response</code>
-    </MixedAssignment>
-    <MixedInferredReturnType occurrences="3">
-      <code>GuzzleRequestInterface</code>
-      <code>\Laminas\Diagnostics\Result\ResultInterface</code>
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedMethodCall occurrences="5">
-      <code>createRequest</code>
-      <code>getUrl</code>
-      <code>send</code>
-      <code>send</code>
-      <code>setBody</code>
-    </MixedMethodCall>
-    <MixedReturnStatement occurrences="2">
-      <code>$request</code>
-    </MixedReturnStatement>
+    <LessSpecificReturnStatement occurrences="3">
+      <code>$request-&gt;withBody(Utils::streamFor($body))</code>
+      <code>$request-&gt;withBody(Utils::streamFor(http_build_query($body, '', '&amp;')))</code>
+      <code>$request-&gt;withBody(Utils::streamFor(json_encode($body)))</code>
+    </LessSpecificReturnStatement>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$headers</code>
+    </MixedArgumentTypeCoercion>
+    <MoreSpecificReturnType occurrences="1">
+      <code>PsrRequestInterface</code>
+    </MoreSpecificReturnType>
     <PropertyNotSetInConstructor occurrences="1">
       <code>GuzzleHttpService</code>
     </PropertyNotSetInConstructor>
-    <UndefinedClass occurrences="1">
-      <code>Stream</code>
-    </UndefinedClass>
-    <UndefinedDocblockClass occurrences="7">
-      <code>GuzzleRequestInterface</code>
-      <code>PsrRequestInterface|GuzzleRequestInterface</code>
-      <code>\GuzzleHttp\Message\ResponseInterface|Psr\Http\Message\ResponseInterface</code>
-      <code>\Guzzle\Http\Client|\GuzzleHttp\Client</code>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$guzzle</code>
+    </PropertyTypeCoercion>
+    <RedundantCastGivenDocblockType occurrences="2">
+      <code>(int) $response-&gt;getStatusCode()</code>
+      <code>(int) $statusCode</code>
+    </RedundantCastGivenDocblockType>
+    <UndefinedDocblockClass occurrences="2">
       <code>bool|FailureInterface</code>
       <code>bool|FailureInterface</code>
-      <code>string|PsrRequestInterface|GuzzleRequestInterface</code>
     </UndefinedDocblockClass>
+    <UnusedParam occurrences="1">
+      <code>$options</code>
+    </UnusedParam>
   </file>
   <file src="src/Check/HttpService.php">
     <PossiblyNullPropertyAssignmentValue occurrences="2">
@@ -525,7 +478,7 @@
   </file>
   <file src="src/Check/Mongo.php">
     <MixedInferredReturnType occurrences="1">
-      <code>array|\Iterator</code>
+      <code>array|Iterator</code>
     </MixedInferredReturnType>
     <MixedMethodCall occurrences="2">
       <code>listDBs</code>
@@ -539,7 +492,7 @@
       <code>Mongo</code>
     </PropertyNotSetInConstructor>
     <UndefinedDocblockClass occurrences="2">
-      <code>\MongoConnectionException</code>
+      <code>MongoConnectionException</code>
       <code>\MongoDB\Driver\Exception</code>
     </UndefinedDocblockClass>
   </file>
@@ -565,30 +518,18 @@
       <code>OpCacheMemory</code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="src/Check/PDOCheck.php">
-    <MissingPropertyType occurrences="4">
-      <code>$dsn</code>
-      <code>$password</code>
-      <code>$timeout</code>
-      <code>$username</code>
-    </MissingPropertyType>
-    <MixedArgument occurrences="4">
-      <code>$this-&gt;dsn</code>
-      <code>$this-&gt;dsn</code>
-      <code>$this-&gt;password</code>
-      <code>$this-&gt;username</code>
-    </MixedArgument>
-  </file>
   <file src="src/Check/PhpFlag.php">
-    <DocblockTypeContradiction occurrences="3">
-      <code>$settingName instanceof Traversable</code>
+    <DocblockTypeContradiction occurrences="2">
       <code>is_array($settingName)</code>
       <code>is_scalar($expectedValue)</code>
     </DocblockTypeContradiction>
-    <MixedArgument occurrences="2">
+    <MixedArgument occurrences="1">
       <code>$name</code>
-      <code>$settingName</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="2">
+      <code>$failures</code>
+      <code>$this-&gt;settings</code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="2">
       <code>$failures[]</code>
       <code>$name</code>
@@ -601,15 +542,14 @@
       <code>PhpFlag</code>
     </PropertyNotSetInConstructor>
     <RedundantCastGivenDocblockType occurrences="1">
-      <code>(bool)$expectedValue</code>
+      <code>(bool) $expectedValue</code>
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Check/PhpVersion.php">
     <ArgumentTypeCoercion occurrences="1">
       <code>$this-&gt;operator</code>
     </ArgumentTypeCoercion>
-    <DocblockTypeContradiction occurrences="3">
-      <code>$expectedVersion instanceof \Traversable</code>
+    <DocblockTypeContradiction occurrences="2">
       <code>is_array($expectedVersion)</code>
       <code>is_scalar($operator)</code>
     </DocblockTypeContradiction>
@@ -621,8 +561,7 @@
       <code>$expectedVersion</code>
       <code>[$expectedVersion]</code>
     </InvalidPropertyAssignmentValue>
-    <MixedArgument occurrences="3">
-      <code>$expectedVersion</code>
+    <MixedArgument occurrences="2">
       <code>$version</code>
       <code>$version</code>
     </MixedArgument>
@@ -680,13 +619,13 @@
       <code>Redis</code>
     </PropertyNotSetInConstructor>
     <UndefinedClass occurrences="2">
+      <code>RedisException</code>
       <code>RedisExtensionClient</code>
-      <code>\RedisException</code>
     </UndefinedClass>
     <UndefinedDocblockClass occurrences="3">
       <code>$this-&gt;createClient()</code>
       <code>PredisClient|RedisExtensionClient</code>
-      <code>\RedisException</code>
+      <code>RedisException</code>
     </UndefinedDocblockClass>
   </file>
   <file src="src/Check/SecurityAdvisory.php">
@@ -696,35 +635,33 @@
     <MixedArgument occurrences="1">
       <code>$advisories</code>
     </MixedArgument>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment occurrences="2">
       <code>$advisories</code>
+      <code>$advisoriesDirectory</code>
     </MixedAssignment>
     <PropertyNotSetInConstructor occurrences="1">
       <code>SecurityAdvisory</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Check/StreamWrapperExists.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>is_object($wrappers) &amp;&amp; ! $wrappers instanceof Traversable</code>
-    </DocblockTypeContradiction>
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$wrappers</code>
     </InvalidPropertyAssignmentValue>
     <MissingClosureParamType occurrences="1">
       <code>$v</code>
     </MissingClosureParamType>
-    <MixedArgument occurrences="3">
+    <MixedArgument occurrences="2">
       <code>$v</code>
-      <code>$wrappers</code>
       <code>current($missingWrappers)</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="2">
+      <code>$missingWrappers</code>
+      <code>$this-&gt;wrappers</code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="2">
       <code>$class</code>
       <code>$missingWrappers[]</code>
     </MixedAssignment>
-    <PossiblyInvalidArgument occurrences="1">
-      <code>$this-&gt;wrappers</code>
-    </PossiblyInvalidArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>StreamWrapperExists</code>
     </PropertyNotSetInConstructor>
@@ -805,45 +742,32 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Runner/Runner.php">
-    <DocblockTypeContradiction occurrences="2">
+    <DocblockTypeContradiction occurrences="1">
       <code>! is_array($checks) &amp;&amp; ! $checks instanceof Traversable</code>
-      <code>! is_array($config) &amp;&amp; ! $config instanceof Traversable</code>
     </DocblockTypeContradiction>
+    <InvalidArgument occurrences="1">
+      <code>[$this, 'errorHandler']</code>
+    </InvalidArgument>
     <InvalidReturnStatement occurrences="1">
       <code>$this-&gt;reporters</code>
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="1">
       <code>array</code>
     </InvalidReturnType>
-    <MissingParamType occurrences="5">
-      <code>$errfile</code>
-      <code>$errline</code>
-      <code>$errno</code>
-      <code>$errstr</code>
-      <code>$eventType</code>
-    </MissingParamType>
-    <MissingReturnType occurrences="9">
+    <MissingReturnType occurrences="8">
       <code>addCheck</code>
       <code>addChecks</code>
       <code>addReporter</code>
-      <code>errorHandler</code>
       <code>removeReporter</code>
       <code>setBreakOnFailure</code>
       <code>setCatchErrorSeverity</code>
       <code>startErrorHandler</code>
       <code>stopErrorHandler</code>
     </MissingReturnType>
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="2">
       <code>$check</code>
-      <code>$errfile</code>
-      <code>$errline</code>
-      <code>$errno</code>
-      <code>$errstr</code>
       <code>$key</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>[$this, 'errorHandler']</code>
-    </MixedArgumentTypeCoercion>
     <MixedArrayOffset occurrences="1">
       <code>$results[$check]</code>
     </MixedArrayOffset>
@@ -890,44 +814,24 @@
     </UndefinedClass>
   </file>
   <file src="test/AbstractMemoryTest.php">
-    <MissingParamType occurrences="4">
-      <code>$criticalThreshold</code>
-      <code>$criticalThreshold</code>
-      <code>$warningThreshold</code>
-      <code>$warningThreshold</code>
-    </MissingParamType>
-    <MissingReturnType occurrences="1">
-      <code>createCheck</code>
-    </MissingReturnType>
     <MixedInferredReturnType occurrences="1">
       <code>array</code>
     </MixedInferredReturnType>
   </file>
   <file src="test/ApcFragmentationTest.php">
-    <MissingParamType occurrences="2">
+    <InvalidScalarArgument occurrences="2">
       <code>$criticalThreshold</code>
       <code>$warningThreshold</code>
-    </MissingParamType>
-    <MixedArgument occurrences="2">
-      <code>$criticalThreshold</code>
-      <code>$warningThreshold</code>
-    </MixedArgument>
+    </InvalidScalarArgument>
     <MixedInferredReturnType occurrences="1">
       <code>array</code>
     </MixedInferredReturnType>
   </file>
   <file src="test/ApcMemoryTest.php">
-    <MissingParamType occurrences="2">
+    <InvalidScalarArgument occurrences="2">
       <code>$criticalThreshold</code>
       <code>$warningThreshold</code>
-    </MissingParamType>
-    <MissingReturnType occurrences="1">
-      <code>createCheck</code>
-    </MissingReturnType>
-    <MixedArgument occurrences="2">
-      <code>$criticalThreshold</code>
-      <code>$warningThreshold</code>
-    </MixedArgument>
+    </InvalidScalarArgument>
   </file>
   <file src="test/BasicConsoleReporterTest.php">
     <InvalidScalarArgument occurrences="7">
@@ -967,11 +871,11 @@
       <code>[$this, 'foobarbar']</code>
       <code>[]</code>
       <code>fopen('php://memory', 'r')</code>
-      <code>new stdClass</code>
-      <code>new stdClass</code>
-      <code>new stdClass</code>
-      <code>new stdClass</code>
-      <code>new stdClass</code>
+      <code>new stdClass()</code>
+      <code>new stdClass()</code>
+      <code>new stdClass()</code>
+      <code>new stdClass()</code>
+      <code>new stdClass()</code>
       <code>new stdClass()</code>
       <code>new stdClass()</code>
       <code>new stdClass()</code>
@@ -1082,12 +986,6 @@
       <code>vfsStream::setup()</code>
       <code>vfsStream::setup()</code>
     </DeprecatedClass>
-    <MissingParamType occurrences="1">
-      <code>$arguments</code>
-    </MissingParamType>
-    <MixedArgument occurrences="1">
-      <code>$arguments</code>
-    </MixedArgument>
     <MixedInferredReturnType occurrences="1">
       <code>array</code>
     </MixedInferredReturnType>
@@ -1096,6 +994,9 @@
     </UnusedVariable>
   </file>
   <file src="test/DiskFreeTest.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$c</code>
+    </ArgumentTypeCoercion>
     <InvalidArgument occurrences="1">
       <code>[]</code>
     </InvalidArgument>
@@ -1105,42 +1006,6 @@
       <code>$freeRightNow + 1073741824</code>
       <code>100</code>
     </InvalidScalarArgument>
-    <MissingParamType occurrences="9">
-      <code>$a</code>
-      <code>$a</code>
-      <code>$b</code>
-      <code>$b</code>
-      <code>$bytes</code>
-      <code>$c</code>
-      <code>$c</code>
-      <code>$precision</code>
-      <code>$string</code>
-    </MissingParamType>
-    <MissingReturnType occurrences="1">
-      <code>getTempDir</code>
-    </MissingReturnType>
-    <MixedArgument occurrences="16">
-      <code>$a</code>
-      <code>$a</code>
-      <code>$b</code>
-      <code>$b</code>
-      <code>$bytes</code>
-      <code>$c</code>
-      <code>$precision</code>
-      <code>$this-&gt;getTempDir()</code>
-      <code>$this-&gt;getTempDir()</code>
-      <code>$this-&gt;getTempDir()</code>
-      <code>$tmp</code>
-      <code>$tmp</code>
-      <code>$tmp</code>
-      <code>$tmp</code>
-      <code>$tmp</code>
-      <code>$tmp</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$tmp</code>
-      <code>$tmp</code>
-    </MixedAssignment>
     <MixedInferredReturnType occurrences="3">
       <code>array</code>
       <code>array</code>
@@ -1148,30 +1013,14 @@
     </MixedInferredReturnType>
   </file>
   <file src="test/DiskUsageTest.php">
-    <InvalidScalarArgument occurrences="4">
+    <InvalidScalarArgument occurrences="6">
+      <code>$criticalThreshold</code>
       <code>$dp + 1</code>
       <code>$dp + 2</code>
       <code>$dp - 1</code>
       <code>$dp - 1</code>
+      <code>$warningThreshold</code>
     </InvalidScalarArgument>
-    <MissingParamType occurrences="3">
-      <code>$criticalThreshold</code>
-      <code>$path</code>
-      <code>$warningThreshold</code>
-    </MissingParamType>
-    <MissingReturnType occurrences="1">
-      <code>getTempDir</code>
-    </MissingReturnType>
-    <MixedArgument occurrences="8">
-      <code>$criticalThreshold</code>
-      <code>$path</code>
-      <code>$this-&gt;getTempDir()</code>
-      <code>$this-&gt;getTempDir()</code>
-      <code>$this-&gt;getTempDir()</code>
-      <code>$this-&gt;getTempDir()</code>
-      <code>$this-&gt;getTempDir()</code>
-      <code>$warningThreshold</code>
-    </MixedArgument>
     <MixedInferredReturnType occurrences="1">
       <code>array</code>
     </MixedInferredReturnType>
@@ -1182,7 +1031,7 @@
       <code>$expectedResult</code>
     </ArgumentTypeCoercion>
     <InvalidArgument occurrences="1">
-      <code>new \stdClass()</code>
+      <code>new stdClass()</code>
     </InvalidArgument>
     <MixedArgument occurrences="2">
       <code>$version</code>
@@ -1193,99 +1042,41 @@
     </MixedInferredReturnType>
   </file>
   <file src="test/GuzzleHttpServiceTest.php">
-    <DeprecatedFunction occurrences="1">
-      <code>parse_response(sprintf($this-&gt;responseTemplate, $statusCode, (string) $content))</code>
-    </DeprecatedFunction>
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$resultClass</code>
+    </ArgumentTypeCoercion>
     <InvalidArgument occurrences="1">
       <code>'not guzzle'</code>
     </InvalidArgument>
     <InvalidScalarArgument occurrences="1">
       <code>'200'</code>
     </InvalidScalarArgument>
-    <MissingParamType occurrences="10">
-      <code>$actualContent</code>
-      <code>$actualStatusCode</code>
-      <code>$body</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$method</code>
-      <code>$resultClass</code>
-      <code>$statusCode</code>
-      <code>$statusCode</code>
-    </MissingParamType>
-    <MissingPropertyType occurrences="1">
-      <code>$responseTemplate</code>
-    </MissingPropertyType>
-    <MissingReturnType occurrences="1">
-      <code>getMockGuzzleClient</code>
-    </MissingReturnType>
-    <MixedArgument occurrences="7">
-      <code>$content</code>
-      <code>$method</code>
-      <code>$resultClass</code>
-      <code>$statusCode</code>
-      <code>$this-&gt;getMockGuzzleClient($actualStatusCode, $actualContent)</code>
-      <code>$this-&gt;responseTemplate</code>
-      <code>GuzzleRequestInterface::class</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment occurrences="1">
       <code>$request</code>
-      <code>$response</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="2">
       <code>array</code>
       <code>array</code>
     </MixedInferredReturnType>
-    <MixedMethodCall occurrences="3">
-      <code>attach</code>
+    <MixedMethodCall occurrences="2">
       <code>getBody</code>
       <code>getHeader</code>
     </MixedMethodCall>
-    <TooManyArguments occurrences="1">
-      <code>append</code>
-    </TooManyArguments>
-    <UndefinedClass occurrences="4">
-      <code>Guzzle5MockSubscriber</code>
-      <code>GuzzleRequestInterface</code>
-      <code>GuzzleResponse</code>
-      <code>Stream</code>
-    </UndefinedClass>
-    <UndefinedMagicMethod occurrences="1">
-      <code>getEmitter</code>
-    </UndefinedMagicMethod>
     <UndefinedMethod occurrences="1">
       <code>assertAttributeSame</code>
     </UndefinedMethod>
-    <UnusedParam occurrences="1">
-      <code>$content</code>
-    </UnusedParam>
   </file>
   <file src="test/OpCacheMemoryTest.php">
-    <MissingParamType occurrences="2">
+    <InvalidScalarArgument occurrences="2">
       <code>$criticalThreshold</code>
       <code>$warningThreshold</code>
-    </MissingParamType>
-    <MissingReturnType occurrences="1">
-      <code>createCheck</code>
-    </MissingReturnType>
-    <MixedArgument occurrences="2">
-      <code>$criticalThreshold</code>
-      <code>$warningThreshold</code>
-    </MixedArgument>
+    </InvalidScalarArgument>
   </file>
   <file src="test/ResultCollectionTest.php">
     <ArgumentTypeCoercion occurrences="2">
       <code>'Iterator'</code>
       <code>'Traversable'</code>
     </ArgumentTypeCoercion>
-    <MissingParamType occurrences="5">
-      <code>$key</code>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$value</code>
-    </MissingParamType>
     <MixedArgument occurrences="4">
       <code>$key</code>
       <code>$key</code>
@@ -1314,10 +1105,6 @@
       <code>'foo'</code>
       <code>10</code>
     </InvalidArgument>
-    <MissingParamType occurrences="2">
-      <code>$expectedResult</code>
-      <code>$value</code>
-    </MissingParamType>
     <MixedInferredReturnType occurrences="1">
       <code>array</code>
     </MixedInferredReturnType>
@@ -1337,51 +1124,25 @@
     </UnusedVariable>
   </file>
   <file src="test/TestAsset/Check/ReturnThis.php">
-    <MissingParamType occurrences="1">
-      <code>$value</code>
-    </MissingParamType>
-    <MissingPropertyType occurrences="1">
-      <code>$value</code>
-    </MissingPropertyType>
-    <MixedInferredReturnType occurrences="1">
-      <code>check</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>$this-&gt;value</code>
-    </MixedReturnStatement>
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>mixed</code>
+    </LessSpecificImplementedReturnType>
     <PropertyNotSetInConstructor occurrences="1">
       <code>ReturnThis</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="test/TestAsset/Check/SecurityAdvisory.php">
-    <MissingReturnType occurrences="1">
-      <code>setAdvisoryAnalyzer</code>
-    </MissingReturnType>
     <PropertyNotSetInConstructor occurrences="1">
       <code>SecurityAdvisory</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="test/TestAsset/Check/TriggerUserError.php">
-    <MissingParamType occurrences="3">
-      <code>$message</code>
-      <code>$result</code>
-      <code>$severity</code>
-    </MissingParamType>
-    <MissingPropertyType occurrences="3">
-      <code>$message</code>
-      <code>$result</code>
-      <code>$severity</code>
-    </MissingPropertyType>
-    <MixedArgument occurrences="2">
-      <code>$this-&gt;message</code>
+    <ArgumentTypeCoercion occurrences="1">
       <code>$this-&gt;severity</code>
-    </MixedArgument>
-    <MixedInferredReturnType occurrences="1">
-      <code>check</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>$this-&gt;result</code>
-    </MixedReturnStatement>
+    </ArgumentTypeCoercion>
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>bool</code>
+    </ImplementedReturnTypeMismatch>
   </file>
   <file src="test/TestAsset/Check/TriggerWarning.php">
     <TooFewArguments occurrences="1">
