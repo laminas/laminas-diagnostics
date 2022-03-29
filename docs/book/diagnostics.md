@@ -52,7 +52,7 @@ $checkDbFile = new Callback(function() {
 ```
 
 > ### Callback signature
-> 
+>
 > The callback must return either a `boolean` (true for success, false for
 > failure), or a valid instance of
 > [ResultInterface](https://github.com/laminas/laminas-diagnostics/tree/master/src/Result/ResultInterface.php).
@@ -337,7 +337,7 @@ use Laminas\Diagnostics\Check\Memcache;
 $checkLocal  = new Memcache('127.0.0.1'); // default port
 $checkBackup = new Memcache('10.0.30.40', 11212);
 ```
-   
+
 ## Memcached
 
 Attempt to connect to the given Memcached server.
