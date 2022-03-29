@@ -57,7 +57,7 @@ class Redis extends AbstractCheck
      */
     private function createClient()
     {
-        if (class_exists('\Redis')) {
+        if (class_exists(RedisExtensionClient::class)) {
             $client = new RedisExtensionClient();
             $client->connect($this->host, $this->port);
 

@@ -7,6 +7,7 @@ use Laminas\Diagnostics\Result\Skip;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 
+use function apcu_sma_info;
 use function function_exists;
 use function ini_get;
 use function sprintf;
