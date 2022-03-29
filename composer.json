@@ -37,14 +37,14 @@
     },
     "require-dev": {
         "doctrine/migrations": "^2.0 || ^3.0",
-        "enlightn/security-checker": "^1.2",
+        "enlightn/security-checker": "^1.10",
         "guzzlehttp/guzzle": "^7.2",
         "laminas/laminas-coding-standard": "~2.3.0",
         "laminas/laminas-loader": "^2.0",
         "mikey179/vfsstream": "dev-master#08a798577d677436f4f4ea3d0b3c949f64655548 as 1.6.9",
         "php-amqplib/php-amqplib": "^2.0 || ^3.0",
         "phpspec/prophecy-phpunit": "^2.0",
-        "phpunit/phpunit": "^9.5.5",
+        "phpunit/phpunit": "^9.5.9",
         "psalm/plugin-phpunit": "^0.15.1",
         "predis/predis": "^1.0",
         "symfony/yaml": "^2.7 || ^3.0 || ^4.0 || ^5.0",
@@ -52,6 +52,8 @@
     },
     "conflict": {
         "guzzlehttp/ringphp": "<1.1.1",
+        "symfony/finder": "<5.3.7",
+        "symfony/process": "<5.3.7",
         "zendframework/zenddiagnostics": "*"
     },
     "suggest": {
