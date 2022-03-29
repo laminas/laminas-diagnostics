@@ -8,6 +8,9 @@ use Laminas\Diagnostics\Result\Skip;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 
+use function is_numeric;
+use function sprintf;
+
 /**
  * Abstract class for handling different memory checks
  */
@@ -58,20 +61,21 @@ abstract class AbstractMemoryCheck extends AbstractCheck implements CheckInterfa
             );
         }
 
-        $this->warningThreshold  = (int)$warningThreshold;
-        $this->criticalThreshold = (int)$criticalThreshold;
+        $this->warningThreshold  = (int) $warningThreshold;
+        $this->criticalThreshold = (int) $criticalThreshold;
     }
 
     /**
      * Perform the check
      *
      * @see \Laminas\Diagnostics\Check\CheckInterface::check()     *
+     *
      * @return Failure|Skip|Success|Warning
      */
     public function check()
     {
         $percentUsed = ($this->getUsedMemory() / $this->getTotalMemory()) * 100;
-        $message = sprintf(
+        $message     = sprintf(
             '%.0f%% of available %s memory used.',
             $percentUsed,
             $this->formatBytes($this->getTotalMemory())

@@ -7,6 +7,12 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 
+use function disk_free_space;
+use function disk_total_space;
+use function is_numeric;
+use function is_string;
+use function sprintf;
+
 /**
  * Checks to see if the disk usage is below warning/critical percent thresholds
  */
@@ -71,9 +77,9 @@ class DiskUsage extends AbstractCheck implements CheckInterface
             );
         }
 
-        $this->warningThreshold = (int) $warningThreshold;
+        $this->warningThreshold  = (int) $warningThreshold;
         $this->criticalThreshold = (int) $criticalThreshold;
-        $this->path = $path;
+        $this->path              = $path;
     }
 
     /**

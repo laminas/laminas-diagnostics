@@ -5,8 +5,11 @@ namespace LaminasTest\Diagnostics\TestAsset\Check;
 use Laminas\Diagnostics\Check\AbstractCheck;
 use Laminas\Diagnostics\Result\Success;
 
+use function strpos;
+
 class TriggerWarning extends AbstractCheck
 {
+    /** @return Success */
     public function check()
     {
         strpos(); // <-- this will throw a real warning

@@ -28,11 +28,15 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use stdClass;
 
+use function is_string;
+
+use const E_USER_ERROR;
+use const E_WARNING;
+use const PHP_MAJOR_VERSION;
+
 class RunnerTest extends TestCase
 {
-    /**
-     * @var Runner
-     */
+    /** @var Runner */
     protected $runner;
 
     protected function setUp(): void
@@ -61,18 +65,18 @@ class RunnerTest extends TestCase
             ],
             [
                 true,
-                Success::class
+                Success::class,
             ],
             [
                 false,
-                Failure::class
+                Failure::class,
             ],
             [
                 null,
                 Failure::class,
             ],
             [
-                new \stdClass(),
+                new stdClass(),
                 Failure::class,
             ],
             [
@@ -89,7 +93,7 @@ class RunnerTest extends TestCase
 
         $this->runner->setConfig([
             'break_on_failure'     => true,
-            'catch_error_severity' => 100
+            'catch_error_severity' => 100,
         ]);
 
         self::assertTrue($this->runner->getBreakOnFailure());
@@ -103,14 +107,14 @@ class RunnerTest extends TestCase
 
         $this->runner = new Runner([
             'break_on_failure'     => true,
-            'catch_error_severity' => 300
+            'catch_error_severity' => 300,
         ]);
 
         self::assertTrue($this->runner->getBreakOnFailure());
         self::assertSame(300, $this->runner->getCatchErrorSeverity());
         self::assertEquals([
             'break_on_failure'     => true,
-            'catch_error_severity' => 300
+            'catch_error_severity' => 300,
         ], $this->runner->getConfig());
     }
 
@@ -124,7 +128,7 @@ class RunnerTest extends TestCase
     {
         $this->expectException(BadMethodCallException::class);
         $this->runner->setConfig([
-            'foo' => 'bar'
+            'foo' => 'bar',
         ]);
     }
 
@@ -136,7 +140,7 @@ class RunnerTest extends TestCase
         $this->runner->addCheck($check1);
         $this->runner->addChecks([
             $check2,
-            $check3
+            $check3,
         ]);
         self::assertContains($check1, $this->runner->getChecks());
         self::assertContains($check2, $this->runner->getChecks());
@@ -167,8 +171,8 @@ class RunnerTest extends TestCase
 
     public function testConstructionWithChecks(): void
     {
-        $check1 = new AlwaysSuccess();
-        $check2 = new AlwaysSuccess();
+        $check1       = new AlwaysSuccess();
+        $check2       = new AlwaysSuccess();
         $this->runner = new Runner([], [$check1, $check2]);
         self::assertCount(2, $this->runner->getChecks());
         self::assertContains($check1, $this->runner->getChecks());
@@ -177,7 +181,7 @@ class RunnerTest extends TestCase
 
     public function testConstructionWithReporter(): void
     {
-        $reporter = $this->createMock(AbstractReporter::class);
+        $reporter     = $this->createMock(AbstractReporter::class);
         $this->runner = new Runner([], [], $reporter);
         self::assertCount(1, $this->runner->getReporters());
         self::assertContains($reporter, $this->runner->getReporters());
@@ -219,8 +223,7 @@ class RunnerTest extends TestCase
     {
         $this->runner->addCheck(new AlwaysSuccess());
         $mock = $this->createMock(AbstractReporter::class);
-        $mock->expects(self
-            ::once())
+        $mock->expects(self::once())
             ->method('onStart')
             ->with(self::isInstanceOf(ArrayObject::class), self::isType('array'));
         $this->runner->addReporter($mock);
@@ -250,11 +253,10 @@ class RunnerTest extends TestCase
     public function testAliasIsKeptAfterRun(): void
     {
         $checkAlias = 'foo';
-        $check = new AlwaysSuccess();
+        $check      = new AlwaysSuccess();
         $this->runner->addCheck($check, $checkAlias);
         $mock = $this->createMock(AbstractReporter::class);
-        $mock->expects(self
-            ::once())
+        $mock->expects(self::once())
             ->method('onAfterRun')
             ->with(self::identicalTo($check), $check->check(), $checkAlias);
         $this->runner->addReporter($mock);
@@ -263,6 +265,8 @@ class RunnerTest extends TestCase
 
     /**
      * @dataProvider checksAndResultsProvider
+     * @param mixed $value
+     * @param mixed $expectedResult
      */
     public function testStandardResults($value, $expectedResult): void
     {
@@ -288,7 +292,7 @@ class RunnerTest extends TestCase
     public function testExceptionResultsInFailure(): void
     {
         $exception = new Exception();
-        $check = new ThrowException($exception);
+        $check     = new ThrowException($exception);
         $this->runner->addCheck($check);
         $results = $this->runner->run();
         self::assertInstanceOf(Failure::class, $results[$check]);
@@ -348,8 +352,7 @@ class RunnerTest extends TestCase
             ->will(self::onConsecutiveCalls(
                 false,
                 true
-            ))
-        ;
+            ));
         $this->runner->addReporter($mock);
 
         $results = $this->runner->run();
@@ -374,8 +377,7 @@ class RunnerTest extends TestCase
             ->will(self::onConsecutiveCalls(
                 false,
                 true
-            ))
-        ;
+            ));
         $this->runner->addReporter($mock);
 
         $results = $this->runner->run();

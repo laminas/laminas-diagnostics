@@ -11,16 +11,38 @@ use InvalidArgumentException;
 use Iterator;
 use JsonSerializable;
 use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use Psr\Http\Message\RequestInterface as PsrRequestInterface;
-use RuntimeException;
+use Psr\Http\Message\ResponseInterface;
+
+use function array_merge;
+use function class_exists;
+use function http_build_query;
+use function is_array;
+use function is_object;
+use function is_string;
+use function json_encode;
+use function method_exists;
+use function sprintf;
+use function strpos;
+use function strstr;
 
 class GuzzleHttpService extends AbstractCheck
 {
+    /** @var null|string */
     protected $content;
+
+    /** @var array */
     protected $options;
+
+    /** @var PsrRequestInterface */
     protected $request;
+
+    /** @var int */
     protected $statusCode;
+
+    /** @var GuzzleClient */
     protected $guzzle;
 
     /**
@@ -29,10 +51,10 @@ class GuzzleHttpService extends AbstractCheck
      * @param array $headers An array of headers used to create the request
      * @param array $options An array of guzzle options to use when sending the request
      * @param int $statusCode The response status code to check
-     * @param null $content The response content to check
+     * @param null|string $content The response content to check
      * @param null|GuzzleClientInterface $guzzle Instance of guzzle to use
      * @param string $method The method of the request
-     * @param mixed $body The body of the request (used for POST, PUT and DELETE requests)
+     * @param string|iterable|object $body The body of the request (used for POST, PUT and DELETE requests)
      * @throws InvalidArgumentException
      */
     public function __construct(
@@ -61,13 +83,15 @@ class GuzzleHttpService extends AbstractCheck
             ? $requestOrUrl
             : $this->createRequestFromConstructorArguments($requestOrUrl, $method, $headers, $body, $options);
 
-        $this->options = $options;
+        $this->options    = $options;
         $this->statusCode = (int) $statusCode;
-        $this->content = $content;
+        $this->content    = $content;
     }
 
     /**
      * @see Laminas\Diagnostics\CheckInterface::check()
+     *
+     * @return ResultInterface
      */
     public function check()
     {
@@ -93,8 +117,7 @@ class GuzzleHttpService extends AbstractCheck
      * @param array $headers
      * @param mixed $body
      * @return PsrRequestInterface
-     * @throws InvalidArgumentException if unable to determine how to serialize
-     *     the body content.
+     * @throws InvalidArgumentException If unable to determine how to serialize the body content.
      */
     private function createPsr7Request($url, $method, array $headers, $body)
     {
@@ -104,7 +127,8 @@ class GuzzleHttpService extends AbstractCheck
         }
 
         // These can all be handled directly by the stream factory
-        if (is_string($body)
+        if (
+            is_string($body)
             || $body instanceof Iterator
             || (is_object($body) && method_exists($body, '__toString'))
         ) {
@@ -114,7 +138,8 @@ class GuzzleHttpService extends AbstractCheck
         // If we have an array or JSON serializable object of data, and we've
         // indicated JSON payload content, we can serialize it and create a
         // stream.
-        if (strstr($request->getHeaderLine('Content-Type'), 'json')
+        if (
+            strstr($request->getHeaderLine('Content-Type'), 'json')
             && (is_array($body) || $body instanceof JsonSerializable)
         ) {
             return $request->withBody(Utils::streamFor(json_encode($body)));
@@ -132,9 +157,8 @@ class GuzzleHttpService extends AbstractCheck
     }
 
     /**
-     * @return \GuzzleHttp\Client
-     *
-     * @throws \Exception
+     * @return GuzzleClient
+     * @throws Exception
      */
     private function createGuzzleClient()
     {
@@ -146,7 +170,7 @@ class GuzzleHttpService extends AbstractCheck
     }
 
     /**
-     * @return \Laminas\Diagnostics\Result\ResultInterface
+     * @return ResultInterface
      */
     private function performGuzzleRequest()
     {
@@ -163,8 +187,8 @@ class GuzzleHttpService extends AbstractCheck
     }
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @return \Laminas\Diagnostics\Result\ResultInterface
+     * @param ResponseInterface $response
+     * @return ResultInterface
      */
     private function analyzeResponse($response)
     {

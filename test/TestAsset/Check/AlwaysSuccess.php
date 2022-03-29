@@ -7,6 +7,7 @@ use Laminas\Diagnostics\Result\Success;
 
 class AlwaysSuccess extends AbstractCheck
 {
+    /** @return Success */
     public function check()
     {
         return new Success('This check always results in success!');

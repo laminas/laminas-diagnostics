@@ -2,6 +2,11 @@
 
 namespace Laminas\Diagnostics\Check;
 
+use function preg_replace;
+use function strrpos;
+use function substr;
+use function trim;
+
 abstract class AbstractCheck implements CheckInterface
 {
     /**
@@ -22,7 +27,7 @@ abstract class AbstractCheck implements CheckInterface
             return $this->label;
         }
 
-        $class = get_class($this);
+        $class = static::class;
         $class = substr($class, strrpos($class, '\\') + 1);
         $class = preg_replace('/([A-Z])/', ' $1', $class);
 
@@ -33,6 +38,7 @@ abstract class AbstractCheck implements CheckInterface
      * Alias for getLabel()
      *
      * @see CheckInterface::getLabel()
+     *
      * @return string
      */
     public function getName()

@@ -7,6 +7,22 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 
+use function array_merge;
+use function array_search;
+use function array_unique;
+use function disk_free_space;
+use function implode;
+use function in_array;
+use function is_float;
+use function is_numeric;
+use function is_scalar;
+use function is_string;
+use function preg_match;
+use function round;
+use function sprintf;
+use function strtolower;
+use function substr;
+
 /**
  * Check if there is enough remaining free disk space.
  *
@@ -45,14 +61,14 @@ class DiskFree extends AbstractCheck implements CheckInterface
      * @var  array
      */
     public static $siMultiplier = [
-        0 => 1e0, # 10^0  == 1000^0 (2^00 == 1024^0)
-        1 => 1e3, # 10^3  == 1000^1 (2^10 == 1024^1)
-        2 => 1e6, # 10^6  == 1000^2 (2^20 == 1024^2)
-        3 => 1e9, # 10^9  == 1000^3 (2^30 == 1024^3)
-        4 => 1e12, # 10^12 == 1000^4 (2^40 == 1024^4)
-        5 => 1e15, # 10^15 == 1000^5 (2^50 == 1024^5)
-        6 => 1e18, # 10^18 == 1000^6 (2^60 == 1024^6)
-        7 => 1e21 # 10^21 == 1000^7 (2^70 == 1024^7)
+        0 => 1e0, // 10^0  == 1000^0 (2^00 == 1024^0)
+        1 => 1e3, // 10^3  == 1000^1 (2^10 == 1024^1)
+        2 => 1e6, // 10^6  == 1000^2 (2^20 == 1024^2)
+        3 => 1e9, // 10^9  == 1000^3 (2^30 == 1024^3)
+        4 => 1e12, // 10^12 == 1000^4 (2^40 == 1024^4)
+        5 => 1e15, // 10^15 == 1000^5 (2^50 == 1024^5)
+        6 => 1e18, // 10^18 == 1000^6 (2^60 == 1024^6)
+        7 => 1e21, // 10^21 == 1000^7 (2^70 == 1024^7)
     ];
 
     /**
@@ -75,13 +91,13 @@ class DiskFree extends AbstractCheck implements CheckInterface
      * @var  array
      */
     public static $iecMultiplier = [
-        0 => 1, # 2^00 == 1024^0
-        1 => 1024, # 2^10 == 1024^1
-        2 => 1048576, # 2^20 == 1024^2
-        3 => 1073741824, # 2^30 == 1024^3
-        4 => 1099511627776, # 2^40 == 1024^4
-        5 => 1125899906842624, # 2^50 == 1024^5
-        6 => 1152921504606846976 # 2^60 == 1024^6
+        0 => 1, // 2^00 == 1024^0
+        1 => 1024, // 2^10 == 1024^1
+        2 => 1048576, // 2^20 == 1024^2
+        3 => 1073741824, // 2^30 == 1024^3
+        4 => 1099511627776, // 2^40 == 1024^4
+        5 => 1125899906842624, // 2^50 == 1024^5
+        6 => 1152921504606846976, // 2^60 == 1024^6
     ];
 
     /**
@@ -104,16 +120,16 @@ class DiskFree extends AbstractCheck implements CheckInterface
      * @var  array
      */
     public static $jedecMultiplier = [
-        0 => 1, # 2^00 == 1024^0
-        1 => 1024, # 2^10 == 1024^1
-        2 => 1048576, # 2^20 == 1024^2
-        3 => 1073741824 # 2^30 == 1024^3
+        0 => 1, // 2^00 == 1024^0
+        1 => 1024, // 2^10 == 1024^1
+        2 => 1048576, // 2^20 == 1024^2
+        3 => 1073741824, // 2^30 == 1024^3
     ];
 
     /**
      * @param  int|string                $size Minimum disk size in bytes or a valid byte string (IEC, SI or Jedec).
      * @param  string                    $path The disk path to check, i.e. '/tmp' or 'C:' (defaults to /)
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($size, $path = '/')
     {
@@ -142,6 +158,7 @@ class DiskFree extends AbstractCheck implements CheckInterface
      * Perform the check
      *
      * @see \Laminas\Diagnostics\Check\CheckInterface::check()
+     *
      * @return Failure|Success|Warning
      */
     public function check()
@@ -157,7 +174,7 @@ class DiskFree extends AbstractCheck implements CheckInterface
         }
 
         $freeHumanReadable = static::bytesToString($free, 2);
-        $description = sprintf('Remaining space at %s: %s', $this->path, $freeHumanReadable);
+        $description       = sprintf('Remaining space at %s: %s', $this->path, $freeHumanReadable);
 
         if (disk_free_space($this->path) < $this->minDiskBytes) {
             return new Failure($description, $free);
@@ -178,19 +195,19 @@ class DiskFree extends AbstractCheck implements CheckInterface
     public static function bytesToString($size, $precision = 0)
     {
         if ($size >= 1125899906842624) {
-            $size /= 1125899906842624;
+            $size  /= 1125899906842624;
             $suffix = 'PiB';
         } elseif ($size >= 1099511627776) {
-            $size /= 1099511627776;
+            $size  /= 1099511627776;
             $suffix = 'TiB';
         } elseif ($size >= 1073741824) {
-            $size /= 1073741824;
+            $size  /= 1073741824;
             $suffix = 'GiB';
         } elseif ($size >= 1048576) {
-            $size /= 1048576;
+            $size  /= 1048576;
             $suffix = 'MiB';
         } elseif ($size >= 1024) {
-            $size /= 1024;
+            $size  /= 1024;
             $suffix = 'KiB';
         } else {
             $suffix = 'B';
@@ -213,7 +230,7 @@ class DiskFree extends AbstractCheck implements CheckInterface
     {
         // Prepare regular expression.
         $symbol = '(?:([kKMGTPEZ])(i)?)?([Bb])?(?:ps)?';
-        $name = '(' . implode('|', array_unique(array_merge(
+        $name   = '(' . implode('|', array_unique(array_merge(
             self::$siPrefixName,
             self::$iecPrefixName,
             self::$jedecPrefixName
@@ -231,29 +248,29 @@ class DiskFree extends AbstractCheck implements CheckInterface
             if (isset($match[5]) && $match[5]) {
                 $k = strtolower($match[5]);
                 if (in_array($k, self::$iecPrefixName)) {
-                    $a =& self::$iecPrefixName;
-                    $x =& self::$iecMultiplier;
+                    $a = &self::$iecPrefixName;
+                    $x = &self::$iecMultiplier;
                 } elseif (in_array($k, self::$jedecPrefixName) && $jedec) {
-                    $a =& self::$jedecPrefixName;
-                    $x =& self::$jedecMultiplier;
+                    $a = &self::$jedecPrefixName;
+                    $x = &self::$jedecMultiplier;
                 } elseif (in_array($k, self::$siPrefixName)) {
-                    $a =& self::$siPrefixName;
-                    $x =& self::$siMultiplier;
+                    $a = &self::$siPrefixName;
+                    $x = &self::$siMultiplier;
                 }
             }
             // Check for prefix (by symbol).
             if (isset($match[2]) && $match[2]) {
                 $k = $match[2];
-                if (isset($match[3]) && $match[3] == 'i') {
-                    $a =& self::$iecPrefixSymbol;
-                    $x =& self::$iecMultiplier;
+                if (isset($match[3]) && $match[3] === 'i') {
+                    $a  = &self::$iecPrefixSymbol;
+                    $x  = &self::$iecMultiplier;
                     $k .= $match[3];
                 } elseif ($jedec) {
-                    $a =& self::$jedecPrefixSymbol;
-                    $x =& self::$jedecMultiplier;
+                    $a = &self::$jedecPrefixSymbol;
+                    $x = &self::$jedecMultiplier;
                 } else {
-                    $a =& self::$siPrefixSymbol;
-                    $x =& self::$siMultiplier;
+                    $a = &self::$siPrefixSymbol;
+                    $x = &self::$siMultiplier;
                 }
             }
             // Find the correct multiplier and apply it.
@@ -269,8 +286,9 @@ class DiskFree extends AbstractCheck implements CheckInterface
         }
 
         // Check whether we were provided with bits or bytes - divide if needed.
-        if (isset($match[4]) && $match[4] == 'b' ||
-            isset($match[6]) && substr(strtolower($match[6]), 0, 3) == 'bit'
+        if (
+            isset($match[4]) && $match[4] === 'b' ||
+            isset($match[6]) && substr(strtolower($match[6]), 0, 3) === 'bit'
         ) {
             $bytes /= 8;
         }

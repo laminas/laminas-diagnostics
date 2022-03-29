@@ -4,41 +4,45 @@ namespace Laminas\Diagnostics\Check;
 
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+
+use function escapeshellarg;
+use function exec;
+use function gettype;
+use function is_numeric;
+use function is_scalar;
+use function sprintf;
 
 /**
  * Check if a process with given name or ID is currently running.
  */
 class ProcessRunning extends AbstractCheck
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $processName;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $pid;
 
     /**
      * @param string|int $processNameOrPid   Name or ID of the process to find.
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($processNameOrPid)
     {
         if (empty($processNameOrPid)) {
             throw new InvalidArgumentException(sprintf(
-                'Wrong argument provided for ProcessRunning check - ' .
-                'expected a process name (string) or pid (positive number).',
+                'Wrong argument provided for ProcessRunning check - '
+                . 'expected a process name (string) or pid (positive number).',
                 gettype($processNameOrPid)
             ));
         }
 
         if (! is_numeric($processNameOrPid) && ! is_scalar($processNameOrPid)) {
             throw new InvalidArgumentException(sprintf(
-                'Wrong argument provided for ProcessRunning check - ' .
-                'expected a process name (string) or pid (positive number) but got %s',
+                'Wrong argument provided for ProcessRunning check - '
+                . 'expected a process name (string) or pid (positive number) but got %s',
                 gettype($processNameOrPid)
             ));
         }
@@ -46,8 +50,8 @@ class ProcessRunning extends AbstractCheck
         if (is_numeric($processNameOrPid)) {
             if ((int) $processNameOrPid < 0) {
                 throw new InvalidArgumentException(sprintf(
-                    'Wrong argument provided for ProcessRunning check - ' .
-                    'expected pid to be a positive number but got %s',
+                    'Wrong argument provided for ProcessRunning check - '
+                    . 'expected pid to be a positive number but got %s',
                     (int) $processNameOrPid
                 ));
             }
@@ -59,6 +63,8 @@ class ProcessRunning extends AbstractCheck
 
     /**
      * @see Laminas\Diagnostics\CheckInterface::check()
+     *
+     * @return ResultInterface
      */
     public function check()
     {
@@ -71,13 +77,13 @@ class ProcessRunning extends AbstractCheck
     }
 
     /**
-     * @return \Laminas\Diagnostics\Result\ResultInterface
+     * @return ResultInterface
      */
     private function checkAgainstPid()
     {
         exec('ps -p ' . (int) $this->pid, $output, $return);
 
-        if ($return == 1) {
+        if ($return === 1) {
             return new Failure(sprintf('Process with PID %s is not currently running.', $this->pid));
         }
 
@@ -85,7 +91,7 @@ class ProcessRunning extends AbstractCheck
     }
 
     /**
-     * @return \Laminas\Diagnostics\Result\ResultInterface
+     * @return ResultInterface
      */
     private function checkAgainstProcessName()
     {

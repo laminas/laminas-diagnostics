@@ -12,20 +12,23 @@ use Laminas\Diagnostics\Result\FailureInterface;
 use Laminas\Diagnostics\Result\SuccessInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
-use ReflectionClass;
 use ReflectionProperty;
+
+use function class_exists;
+use function json_decode;
+use function sprintf;
 
 class GuzzleHttpServiceTest extends TestCase
 {
-    protected $responseTemplate = <<< 'EOR'
-HTTP/1.1 %d
-
-%s
-EOR;
+    /** @var string */
+    protected $responseTemplate = <<<'EOR'
+        HTTP/1.1 %d
+        
+        %s
+        EOR;
 
     /**
      * @param array $params
-     *
      * @dataProvider couchDbProvider
      */
     public function testCouchDbCheck(array $params): void
@@ -36,6 +39,12 @@ EOR;
 
     /**
      * @dataProvider checkProvider
+     * @param null|string $content
+     * @param string $actualContent
+     * @param int $actualStatusCode
+     * @param string $resultClass
+     * @param string $method
+     * @param null|string $body
      */
     public function testGuzzleCheck(
         $content,
@@ -49,7 +58,7 @@ EOR;
             self::markTestSkipped('guzzlehttp/guzzle not installed.');
         }
 
-        $check = new GuzzleHttpService(
+        $check  = new GuzzleHttpService(
             'http://www.example.com/foobar',
             [],
             [],
@@ -130,19 +139,28 @@ EOR;
     public function couchDbProvider(): array
     {
         return [
-            'url' => [[
-                'url' => 'http://root:party@localhost/hello'
-            ]],
-            'options' => [[
-                'host' => '127.0.0.1',
-                'port' => '443',
-                'username' => 'test',
-                'password' => 'test',
-                'dbname' => 'database'
-            ]],
+            'url'     => [
+                [
+                    'url' => 'http://root:party@localhost/hello',
+                ],
+            ],
+            'options' => [
+                [
+                    'host'     => '127.0.0.1',
+                    'port'     => '443',
+                    'username' => 'test',
+                    'password' => 'test',
+                    'dbname'   => 'database',
+                ],
+            ],
         ];
     }
 
+    /**
+     * @param int $statusCode
+     * @param null|string $content
+     * @return GuzzleClient
+     */
     private function getMockGuzzleClient($statusCode = 200, $content = null)
     {
         $response = Message::parseResponse(sprintf($this->responseTemplate, $statusCode, (string) $content));

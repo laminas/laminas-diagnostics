@@ -11,7 +11,9 @@ use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
-use LogicException;
+
+use function array_diff;
+use function array_map;
 
 class DoctrineMigration extends AbstractCheck
 {
@@ -26,9 +28,9 @@ class DoctrineMigration extends AbstractCheck
 
     /**
      * @param DependencyFactory|Configuration $input
-     *
-     * @throws InvalidArgumentException if an invalid $input is given - note that this exception will
-     *                                  be removed once PHP 8 union types are introduced here.
+     * @throws InvalidArgumentException If an invalid $input is given - note
+     *     that this exception will be removed once PHP 8 union types are
+     *     introduced here.
      */
     public function __construct($input)
     {
@@ -52,7 +54,7 @@ class DoctrineMigration extends AbstractCheck
     public function check(): ResultInterface
     {
         $availableVersions = $this->getAvailableVersions();
-        $migratedVersions = $this->getMigratedVersions();
+        $migratedVersions  = $this->getMigratedVersions();
 
         $notMigratedVersions = array_diff($availableVersions, $migratedVersions);
         if (! empty($notMigratedVersions)) {

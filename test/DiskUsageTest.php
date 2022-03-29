@@ -9,10 +9,18 @@ use Laminas\Diagnostics\Result\SuccessInterface;
 use Laminas\Diagnostics\Result\WarningInterface;
 use PHPUnit\Framework\TestCase;
 
+use function disk_free_space;
+use function disk_total_space;
+use function is_writable;
+use function sys_get_temp_dir;
+
 class DiskUsageTest extends TestCase
 {
     /**
      * @dataProvider invalidArgumentProvider
+     * @param int|string $warningThreshold
+     * @param int|string $criticalThreshold
+     * @param string $path
      */
     public function testInvalidArguments($warningThreshold, $criticalThreshold, $path): void
     {
@@ -27,17 +35,17 @@ class DiskUsageTest extends TestCase
         $du = $dt - $df;
         $dp = ($du / $dt) * 100;
 
-        $check = new DiskUsage($dp + 1, $dp + 2, $this->getTempDir());
+        $check  = new DiskUsage($dp + 1, $dp + 2, $this->getTempDir());
         $result = $check->check();
 
         self::assertInstanceof(SuccessInterface::class, $result);
 
-        $check = new DiskUsage($dp - 1, 100, $this->getTempDir());
+        $check  = new DiskUsage($dp - 1, 100, $this->getTempDir());
         $result = $check->check();
 
         self::assertInstanceof(WarningInterface::class, $result);
 
-        $check = new DiskUsage(0, $dp - 1, $this->getTempDir());
+        $check  = new DiskUsage(0, $dp - 1, $this->getTempDir());
         $result = $check->check();
 
         self::assertInstanceof(FailureInterface::class, $result);
@@ -53,10 +61,11 @@ class DiskUsageTest extends TestCase
             [-10, 100, $this->getTempDir()],
             [105, 100, $this->getTempDir()],
             [10, -10, $this->getTempDir()],
-            [10, 105, $this->getTempDir()]
+            [10, 105, $this->getTempDir()],
         ];
     }
 
+    /** @return string */
     protected function getTempDir()
     {
         // try to retrieve tmp dir

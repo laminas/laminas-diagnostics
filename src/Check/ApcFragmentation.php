@@ -8,6 +8,14 @@ use Laminas\Diagnostics\Result\Skip;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 
+use function count;
+use function function_exists;
+use function ini_get;
+use function is_numeric;
+use function sprintf;
+
+use const PHP_SAPI;
+
 /**
  * Checks to see if the APCu fragmentation is below warning/critical thresholds
  *
@@ -65,7 +73,7 @@ class ApcFragmentation extends AbstractCheck implements CheckInterface
             );
         }
 
-        $this->warningThreshold = (int) $warningThreshold;
+        $this->warningThreshold  = (int) $warningThreshold;
         $this->criticalThreshold = (int) $criticalThreshold;
     }
 
@@ -73,6 +81,7 @@ class ApcFragmentation extends AbstractCheck implements CheckInterface
      * Perform the check
      *
      * @see \Laminas\Diagnostics\Check\CheckInterface::check()
+     *
      * @return Failure|Skip|Success|Warning
      */
     public function check()
@@ -81,7 +90,7 @@ class ApcFragmentation extends AbstractCheck implements CheckInterface
             return new Skip('APC has not been enabled or installed.');
         }
 
-        if (php_sapi_name() == 'cli' && ! ini_get('apc.enable_cli')) {
+        if (PHP_SAPI === 'cli' && ! ini_get('apc.enable_cli')) {
             return new Skip('APC has not been enabled in CLI.');
         }
 
@@ -98,14 +107,14 @@ class ApcFragmentation extends AbstractCheck implements CheckInterface
         for ($i = 0; $i < $info['num_seg']; $i++) {
             $ptr = 0;
             foreach ($info['block_lists'][$i] as $block) {
-                if ($block['offset'] != $ptr) {
+                if ($block['offset'] !== $ptr) {
                     ++$nseg;
                 }
 
                 $ptr = $block['offset'] + $block['size'];
 
                 /* Only consider blocks <5M for the fragmentation % */
-                if ($block['size'] < (5 * 1024 * 1024)) {
+                if ($block['size'] < 5 * 1024 * 1024) {
                     $fragsize += $block['size'];
                 }
 

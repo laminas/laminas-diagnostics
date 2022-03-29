@@ -4,11 +4,18 @@ namespace Laminas\Diagnostics\Result;
 
 use InvalidArgumentException;
 use Laminas\Diagnostics\Check\CheckInterface;
+use ReturnTypeWillChange;
+use SplObjectStorage;
+
+use function get_class;
+use function gettype;
+use function is_object;
+use function sprintf;
 
 /**
  * Utility class to store Results entities for corresponding Checks
  */
-class Collection extends \SplObjectStorage
+class Collection extends SplObjectStorage
 {
     /**
      * Number of successful results
@@ -96,11 +103,12 @@ class Collection extends \SplObjectStorage
     }
 
     /**
+     * @link http://php.net/manual/en/splobjectstorage.offsetget.php
+     *
      * @param  object $index
      * @return mixed
-     * @link http://php.net/manual/en/splobjectstorage.offsetget.php
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($index)
     {
         $this->validateIndex($index);
@@ -109,11 +117,12 @@ class Collection extends \SplObjectStorage
     }
 
     /**
+     * @link http://php.net/manual/en/splobjectstorage.offsetexists.php
+     *
      * @param  object $index
      * @return bool
-     * @link http://php.net/manual/en/splobjectstorage.offsetexists.php
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetExists($index)
     {
         $this->validateIndex($index);
@@ -122,11 +131,12 @@ class Collection extends \SplObjectStorage
     }
 
     /**
+     * @link http://php.net/manual/en/splobjectstorage.offsetset.php
+     *
      * @param object     $index
      * @param mixed|null $checkResult
-     * @link http://php.net/manual/en/splobjectstorage.offsetset.php
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($index, $checkResult = null)
     {
         $this->validateIndex($index);
@@ -145,10 +155,11 @@ class Collection extends \SplObjectStorage
     }
 
     /**
-     * @param object $index
      * @link http://php.net/manual/en/splobjectstorage.offsetunset.php
+     *
+     * @param object $index
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetUnset($index)
     {
         $this->validateIndex($index);
@@ -164,7 +175,6 @@ class Collection extends \SplObjectStorage
     /**
      * Adjust internal result counters.
      *
-     * @param ResultInterface $result
      * @param int             $delta
      */
     protected function updateCounters(ResultInterface $result, $delta = 1)

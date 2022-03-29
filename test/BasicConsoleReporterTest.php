@@ -12,11 +12,16 @@ use LaminasTest\Diagnostics\TestAsset\Check\AlwaysSuccess;
 use LaminasTest\Diagnostics\TestAsset\Result\Unknown;
 use PHPUnit\Framework\TestCase;
 
+use function array_fill;
+use function ob_clean;
+use function ob_get_clean;
+use function ob_start;
+use function str_repeat;
+use function trim;
+
 class BasicConsoleReporterTest extends TestCase
 {
-    /**
-     * @var BasicConsole
-     */
+    /** @var BasicConsole */
     protected $reporter;
 
     protected function setUp(): void
@@ -99,7 +104,7 @@ class BasicConsoleReporterTest extends TestCase
     public function testProgressDotsNoGutter(): void
     {
         $this->reporter = new BasicConsole(40);
-        $checks = new ArrayObject(array_fill(0, 40, new AlwaysSuccess()));
+        $checks         = new ArrayObject(array_fill(0, 40, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, []);
@@ -116,7 +121,7 @@ class BasicConsoleReporterTest extends TestCase
     public function testProgressOverflow(): void
     {
         $this->reporter = new BasicConsole(40);
-        $checks = new ArrayObject(array_fill(0, 80, new AlwaysSuccess()));
+        $checks         = new ArrayObject(array_fill(0, 80, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, []);
@@ -138,7 +143,7 @@ class BasicConsoleReporterTest extends TestCase
     public function testProgressOverflowMatch(): void
     {
         $this->reporter = new BasicConsole(40);
-        $checks = new ArrayObject(array_fill(0, 75, new AlwaysSuccess()));
+        $checks         = new ArrayObject(array_fill(0, 75, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, []);
@@ -158,11 +163,11 @@ class BasicConsoleReporterTest extends TestCase
 
     public function testSummaryAllSuccessful(): void
     {
-        $checks = new ArrayObject();
-        $check = null;
+        $checks  = new ArrayObject();
+        $check   = null;
         $results = new Collection();
         for ($x = 0; $x < 20; $x++) {
-            $checks[] = $check = new AlwaysSuccess();
+            $checks[]        = $check = new AlwaysSuccess();
             $results[$check] = new Success();
         }
 
@@ -176,16 +181,16 @@ class BasicConsoleReporterTest extends TestCase
 
     public function testSummaryWithWarnings(): void
     {
-        $checks = new ArrayObject();
-        $check = null;
+        $checks  = new ArrayObject();
+        $check   = null;
         $results = new Collection();
         for ($x = 0; $x < 15; $x++) {
-            $checks[] = $check = new AlwaysSuccess();
+            $checks[]        = $check = new AlwaysSuccess();
             $results[$check] = new Success();
         }
 
         for ($x = 0; $x < 5; $x++) {
-            $checks[] = $check = new AlwaysSuccess();
+            $checks[]        = $check = new AlwaysSuccess();
             $results[$check] = new Warning();
         }
 
@@ -199,21 +204,21 @@ class BasicConsoleReporterTest extends TestCase
 
     public function testSummaryWithFailures(): void
     {
-        $checks = new ArrayObject();
-        $check = null;
+        $checks  = new ArrayObject();
+        $check   = null;
         $results = new Collection();
         for ($x = 0; $x < 15; $x++) {
-            $checks[] = $check = new AlwaysSuccess();
+            $checks[]        = $check = new AlwaysSuccess();
             $results[$check] = new Success();
         }
 
         for ($x = 0; $x < 5; $x++) {
-            $checks[] = $check = new AlwaysSuccess();
+            $checks[]        = $check = new AlwaysSuccess();
             $results[$check] = new Warning();
         }
 
         for ($x = 0; $x < 5; $x++) {
-            $checks[] = $check = new AlwaysSuccess();
+            $checks[]        = $check = new AlwaysSuccess();
             $results[$check] = new Failure();
         }
 
@@ -227,26 +232,26 @@ class BasicConsoleReporterTest extends TestCase
 
     public function testSummaryWithUnknowns(): void
     {
-        $checks = new ArrayObject();
-        $check = null;
+        $checks  = new ArrayObject();
+        $check   = null;
         $results = new Collection();
         for ($x = 0; $x < 15; $x++) {
-            $checks[] = $check = new AlwaysSuccess();
+            $checks[]        = $check = new AlwaysSuccess();
             $results[$check] = new Success();
         }
 
         for ($x = 0; $x < 5; $x++) {
-            $checks[] = $check = new AlwaysSuccess();
+            $checks[]        = $check = new AlwaysSuccess();
             $results[$check] = new Warning();
         }
 
         for ($x = 0; $x < 5; $x++) {
-            $checks[] = $check = new AlwaysSuccess();
+            $checks[]        = $check = new AlwaysSuccess();
             $results[$check] = new Failure();
         }
 
         for ($x = 0; $x < 5; $x++) {
-            $checks[] = $check = new AlwaysSuccess();
+            $checks[]        = $check = new AlwaysSuccess();
             $results[$check] = new Unknown();
         }
 
@@ -260,15 +265,15 @@ class BasicConsoleReporterTest extends TestCase
 
     public function testWarnings(): void
     {
-        $checks = new ArrayObject();
-        $check = null;
+        $checks  = new ArrayObject();
+        $check   = null;
         $results = new Collection();
         for ($x = 0; $x < 15; $x++) {
-            $checks[] = $check = new AlwaysSuccess();
+            $checks[]        = $check = new AlwaysSuccess();
             $results[$check] = new Success();
         }
 
-        $checks[] = $check = new AlwaysSuccess();
+        $checks[]        = $check = new AlwaysSuccess();
         $results[$check] = new Warning('foo');
 
         ob_start();
@@ -284,15 +289,15 @@ class BasicConsoleReporterTest extends TestCase
 
     public function testFailures(): void
     {
-        $checks = new ArrayObject();
-        $check = null;
+        $checks  = new ArrayObject();
+        $check   = null;
         $results = new Collection();
         for ($x = 0; $x < 15; $x++) {
-            $checks[] = $check = new AlwaysSuccess();
+            $checks[]        = $check = new AlwaysSuccess();
             $results[$check] = new Success();
         }
 
-        $checks[] = $check = new AlwaysSuccess();
+        $checks[]        = $check = new AlwaysSuccess();
         $results[$check] = new Failure('bar');
 
         ob_start();
@@ -308,15 +313,15 @@ class BasicConsoleReporterTest extends TestCase
 
     public function testUnknowns(): void
     {
-        $checks = new ArrayObject();
-        $check = null;
+        $checks  = new ArrayObject();
+        $check   = null;
         $results = new Collection();
         for ($x = 0; $x < 15; $x++) {
-            $checks[] = $check = new AlwaysSuccess();
+            $checks[]        = $check = new AlwaysSuccess();
             $results[$check] = new Success();
         }
 
-        $checks[] = $check = new AlwaysSuccess();
+        $checks[]        = $check = new AlwaysSuccess();
         $results[$check] = new Unknown('baz');
 
         ob_start();
@@ -332,11 +337,11 @@ class BasicConsoleReporterTest extends TestCase
 
     public function testStoppedNotice(): void
     {
-        $checks = new ArrayObject();
-        $check = null;
+        $checks  = new ArrayObject();
+        $check   = null;
         $results = new Collection();
         for ($x = 0; $x < 15; $x++) {
-            $checks[] = $check = new AlwaysSuccess();
+            $checks[]        = $check = new AlwaysSuccess();
             $results[$check] = new Success();
         }
 

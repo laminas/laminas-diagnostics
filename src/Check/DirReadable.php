@@ -7,14 +7,23 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Traversable;
 
+use function count;
+use function current;
+use function get_class;
+use function implode;
+use function is_array;
+use function is_dir;
+use function is_object;
+use function is_readable;
+use function is_string;
+use function trim;
+
 /**
  * Validate that a given path (or a collection of paths) is a dir and is readable
  */
 class DirReadable extends AbstractCheck implements CheckInterface
 {
-    /**
-     * @var array|Traversable
-     */
+    /** @var array|Traversable */
     protected $dir;
 
     /**
@@ -44,6 +53,7 @@ class DirReadable extends AbstractCheck implements CheckInterface
      * Perform the check
      *
      * @see \Laminas\Diagnostics\Check\CheckInterface::check()
+     *
      * @return Failure|Success
      */
     public function check()
@@ -64,14 +74,14 @@ class DirReadable extends AbstractCheck implements CheckInterface
         // Construct failure message
         $failureString = '';
         if (count($nonDirs) > 1) {
-            $failureString .= 'The following paths are not valid directories: ' . join(', ', $nonDirs) . ' ';
-        } elseif (count($nonDirs) == 1) {
+            $failureString .= 'The following paths are not valid directories: ' . implode(', ', $nonDirs) . ' ';
+        } elseif (count($nonDirs) === 1) {
             $failureString .= current($nonDirs) . ' is not a valid directory. ';
         }
 
         if (count($unreadable) > 1) {
-            $failureString .= 'The following directories are not readable: ' . join(', ', $unreadable);
-        } elseif (count($unreadable) == 1) {
+            $failureString .= 'The following directories are not readable: ' . implode(', ', $unreadable);
+        } elseif (count($unreadable) === 1) {
             $failureString .= current($unreadable) . ' directory is not readable.';
         }
 

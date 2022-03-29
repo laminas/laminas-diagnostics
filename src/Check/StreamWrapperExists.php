@@ -7,14 +7,25 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Traversable;
 
+use function array_walk;
+use function count;
+use function current;
+use function get_class;
+use function implode;
+use function in_array;
+use function is_array;
+use function is_object;
+use function is_string;
+use function sprintf;
+use function stream_get_wrappers;
+use function strtolower;
+
 /**
  * Validate that a stream wrapper exists.
  */
 class StreamWrapperExists extends AbstractCheck implements CheckInterface
 {
-    /**
-     * @var array|Traversable
-     */
+    /** @var array|Traversable */
     protected $wrappers;
 
     /**
@@ -48,11 +59,12 @@ class StreamWrapperExists extends AbstractCheck implements CheckInterface
      * Perform the check
      *
      * @see \Laminas\Diagnostics\Check\CheckInterface::check()
+     *
      * @return Failure|Success
      */
     public function check()
     {
-        $missingWrappers = [];
+        $missingWrappers   = [];
         $availableWrappers = stream_get_wrappers();
         array_walk($availableWrappers, function ($v) {
             return strtolower($v);
@@ -64,7 +76,7 @@ class StreamWrapperExists extends AbstractCheck implements CheckInterface
             }
         }
 
-        if (count($missingWrappers) == 1) {
+        if (count($missingWrappers) === 1) {
             return new Failure(
                 sprintf('Stream wrapper %s is not available', current($missingWrappers)),
                 $availableWrappers
@@ -75,14 +87,14 @@ class StreamWrapperExists extends AbstractCheck implements CheckInterface
             return new Failure(
                 sprintf(
                     'The following stream wrappers are missing: %s',
-                    join(', ', $missingWrappers)
+                    implode(', ', $missingWrappers)
                 ),
                 $availableWrappers
             );
         }
 
         return new Success(
-            sprintf('%s stream wrapper(s) are available', join(', ', $this->wrappers)),
+            sprintf('%s stream wrapper(s) are available', implode(', ', $this->wrappers)),
             $availableWrappers
         );
     }

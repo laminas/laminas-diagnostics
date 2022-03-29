@@ -10,14 +10,17 @@ use Laminas\Diagnostics\Runner\Reporter\ReporterInterface;
 
 abstract class AbstractReporter implements ReporterInterface
 {
+    /** @param array $runnerConfig */
     public function onStart(ArrayObject $checks, $runnerConfig)
     {
     }
 
+    /** @param string|null $checkAlias */
     public function onBeforeRun(Check $check, $checkAlias = null)
     {
     }
 
+    /** @param string|null $checkAlias */
     public function onAfterRun(Check $check, Result $result, $checkAlias = null)
     {
     }
