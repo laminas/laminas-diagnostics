@@ -5,29 +5,31 @@ namespace Laminas\Diagnostics\Check;
 use Exception;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use Memcached as MemcachedService;
+
+use function class_exists;
+use function gettype;
+use function is_string;
+use function sprintf;
 
 /**
  * Check if MemCached extension is loaded and given server is reachable.
  */
 class Memcached extends AbstractCheck
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $host;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $port;
 
     /**
      * @param string $host
      * @param int    $port
-     * @throws InvalidArgumentException if host is not a string value
-     * @throws InvalidArgumentException if port is less than 1
+     * @throws InvalidArgumentException If host is not a string value.
+     * @throws InvalidArgumentException If port is less than 1.
      */
     public function __construct($host = '127.0.0.1', $port = 11211)
     {
@@ -52,6 +54,8 @@ class Memcached extends AbstractCheck
 
     /**
      * @see CheckInterface::check()
+     *
+     * @return ResultInterface
      */
     public function check()
     {
@@ -66,9 +70,8 @@ class Memcached extends AbstractCheck
 
             $authority = sprintf('%s:%d', $this->host, $this->port);
 
-            if (! $stats
-                || ! is_array($stats)
-                || ! isset($stats[$authority])
+            if (
+                ! isset($stats[$authority])
                 || false === $stats[$authority]
             ) {
                 // Attempt a connection to make sure that the server is really down

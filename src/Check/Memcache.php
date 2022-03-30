@@ -5,22 +5,25 @@ namespace Laminas\Diagnostics\Check;
 use Exception;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use Memcache as MemcacheService;
+
+use function class_exists;
+use function gettype;
+use function is_array;
+use function is_string;
+use function sprintf;
 
 /**
  * Check if MemCache extension is loaded and given server is reachable.
  */
 class Memcache extends AbstractCheck
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $host;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $port;
 
     /**
@@ -51,6 +54,8 @@ class Memcache extends AbstractCheck
 
     /**
      * @see CheckInterface::check()
+     *
+     * @return ResultInterface
      */
     public function check()
     {
@@ -65,7 +70,8 @@ class Memcache extends AbstractCheck
 
             $authority = sprintf('%s:%d', $this->host, $this->port);
 
-            if (! $stats
+            if (
+                ! $stats
                 || ! is_array($stats)
                 || ! isset($stats[$authority])
                 || false === $stats[$authority]

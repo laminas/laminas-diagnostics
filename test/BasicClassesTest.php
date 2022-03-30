@@ -16,36 +16,46 @@ use LaminasTest\Diagnostics\TestAsset\Check\AlwaysSuccess;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
+use function class_exists;
+use function interface_exists;
+use function trim;
+
 class BasicClassesTest extends TestCase
 {
     public function testCoreClassTree(): void
     {
-        foreach ([
-            CheckInterface::class,
-            SuccessInterface::class,
-            FailureInterface::class,
-            WarningInterface::class,
-        ] as $class) {
+        foreach (
+            [
+                CheckInterface::class,
+                SuccessInterface::class,
+                FailureInterface::class,
+                WarningInterface::class,
+            ] as $class
+        ) {
             self::assertTrue(interface_exists($class, true), 'Class "' . $class . '" exists.');
         }
 
-        foreach ([
-            AbstractCheck::class,
-            AbstractResult::class,
-            Success::class,
-            Failure::class,
-            Warning::class,
-        ] as $class) {
+        foreach (
+            [
+                AbstractCheck::class,
+                AbstractResult::class,
+                Success::class,
+                Failure::class,
+                Warning::class,
+            ] as $class
+        ) {
             self::assertTrue(class_exists($class, true), 'Class "' . $class . '" exists.');
         }
-        foreach ([
-            Success::class,
-            Failure::class,
-            Warning::class,
-            SuccessInterface::class,
-            FailureInterface::class,
-            WarningInterface::class,
-        ] as $class) {
+        foreach (
+            [
+                Success::class,
+                Failure::class,
+                Warning::class,
+                SuccessInterface::class,
+                FailureInterface::class,
+                WarningInterface::class,
+            ] as $class
+        ) {
             $reflection = new ReflectionClass($class);
             self::assertTrue($reflection->implementsInterface(ResultInterface::class));
         }

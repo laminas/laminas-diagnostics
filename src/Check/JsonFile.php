@@ -6,6 +6,10 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 
+use function file_get_contents;
+use function json_decode;
+use function sprintf;
+
 /**
  * Checks if a JSON file is available and valid
  */
@@ -17,7 +21,7 @@ class JsonFile extends AbstractFileCheck
      */
     protected function validateFile($file)
     {
-        if (is_null(json_decode(file_get_contents($file)))) {
+        if (null === json_decode(file_get_contents($file))) {
             return new Failure(sprintf('Could no decode JSON file "%s"', $file));
         }
 

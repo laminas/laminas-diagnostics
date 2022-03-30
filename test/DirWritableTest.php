@@ -14,9 +14,7 @@ class DirWritableTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $checkClass = DirWritable::class;
 
     /**
@@ -32,6 +30,7 @@ class DirWritableTest extends TestCase
 
     /**
      * @dataProvider providerValidConstructorArguments
+     * @param array $arguments
      */
     public function testConstructor($arguments): void
     {
@@ -43,14 +42,14 @@ class DirWritableTest extends TestCase
         return [
             [__DIR__],
             [vfsStream::setup()->url()],
-            [[__DIR__, vfsStream::setup()->url()]]
+            [[__DIR__, vfsStream::setup()->url()]],
         ];
     }
 
     public function testCheckSuccessSinglePath(): void
     {
         $object = new DirWritable(vfsStream::setup()->url());
-        $r = $object->check();
+        $r      = $object->check();
         self::assertInstanceOf(Success::class, $r);
         self::assertEquals('The path is a writable directory.', $r->getMessage());
     }
@@ -58,7 +57,7 @@ class DirWritableTest extends TestCase
     public function testCheckSuccessMultiplePaths(): void
     {
         $object = new DirWritable([__DIR__, vfsStream::setup()->url()]);
-        $r = $object->check();
+        $r      = $object->check();
         self::assertInstanceOf(Success::class, $r);
         self::assertEquals('All paths are writable directories.', $r->getMessage());
     }
@@ -66,7 +65,7 @@ class DirWritableTest extends TestCase
     public function testCheckFailureSingleInvalidDir(): void
     {
         $object = new DirWritable('notadir');
-        $r = $object->check();
+        $r      = $object->check();
         self::assertInstanceOf(Failure::class, $r);
         self::assertStringContainsString('notadir is not a valid directory.', $r->getMessage());
     }
@@ -74,7 +73,7 @@ class DirWritableTest extends TestCase
     public function testCheckFailureMultipleInvalidDirs(): void
     {
         $object = new DirWritable(['notadir1', 'notadir2']);
-        $r = $object->check();
+        $r      = $object->check();
         self::assertInstanceOf(Failure::class, $r);
         self::assertStringContainsString(
             'The following paths are not valid directories: notadir1, notadir2.',
@@ -84,22 +83,22 @@ class DirWritableTest extends TestCase
 
     public function testCheckFailureSingleUnwritableDir(): void
     {
-        $root = vfsStream::setup();
+        $root          = vfsStream::setup();
         $unwritableDir = vfsStream::newDirectory('unwritabledir', 000)->at($root);
-        $object = new DirWritable($unwritableDir->url());
-        $r = $object->check();
+        $object        = new DirWritable($unwritableDir->url());
+        $r             = $object->check();
         self::assertInstanceOf(Failure::class, $r);
         self::assertEquals('vfs://root/unwritabledir directory is not writable.', $r->getMessage());
     }
 
     public function testCheckFailureMultipleUnwritableDirs(): void
     {
-        $root = vfsStream::setup();
+        $root           = vfsStream::setup();
         $unwritableDir1 = vfsStream::newDirectory('unwritabledir1', 000)->at($root);
         $unwritableDir2 = vfsStream::newDirectory('unwritabledir2', 000)->at($root);
 
         $object = new DirWritable([$unwritableDir1->url(), $unwritableDir2->url()]);
-        $r = $object->check();
+        $r      = $object->check();
         self::assertInstanceOf(Failure::class, $r);
         self::assertEquals(
             'The following directories are not writable: vfs://root/unwritabledir1, vfs://root/unwritabledir2.',

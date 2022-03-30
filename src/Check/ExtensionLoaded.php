@@ -7,21 +7,29 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Traversable;
 
+use function count;
+use function extension_loaded;
+use function get_class;
+use function implode;
+use function is_array;
+use function is_object;
+use function is_string;
+use function phpversion;
+
 /**
  * Validate that a named extension or a collection of extensions is available.
  */
 class ExtensionLoaded extends AbstractCheck implements CheckInterface
 {
-    /**
-     * @var array|Traversable
-     */
+    /** @var array|Traversable */
     protected $extensions;
 
+    /** @var bool */
     protected $autoload = true;
 
     /**
      * @param  string|array|Traversable  $extensionName PHP extension name or an array of names
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($extensionName)
     {
@@ -46,6 +54,7 @@ class ExtensionLoaded extends AbstractCheck implements CheckInterface
      * Perform the check
      *
      * @see \Laminas\Diagnostics\Check\CheckInterface::check()
+     *
      * @return Failure|Success
      */
     public function check()
@@ -58,9 +67,9 @@ class ExtensionLoaded extends AbstractCheck implements CheckInterface
         }
         if (count($missing)) {
             if (count($missing) > 1) {
-                return new Failure('Extensions ' . join(', ', $missing) . ' are not available.');
+                return new Failure('Extensions ' . implode(', ', $missing) . ' are not available.');
             } else {
-                return new Failure('Extension ' . join('', $missing) . ' is not available.');
+                return new Failure('Extension ' . implode('', $missing) . ' is not available.');
             }
         } else {
             if (count($this->extensions) > 1) {
@@ -70,7 +79,7 @@ class ExtensionLoaded extends AbstractCheck implements CheckInterface
                 }
 
                 return new Success(
-                    join(',', $this->extensions) . ' extensions are loaded.',
+                    implode(',', $this->extensions) . ' extensions are loaded.',
                     $versions
                 );
             } else {

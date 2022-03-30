@@ -7,6 +7,18 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 
+use function bcadd;
+use function bcdiv;
+use function bcmul;
+use function bcpow;
+use function bcscale;
+use function bcsqrt;
+use function bcsub;
+use function ceil;
+use function extension_loaded;
+use function log;
+use function microtime;
+
 /**
  * Calculate CPU Performance by performing a Gauss-Legendre decimal expansion of PI.
  *
@@ -46,7 +58,6 @@ class CpuPerformance extends AbstractCheck implements CheckInterface
     // @codingStandardsIgnoreEnd
 
     /**
-     *
      * @param float $minPerformance The minimum performance ratio, where 1 is equal the computational
      *                              performance of AWS EC2 Micro Instance. For example, a value of 2 means
      *                              at least double the baseline experience, value of 0.5 means at least
@@ -78,12 +89,12 @@ class CpuPerformance extends AbstractCheck implements CheckInterface
         }
         // @codeCoverageIgnoreEnd
 
-        $timeStart = microtime(true);
-        $result = static::calcPi(1000);
-        $duration = microtime(true) - $timeStart;
+        $timeStart   = microtime(true);
+        $result      = static::calcPi(1000);
+        $duration    = microtime(true) - $timeStart;
         $performance = $duration / $this->baseline;
 
-        if ($result != $this->expectedResult) {
+        if ($result !== $this->expectedResult) {
             // Ignore code coverage here because it's impractical to test against faulty calculations.
             // @codeCoverageIgnoreStart
             return new Warning('PI calculation failed. This might mean CPU or RAM failure', $result);
@@ -100,7 +111,8 @@ class CpuPerformance extends AbstractCheck implements CheckInterface
      *
      * @link https://github.com/natmchugh/pi/blob/master/gauss-legendre.php
      * @link http://en.wikipedia.org/wiki/Calculate_pi#Modern_algorithms
-     * @param $precision
+     *
+     * @param int $precision
      * @return string
      */
     public static function calcPi($precision)

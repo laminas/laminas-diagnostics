@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Runner;
 use ArrayObject;
 use BadMethodCallException;
 use ErrorException;
+use Exception;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Check\CheckCollectionInterface;
 use Laminas\Diagnostics\Check\CheckInterface;
@@ -17,6 +18,44 @@ use Laminas\Diagnostics\Result\Warning;
 use Laminas\Diagnostics\Runner\Reporter\ReporterInterface as Reporter;
 use RuntimeException;
 use Traversable;
+
+use function array_filter;
+use function array_map;
+use function array_shift;
+use function call_user_func_array;
+use function count;
+use function error_reporting;
+use function explode;
+use function func_get_args;
+use function get_class;
+use function gettype;
+use function implode;
+use function is_array;
+use function is_bool;
+use function is_callable;
+use function is_object;
+use function is_scalar;
+use function is_string;
+use function restore_error_handler;
+use function set_error_handler;
+use function sprintf;
+use function ucfirst;
+
+use const E_COMPILE_ERROR;
+use const E_COMPILE_WARNING;
+use const E_CORE_ERROR;
+use const E_CORE_WARNING;
+use const E_DEPRECATED;
+use const E_ERROR;
+use const E_NOTICE;
+use const E_PARSE;
+use const E_RECOVERABLE_ERROR;
+use const E_STRICT;
+use const E_USER_DEPRECATED;
+use const E_USER_ERROR;
+use const E_USER_NOTICE;
+use const E_USER_WARNING;
+use const E_WARNING;
 
 /**
  * Diagnostics Checks runner.
@@ -69,7 +108,7 @@ class Runner
      * @param null|array|Traversable $checks   A collection of Checks to run.
      * @param null|Reporter          $reporter Reporter instance to use
      */
-    public function __construct($config = null, $checks = null, Reporter $reporter = null)
+    public function __construct($config = null, $checks = null, ?Reporter $reporter = null)
     {
         if ($config !== null) {
             $this->setConfig($config);
@@ -103,8 +142,6 @@ class Runner
 
         // Iterate over all Checks
         foreach ($checks as $alias => $check) {
-            /* @var $check CheckInterface */
-
             // Skip Checking if BEFORE_RUN returned false or has been stopped
             if (! $this->triggerReporters('onBeforeRun', $check, $alias)) {
                 continue;
@@ -120,7 +157,7 @@ class Runner
                     'PHP ' . static::getSeverityDescription($e->getSeverity()) . ': ' . $e->getMessage(),
                     $e
                 );
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->stopErrorHandler();
                 $result = new Failure(
                     'Uncaught ' . get_class($e) . ': ' . $e->getMessage(),
@@ -141,7 +178,7 @@ class Runner
                 $result = $result ? new Success() : new Failure();
             } elseif (is_scalar($result)) {
                 // Convert scalars to a warning
-                $result = new Warning('Test returned unexpected '.gettype($result), $result);
+                $result = new Warning('Test returned unexpected ' . gettype($result), $result);
             } else {
                 // Otherwise interpret as failure
                 $result = new Failure(
@@ -219,12 +256,11 @@ class Runner
     /**
      * Add diagnostic Check to run.
      *
-     * @param CheckInterface $check
      * @param string|null    $alias
      */
     public function addCheck(CheckInterface $check, $alias = null)
     {
-        $alias = is_string($alias) ? $alias : count($this->checks);
+        $alias                = is_string($alias) ? $alias : count($this->checks);
         $this->checks[$alias] = $check;
     }
 
@@ -259,8 +295,6 @@ class Runner
 
     /**
      * Add new reporter.
-     *
-     * @param Reporter $reporter
      */
     public function addReporter(Reporter $reporter)
     {
@@ -269,8 +303,6 @@ class Runner
 
     /**
      * Remove previously attached reporter.
-     *
-     * @param Reporter $reporter
      */
     public function removeReporter(Reporter $reporter)
     {
@@ -283,7 +315,7 @@ class Runner
      * Get a single Check instance by its alias name
      *
      * @param  string            $alias Alias name of the Check instance to retrieve
-     * @throws \RuntimeException
+     * @throws RuntimeException
      * @return CheckInterface
      */
     public function getCheck($alias)
@@ -364,7 +396,7 @@ class Runner
     /**
      * Trigger an event on reporters.
      *
-     * @param $eventType
+     * @param string $eventType
      * @return bool
      */
     protected function triggerReporters($eventType)
@@ -385,6 +417,14 @@ class Runner
         set_error_handler([$this, 'errorHandler'], $this->catchErrorSeverity);
     }
 
+    /**
+     * @param int $errno
+     * @param string $errstr
+     * @param string $errfile
+     * @param int $errline
+     * @return void
+     * @throws ErrorException When error_reporting is enabled.
+     */
     public function errorHandler($errno, $errstr = '', $errfile = '', $errline = 0)
     {
         if (error_reporting() !== 0) {

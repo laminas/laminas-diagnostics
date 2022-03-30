@@ -29,9 +29,8 @@ A Runner invokes the above methods while running diagnostics in the following or
 - `onAfterRun` - after each individual check has finished running.
 - `onFinish` - after Runner has finished its job.
 - `onStop` - in case Runner has been interrupted:
-    - when the reporter has returned `false` from the `onAfterRun` method
-    - or when the runner is configured with `setBreakOnFailure(true)` and one of
-      the checks fails.
+  - when the reporter has returned `false` from the `onAfterRun` method
+  - or when the runner is configured with `setBreakOnFailure(true)` and one of the checks fails.
 
 Some reporter methods can be used to interrupt the operation of a diagnostics
 runner:

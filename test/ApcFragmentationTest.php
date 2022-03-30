@@ -6,13 +6,12 @@ use InvalidArgumentException;
 use Laminas\Diagnostics\Check\ApcFragmentation;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Kevin Bond <kevinbond@gmail.com>
- */
 class ApcFragmentationTest extends TestCase
 {
     /**
      * @dataProvider invalidArgumentProvider
+     * @param int|string $warningThreshold
+     * @param int|string $criticalThreshold
      */
     public function testInvalidArguments($warningThreshold, $criticalThreshold): void
     {
@@ -29,7 +28,7 @@ class ApcFragmentationTest extends TestCase
             [-10, 100],
             [105, 100],
             [10, -10],
-            [10, 105]
+            [10, 105],
         ];
     }
 }

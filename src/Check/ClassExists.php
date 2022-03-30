@@ -7,6 +7,15 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Traversable;
 
+use function class_exists;
+use function count;
+use function current;
+use function get_class;
+use function implode;
+use function is_array;
+use function is_object;
+use function is_string;
+
 /**
  * Validate that a class or a collection of classes is available.
  */
@@ -56,6 +65,7 @@ class ClassExists extends AbstractCheck implements CheckInterface
      * Perform the check
      *
      * @see \Laminas\Diagnostics\Check\CheckInterface::check()
+     *
      * @return Success|Failure
      */
     public function check()
@@ -68,8 +78,8 @@ class ClassExists extends AbstractCheck implements CheckInterface
         }
 
         if (count($missing) > 1) {
-            return new Failure('The following classes are missing: ' . join(', ', $missing), $missing);
-        } elseif (count($missing) == 1) {
+            return new Failure('The following classes are missing: ' . implode(', ', $missing), $missing);
+        } elseif (count($missing) === 1) {
             return new Failure('Class ' . current($missing) . ' does not exist', $missing);
         } else {
             return new Success('All classes are present.', $this->classes);

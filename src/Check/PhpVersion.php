@@ -7,6 +7,17 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Traversable;
 
+use function get_class;
+use function gettype;
+use function in_array;
+use function is_array;
+use function is_object;
+use function is_scalar;
+use function sprintf;
+use function version_compare;
+
+use const PHP_VERSION;
+
 /**
  * Validate PHP version.
  *
@@ -15,18 +26,13 @@ use Traversable;
  */
 class PhpVersion extends AbstractCheck implements CheckInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $version;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $operator = '>=';
 
     /**
-     *
      * @param  string|array|Traversable $expectedVersion The expected version
      * @param  string                   $operator        One of: <, lt, <=, le, >, gt, >=, ge, ==, =, eq, !=, <>, ne
      * @throws InvalidArgumentException
@@ -34,7 +40,7 @@ class PhpVersion extends AbstractCheck implements CheckInterface
     public function __construct($expectedVersion, $operator = '>=')
     {
         if (is_object($expectedVersion)) {
-            if (! $expectedVersion instanceof \Traversable) {
+            if (! $expectedVersion instanceof Traversable) {
                 throw new InvalidArgumentException(
                     'Expected version number as string, array or traversable, got ' . get_class($expectedVersion)
                 );
@@ -58,9 +64,24 @@ class PhpVersion extends AbstractCheck implements CheckInterface
             );
         }
 
-        if (! in_array($operator, [
-            '<', 'lt', '<=', 'le', '>', 'gt', '>=', 'ge', '==', '=', 'eq', '!=', '<>', 'ne'
-        ])) {
+        if (
+            ! in_array($operator, [
+                '<',
+                'lt',
+                '<=',
+                'le',
+                '>',
+                'gt',
+                '>=',
+                'ge',
+                '==',
+                '=',
+                'eq',
+                '!=',
+                '<>',
+                'ne',
+            ])
+        ) {
             throw new InvalidArgumentException(
                 'Unknown comparison operator ' . $operator
             );
@@ -73,6 +94,7 @@ class PhpVersion extends AbstractCheck implements CheckInterface
      * Perform the check
      *
      * @see \Laminas\Diagnostics\Check\CheckInterface::check()
+     *
      * @return Success|Failure
      */
     public function check()

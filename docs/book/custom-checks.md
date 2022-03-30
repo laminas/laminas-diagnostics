@@ -26,7 +26,7 @@ interface CheckInterface
 ```
 
 The main `check()` method is responsible for performing the actual check, and is
-expected to return a [ResultInterface](https://github.com/laminas/laminas-diagnostics/tree/master/src/Result/ResultInterface.php) 
+expected to return a [ResultInterface](https://github.com/laminas/laminas-diagnostics/tree/master/src/Result/ResultInterface.php)
 instance. It is recommended to use the built-in result classes for
 compatibility with the diagnostics Runner and other checks.
 

@@ -7,6 +7,16 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Traversable;
 
+use function count;
+use function get_class;
+use function gettype;
+use function implode;
+use function ini_get;
+use function is_array;
+use function is_object;
+use function is_scalar;
+use function iterator_to_array;
+
 /**
  * Make sure given PHP flag is turned on or off in php.ini
  *
@@ -14,18 +24,14 @@ use Traversable;
  */
 class PhpFlag extends AbstractCheck implements CheckInterface
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $settings;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $expectedValue;
 
     /**
-     * @param string|array|traversable $settingName   PHP setting names to check.
+     * @param string|array|Traversable $settingName   PHP setting names to check.
      * @param bool                     $expectedValue true or false
      * @throws InvalidArgumentException
      */
@@ -55,13 +61,14 @@ class PhpFlag extends AbstractCheck implements CheckInterface
             );
         }
 
-        $this->expectedValue = (bool)$expectedValue;
+        $this->expectedValue = (bool) $expectedValue;
     }
 
     /**
      * Perform the check
      *
      * @see \Laminas\Diagnostics\Check\CheckInterface::check()
+     *
      * @return Success|Failure
      */
     public function check()
@@ -69,6 +76,7 @@ class PhpFlag extends AbstractCheck implements CheckInterface
         $failures = [];
 
         foreach ($this->settings as $name) {
+            // phpcs:ignore SlevomatCodingStandard.Operators.DisallowEqualOperators.DisallowedNotEqualOperator
             if (ini_get($name) != $this->expectedValue) {
                 $failures[] = $name;
             }
@@ -76,29 +84,29 @@ class PhpFlag extends AbstractCheck implements CheckInterface
 
         if (count($failures) > 1) {
             return new Failure(
-                join(', ', $failures) .
-                ' are expected to be ' .
-                ($this->expectedValue ? 'enabled' : 'disabled')
+                implode(', ', $failures)
+                . ' are expected to be '
+                . ($this->expectedValue ? 'enabled' : 'disabled')
             );
         } elseif (count($failures)) {
             return new Failure(
-                $failures[0] .
-                ' is expected to be ' .
-                ($this->expectedValue ? 'enabled' : 'disabled')
+                $failures[0]
+                . ' is expected to be '
+                . ($this->expectedValue ? 'enabled' : 'disabled')
             );
         }
 
         if (count($this->settings) > 1) {
             return new Success(
-                join(', ', $this->settings) .
-                ' are all ' .
-                ($this->expectedValue ? 'enabled' : 'disabled')
+                implode(', ', $this->settings)
+                . ' are all '
+                . ($this->expectedValue ? 'enabled' : 'disabled')
             );
         } else {
             return new Success(
-                $this->settings[0] .
-                ' is ' .
-                ($this->expectedValue ? 'enabled' : 'disabled')
+                $this->settings[0]
+                . ' is '
+                . ($this->expectedValue ? 'enabled' : 'disabled')
             );
         }
     }

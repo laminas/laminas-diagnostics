@@ -2,39 +2,34 @@
 
 namespace Laminas\Diagnostics\Check;
 
+use Exception;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Connection\AMQPSocketConnection;
+use RuntimeException;
+
+use function class_exists;
+use function sprintf;
 
 /**
  * Validate that a RabbitMQ service is running
  */
 class RabbitMQ extends AbstractCheck
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $host;
 
-    /**
-     * @var integer
-     */
+    /** @var integer */
     protected $port;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $user;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $password;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $vhost;
 
     /**
@@ -60,8 +55,7 @@ class RabbitMQ extends AbstractCheck
 
     /**
      * @return AMQPSocketConnection|AMQPConnection
-     *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function createClient()
     {
@@ -85,13 +79,14 @@ class RabbitMQ extends AbstractCheck
             );
         }
 
-        throw new \RuntimeException('PhpAmqpLib is not installed');
+        throw new RuntimeException('PhpAmqpLib is not installed');
     }
 
     /**
      * Perform the check
      *
      * @see \Laminas\Diagnostics\Check\CheckInterface::check()
+     *
      * @return Failure|Success
      */
     public function check()
@@ -99,7 +94,7 @@ class RabbitMQ extends AbstractCheck
         try {
             $this->createClient()->channel();
             return new Success();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new Failure(sprintf(
                 'Failed to connect to RabbitMQ server. Reason: `%s`',
                 $e->getMessage()

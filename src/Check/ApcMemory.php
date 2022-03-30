@@ -7,6 +7,14 @@ use Laminas\Diagnostics\Result\Skip;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 
+use function apcu_sma_info;
+use function function_exists;
+use function ini_get;
+use function sprintf;
+
+use const PHP_SAPI;
+use const PHP_VERSION_ID;
+
 /**
  * Checks to see if the APCu memory usage is below warning/critical thresholds
  *
@@ -29,6 +37,7 @@ class ApcMemory extends AbstractMemoryCheck
      * Perform the check
      *
      * @see \Laminas\Diagnostics\Check\CheckInterface::check()     *
+     *
      * @return Failure|Skip|Success|Warning
      */
     public function check()
@@ -37,7 +46,7 @@ class ApcMemory extends AbstractMemoryCheck
             return new Skip('APC has not been enabled or installed.');
         }
 
-        if (php_sapi_name() == 'cli' && ! ini_get('apc.enable_cli')) {
+        if (PHP_SAPI === 'cli' && ! ini_get('apc.enable_cli')) {
             return new Skip('APC has not been enabled in CLI.');
         }
 

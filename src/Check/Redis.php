@@ -5,25 +5,23 @@ namespace Laminas\Diagnostics\Check;
 use Laminas\Diagnostics\Result\Success;
 use Predis\Client as PredisClient;
 use Redis as RedisExtensionClient;
+use RedisException;
+use RuntimeException;
+
+use function class_exists;
 
 /**
  * Validate that a Redis service is running
  */
 class Redis extends AbstractCheck
 {
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     protected $auth;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $host;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $port;
 
     /**
@@ -42,6 +40,8 @@ class Redis extends AbstractCheck
      * Perform the check
      *
      * @see \Laminas\Diagnostics\Check\CheckInterface::check()
+     *
+     * @return Success
      */
     public function check()
     {
@@ -52,24 +52,23 @@ class Redis extends AbstractCheck
 
     /**
      * @return PredisClient|RedisExtensionClient
-     *
-     * @throws \RedisException
-     * @throws \RuntimeException
+     * @throws RedisException
+     * @throws RuntimeException
      */
     private function createClient()
     {
-        if (class_exists('\Redis')) {
+        if (class_exists(RedisExtensionClient::class)) {
             $client = new RedisExtensionClient();
             $client->connect($this->host, $this->port);
 
             if ($this->auth && false === $client->auth($this->auth)) {
-                throw new \RedisException('Failed to AUTH connection');
+                throw new RedisException('Failed to AUTH connection');
             }
 
             return $client;
         }
 
-        if (class_exists('Predis\Client')) {
+        if (class_exists(PredisClient::class)) {
             $parameters = [
                 'host' => $this->host,
                 'port' => $this->port,
@@ -82,6 +81,6 @@ class Redis extends AbstractCheck
             return new PredisClient($parameters);
         }
 
-        throw new \RuntimeException('Neither the PHP Redis extension or Predis are installed');
+        throw new RuntimeException('Neither the PHP Redis extension or Predis are installed');
     }
 }

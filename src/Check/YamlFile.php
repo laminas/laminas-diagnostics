@@ -8,6 +8,12 @@ use Laminas\Diagnostics\Result\Success;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 
+use function class_exists;
+use function file_get_contents;
+use function function_exists;
+use function sprintf;
+use function yaml_parse_file;
+
 /**
  * Checks if a YAML file is available and valid
  */
@@ -19,7 +25,7 @@ class YamlFile extends AbstractFileCheck
      */
     protected function validateFile($file)
     {
-        if (class_exists('Symfony\Component\Yaml\Parser')) {
+        if (class_exists(Parser::class)) {
             $parser = new Parser();
 
             try {

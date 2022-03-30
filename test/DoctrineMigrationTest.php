@@ -13,10 +13,16 @@ use Doctrine\Migrations\Metadata\Storage\MetadataStorage;
 use Doctrine\Migrations\MigrationsRepository;
 use Doctrine\Migrations\Version\Version;
 use Generator;
+use InvalidArgumentException;
 use Laminas\Diagnostics\Check\DoctrineMigration;
 use Laminas\Diagnostics\Result\FailureInterface;
 use Laminas\Diagnostics\Result\SuccessInterface;
 use PHPUnit\Framework\TestCase;
+use stdClass;
+
+use function array_map;
+use function class_exists;
+use function interface_exists;
 
 class DoctrineMigrationTest extends TestCase
 {
@@ -36,7 +42,7 @@ class DoctrineMigrationTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $migrationMock = $this->createMock(AbstractMigration::class);
+        $migrationMock       = $this->createMock(AbstractMigration::class);
         $availableMigrations = array_map(static function ($version) use ($migrationMock) {
             return new AvailableMigration(new Version($version), $migrationMock);
         }, $availableVersions);
@@ -73,7 +79,7 @@ class DoctrineMigrationTest extends TestCase
             ->method('getMetadataStorage')
             ->willReturn($metadataStorage);
 
-        $check = new DoctrineMigration($dependencyFactory);
+        $check  = new DoctrineMigration($dependencyFactory);
         $result = $check->check();
 
         self::assertInstanceof($expectedResult, $result);
@@ -105,7 +111,7 @@ class DoctrineMigrationTest extends TestCase
             ->method('getMigratedVersions')
             ->willReturn($migratedVersions);
 
-        $check = new DoctrineMigration($configuration);
+        $check  = new DoctrineMigration($configuration);
         $result = $check->check();
 
         self::assertInstanceof($expectedResult, $result);
@@ -113,10 +119,10 @@ class DoctrineMigrationTest extends TestCase
 
     public function testThrowsExceptionForInvalidInput(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid Argument for DoctrineMigration check.');
 
-        new DoctrineMigration(new \stdClass());
+        new DoctrineMigration(new stdClass());
     }
 
     public function testConstructorDoesNotOpenConnectionToDatabaseDoctrineVersion3(): void
@@ -170,17 +176,17 @@ class DoctrineMigrationTest extends TestCase
         yield 'everything migrated' => [
             ['Version1', 'Version2'],
             ['Version1', 'Version2'],
-            SuccessInterface::class
+            SuccessInterface::class,
         ];
         yield 'not all migration migrated' => [
             ['Version1', 'Version2'],
             ['Version1'],
-            FailureInterface::class
+            FailureInterface::class,
         ];
         yield 'not existing migration migrated' => [
             ['Version1'],
             ['Version1', 'Version2'],
-            FailureInterface::class
+            FailureInterface::class,
         ];
     }
 
