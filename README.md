@@ -1,5 +1,4 @@
-laminas-diagnostics
-===============
+# laminas-diagnostics
 
 [![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-diagnostics/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-diagnostics?branch=master)
 
