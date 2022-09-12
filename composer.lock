@@ -6330,5 +6330,5 @@
     "platform-overrides": {
         "php": "7.4.99"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
