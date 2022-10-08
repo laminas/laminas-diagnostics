@@ -70,24 +70,27 @@ use function unlink;
 use const PHP_INT_MAX;
 use const PHP_VERSION;
 
-class ChecksTest extends TestCase
+final class ChecksTest extends TestCase
 {
     public function testLabels(): void
     {
         $label = md5(rand());
         $check = new AlwaysSuccess();
         $check->setLabel($label);
-        self::assertEquals($label, $check->getLabel());
+
+        self::assertSame($label, $check->getLabel());
     }
 
     public function testCpuPerformance(): void
     {
         $check  = new CpuPerformance(0); // minimum threshold
         $result = $check->check();
+
         self::assertInstanceOf(Success::class, $result);
 
         $check  = new CpuPerformance(999999999); // improbable to archive
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
     }
 
@@ -99,10 +102,12 @@ class ChecksTest extends TestCase
 
         $check  = new RabbitMQ();
         $result = $check->check();
+
         self::assertInstanceOf(Success::class, $result);
 
         $check  = new RabbitMQ('127.0.0.250', 9999);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
     }
 
@@ -114,10 +119,13 @@ class ChecksTest extends TestCase
 
         $check  = new Redis();
         $result = $check->check();
+
         self::assertInstanceOf(Success::class, $result);
 
         $check = new Redis('127.0.0.250', 9999);
+
         $this->expectException(Exception::class);
+
         $check->check();
     }
 
@@ -129,10 +137,12 @@ class ChecksTest extends TestCase
 
         $check  = new Memcache();
         $result = $check->check();
+
         self::assertInstanceOf(Success::class, $result);
 
         $check  = new Memcache('127.0.0.250', 9999);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
     }
 
@@ -144,10 +154,12 @@ class ChecksTest extends TestCase
 
         $check  = new Memcached();
         $result = $check->check();
+
         self::assertInstanceOf(Success::class, $result);
 
         $check  = new Memcached('127.0.0.250', 9999);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
     }
 
@@ -159,19 +171,23 @@ class ChecksTest extends TestCase
 
         $check  = new Mongo();
         $result = $check->check();
+
         self::assertInstanceOf(Success::class, $result);
 
         $check  = new Memcached('127.0.0.250', 9999);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
     }
 
     public function testClassExists(): void
     {
         $check = new ClassExists(self::class);
+
         self::assertInstanceOf(Success::class, $check->check());
 
         $check = new ClassExists('improbableClassNameInGlobalNamespace999999999999999999');
+
         self::assertInstanceOf(Failure::class, $check->check());
 
         $check = new ClassExists([
@@ -180,6 +196,7 @@ class ChecksTest extends TestCase
             Failure::class,
             Warning::class,
         ]);
+
         self::assertInstanceOf(Success::class, $check->check());
 
         $check = new ClassExists([
@@ -189,6 +206,7 @@ class ChecksTest extends TestCase
             Failure::class,
             Warning::class,
         ]);
+
         self::assertInstanceOf(Failure::class, $check->check());
     }
 
@@ -203,6 +221,7 @@ class ChecksTest extends TestCase
             Warning::class,
         ]);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
         self::assertStringMatchesFormat('%simprobableClassNameInGlobalNamespace888%s', $result->getMessage());
         self::assertStringMatchesFormat('%simprobableClassNameInGlobalNamespace999', $result->getMessage());
@@ -223,6 +242,7 @@ class ChecksTest extends TestCase
     public function testPhpVersionArray(): void
     {
         $check = new PhpVersion([PHP_VERSION]); // default operator
+
         self::assertInstanceOf(Success::class, $check->check());
 
         $check = new PhpVersion([
@@ -230,6 +250,7 @@ class ChecksTest extends TestCase
             '1.1.0',
             '1.1.1',
         ], '<'); // explicit less than
+
         self::assertInstanceOf(Failure::class, $check->check());
 
         $check = new PhpVersion(new ArrayObject([
@@ -237,12 +258,14 @@ class ChecksTest extends TestCase
             '41.0.0',
             '42.0.0',
         ]), '<'); // explicit less than
+
         self::assertInstanceOf(Success::class, $check->check());
 
         $check = new PhpVersion(new ArrayObject([
             '41.0.0',
             PHP_VERSION,
         ]), '!='); // explicit less than
+
         self::assertInstanceOf(Failure::class, $check->check());
     }
 
@@ -256,6 +279,7 @@ class ChecksTest extends TestCase
             return $expectedResult;
         });
         $result         = $check->check();
+
         self::assertTrue($called);
         self::assertSame($expectedResult, $result);
     }
@@ -266,9 +290,11 @@ class ChecksTest extends TestCase
         $ext1          = $allExtensions[array_rand($allExtensions)];
 
         $check = new ExtensionLoaded($ext1);
+
         self::assertInstanceOf(Success::class, $check->check());
 
         $check = new ExtensionLoaded('improbableExtName999999999999999999');
+
         self::assertInstanceOf(Failure::class, $check->check());
 
         $extensions = [];
@@ -277,11 +303,13 @@ class ChecksTest extends TestCase
         }
 
         $check = new ExtensionLoaded($extensions);
+
         self::assertInstanceOf(Success::class, $check->check());
 
         $extensions[] = 'improbableExtName9999999999999999999999';
 
         $check = new ExtensionLoaded($extensions);
+
         self::assertInstanceOf(Failure::class, $check->check());
 
         $extensions = [
@@ -290,6 +318,7 @@ class ChecksTest extends TestCase
         ];
 
         $check = new ExtensionLoaded($extensions);
+
         self::assertInstanceOf(Failure::class, $check->check());
     }
 
@@ -303,11 +332,14 @@ class ChecksTest extends TestCase
                 break;
             }
         }
+
         $check  = new PhpFlag($name, false);
         $result = $check->check();
+
         self::assertInstanceOf(Success::class, $result, $result->getMessage());
 
         $check = new PhpFlag($name, true);
+
         self::assertInstanceOf(Failure::class, $check->check());
 
         $allFalse = [];
@@ -322,17 +354,21 @@ class ChecksTest extends TestCase
         }
 
         $check = new PhpFlag($allFalse, false);
+
         self::assertInstanceOf(Success::class, $check->check());
 
         $check = new PhpFlag($allFalse, true);
+
         self::assertInstanceOf(Failure::class, $result = $check->check());
         self::assertStringMatchesFormat('%A' . implode(', ', $allFalse) . '%Aenabled%A', $result->getMessage());
 
         $allFalse = new ArrayObject($allFalse);
         $check    = new PhpFlag($allFalse, false);
+
         self::assertInstanceOf(Success::class, $check->check());
 
         $check = new PhpFlag($allFalse, true);
+
         self::assertInstanceOf(Failure::class, $check->check());
 
         $notAllFalse = $allFalse;
@@ -344,10 +380,12 @@ class ChecksTest extends TestCase
         }
 
         $check = new PhpFlag($notAllFalse, false);
+
         self::assertInstanceOf(Failure::class, $result = $check->check());
         self::assertStringMatchesFormat("%A$name%A", $result->getMessage());
 
         $check = new PhpFlag($notAllFalse, true);
+
         self::assertInstanceOf(Failure::class, $check->check());
     }
 
@@ -357,9 +395,11 @@ class ChecksTest extends TestCase
         $wrapper     = $allWrappers[array_rand($allWrappers)];
 
         $check = new StreamWrapperExists($wrapper);
+
         self::assertInstanceOf(Success::class, $check->check());
 
         $check = new StreamWrapperExists('improbableName999999999999999999');
+
         self::assertInstanceOf(Failure::class, $check->check());
 
         $wrappers = [];
@@ -368,12 +408,14 @@ class ChecksTest extends TestCase
         }
 
         $check = new StreamWrapperExists($wrappers);
+
         self::assertInstanceOf(Success::class, $check->check());
 
         $wrappers[] = 'improbableName9999999999999999999999';
 
         $check  = new StreamWrapperExists($wrappers);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
         self::assertStringMatchesFormat('%simprobableName9999999999999999999999%s', $result->getMessage());
 
@@ -384,6 +426,7 @@ class ChecksTest extends TestCase
 
         $check  = new StreamWrapperExists($wrappers);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
         self::assertStringMatchesFormat('%simprobableName9999999999999999999999%s', $result->getMessage());
         self::assertStringMatchesFormat('%simprobableName0000000000000000000000', $result->getMessage());
@@ -393,6 +436,7 @@ class ChecksTest extends TestCase
     {
         $check  = new DirReadable(__DIR__);
         $result = $check->check();
+
         self::assertInstanceOf(Success::class, $result);
 
         $check  = new DirReadable([
@@ -400,18 +444,22 @@ class ChecksTest extends TestCase
             __DIR__ . '/../',
         ]);
         $result = $check->check();
+
         self::assertInstanceOf(Success::class, $result, 'Array of valid dirs');
 
         $check  = new DirReadable(__FILE__);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result, 'An existing file');
 
         $check  = new DirReadable(__DIR__ . '/improbabledir99999999999999999999999999999999999999');
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result, 'Single non-existent dir');
 
         $check  = new DirReadable(__DIR__ . '/improbabledir999999999999');
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
         self::assertStringMatchesFormat('%simprobabledir999999999999%s', $result->getMessage());
 
@@ -420,6 +468,7 @@ class ChecksTest extends TestCase
             __DIR__ . '/improbabledir999999999999',
         ]);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
         self::assertStringMatchesFormat('%simprobabledir888888888888%s', $result->getMessage());
         self::assertStringMatchesFormat('%simprobabledir999999999999', $result->getMessage());
@@ -458,6 +507,7 @@ class ChecksTest extends TestCase
             __DIR__ . '/simprobabledir999999999999', // non existent
         ]);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
         self::assertStringMatchesFormat('%s' . $dir1 . '%s', $result->getMessage());
         self::assertStringMatchesFormat('%s' . $dir2 . '%s', $result->getMessage());
@@ -475,6 +525,7 @@ class ChecksTest extends TestCase
         $path   = __DIR__ . '/simprobabledir999999999999';
         $check  = new DirWritable($path);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result, 'Non-existent path');
         self::assertStringMatchesFormat($path . '%s', $result->getMessage());
 
@@ -482,6 +533,7 @@ class ChecksTest extends TestCase
         $path   = __FILE__;
         $check  = new DirWritable($path);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result, 'Non-dir path');
         self::assertStringMatchesFormat($path . '%s', $result->getMessage());
 
@@ -490,6 +542,7 @@ class ChecksTest extends TestCase
         $path2  = __DIR__ . '/BasicClassesTest.php';
         $check  = new DirWritable([$path1, $path2]);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result, 'Non-dir path');
         self::assertStringMatchesFormat('%s' . $path1 . '%s', $result->getMessage());
         self::assertStringMatchesFormat('%s' . $path2 . '%s', $result->getMessage());
@@ -505,6 +558,7 @@ class ChecksTest extends TestCase
         // this should succeed
         $check  = new DirWritable($tmpDir);
         $result = $check->check();
+
         self::assertInstanceOf(Success::class, $result, 'Single writable dir');
 
         // generate a random dir name
@@ -529,6 +583,7 @@ class ChecksTest extends TestCase
             $dir2,
         ]);
         $result = $check->check();
+
         self::assertInstanceOf(Success::class, $result, 'Multiple writable dirs');
 
         // make temporary dirs unwritable
@@ -541,6 +596,7 @@ class ChecksTest extends TestCase
         // single unwritable dir
         $check  = new DirWritable($dir1);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
         self::assertStringMatchesFormat($dir1 . '%s', $result->getMessage());
 
@@ -552,6 +608,7 @@ class ChecksTest extends TestCase
             __DIR__ . '/simprobabledir999999999999', // non existent
         ]);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
         self::assertStringMatchesFormat('%s' . $dir1 . '%s', $result->getMessage());
         self::assertStringMatchesFormat('%s' . $dir2 . '%s', $result->getMessage());
@@ -571,10 +628,12 @@ class ChecksTest extends TestCase
 
         $check  = new ProcessRunning($phpPid);
         $result = $check->check();
+
         self::assertInstanceOf(Success::class, $result);
 
         $check  = new ProcessRunning(32768);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
         self::assertStringMatchesFormat('%sPID 32768%s', $result->getMessage());
 
@@ -586,10 +645,12 @@ class ChecksTest extends TestCase
 
         $check  = new ProcessRunning(substr($phpCommand, 0, ceil(strlen($phpPid) / 2)));
         $result = $check->check();
+
         self::assertInstanceOf(Success::class, $result);
 
         $check  = new ProcessRunning('improbable process name 9999999999999999');
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
         self::assertStringMatchesFormat('%simprobable process name 9999999999999999%s', $result->getMessage());
     }
@@ -607,27 +668,33 @@ class ChecksTest extends TestCase
         $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
         $check              = new SecurityAdvisory($secureComposerLock);
         $result             = $check->check();
+
         self::assertNotInstanceOf(Failure::class, $result);
 
         // check against non-existent lock file
         $check  = new SecurityAdvisory(__DIR__ . '/improbable-lock-file-99999999999.lock');
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
 
         // check against unreadable lock file
         $tmpDir = sys_get_temp_dir();
         if (! is_dir($tmpDir) || ! is_writable($tmpDir)) {
             self::markTestSkipped('Cannot access writable system temp dir to perform the test... ');
+
             return;
         }
+
         $unreadableFile = $tmpDir . '/composer.' . uniqid('', true) . '.lock';
         if (! file_put_contents($unreadableFile, 'foo') || ! chmod($unreadableFile, 0000)) {
             self::markTestSkipped('Cannot create temporary file in system temp dir to perform the test... ');
+
             return;
         }
 
         $check  = new SecurityAdvisory($unreadableFile);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
 
         // cleanup
@@ -642,13 +709,15 @@ class ChecksTest extends TestCase
     {
         $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
         $analyzer           = $this->createMock(AdvisoryAnalyzer::class);
-        $analyzer->expects(self::once())
+        $analyzer
+            ->expects(self::once())
             ->method('analyzeDependencies')
             ->willReturn([['a' => 1], ['b' => 2], ['c' => 3]]);
 
         $check = new SecurityAdvisory($secureComposerLock);
         $check->setAdvisoryAnalyzer($analyzer);
         $result = $check->check();
+
         self::assertInstanceOf(Failure::class, $result);
         self::assertSame('Found security advisories for 3 composer package(s)', $result->getMessage());
     }
@@ -660,12 +729,15 @@ class ChecksTest extends TestCase
     {
         $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
         $analyzer           = $this->createMock(AdvisoryAnalyzer::class);
-        $analyzer->expects(self::once())
+        $analyzer
+            ->expects(self::once())
             ->method('analyzeDependencies')
             ->will(self::throwException(new Exception()));
+
         $check = new SecurityAdvisory($secureComposerLock);
         $check->setAdvisoryAnalyzer($analyzer);
         $result = $check->check();
+
         self::assertInstanceOf(Warning::class, $result);
     }
 
@@ -676,132 +748,155 @@ class ChecksTest extends TestCase
     {
         $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
         $checker            = $this->createMock(AdvisoryAnalyzer::class);
-        $checker->expects(self::once())
+        $checker
+            ->expects(self::once())
             ->method('analyzeDependencies')
             ->willReturn([]);
+
         $check = new SecurityAdvisory($secureComposerLock);
         $check->setAdvisoryAnalyzer($checker);
         $result = $check->check();
+
         self::assertInstanceOf(Success::class, $result);
     }
 
     public function testPhpVersionInvalidVersion(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new PhpVersion(new stdClass());
     }
 
     public function testPhpVersionInvalidVersion2(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new PhpVersion(fopen('php://memory', 'r'));
     }
 
     public function testPhpVersionInvalidOperator(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new PhpVersion('1.0.0', []);
     }
 
     public function testPhpVersionInvalidOperator2(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new PhpVersion('1.0.0', 'like');
     }
 
     public function testClassExistsInvalidArgument(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new ClassExists(new stdClass());
     }
 
     public function testClassExistsInvalidArgument2(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new ClassExists(15);
     }
 
     public function testExtensionLoadedInvalidArgument(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new ExtensionLoaded(new stdClass());
     }
 
     public function testExtensionLoadedInvalidArgument2(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new ExtensionLoaded(15);
     }
 
     public function testDirReadableInvalidArgument(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new DirReadable(new stdClass());
     }
 
     public function testDirReadableInvalidArgument2(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new DirReadable(15);
     }
 
     public function testDirWritableInvalidArgument(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new DirWritable(new stdClass());
     }
 
     public function testDirWritableInvalidArgument2(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new DirWritable(15);
     }
 
     public function testStreamWrapperInvalidArgument(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new StreamWrapperExists(new stdClass());
     }
 
     public function testStreamWrapperInvalidInvalidArgument2(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new StreamWrapperExists(15);
     }
 
     public function testCallbackInvalidArgument(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new Callback(15);
     }
 
     public function testCallbackInvalidArgument2(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new Callback([$this, 'foobarbar']);
     }
 
     public function testCpuPerformanceInvalidArgument(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new CpuPerformance(-1);
     }
 
     public function testProcessRunningInvalidArgument(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new ProcessRunning(new stdClass());
     }
 
     public function testProcessRunningInvalidArgument2(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new ProcessRunning(-100);
     }
 
     public function testProcessRunningInvalidArgument3(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new ProcessRunning('');
     }
 
@@ -811,6 +906,7 @@ class ChecksTest extends TestCase
     public function testSecurityAdvisoryInvalidArgument1(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new SecurityAdvisory($this->createMock(AdvisoryAnalyzer::class), new stdClass());
     }
 
@@ -823,14 +919,17 @@ class ChecksTest extends TestCase
 
         // single string
         $check = new XmlFile($path);
+
         self::assertInstanceOf(SuccessInterface::class, $check->check());
 
         // array
         $check = new XmlFile([$path, $path, $path]);
+
         self::assertInstanceOf(SuccessInterface::class, $check->check());
 
         // object inplementing \Traversable
         $check = new XmlFile(new ArrayObject([$path, $path, $path]));
+
         self::assertInstanceOf(SuccessInterface::class, $check->check());
 
         fclose($temp);
@@ -840,7 +939,7 @@ class ChecksTest extends TestCase
     {
         // int
         try {
-            $check = new XmlFile(2);
+            new XmlFile(2);
             self::fail('InvalidArguementException should be thrown here!');
         } catch (Exception $e) {
             self::assertInstanceOf('InvalidArgumentException', $e);
@@ -848,7 +947,7 @@ class ChecksTest extends TestCase
 
         // bool
         try {
-            $check = new XmlFile(true);
+            new XmlFile(true);
             self::fail('InvalidArguementException should be thrown here!');
         } catch (Exception $e) {
             self::assertInstanceOf('InvalidArgumentException', $e);
@@ -856,7 +955,7 @@ class ChecksTest extends TestCase
 
         // object not implementing \Traversable
         try {
-            $check = new XmlFile(new stdClass());
+            new XmlFile(new stdClass());
             self::fail('InvalidArguementException should be thrown here!');
         } catch (Exception $e) {
             self::assertInstanceOf('InvalidArgumentException', $e);
@@ -871,6 +970,7 @@ class ChecksTest extends TestCase
         $path = $meta['uri'];
 
         $check = new XmlFile($path);
+
         self::assertInstanceOf(SuccessInterface::class, $check->check());
 
         fclose($temp);
@@ -884,6 +984,7 @@ class ChecksTest extends TestCase
         $path = $meta['uri'];
 
         $check = new XmlFile($path);
+
         self::assertInstanceOf(FailureInterface::class, $check->check());
 
         fclose($temp);
@@ -892,6 +993,7 @@ class ChecksTest extends TestCase
     public function testXmlFileNotPresent(): void
     {
         $check = new XmlFile('/does/not/exist');
+
         self::assertInstanceOf(FailureInterface::class, $check->check());
     }
 
@@ -903,6 +1005,7 @@ class ChecksTest extends TestCase
         $path = $meta['uri'];
 
         $check = new IniFile($path);
+
         self::assertInstanceOf(SuccessInterface::class, $check->check());
 
         fclose($temp);
@@ -916,6 +1019,7 @@ class ChecksTest extends TestCase
         $path = $meta['uri'];
 
         $check = new IniFile($path);
+
         self::assertInstanceOf(FailureInterface::class, $check->check());
 
         fclose($temp);
@@ -924,6 +1028,7 @@ class ChecksTest extends TestCase
     public function testIniFileNotPresent(): void
     {
         $check = new IniFile('/does/not/exist');
+
         self::assertInstanceOf(FailureInterface::class, $check->check());
     }
 
@@ -935,6 +1040,7 @@ class ChecksTest extends TestCase
         $path = $meta['uri'];
 
         $check = new YamlFile($path);
+
         self::assertInstanceOf(SuccessInterface::class, $check->check());
 
         fclose($temp);
@@ -948,6 +1054,7 @@ class ChecksTest extends TestCase
         $path = $meta['uri'];
 
         $check = new YamlFile($path);
+
         self::assertInstanceOf(FailureInterface::class, $check->check());
 
         fclose($temp);
@@ -956,6 +1063,7 @@ class ChecksTest extends TestCase
     public function testYamlFileNotPresent(): void
     {
         $check = new YamlFile('/does/not/exist');
+
         self::assertInstanceOf(FailureInterface::class, $check->check());
     }
 
@@ -967,6 +1075,7 @@ class ChecksTest extends TestCase
         $path = $meta['uri'];
 
         $check = new JsonFile($path);
+
         self::assertInstanceOf(SuccessInterface::class, $check->check());
 
         fclose($temp);
@@ -980,6 +1089,7 @@ class ChecksTest extends TestCase
         $path = $meta['uri'];
 
         $check = new JsonFile($path);
+
         self::assertInstanceOf(FailureInterface::class, $check->check());
 
         fclose($temp);
@@ -988,6 +1098,7 @@ class ChecksTest extends TestCase
     public function testJsonFileNotPresent(): void
     {
         $check = new JsonFile('/does/not/exist');
+
         self::assertInstanceOf(FailureInterface::class, $check->check());
     }
 }

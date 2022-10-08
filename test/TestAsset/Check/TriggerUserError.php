@@ -6,26 +6,18 @@ use Laminas\Diagnostics\Check\AbstractCheck;
 
 use function trigger_error;
 
-class TriggerUserError extends AbstractCheck
+final class TriggerUserError extends AbstractCheck
 {
     /** @var string */
     protected $label = '';
 
-    /** @var string */
-    protected $message;
+    private string $message;
 
-    /** @var int */
-    protected $severity;
+    private int $severity;
 
-    /** @var bool */
-    protected $result = true;
+    private bool $result = true;
 
-    /**
-     * @param string $message
-     * @param int $severity
-     * @param bool $result
-     */
-    public function __construct($message, $severity, $result = true)
+    public function __construct(string $message, int $severity, bool $result = true)
     {
         $this->message  = $message;
         $this->severity = $severity;

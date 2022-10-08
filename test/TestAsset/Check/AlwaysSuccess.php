@@ -5,7 +5,7 @@ namespace LaminasTest\Diagnostics\TestAsset\Check;
 use Laminas\Diagnostics\Check\AbstractCheck;
 use Laminas\Diagnostics\Result\Success;
 
-class AlwaysSuccess extends AbstractCheck
+final class AlwaysSuccess extends AbstractCheck
 {
     /** @return Success */
     public function check()

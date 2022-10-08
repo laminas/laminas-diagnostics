@@ -16,6 +16,7 @@ abstract class AbstractMemoryTest extends TestCase
     public function testInvalidArguments($warningThreshold, $criticalThreshold): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         $this->createCheck($warningThreshold, $criticalThreshold);
     }
 
@@ -35,7 +36,6 @@ abstract class AbstractMemoryTest extends TestCase
     /**
      * @param string|int $warningThreshold
      * @param string|int $criticalThreshold
-     * @return CheckInterface
      */
-    abstract protected function createCheck($warningThreshold, $criticalThreshold);
+    abstract protected function createCheck($warningThreshold, $criticalThreshold): CheckInterface;
 }

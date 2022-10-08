@@ -24,7 +24,8 @@ use function array_map;
 use function class_exists;
 use function interface_exists;
 
-class DoctrineMigrationTest extends TestCase
+/** @covers \Laminas\Diagnostics\Check\DoctrineMigration */
+final class DoctrineMigrationTest extends TestCase
 {
     /**
      * @dataProvider provideMigrationTestCases
@@ -38,12 +39,10 @@ class DoctrineMigrationTest extends TestCase
             self::markTestSkipped('Doctrine Version 3 is not installed, skipping test.');
         }
 
-        $migrationRepository = $this->getMockBuilder(MigrationsRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $migrationRepository = $this->createMock(MigrationsRepository::class);
 
         $migrationMock       = $this->createMock(AbstractMigration::class);
-        $availableMigrations = array_map(static function ($version) use ($migrationMock) {
+        $availableMigrations = array_map(static function ($version) use ($migrationMock): AvailableMigration {
             return new AvailableMigration(new Version($version), $migrationMock);
         }, $availableVersions);
 
@@ -52,11 +51,9 @@ class DoctrineMigrationTest extends TestCase
             ->method('getMigrations')
             ->willReturn(new AvailableMigrationsSet($availableMigrations));
 
-        $metadataStorage = $this->getMockBuilder(MetadataStorage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $metadataStorage = $this->createMock(MetadataStorage::class);
 
-        $executedMigrations = array_map(static function ($version) {
+        $executedMigrations = array_map(static function ($version): ExecutedMigration {
             return new ExecutedMigration(new Version($version));
         }, $migratedVersions);
 
@@ -65,9 +62,7 @@ class DoctrineMigrationTest extends TestCase
             ->method('getExecutedMigrations')
             ->willReturn(new ExecutedMigrationsList($executedMigrations));
 
-        $dependencyFactory = $this->getMockBuilder(DependencyFactory::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $dependencyFactory = $this->createMock(DependencyFactory::class);
 
         $dependencyFactory
             ->expects(self::once())
@@ -97,9 +92,7 @@ class DoctrineMigrationTest extends TestCase
             self::markTestSkipped('Doctrine Version 2 is not installed, skipping test.');
         }
 
-        $configuration = $this->getMockBuilder(Configuration::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $configuration = $this->createMock(Configuration::class);
 
         $configuration
             ->expects(self::once())
@@ -131,9 +124,7 @@ class DoctrineMigrationTest extends TestCase
             self::markTestSkipped('Doctrine Version 3 is not installed, skipping test.');
         }
 
-        $dependencyFactory = $this->getMockBuilder(DependencyFactory::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $dependencyFactory = $this->createMock(DependencyFactory::class);
 
         $dependencyFactory
             ->expects(self::never())
@@ -144,8 +135,6 @@ class DoctrineMigrationTest extends TestCase
             ->method('getMetadataStorage');
 
         new DoctrineMigration($dependencyFactory);
-
-        $this->expectNotToPerformAssertions();
     }
 
     public function testConstructorDoesNotOpenConnectionToDatabaseDoctrineVersion2(): void
@@ -154,9 +143,7 @@ class DoctrineMigrationTest extends TestCase
             self::markTestSkipped('Doctrine Version 2 is not installed, skipping test.');
         }
 
-        $configuration = $this->getMockBuilder(Configuration::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $configuration = $this->createMock(Configuration::class);
 
         $configuration
             ->expects(self::never())
@@ -167,8 +154,6 @@ class DoctrineMigrationTest extends TestCase
             ->method('getMigratedVersions');
 
         new DoctrineMigration($configuration);
-
-        $this->expectNotToPerformAssertions();
     }
 
     public function provideMigrationTestCases(): Generator

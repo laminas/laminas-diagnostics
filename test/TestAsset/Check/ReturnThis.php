@@ -4,7 +4,7 @@ namespace LaminasTest\Diagnostics\TestAsset\Check;
 
 use Laminas\Diagnostics\Check\AbstractCheck;
 
-class ReturnThis extends AbstractCheck
+final class ReturnThis extends AbstractCheck
 {
     /** @var mixed */
     protected $value;

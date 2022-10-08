@@ -20,7 +20,7 @@ use function class_exists;
 use function interface_exists;
 use function trim;
 
-class BasicClassesTest extends TestCase
+final class BasicClassesTest extends TestCase
 {
     public function testCoreClassTree(): void
     {
@@ -46,6 +46,7 @@ class BasicClassesTest extends TestCase
         ) {
             self::assertTrue(class_exists($class, true), 'Class "' . $class . '" exists.');
         }
+
         foreach (
             [
                 Success::class,
@@ -57,6 +58,7 @@ class BasicClassesTest extends TestCase
             ] as $class
         ) {
             $reflection = new ReflectionClass($class);
+
             self::assertTrue($reflection->implementsInterface(ResultInterface::class));
         }
     }
@@ -64,16 +66,19 @@ class BasicClassesTest extends TestCase
     public function testConstructor(): void
     {
         $result = new Success('foo', 'bar');
+
         self::assertInstanceOf(ResultInterface::class, $result);
         self::assertSame('foo', $result->getMessage());
         self::assertSame('bar', $result->getData());
 
         $result = new Failure('foo', 'bar');
+
         self::assertInstanceOf(ResultInterface::class, $result);
         self::assertSame('foo', $result->getMessage());
         self::assertSame('bar', $result->getData());
 
         $result = new Warning('foo', 'bar');
+
         self::assertInstanceOf(ResultInterface::class, $result);
         self::assertSame('foo', $result->getMessage());
         self::assertSame('bar', $result->getData());
@@ -82,11 +87,13 @@ class BasicClassesTest extends TestCase
     public function testSetters(): void
     {
         $result = new Success();
+
         self::assertSame('', $result->getMessage());
         self::assertNull($result->getData());
 
         $result->setMessage('foo');
         $result->setData('bar');
+
         self::assertSame('foo', $result->getMessage());
         self::assertSame('bar', $result->getData());
     }
@@ -94,15 +101,18 @@ class BasicClassesTest extends TestCase
     public function testSimpleCheck(): void
     {
         $alwaysSuccess = new AlwaysSuccess();
+
         self::assertNotNull($alwaysSuccess->getLabel());
         self::assertSame($alwaysSuccess->getName(), $alwaysSuccess->getLabel());
         self::assertSame('Always Success', trim($alwaysSuccess->getLabel()), 'Class-deferred label');
 
         $alwaysSuccess->setLabel('foobar');
+
         self::assertSame('foobar', $alwaysSuccess->getName(), 'Explicitly set label');
         self::assertSame($alwaysSuccess->getName(), $alwaysSuccess->getLabel());
 
         $result = $alwaysSuccess->check();
+
         self::assertInstanceOf(ResultInterface::class, $result);
         self::assertNotNull($result->getMessage());
     }

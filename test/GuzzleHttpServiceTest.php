@@ -18,10 +18,10 @@ use function class_exists;
 use function json_decode;
 use function sprintf;
 
-class GuzzleHttpServiceTest extends TestCase
+/** @covers \Laminas\Diagnostics\Check\GuzzleHttpService */
+final class GuzzleHttpServiceTest extends TestCase
 {
-    /** @var string */
-    protected $responseTemplate = <<<'EOR'
+    private string $responseTemplate = <<<'EOR'
         HTTP/1.1 %d
         
         %s
@@ -34,24 +34,20 @@ class GuzzleHttpServiceTest extends TestCase
     public function testCouchDbCheck(array $params): void
     {
         $check = new CouchDBCheck($params);
+
         self::assertInstanceOf(CouchDBCheck::class, $check);
     }
 
     /**
      * @dataProvider checkProvider
-     * @param null|string $content
-     * @param string $actualContent
-     * @param int $actualStatusCode
-     * @param string $resultClass
-     * @param string $method
-     * @param null|string $body
+     * @param string|array|null $body
      */
     public function testGuzzleCheck(
-        $content,
-        $actualContent,
-        $actualStatusCode,
-        $resultClass,
-        $method = 'GET',
+        ?string $content,
+        ?string $actualContent,
+        int $actualStatusCode,
+        ?string $resultClass,
+        ?string $method = 'GET',
         $body = null
     ): void {
         if (! class_exists(GuzzleClient::class)) {
@@ -76,6 +72,7 @@ class GuzzleHttpServiceTest extends TestCase
     public function testInvalidClient(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new GuzzleHttpService('http://example.com', [], [], 200, null, 'not guzzle');
     }
 
@@ -103,18 +100,21 @@ class GuzzleHttpServiceTest extends TestCase
         }
 
         $body = (string) $request->getBody();
+
         self::assertSame(['foo' => 'bar'], json_decode($body, true));
     }
 
     public function testCanSendArbitraryRequests(): void
     {
-        self::markTestSkipped('Clarify what to do with assertion of protected property.');
-
-        $request = $this->prophesize(RequestInterface::class)->reveal();
+        $request = $this->createMock(RequestInterface::class);
 
         $diagnostic = new GuzzleHttpService($request);
 
-        $this->assertAttributeSame($request, 'request', $diagnostic);
+        $r = new ReflectionProperty($diagnostic, 'request');
+        $r->setAccessible(true);
+        $request = $r->getValue($diagnostic);
+
+        self::assertSame($request, $request);
     }
 
     public function checkProvider(): array
@@ -156,12 +156,7 @@ class GuzzleHttpServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @param int $statusCode
-     * @param null|string $content
-     * @return GuzzleClient
-     */
-    private function getMockGuzzleClient($statusCode = 200, $content = null)
+    private function getMockGuzzleClient(int $statusCode = 200, ?string $content = null): GuzzleClient
     {
         $response = Message::parseResponse(sprintf($this->responseTemplate, $statusCode, (string) $content));
 
