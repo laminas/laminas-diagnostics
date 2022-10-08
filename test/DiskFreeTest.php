@@ -21,8 +21,10 @@ use function sys_get_temp_dir;
  *     authors:   Dave Ingram <dave@dmi.me.uk>, Nick Pope <nick@nickpope.me.uk>
  *     license:   http://creativecommons.org/licenses/BSD/ CC-BSD
  *     copyright: Copyright (c) 2010, Dave Ingram, Nick Pope
+ *
+ * @covers \Laminas\Diagnostics\Check\DiskFree
  */
-class DiskFreeTest extends TestCase
+final class DiskFreeTest extends TestCase
 {
     public static function stringToBytesProvider(): array
     {
@@ -109,37 +111,28 @@ class DiskFreeTest extends TestCase
 
     /**
      * @dataProvider  stringToBytesProvider
-     * @param string $a
-     * @param bool $b
      * @param int|float $c
      */
-    public function testStringToBytes($a, $b, $c): void
+    public function testStringToBytes(string $a, bool $b, $c): void
     {
-        self::assertEquals(DiskFree::stringToBytes($a, $b), $c);
+        self::assertEquals($c, DiskFree::stringToBytes($a, $b));
     }
 
     /**
      * @dataProvider  stringToBytesExceptionProvider
-     * @param string $a
-     * @param bool $b
-     * @param string $c
      * @psalm-param class-string $c
      */
-    public function testStringToBytesException($a, $b, $c): void
+    public function testStringToBytesException(string $a, bool $b, string $c): void
     {
         $this->expectException($c);
+
         DiskFree::stringToBytes($a, $b);
     }
 
-    /**
-     * @dataProvider  bytesToStringProvider
-     * @param int $bytes
-     * @param int $precision
-     * @param string $string
-     */
-    public function testBytesToString($bytes, $precision, $string): void
+    /** @dataProvider  bytesToStringProvider */
+    public function testBytesToString(int $bytes, int $precision, string $string): void
     {
-        self::assertEquals($string, DiskFree::bytesToString($bytes, $precision));
+        self::assertSame($string, DiskFree::bytesToString($bytes, $precision));
     }
 
     public function testJitFreeSpace(): void
@@ -179,37 +172,39 @@ class DiskFreeTest extends TestCase
     {
         $check  = new DiskFree(1024, __DIR__ . '/someImprobablePath99999999999999999');
         $result = $check->check();
+
         self::assertInstanceof(WarningInterface::class, $result);
     }
 
     public function testInvalidSizeParamThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new DiskFree(-1, $this->getTempDir());
     }
 
     public function testInvalidSizeParamThrowsException2(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new DiskFree(-1, $this->getTempDir());
     }
 
     public function testInvalidSizeParamThrowsException3(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new DiskFree([], $this->getTempDir());
     }
 
     public function testInvalidPathParamThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new DiskFree(1024, 100);
     }
 
-    /**
-     * @return string
-     */
-    protected function getTempDir()
+    protected function getTempDir(): string
     {
         // try to retrieve tmp dir
         $tmp = sys_get_temp_dir();

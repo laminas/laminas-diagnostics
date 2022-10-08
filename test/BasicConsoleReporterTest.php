@@ -19,13 +19,15 @@ use function ob_start;
 use function str_repeat;
 use function trim;
 
-class BasicConsoleReporterTest extends TestCase
+/** @covers \Laminas\Diagnostics\Runner\Reporter\BasicConsole */
+final class BasicConsoleReporterTest extends TestCase
 {
-    /** @var BasicConsole */
-    protected $reporter;
+    private BasicConsole $reporter;
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->reporter = new BasicConsole();
     }
 
@@ -34,6 +36,7 @@ class BasicConsoleReporterTest extends TestCase
         ob_start();
         $checks = new ArrayObject([new AlwaysSuccess()]);
         $this->reporter->onStart($checks, []);
+
         self::assertStringMatchesFormat('Starting%A', ob_get_clean());
     }
 
@@ -50,7 +53,7 @@ class BasicConsoleReporterTest extends TestCase
             $this->reporter->onAfterRun($check, $result, $alias);
         }
 
-        self::assertEquals('.....', ob_get_clean());
+        self::assertSame('.....', ob_get_clean());
     }
 
     public function testWarningSymbols(): void
@@ -66,7 +69,7 @@ class BasicConsoleReporterTest extends TestCase
             $this->reporter->onAfterRun($check, $result, $alias);
         }
 
-        self::assertEquals('!!!!!', ob_get_clean());
+        self::assertSame('!!!!!', ob_get_clean());
     }
 
     public function testFailureSymbols(): void
@@ -82,7 +85,7 @@ class BasicConsoleReporterTest extends TestCase
             $this->reporter->onAfterRun($check, $result, $alias);
         }
 
-        self::assertEquals('FFFFF', ob_get_clean());
+        self::assertSame('FFFFF', ob_get_clean());
     }
 
     public function testUnknownSymbols(): void
@@ -98,7 +101,7 @@ class BasicConsoleReporterTest extends TestCase
             $this->reporter->onAfterRun($check, $result, $alias);
         }
 
-        self::assertEquals('?????', ob_get_clean());
+        self::assertSame('?????', ob_get_clean());
     }
 
     public function testProgressDotsNoGutter(): void
@@ -115,7 +118,7 @@ class BasicConsoleReporterTest extends TestCase
             $this->reporter->onAfterRun($check, $result, $alias);
         }
 
-        self::assertEquals(str_repeat('.', 40), ob_get_clean());
+        self::assertSame(str_repeat('.', 40), ob_get_clean());
     }
 
     public function testProgressOverflow(): void
@@ -137,7 +140,7 @@ class BasicConsoleReporterTest extends TestCase
         $expected .= '......................... 75 / 80 ( 94%)';
         $expected .= '.....';
 
-        self::assertEquals($expected, ob_get_clean());
+        self::assertSame($expected, ob_get_clean());
     }
 
     public function testProgressOverflowMatch(): void
@@ -158,7 +161,7 @@ class BasicConsoleReporterTest extends TestCase
         $expected .= '......................... 50 / 75 ( 67%)';
         $expected .= '......................... 75 / 75 (100%)';
 
-        self::assertEquals($expected, ob_get_clean());
+        self::assertSame($expected, ob_get_clean());
     }
 
     public function testSummaryAllSuccessful(): void
@@ -176,6 +179,7 @@ class BasicConsoleReporterTest extends TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
+
         self::assertStringStartsWith('OK (20 diagnostic tests)', trim(ob_get_clean()));
     }
 
@@ -199,6 +203,7 @@ class BasicConsoleReporterTest extends TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
+
         self::assertStringStartsWith('5 warnings, 15 successful tests', trim(ob_get_clean()));
     }
 
@@ -227,6 +232,7 @@ class BasicConsoleReporterTest extends TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
+
         self::assertStringStartsWith('5 failures, 5 warnings, 15 successful tests', trim(ob_get_clean()));
     }
 
@@ -260,6 +266,7 @@ class BasicConsoleReporterTest extends TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
+
         self::assertStringMatchesFormat('%A5 unknown test results%A', trim(ob_get_clean()));
     }
 
@@ -281,6 +288,7 @@ class BasicConsoleReporterTest extends TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
+
         self::assertStringMatchesFormat(
             '%AWarning: Always Success%wfoo',
             trim(ob_get_clean())
@@ -305,6 +313,7 @@ class BasicConsoleReporterTest extends TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
+
         self::assertStringMatchesFormat(
             '%AFailure: Always Success%wbar',
             trim(ob_get_clean())
@@ -329,6 +338,7 @@ class BasicConsoleReporterTest extends TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
+
         self::assertStringMatchesFormat(
             '%AUnknown result LaminasTest\Diagnostics\TestAsset\Result\Unknown: Always Success%wbaz%A',
             trim(ob_get_clean())
@@ -352,6 +362,7 @@ class BasicConsoleReporterTest extends TestCase
         $this->reporter->onStop($results);
 
         $this->reporter->onFinish($results);
+
         self::assertStringMatchesFormat('%ADiagnostics aborted%A', trim(ob_get_clean()));
     }
 
@@ -359,5 +370,7 @@ class BasicConsoleReporterTest extends TestCase
     {
         // currently unused
         $this->reporter->onBeforeRun(new AlwaysSuccess(), null);
+
+        $this->expectNotToPerformAssertions();
     }
 }

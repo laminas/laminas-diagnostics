@@ -4,14 +4,11 @@ namespace LaminasTest\Diagnostics;
 
 use Laminas\Diagnostics\Check\OpCacheMemory;
 
-class OpCacheMemoryTest extends AbstractMemoryTest
+/** @covers \Laminas\Diagnostics\Check\OpCacheMemory */
+final class OpCacheMemoryTest extends AbstractMemoryTest
 {
-    /**
-     * @param int|string $warningThreshold
-     * @param int|string $criticalThreshold
-     * @return OpCacheMemory
-     */
-    protected function createCheck($warningThreshold, $criticalThreshold)
+    /** {@inheritDoc} */
+    protected function createCheck($warningThreshold, $criticalThreshold): OpCacheMemory
     {
         return new OpCacheMemory($warningThreshold, $criticalThreshold);
     }

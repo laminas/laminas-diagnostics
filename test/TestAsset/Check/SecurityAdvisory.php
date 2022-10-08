@@ -5,7 +5,7 @@ namespace LaminasTest\Diagnostics\TestAsset\Check;
 use Enlightn\SecurityChecker\AdvisoryAnalyzer;
 use Laminas\Diagnostics\Check\SecurityAdvisory as BaseCheck;
 
-class SecurityAdvisory extends BaseCheck
+final class SecurityAdvisory extends BaseCheck
 {
     public function setAdvisoryAnalyzer(AdvisoryAnalyzer $advisoryAnalyzer): void
     {

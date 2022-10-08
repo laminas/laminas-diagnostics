@@ -14,17 +14,19 @@ use function disk_total_space;
 use function is_writable;
 use function sys_get_temp_dir;
 
-class DiskUsageTest extends TestCase
+/** @covers \Laminas\Diagnostics\Check\DiskUsage */
+final class DiskUsageTest extends TestCase
 {
     /**
      * @dataProvider invalidArgumentProvider
      * @param int|string $warningThreshold
      * @param int|string $criticalThreshold
-     * @param string $path
+     * @param string|array $path
      */
     public function testInvalidArguments($warningThreshold, $criticalThreshold, $path): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new DiskUsage($warningThreshold, $criticalThreshold, $path);
     }
 
@@ -65,8 +67,7 @@ class DiskUsageTest extends TestCase
         ];
     }
 
-    /** @return string */
-    protected function getTempDir()
+    protected function getTempDir(): string
     {
         // try to retrieve tmp dir
         $tmp = sys_get_temp_dir();

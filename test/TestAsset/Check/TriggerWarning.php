@@ -7,7 +7,7 @@ use Laminas\Diagnostics\Result\Success;
 
 use function strpos;
 
-class TriggerWarning extends AbstractCheck
+final class TriggerWarning extends AbstractCheck
 {
     /** @return Success */
     public function check()

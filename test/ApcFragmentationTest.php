@@ -6,7 +6,8 @@ use InvalidArgumentException;
 use Laminas\Diagnostics\Check\ApcFragmentation;
 use PHPUnit\Framework\TestCase;
 
-class ApcFragmentationTest extends TestCase
+/** @covers \Laminas\Diagnostics\Check\ApcFragmentation */
+final class ApcFragmentationTest extends TestCase
 {
     /**
      * @dataProvider invalidArgumentProvider
@@ -16,6 +17,7 @@ class ApcFragmentationTest extends TestCase
     public function testInvalidArguments($warningThreshold, $criticalThreshold): void
     {
         $this->expectException(InvalidArgumentException::class);
+
         new ApcFragmentation($warningThreshold, $criticalThreshold);
     }
 

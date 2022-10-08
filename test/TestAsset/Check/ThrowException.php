@@ -5,7 +5,7 @@ namespace LaminasTest\Diagnostics\TestAsset\Check;
 use Exception;
 use Laminas\Diagnostics\Check\AbstractCheck;
 
-class ThrowException extends AbstractCheck
+final class ThrowException extends AbstractCheck
 {
     public function check()
     {
