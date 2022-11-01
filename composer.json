@@ -44,7 +44,7 @@
         "mikey179/vfsstream": "^1.6.11",
         "php-amqplib/php-amqplib": "^2.0 || ^3.0",
         "phpunit/phpunit": "^9.5.26",
-        "psalm/plugin-phpunit": "^0.17.0",
+        "psalm/plugin-phpunit": "^0.18.0",
         "predis/predis": "^2.0.3",
         "symfony/yaml": "^2.7 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
         "vimeo/psalm": "^4.29.0"
