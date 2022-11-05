@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b79e0e60b53a7b235491a70a430e0d7",
+    "content-hash": "dfa22555d5015ce39e5cdabb464a05f1",
     "packages": [
         {
             "name": "enlightn/security-checker",
@@ -3078,27 +3078,27 @@
         },
         {
             "name": "laminas/laminas-loader",
-            "version": "2.8.0",
+            "version": "2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-loader.git",
-                "reference": "d0589ec9dd48365fd95ad10d1c906efd7711c16b"
+                "reference": "51ed9c3fa42d1098a9997571730c0cbf42d078d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-loader/zipball/d0589ec9dd48365fd95ad10d1c906efd7711c16b",
-                "reference": "d0589ec9dd48365fd95ad10d1c906efd7711c16b",
+                "url": "https://api.github.com/repos/laminas/laminas-loader/zipball/51ed9c3fa42d1098a9997571730c0cbf42d078d3",
+                "reference": "51ed9c3fa42d1098a9997571730c0cbf42d078d3",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.3 || ~8.0.0 || ~8.1.0"
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0"
             },
             "conflict": {
                 "zendframework/zend-loader": "*"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "~2.2.1",
-                "phpunit/phpunit": "^9.3"
+                "laminas/laminas-coding-standard": "~2.4.0",
+                "phpunit/phpunit": "~9.5.25"
             },
             "type": "library",
             "autoload": {
@@ -3130,7 +3130,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-09-02T18:30:53+00:00"
+            "time": "2022-10-16T12:50:49+00:00"
         },
         {
             "name": "mikey179/vfsstream",
@@ -6216,11 +6216,11 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.4 || ~8.0.0 || ~8.1.0 || ~8.2.0"
+        "php": "~8.0.0 || ~8.1.0 || ~8.2.0"
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.4.99"
+        "php": "8.0.99"
     },
     "plugin-api-version": "2.3.0"
 }
