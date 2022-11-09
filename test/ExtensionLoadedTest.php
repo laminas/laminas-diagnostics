@@ -8,7 +8,6 @@ use Laminas\Diagnostics\Result\FailureInterface;
 use Laminas\Diagnostics\Result\SuccessInterface;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Traversable;
 
 use function phpversion;
 
