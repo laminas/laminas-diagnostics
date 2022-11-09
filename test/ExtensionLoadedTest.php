@@ -17,7 +17,7 @@ final class ExtensionLoadedTest extends TestCase
 {
     /**
      * @dataProvider invalidArgumentProvider
-     * @param string|array|Traversable $extensionName
+     * @param mixed $extensionName
      */
     public function testInvalidArguments($extensionName): void
     {
@@ -34,6 +34,15 @@ final class ExtensionLoadedTest extends TestCase
         self::assertInstanceof(SuccessInterface::class, $result);
         self::assertSame('json ' . phpversion('json'), $result->getData());
 
+        $check  = new ExtensionLoaded(['json', 'xml']);
+        $result = $check->check();
+
+        self::assertInstanceof(SuccessInterface::class, $result);
+        self::assertSame(['json' => phpversion('json'), 'xml' => phpversion('xml')], $result->getData());
+    }
+
+    public function testCheckMissingExtension(): void
+    {
         $check  = new ExtensionLoaded('unknown-foo');
         $result = $check->check();
 
@@ -45,14 +54,11 @@ final class ExtensionLoadedTest extends TestCase
 
         self::assertInstanceof(FailureInterface::class, $result);
         self::assertSame(['unknown-foo', 'unknown-bar'], $result->getData());
-
-        $check  = new ExtensionLoaded(['json', 'xml']);
-        $result = $check->check();
-
-        self::assertInstanceof(SuccessInterface::class, $result);
-        self::assertSame(['json' => phpversion('json'), 'xml' => phpversion('xml')], $result->getData());
     }
 
+    /**
+     * @return array<int, array<int, mixed>>
+     */
     public function invalidArgumentProvider(): array
     {
         return [
