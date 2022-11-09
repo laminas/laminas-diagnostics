@@ -134,13 +134,13 @@ class ApcFragmentation extends AbstractCheck implements CheckInterface
         $message = sprintf('%.0f%% memory fragmentation.', $fragPercent);
 
         if ($fragPercent > $this->criticalThreshold) {
-            return new Failure($message);
+            return new Failure($message, $fragPercent);
         }
 
         if ($fragPercent > $this->warningThreshold) {
-            return new Warning($message);
+            return new Warning($message, $fragPercent);
         }
 
-        return new Success($message);
+        return new Success($message, $fragPercent);
     }
 }

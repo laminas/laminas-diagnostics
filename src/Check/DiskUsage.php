@@ -95,13 +95,13 @@ class DiskUsage extends AbstractCheck implements CheckInterface
         $dp = ($du / $dt) * 100;
 
         if ($dp >= $this->criticalThreshold) {
-            return new Failure(sprintf('Disk usage too high: %2d percent.', $dp));
+            return new Failure(sprintf('Disk usage too high: %2d percent.', $dp), $dp);
         }
 
         if ($dp >= $this->warningThreshold) {
-            return new Warning(sprintf('Disk usage high: %2d percent.', $dp));
+            return new Warning(sprintf('Disk usage high: %2d percent.', $dp), $dp);
         }
 
-        return new Success(sprintf('Disk usage is %2d percent.', $dp));
+        return new Success(sprintf('Disk usage is %2d percent.', $dp), $dp);
     }
 }

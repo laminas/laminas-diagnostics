@@ -67,9 +67,9 @@ class ExtensionLoaded extends AbstractCheck implements CheckInterface
         }
         if (count($missing)) {
             if (count($missing) > 1) {
-                return new Failure('Extensions ' . implode(', ', $missing) . ' are not available.');
+                return new Failure('Extensions ' . implode(', ', $missing) . ' are not available.', $missing);
             } else {
-                return new Failure('Extension ' . implode('', $missing) . ' is not available.');
+                return new Failure('Extension ' . implode('', $missing) . ' is not available.', $missing);
             }
         } else {
             if (count($this->extensions) > 1) {
