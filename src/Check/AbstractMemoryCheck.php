@@ -82,14 +82,14 @@ abstract class AbstractMemoryCheck extends AbstractCheck implements CheckInterfa
         );
 
         if ($percentUsed > $this->criticalThreshold) {
-            return new Failure($message);
+            return new Failure($message, $percentUsed);
         }
 
         if ($percentUsed > $this->warningThreshold) {
-            return new Warning($message);
+            return new Warning($message, $percentUsed);
         }
 
-        return new Success($message);
+        return new Success($message, $percentUsed);
     }
 
     /**
