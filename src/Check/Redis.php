@@ -9,6 +9,7 @@ use RedisException;
 use RuntimeException;
 
 use function class_exists;
+use function microtime;
 
 /**
  * Validate that a Redis service is running
@@ -45,9 +46,21 @@ class Redis extends AbstractCheck
      */
     public function check()
     {
-        $this->createClient()->ping();
+        $client = $this->createClient();
 
-        return new Success();
+        $startTime = microtime(true);
+        /** @var array $stats Redis client is not in `multi` mode, so methods will directly return there response */
+        $stats        = $client->info();
+        $responseTime = microtime(true) - $startTime;
+
+        return new Success(
+            '',
+            [
+                "responseTime" => $responseTime,
+                "connections"  => (int) $stats["connected_clients"],
+                "uptime"       => (int) $stats["uptime_in_seconds"],
+            ]
+        );
     }
 
     /**

@@ -12,6 +12,7 @@ use Memcached as MemcachedService;
 use function class_exists;
 use function gettype;
 use function is_string;
+use function microtime;
 use function sprintf;
 
 /**
@@ -43,7 +44,7 @@ class Memcached extends AbstractCheck
         $port = (int) $port;
         if ($port < 1) {
             throw new InvalidArgumentException(sprintf(
-                'Invalid port number - expecting a positive integer',
+                'Invalid port number %s - expecting a positive integer',
                 gettype($host)
             ));
         }
@@ -66,9 +67,14 @@ class Memcached extends AbstractCheck
         try {
             $memcached = new MemcachedService();
             $memcached->addServer($this->host, $this->port);
-            $stats = @$memcached->getStats();
 
-            $authority = sprintf('%s:%d', $this->host, $this->port);
+            $startTime = microtime(true);
+            /** @var false|array<string, false|array<string, int|string>> $stats */
+            $stats        = @$memcached->getStats();
+            $responseTime = microtime(true) - $startTime;
+
+            $authority   = sprintf('%s:%d', $this->host, $this->port);
+            $serviceData = null;
 
             if (
                 ! isset($stats[$authority])
@@ -82,6 +88,12 @@ class Memcached extends AbstractCheck
                         $this->port
                     ));
                 }
+            } else {
+                $serviceData = [
+                    "responseTime" => $responseTime,
+                    "connections"  => (int) $stats[$authority]['curr_connections'],
+                    "uptime"       => (int) $stats[$authority]['uptime'],
+                ];
             }
         } catch (Exception $e) {
             return new Failure($e->getMessage());
@@ -91,6 +103,6 @@ class Memcached extends AbstractCheck
             'Memcached server running at host %s on port %s',
             $this->host,
             $this->port
-        ));
+        ), $serviceData);
     }
 }
