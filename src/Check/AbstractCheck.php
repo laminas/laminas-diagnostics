@@ -12,7 +12,7 @@ abstract class AbstractCheck implements CheckInterface
     /**
      * Explicitly set label.
      *
-     * @var string
+     * @var ?string
      */
     protected $label;
 
