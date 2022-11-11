@@ -8,7 +8,7 @@ use function trigger_error;
 
 final class TriggerUserError extends AbstractCheck
 {
-    /** @var string */
+    /** @var ?string */
     protected $label = '';
 
     private string $message;

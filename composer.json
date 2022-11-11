@@ -38,15 +38,14 @@
     },
     "require-dev": {
         "doctrine/migrations": "^2.0 || ^3.0",
-        "elasticsearch/elasticsearch": "^7.17 || ^8.5",
         "guzzlehttp/guzzle": "^7.5.0",
         "laminas/laminas-coding-standard": "~2.4.0",
         "laminas/laminas-loader": "^2.0",
         "mikey179/vfsstream": "^1.6.11",
         "php-amqplib/php-amqplib": "^2.0 || ^3.0",
         "phpunit/phpunit": "^9.5.26",
-        "predis/predis": "^2.0.3",
         "psalm/plugin-phpunit": "^0.18.0",
+        "predis/predis": "^2.0.3",
         "symfony/yaml": "^2.7 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
         "vimeo/psalm": "^4.29.0"
     },
@@ -62,8 +61,7 @@
         "guzzlehttp/guzzle": "Required by Check\\GuzzleHttpService",
         "predis/predis": "Required by Check\\Redis",
         "symfony/yaml": "Required by Check\\YamlFile",
-        "php-amqplib/php-amqplib": "Required by Check\\RabbitMQ",
-        "elasticsearch/elasticsearch": "Required by Check\\ElasticSearch"
+        "php-amqplib/php-amqplib": "Required by Check\\RabbitMQ"
     },
     "autoload": {
         "files": [
