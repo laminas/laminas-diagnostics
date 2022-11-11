@@ -1038,6 +1038,22 @@
       <code>$resultClass</code>
     </PossiblyNullArgument>
   </file>
+  <file src="test/MemcacheTest.php">
+    <InvalidArgument occurrences="1">
+      <code>['127.0.0.1']</code>
+    </InvalidArgument>
+    <InvalidCast occurrences="1">
+      <code>['127.0.0.1']</code>
+    </InvalidCast>
+  </file>
+  <file src="test/MemcachedTest.php">
+    <InvalidArgument occurrences="1">
+      <code>['127.0.0.1']</code>
+    </InvalidArgument>
+    <InvalidCast occurrences="1">
+      <code>['127.0.0.1']</code>
+    </InvalidCast>
+  </file>
   <file src="test/OpCacheMemoryTest.php">
     <InvalidScalarArgument occurrences="2">
       <code>$criticalThreshold</code>

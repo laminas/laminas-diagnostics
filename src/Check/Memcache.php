@@ -13,6 +13,7 @@ use function class_exists;
 use function gettype;
 use function is_array;
 use function is_string;
+use function microtime;
 use function sprintf;
 
 /**
@@ -43,8 +44,8 @@ class Memcache extends AbstractCheck
         $port = (int) $port;
         if ($port < 1) {
             throw new InvalidArgumentException(sprintf(
-                'Invalid port number - expecting a positive integer',
-                gettype($host)
+                'Invalid port number %d - expecting a positive integer',
+                $port
             ));
         }
 
@@ -66,13 +67,17 @@ class Memcache extends AbstractCheck
         try {
             $memcache = new MemcacheService();
             $memcache->addServer($this->host, $this->port);
-            $stats = @$memcache->getExtendedStats();
 
-            $authority = sprintf('%s:%d', $this->host, $this->port);
+            $startTime = microtime(true);
+            /** @var false|array<string, false|array<string, int|string>> $stats */
+            $stats        = @$memcache->getExtendedStats();
+            $responseTime = microtime(true) - $startTime;
+
+            $authority   = sprintf('%s:%d', $this->host, $this->port);
+            $serviceData = null;
 
             if (
-                ! $stats
-                || ! is_array($stats)
+                ! is_array($stats)
                 || ! isset($stats[$authority])
                 || false === $stats[$authority]
             ) {
@@ -84,6 +89,12 @@ class Memcache extends AbstractCheck
                         $this->port
                     ));
                 }
+            } else {
+                $serviceData = [
+                    "responseTime" => $responseTime,
+                    "connections"  => (int) $stats[$authority]['curr_connections'],
+                    "uptime"       => (int) $stats[$authority]['uptime'],
+                ];
             }
         } catch (Exception $e) {
             return new Failure($e->getMessage());
@@ -93,6 +104,6 @@ class Memcache extends AbstractCheck
             'Memcache server running at host %s on port %s',
             $this->host,
             $this->port
-        ));
+        ), $serviceData);
     }
 }
