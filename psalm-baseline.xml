@@ -440,15 +440,6 @@
     <DocblockTypeContradiction occurrences="1">
       <code>is_string($host)</code>
     </DocblockTypeContradiction>
-    <MixedAssignment occurrences="2">
-      <code>$memcache</code>
-      <code>$stats</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="3">
-      <code>addServer</code>
-      <code>connect</code>
-      <code>getExtendedStats</code>
-    </MixedMethodCall>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Memcache</code>
     </PropertyNotSetInConstructor>
@@ -460,15 +451,6 @@
     <DocblockTypeContradiction occurrences="1">
       <code>is_string($host)</code>
     </DocblockTypeContradiction>
-    <MixedAssignment occurrences="2">
-      <code>$memcached</code>
-      <code>$stats</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="3">
-      <code>addServer</code>
-      <code>getLastDisconnectedServer</code>
-      <code>getStats</code>
-    </MixedMethodCall>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Memcached</code>
     </PropertyNotSetInConstructor>
@@ -1037,6 +1019,22 @@
       <code>$method</code>
       <code>$resultClass</code>
     </PossiblyNullArgument>
+  </file>
+  <file src="test/MemcacheTest.php">
+    <InvalidArgument occurrences="1">
+      <code>['127.0.0.1']</code>
+    </InvalidArgument>
+    <InvalidCast occurrences="1">
+      <code>['127.0.0.1']</code>
+    </InvalidCast>
+  </file>
+  <file src="test/MemcachedTest.php">
+    <InvalidArgument occurrences="1">
+      <code>['127.0.0.1']</code>
+    </InvalidArgument>
+    <InvalidCast occurrences="1">
+      <code>['127.0.0.1']</code>
+    </InvalidCast>
   </file>
   <file src="test/OpCacheMemoryTest.php">
     <InvalidScalarArgument occurrences="2">
