@@ -440,6 +440,15 @@
     <DocblockTypeContradiction occurrences="1">
       <code>is_string($host)</code>
     </DocblockTypeContradiction>
+    <MixedAssignment occurrences="2">
+      <code>$memcache</code>
+      <code>$stats</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="3">
+      <code>addServer</code>
+      <code>connect</code>
+      <code>getExtendedStats</code>
+    </MixedMethodCall>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Memcache</code>
     </PropertyNotSetInConstructor>
@@ -451,6 +460,15 @@
     <DocblockTypeContradiction occurrences="1">
       <code>is_string($host)</code>
     </DocblockTypeContradiction>
+    <MixedAssignment occurrences="2">
+      <code>$memcached</code>
+      <code>$stats</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="3">
+      <code>addServer</code>
+      <code>getLastDisconnectedServer</code>
+      <code>getStats</code>
+    </MixedMethodCall>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Memcached</code>
     </PropertyNotSetInConstructor>
