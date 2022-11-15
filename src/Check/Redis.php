@@ -8,6 +8,7 @@ use Redis as RedisExtensionClient;
 use RedisException;
 use RuntimeException;
 
+use function array_key_exists;
 use function class_exists;
 use function microtime;
 
