@@ -42,9 +42,9 @@ class Memcached extends AbstractCheck
         }
 
         $port = (int) $port;
-        if ($port < 1) {
+        if ($port < 0) {
             throw new InvalidArgumentException(sprintf(
-                'Invalid port number %d - expecting a positive integer',
+                'Invalid port number %d - expecting an unsigned integer',
                 $port
             ));
         }

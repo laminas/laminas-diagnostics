@@ -19,7 +19,7 @@ class MemcachedTest extends TestCase
     public function testPortValidation(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Invalid port number -11211 - expecting a positive integer");
+        $this->expectExceptionMessage("Invalid port number -11211 - expecting an unsigned integer");
         new Memcached('127.0.0.1', -11211);
     }
 }
