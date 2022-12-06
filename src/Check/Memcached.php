@@ -30,7 +30,7 @@ class Memcached extends AbstractCheck
      * @param string $host
      * @param int    $port
      * @throws InvalidArgumentException If host is not a string value.
-     * @throws InvalidArgumentException If port is less than 1.
+     * @throws InvalidArgumentException If port is less than 0.
      */
     public function __construct($host = '127.0.0.1', $port = 11211)
     {
