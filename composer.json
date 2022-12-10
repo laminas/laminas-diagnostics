@@ -33,7 +33,7 @@
         }
     },
     "require": {
-        "php": "^7.4 || ~8.0.0 || ~8.1.0",
+        "php": "^7.4 || ~8.0.0 || ~8.1.0 || ~8.2.0",
         "enlightn/security-checker": "^1.10"
     },
     "require-dev": {
