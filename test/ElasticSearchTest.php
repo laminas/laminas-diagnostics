@@ -27,7 +27,15 @@ class ElasticSearchTest extends TestCase
         $mockClient  = new Client(['handler' => $mockHandler]);
         $check       = new ElasticSearch('localhost:9200', [], [], $mockClient);
 
-        static::assertInstanceOf($expectedResult, $check->check());
+        // Assert the ElasticSearch check converts the API response to the correct ResultInterface implementation
+        $checkResult = $check->check();
+        static::assertInstanceOf($expectedResult, $checkResult);
+
+        // Assert ElasticSearch check returns extra data
+        $resultData = $checkResult->getData();
+        static::assertIsArray($resultData);
+        static::assertArrayHasKey('responseTime', $resultData);
+        static::assertIsNumeric($resultData['responseTime']);
     }
 
     /**
