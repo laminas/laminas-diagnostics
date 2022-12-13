@@ -50,7 +50,7 @@ final class BasicConsoleReporterTest extends TestCase
 
         foreach ($checks as $alias => $check) {
             $result = new Success();
-            $this->reporter->onAfterRun($check, $result, $alias);
+            $this->reporter->onAfterRun($check, $result, (string) $alias);
         }
 
         self::assertSame('.....', ob_get_clean());
@@ -66,7 +66,7 @@ final class BasicConsoleReporterTest extends TestCase
 
         foreach ($checks as $alias => $check) {
             $result = new Warning();
-            $this->reporter->onAfterRun($check, $result, $alias);
+            $this->reporter->onAfterRun($check, $result, (string) $alias);
         }
 
         self::assertSame('!!!!!', ob_get_clean());
@@ -82,7 +82,7 @@ final class BasicConsoleReporterTest extends TestCase
 
         foreach ($checks as $alias => $check) {
             $result = new Failure();
-            $this->reporter->onAfterRun($check, $result, $alias);
+            $this->reporter->onAfterRun($check, $result, (string) $alias);
         }
 
         self::assertSame('FFFFF', ob_get_clean());
@@ -98,7 +98,7 @@ final class BasicConsoleReporterTest extends TestCase
 
         foreach ($checks as $alias => $check) {
             $result = new Unknown();
-            $this->reporter->onAfterRun($check, $result, $alias);
+            $this->reporter->onAfterRun($check, $result, (string) $alias);
         }
 
         self::assertSame('?????', ob_get_clean());
@@ -115,7 +115,7 @@ final class BasicConsoleReporterTest extends TestCase
 
         foreach ($checks as $alias => $check) {
             $result = new Success();
-            $this->reporter->onAfterRun($check, $result, $alias);
+            $this->reporter->onAfterRun($check, $result, (string) $alias);
         }
 
         self::assertSame(str_repeat('.', 40), ob_get_clean());
@@ -154,7 +154,7 @@ final class BasicConsoleReporterTest extends TestCase
 
         foreach ($checks as $alias => $check) {
             $result = new Success();
-            $this->reporter->onAfterRun($check, $result, $alias);
+            $this->reporter->onAfterRun($check, $result, (string) $alias);
         }
 
         $expected  = '......................... 25 / 75 ( 33%)';

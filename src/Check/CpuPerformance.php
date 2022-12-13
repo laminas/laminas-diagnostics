@@ -120,11 +120,11 @@ class CpuPerformance extends AbstractCheck implements CheckInterface
         $limit = ceil(log($precision) / log(2)) - 1;
         bcscale($precision + 6);
         $a = 1;
-        $b = bcdiv(1, bcsqrt(2));
+        $b = bcdiv('1', bcsqrt(2));
         $t = 1 / 4;
         $p = 1;
         for ($n = 0; $n < $limit; $n++) {
-            $x = bcdiv(bcadd($a, $b), 2);
+            $x = bcdiv(bcadd($a, $b), '2');
             $y = bcsqrt(bcmul($a, $b));
             $t = bcsub($t, bcmul($p, bcpow(bcsub($a, $x), 2)));
             $a = $x;

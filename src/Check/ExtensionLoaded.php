@@ -5,14 +5,10 @@ namespace Laminas\Diagnostics\Check;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
-use Traversable;
 
 use function count;
 use function extension_loaded;
-use function get_class;
 use function implode;
-use function is_array;
-use function is_object;
 use function is_string;
 use function phpversion;
 
@@ -21,33 +17,25 @@ use function phpversion;
  */
 class ExtensionLoaded extends AbstractCheck implements CheckInterface
 {
-    /** @var array|Traversable */
+    /** @var non-empty-list<string> */
     protected $extensions;
 
     /** @var bool */
     protected $autoload = true;
 
     /**
-     * @param  string|array|Traversable  $extensionName PHP extension name or an array of names
+     * @param  string|non-empty-list<string>  $extensionName PHP extension name or an array of names
      * @throws InvalidArgumentException
      */
-    public function __construct($extensionName)
+    public function __construct(string|array $extensionName)
     {
-        if (is_object($extensionName) && ! $extensionName instanceof Traversable) {
-            throw new InvalidArgumentException(
-                'Expected a module name (string) , an array or Traversable of strings, got ' . get_class($extensionName)
-            );
-        }
-
-        if (! is_object($extensionName) && ! is_array($extensionName) && ! is_string($extensionName)) {
-            throw new InvalidArgumentException('Expected a module name (string) or an array of strings');
-        }
-
         if (is_string($extensionName)) {
             $this->extensions = [$extensionName];
-        } else {
-            $this->extensions = $extensionName;
+
+            return;
         }
+
+        $this->extensions = $extensionName;
     }
 
     /**

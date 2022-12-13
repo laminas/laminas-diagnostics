@@ -5,14 +5,9 @@ namespace Laminas\Diagnostics\Check;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
-use Traversable;
 
-use function get_class;
-use function gettype;
 use function in_array;
-use function is_array;
-use function is_object;
-use function is_scalar;
+use function is_string;
 use function sprintf;
 use function version_compare;
 
@@ -23,64 +18,47 @@ use const PHP_VERSION;
  *
  * This test accepts a single version and an operator or an array of
  * versions to test for.
+ *
+ * @psalm-type Operator = '<'|'lt'|'<='|'le'|'>'|'gt'|'>='|'ge'|'=='|'='|'eq'|'!='|'<>'|'ne'
  */
 class PhpVersion extends AbstractCheck implements CheckInterface
 {
-    /** @var string */
+    private const VALID_OPERATORS = [
+        '<',
+        'lt',
+        '<=',
+        'le',
+        '>',
+        'gt',
+        '>=',
+        'ge',
+        '==',
+        '=',
+        'eq',
+        '!=',
+        '<>',
+        'ne',
+    ];
+
+    /** @var iterable<array-key, string> */
     protected $version;
 
     /** @var string */
     protected $operator = '>=';
 
     /**
-     * @param  string|array|Traversable $expectedVersion The expected version
-     * @param  string                   $operator        One of: <, lt, <=, le, >, gt, >=, ge, ==, =, eq, !=, <>, ne
+     * @param  string|iterable<array-key, string> $expectedVersion The expected version
+     * @param  value-of<self::VALID_OPERATORS>    $operator
      * @throws InvalidArgumentException
      */
-    public function __construct($expectedVersion, $operator = '>=')
+    public function __construct(string|iterable $expectedVersion, string $operator = '>=')
     {
-        if (is_object($expectedVersion)) {
-            if (! $expectedVersion instanceof Traversable) {
-                throw new InvalidArgumentException(
-                    'Expected version number as string, array or traversable, got ' . get_class($expectedVersion)
-                );
-            }
-            $this->version = $expectedVersion;
-        } elseif (! is_scalar($expectedVersion)) {
-            if (! is_array($expectedVersion)) {
-                throw new InvalidArgumentException(
-                    'Expected version number as string, array or traversable, got ' . gettype($expectedVersion)
-                );
-            }
-
-            $this->version = $expectedVersion;
-        } else {
-            $this->version = [$expectedVersion];
-        }
-
-        if (! is_scalar($operator)) {
-            throw new InvalidArgumentException(
-                'Expected comparison operator as a string, got ' . gettype($operator)
-            );
-        }
+        $this->version = is_string($expectedVersion)
+            ? [$expectedVersion]
+            : $expectedVersion;
 
         if (
-            ! in_array($operator, [
-                '<',
-                'lt',
-                '<=',
-                'le',
-                '>',
-                'gt',
-                '>=',
-                'ge',
-                '==',
-                '=',
-                'eq',
-                '!=',
-                '<>',
-                'ne',
-            ])
+            ! in_array($operator, self::VALID_OPERATORS)
         ) {
             throw new InvalidArgumentException(
                 'Unknown comparison operator ' . $operator

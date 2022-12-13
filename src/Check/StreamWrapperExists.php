@@ -5,16 +5,12 @@ namespace Laminas\Diagnostics\Check;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
-use Traversable;
 
 use function array_walk;
 use function count;
 use function current;
-use function get_class;
 use function implode;
 use function in_array;
-use function is_array;
-use function is_object;
 use function is_string;
 use function sprintf;
 use function stream_get_wrappers;
@@ -25,29 +21,15 @@ use function strtolower;
  */
 class StreamWrapperExists extends AbstractCheck implements CheckInterface
 {
-    /** @var array|Traversable */
+    /** @var array<string> */
     protected $wrappers;
 
     /**
-     * @param  string|array|Traversable $wrappers Stream wrapper name or an array of names
+     * @param  string|array<string> $wrappers Stream wrapper name or an array of names
      * @throws InvalidArgumentException
      */
-    public function __construct($wrappers)
+    public function __construct(string|array $wrappers)
     {
-        if (is_object($wrappers) && ! $wrappers instanceof Traversable) {
-            throw new InvalidArgumentException(sprintf(
-                'Expected a stream wrapper name (string), or an array or Traversable of strings;'
-                . ' received %s',
-                get_class($wrappers)
-            ));
-        }
-
-        if (! is_object($wrappers) && ! is_array($wrappers) && ! is_string($wrappers)) {
-            throw new InvalidArgumentException(
-                'Expected a stream wrapper name (string) or an array of strings'
-            );
-        }
-
         if (is_string($wrappers)) {
             $this->wrappers = [$wrappers];
         } else {

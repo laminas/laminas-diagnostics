@@ -44,11 +44,11 @@ class ApcFragmentation extends AbstractCheck implements CheckInterface
     protected $criticalThreshold;
 
     /**
-     * @param  int $warningThreshold  A number between 0 and 100
-     * @param  int $criticalThreshold A number between 0 and 100
+     * @param  numeric $warningThreshold  A number between 0 and 100
+     * @param  numeric $criticalThreshold A number between 0 and 100
      * @throws InvalidArgumentException
      */
-    public function __construct($warningThreshold, $criticalThreshold)
+    public function __construct(int|float|string $warningThreshold, int|float|string $criticalThreshold)
     {
         if (! is_numeric($warningThreshold)) {
             throw new InvalidArgumentException(

@@ -5,7 +5,6 @@ namespace Laminas\Diagnostics\Check;
 use InvalidArgumentException;
 
 use function call_user_func_array;
-use function is_callable;
 
 /**
  * Run a callback function and return result.
@@ -18,17 +17,9 @@ class Callback extends AbstractCheck implements CheckInterface
     /** @var array */
     protected $params = [];
 
-    /**
-     * @param  callable                  $callback
-     * @param  array                     $params
-     * @throws InvalidArgumentException
-     */
-    public function __construct($callback, $params = [])
+    /** @throws InvalidArgumentException */
+    public function __construct(callable $callback, array $params = [])
     {
-        if (! is_callable($callback)) {
-            throw new InvalidArgumentException('Invalid callback provided; not callable');
-        }
-
         $this->callback = $callback;
         $this->params   = $params;
     }

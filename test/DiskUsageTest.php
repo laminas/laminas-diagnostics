@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Diagnostics;
 
 use InvalidArgumentException;
@@ -62,11 +64,15 @@ final class DiskUsageTest extends TestCase
             ['Not an integer.', 'Not an integer.', $this->getTempDir()],
             [5, 'Not an integer.', $this->getTempDir()],
             ['Not an integer.', 100, $this->getTempDir()],
-            [5, 100, []],
+            [-10.1, 100, $this->getTempDir()],
             [-10, 100, $this->getTempDir()],
+            ['-10', 100, $this->getTempDir()],
             [105, 100, $this->getTempDir()],
+            [105.1, 100, $this->getTempDir()],
             [10, -10, $this->getTempDir()],
             [10, 105, $this->getTempDir()],
+            [10, '105', $this->getTempDir()],
+            [10, 105.1, $this->getTempDir()],
         ];
     }
 

@@ -36,6 +36,7 @@ use PHPUnit\Framework\TestCase;
 use stdClass;
 
 use function array_rand;
+use function assert;
 use function ceil;
 use function chmod;
 use function class_exists;
@@ -43,7 +44,6 @@ use function count;
 use function fclose;
 use function file_exists;
 use function file_put_contents;
-use function fopen;
 use function fwrite;
 use function get_loaded_extensions;
 use function getenv;
@@ -63,6 +63,7 @@ use function stream_get_wrappers;
 use function strlen;
 use function substr;
 use function sys_get_temp_dir;
+use function tempnam;
 use function tmpfile;
 use function uniqid;
 use function unlink;
@@ -362,15 +363,6 @@ final class ChecksTest extends TestCase
         self::assertInstanceOf(Failure::class, $result = $check->check());
         self::assertStringMatchesFormat('%A' . implode(', ', $allFalse) . '%Aenabled%A', $result->getMessage());
 
-        $allFalse = new ArrayObject($allFalse);
-        $check    = new PhpFlag($allFalse, false);
-
-        self::assertInstanceOf(Success::class, $check->check());
-
-        $check = new PhpFlag($allFalse, true);
-
-        self::assertInstanceOf(Failure::class, $check->check());
-
         $notAllFalse = $allFalse;
         foreach ($all as $name => $valueArray) {
             if ($valueArray['local_value'] === '1') {
@@ -561,20 +553,8 @@ final class ChecksTest extends TestCase
 
         self::assertInstanceOf(Success::class, $result, 'Single writable dir');
 
-        // generate a random dir name
-        // phpcs:disable Generic.CodeAnalysis.EmptyStatement.DetectedWhile
-        while (($dir1 = $tmpDir . '/test' . mt_rand(1, PHP_INT_MAX)) && file_exists($dir1)) {
-        }
-        while (($dir2 = $tmpDir . '/test' . mt_rand(1, PHP_INT_MAX)) && file_exists($dir2)) {
-        }
-        // phpcs:enable Generic.CodeAnalysis.EmptyStatement.DetectedWhile
-
-        // create temporary writable directories
-        if (! mkdir($dir1) || ! mkdir($dir2)) {
-            self::markTestSkipped('Cannot create unreadable temporary directory to perform the test... ');
-
-            return;
-        }
+        $dir1 = $this->makeTemporaryDirectory();
+        $dir2 = $this->makeTemporaryDirectory();
 
         // we should now have 3 writable directories
         $check  = new DirWritable([
@@ -760,116 +740,11 @@ final class ChecksTest extends TestCase
         self::assertInstanceOf(Success::class, $result);
     }
 
-    public function testPhpVersionInvalidVersion(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new PhpVersion(new stdClass());
-    }
-
-    public function testPhpVersionInvalidVersion2(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new PhpVersion(fopen('php://memory', 'r'));
-    }
-
-    public function testPhpVersionInvalidOperator(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new PhpVersion('1.0.0', []);
-    }
-
     public function testPhpVersionInvalidOperator2(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         new PhpVersion('1.0.0', 'like');
-    }
-
-    public function testClassExistsInvalidArgument(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new ClassExists(new stdClass());
-    }
-
-    public function testClassExistsInvalidArgument2(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new ClassExists(15);
-    }
-
-    public function testExtensionLoadedInvalidArgument(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new ExtensionLoaded(new stdClass());
-    }
-
-    public function testExtensionLoadedInvalidArgument2(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new ExtensionLoaded(15);
-    }
-
-    public function testDirReadableInvalidArgument(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new DirReadable(new stdClass());
-    }
-
-    public function testDirReadableInvalidArgument2(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new DirReadable(15);
-    }
-
-    public function testDirWritableInvalidArgument(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new DirWritable(new stdClass());
-    }
-
-    public function testDirWritableInvalidArgument2(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new DirWritable(15);
-    }
-
-    public function testStreamWrapperInvalidArgument(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new StreamWrapperExists(new stdClass());
-    }
-
-    public function testStreamWrapperInvalidInvalidArgument2(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new StreamWrapperExists(15);
-    }
-
-    public function testCallbackInvalidArgument(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new Callback(15);
-    }
-
-    public function testCallbackInvalidArgument2(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new Callback([$this, 'foobarbar']);
     }
 
     public function testCpuPerformanceInvalidArgument(): void
@@ -900,16 +775,6 @@ final class ChecksTest extends TestCase
         new ProcessRunning('');
     }
 
-    /**
-     * @depends testSecurityAdvisory
-     */
-    public function testSecurityAdvisoryInvalidArgument1(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new SecurityAdvisory($this->createMock(AdvisoryAnalyzer::class), new stdClass());
-    }
-
     public function testAbstractFileCheckArgument1(): void
     {
         $temp = tmpfile();
@@ -933,33 +798,6 @@ final class ChecksTest extends TestCase
         self::assertInstanceOf(SuccessInterface::class, $check->check());
 
         fclose($temp);
-    }
-
-    public function testAbstractFileCheckInvalidArgument1(): void
-    {
-        // int
-        try {
-            new XmlFile(2);
-            self::fail('InvalidArguementException should be thrown here!');
-        } catch (Exception $e) {
-            self::assertInstanceOf('InvalidArgumentException', $e);
-        }
-
-        // bool
-        try {
-            new XmlFile(true);
-            self::fail('InvalidArguementException should be thrown here!');
-        } catch (Exception $e) {
-            self::assertInstanceOf('InvalidArgumentException', $e);
-        }
-
-        // object not implementing \Traversable
-        try {
-            new XmlFile(new stdClass());
-            self::fail('InvalidArguementException should be thrown here!');
-        } catch (Exception $e) {
-            self::assertInstanceOf('InvalidArgumentException', $e);
-        }
     }
 
     public function testXmlFileValid(): void
@@ -1100,5 +938,22 @@ final class ChecksTest extends TestCase
         $check = new JsonFile('/does/not/exist');
 
         self::assertInstanceOf(FailureInterface::class, $check->check());
+    }
+
+    private function makeTemporaryDirectory(): string
+    {
+        $tmpDir = sys_get_temp_dir();
+
+        if (! is_dir($tmpDir) || ! is_writable($tmpDir)) {
+            self::markTestSkipped('Cannot access writable system temp dir to perform the test... ');
+        }
+
+        $dir = tempnam($tmpDir, 'test');
+
+        assert($dir !== false, 'Could not create a temporary file');
+        assert(unlink($dir), 'Could not remove temporary file');
+        assert(mkdir($dir), 'Could not create a temporary directory');
+
+        return $dir;
     }
 }

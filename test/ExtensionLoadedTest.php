@@ -1,30 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Diagnostics;
 
-use InvalidArgumentException;
 use Laminas\Diagnostics\Check\ExtensionLoaded;
 use Laminas\Diagnostics\Result\FailureInterface;
 use Laminas\Diagnostics\Result\SuccessInterface;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 use function phpversion;
 
 /** @covers \Laminas\Diagnostics\Check\ExtensionLoaded */
 final class ExtensionLoadedTest extends TestCase
 {
-    /**
-     * @dataProvider invalidArgumentProvider
-     * @param mixed $extensionName
-     */
-    public function testInvalidArguments($extensionName): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new ExtensionLoaded($extensionName);
-    }
-
     public function testCheck(): void
     {
         $check  = new ExtensionLoaded('json');
@@ -53,16 +42,5 @@ final class ExtensionLoadedTest extends TestCase
 
         self::assertInstanceof(FailureInterface::class, $result);
         self::assertSame(['unknown-foo', 'unknown-bar'], $result->getData());
-    }
-
-    /**
-     * @return array<int, array<int, mixed>>
-     */
-    public function invalidArgumentProvider(): array
-    {
-        return [
-            [new stdClass()],
-            [100],
-        ];
     }
 }

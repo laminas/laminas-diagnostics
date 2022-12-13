@@ -68,14 +68,14 @@ class Runner
     /**
      * An array of Checks to run.
      *
-     * @var ArrayObject
+     * @var ArrayObject<array-key, CheckInterface>
      */
     protected $checks;
 
     /**
      * An array of reporters.
      *
-     * @var array|Traversable
+     * @var array<int, Reporter>
      */
     protected $reporters = [];
 
@@ -114,6 +114,7 @@ class Runner
             $this->setConfig($config);
         }
 
+        /** @var ArrayObject<array-key, CheckInterface> $this->checks */
         $this->checks = new ArrayObject();
 
         if ($checks !== null) {
@@ -214,17 +215,13 @@ class Runner
     /**
      * Set config values from an array.
      *
-     * @param  array|Traversable        $config
+     * @param iterable<string, mixed> $config
      * @throws InvalidArgumentException
      * @throws BadMethodCallException
      * @return $this
      */
-    public function setConfig($config)
+    public function setConfig(iterable $config)
     {
-        if (! is_array($config) && ! $config instanceof Traversable) {
-            throw new InvalidArgumentException('Expected an array or Traversable as config for Runner.');
-        }
-
         foreach ($config as $key => $val) {
             $methodName = 'set' . implode(array_map(function ($value) {
                 return ucfirst($value);
@@ -306,7 +303,7 @@ class Runner
      */
     public function removeReporter(Reporter $reporter)
     {
-        $this->reporters = array_filter($this->reporters, function (Reporter $r) use (&$reporter) {
+        $this->reporters = array_filter($this->reporters, function (Reporter $r) use ($reporter) {
             return $r !== $reporter;
         });
     }
@@ -331,7 +328,7 @@ class Runner
     }
 
     /**
-     * @return ArrayObject
+     * @return ArrayObject<array-key, CheckInterface>
      */
     public function getChecks()
     {
@@ -365,7 +362,7 @@ class Runner
     }
 
     /**
-     * @return array
+     * @return array<int, Reporter>
      */
     public function getReporters()
     {
