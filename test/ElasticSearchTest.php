@@ -38,9 +38,7 @@ class ElasticSearchTest extends TestCase
         static::assertIsNumeric($resultData['responseTime']);
     }
 
-    /**
-     * @return array{array{string, class-string<ResultInterface>}}
-     */
+    /** @return non-empty-list<array{string, class-string<ResultInterface>}> */
     public function healthStatusProvider(): array
     {
         return [
