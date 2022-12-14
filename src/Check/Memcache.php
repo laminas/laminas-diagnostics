@@ -28,8 +28,11 @@ class Memcache extends AbstractCheck
     protected $port;
 
     /**
-     * @param string $host
-     * @param int    $port
+     * @param string $host The hostname of the memcache server. This parameter may
+     *                     also specify other transports like unix:///run/memcached/memcached.sock
+     *                     to use UNIX domain sockets, in this case port must also be set to 0.
+     * @param int    $port The port where memcached is listening for connections.
+     *                     Set this parameter to 0 when using UNIX domain sockets.
      * @throws InvalidArgumentException
      */
     public function __construct($host = '127.0.0.1', $port = 11211)

@@ -27,8 +27,11 @@ class Memcached extends AbstractCheck
     protected $port;
 
     /**
-     * @param string $host
-     * @param int    $port
+     * @param string $host The hostname of the memcache server. This parameter may
+     *                     also specify other transports like /path/to/memcached.sock
+     *                     to use UNIX domain sockets, in this case port must also be set to 0.
+     * @param int    $port The port where memcached is listening for connections.
+     *                     Set this parameter to 0 when using UNIX domain sockets.
      * @throws InvalidArgumentException If host is not a string value.
      * @throws InvalidArgumentException If port is less than 0.
      */
