@@ -5,17 +5,11 @@ namespace Laminas\Diagnostics\Check;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
-use Traversable;
 
 use function count;
-use function get_class;
-use function gettype;
 use function implode;
 use function ini_get;
-use function is_array;
-use function is_object;
-use function is_scalar;
-use function iterator_to_array;
+use function is_string;
 
 /**
  * Make sure given PHP flag is turned on or off in php.ini
@@ -24,44 +18,27 @@ use function iterator_to_array;
  */
 class PhpFlag extends AbstractCheck implements CheckInterface
 {
-    /** @var array */
+    /** @var non-empty-list<string> */
     protected $settings;
 
     /** @var bool */
     protected $expectedValue;
 
     /**
-     * @param string|array|Traversable $settingName   PHP setting names to check.
-     * @param bool                     $expectedValue true or false
+     * @param string|non-empty-list<string> $settingName   PHP setting names to check.
      * @throws InvalidArgumentException
      */
-    public function __construct($settingName, $expectedValue)
+    public function __construct(string|array $settingName, bool $expectedValue)
     {
-        if (is_object($settingName)) {
-            if (! $settingName instanceof Traversable) {
-                throw new InvalidArgumentException(
-                    'Expected setting name as string, array or traversable, got ' . get_class($settingName)
-                );
-            }
-            $this->settings = iterator_to_array($settingName);
-        } elseif (! is_scalar($settingName)) {
-            if (! is_array($settingName)) {
-                throw new InvalidArgumentException(
-                    'Expected setting name as string, array or traversable, got ' . gettype($settingName)
-                );
-            }
-            $this->settings = $settingName;
-        } else {
+        $this->expectedValue = $expectedValue;
+
+        if (is_string($settingName)) {
             $this->settings = [$settingName];
+
+            return;
         }
 
-        if (! is_scalar($expectedValue)) {
-            throw new InvalidArgumentException(
-                'Expected expected value, expected boolean, got ' . gettype($expectedValue)
-            );
-        }
-
-        $this->expectedValue = (bool) $expectedValue;
+        $this->settings = $settingName;
     }
 
     /**

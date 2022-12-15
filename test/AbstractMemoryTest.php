@@ -30,12 +30,14 @@ abstract class AbstractMemoryTest extends TestCase
             [105, 100],
             [10, -10],
             [10, 105],
+            ['-10', 10],
+            [10, '105'],
         ];
     }
 
     /**
-     * @param string|int $warningThreshold
-     * @param string|int $criticalThreshold
+     * @param numeric $warningThreshold
+     * @param numeric $criticalThreshold
      */
     abstract protected function createCheck($warningThreshold, $criticalThreshold): CheckInterface;
 }

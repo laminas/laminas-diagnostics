@@ -18,10 +18,8 @@ use function class_exists;
 use function count;
 use function file_exists;
 use function getcwd;
-use function gettype;
 use function is_file;
 use function is_readable;
-use function is_scalar;
 use function sprintf;
 
 use const DIRECTORY_SEPARATOR;
@@ -41,7 +39,7 @@ class SecurityAdvisory extends AbstractCheck
      * @param  string $lockFilePath Path to composer.lock
      * @throws InvalidArgumentException
      */
-    public function __construct($lockFilePath = null)
+    public function __construct(string|null $lockFilePath = null)
     {
         if (! class_exists(AdvisoryAnalyzer::class)) {
             throw new InvalidArgumentException(sprintf(
@@ -51,7 +49,7 @@ class SecurityAdvisory extends AbstractCheck
             ));
         }
 
-        if (! $lockFilePath) {
+        if ($lockFilePath === null) {
             if (! file_exists('composer.lock')) {
                 throw new InvalidArgumentException(
                     'You have not provided lock file path and there is no "composer.lock" file in current directory.'
@@ -59,11 +57,6 @@ class SecurityAdvisory extends AbstractCheck
             }
 
             $lockFilePath = getcwd() . DIRECTORY_SEPARATOR . 'composer.lock';
-        } elseif (! is_scalar($lockFilePath)) {
-            throw new InvalidArgumentException(sprintf(
-                'Invalid argument 2 provided for SecurityAdvisory check - expected file name (string) , got %s',
-                gettype($lockFilePath)
-            ));
         }
 
         $this->lockFilePath = $lockFilePath;

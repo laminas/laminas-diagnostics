@@ -10,7 +10,6 @@ use Laminas\Diagnostics\Result\Warning;
 use function disk_free_space;
 use function disk_total_space;
 use function is_numeric;
-use function is_string;
 use function sprintf;
 
 /**
@@ -40,19 +39,16 @@ class DiskUsage extends AbstractCheck implements CheckInterface
     protected $path;
 
     /**
-     * @param int                       $warningThreshold  A number between 0 and 100
-     * @param int                       $criticalThreshold A number between 0 and 100
-     * @param string                    $path              The disk path to check, i.e. '/tmp' or 'C:' (defaults to /)
+     * @param numeric $warningThreshold  A number between 0 and 100
+     * @param numeric $criticalThreshold A number between 0 and 100
+     * @param string  $path              The disk path to check, i.e. '/tmp' or 'C:' (defaults to /)
      * @throws InvalidArgumentException
      */
-    public function __construct($warningThreshold, $criticalThreshold, $path = '/')
-    {
-        if (! is_string($path)) {
-            throw new InvalidArgumentException(
-                'Invalid disk path argument - expecting a string'
-            );
-        }
-
+    public function __construct(
+        int|float|string $warningThreshold,
+        int|float|string $criticalThreshold,
+        string $path = '/'
+    ) {
         if (! is_numeric($warningThreshold)) {
             throw new InvalidArgumentException(
                 'Invalid warningThreshold argument - expecting an integer'

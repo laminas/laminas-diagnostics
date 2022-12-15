@@ -5,15 +5,11 @@ namespace Laminas\Diagnostics\Check;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
-use Traversable;
 
 use function count;
 use function current;
-use function get_class;
 use function implode;
-use function is_array;
 use function is_dir;
-use function is_object;
 use function is_readable;
 use function is_string;
 use function trim;
@@ -23,25 +19,15 @@ use function trim;
  */
 class DirReadable extends AbstractCheck implements CheckInterface
 {
-    /** @var array|Traversable */
+    /** @var array<string> */
     protected $dir;
 
     /**
-     * @param  string|array|Traversable $path Path name or an array of paths
+     * @param  string|array<string> $path Path name or an array of paths
      * @throws InvalidArgumentException
      */
-    public function __construct($path)
+    public function __construct(string|array $path)
     {
-        if (is_object($path) && ! $path instanceof Traversable) {
-            throw new InvalidArgumentException(
-                'Expected a dir name (string) , an array or Traversable of strings, got ' . get_class($path)
-            );
-        }
-
-        if (! is_object($path) && ! is_array($path) && ! is_string($path)) {
-            throw new InvalidArgumentException('Expected a dir name (string) or an array of strings');
-        }
-
         if (is_string($path)) {
             $this->dir = [$path];
         } else {

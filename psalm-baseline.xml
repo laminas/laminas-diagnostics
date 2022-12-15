@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.30.0@d0bc6e25d89f649e4f36a534f330f8bb4643dd69">
+<files psalm-version="5.2.0@fb685a16df3050d4c18d8a4100fe83abe6458cba">
   <file src="src/Check/AbstractCheck.php">
     <MissingConstructor occurrences="4">
       <code>$label</code>
@@ -18,18 +18,6 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Check/AbstractFileCheck.php">
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$files</code>
-    </InvalidPropertyAssignmentValue>
-    <MixedArgument occurrences="4">
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$file</code>
-    </MixedAssignment>
     <PropertyNotSetInConstructor occurrences="1">
       <code>AbstractFileCheck</code>
     </PropertyNotSetInConstructor>
@@ -42,10 +30,6 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>AbstractMemoryCheck</code>
     </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType occurrences="2">
-      <code>(int) $criticalThreshold</code>
-      <code>(int) $warningThreshold</code>
-    </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Check/ApcFragmentation.php">
     <DocblockTypeContradiction occurrences="2">
@@ -83,10 +67,6 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>ApcFragmentation</code>
     </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType occurrences="2">
-      <code>(int) $criticalThreshold</code>
-      <code>(int) $warningThreshold</code>
-    </RedundantCastGivenDocblockType>
     <UnusedVariable occurrences="2">
       <code>$nseg</code>
       <code>$nseg</code>
@@ -119,22 +99,6 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Check/ClassExists.php">
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$classNames</code>
-    </InvalidPropertyAssignmentValue>
-    <MixedArgument occurrences="1">
-      <code>$class</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$missing</code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="2">
-      <code>$class</code>
-      <code>$missing[]</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>current($missing)</code>
-    </MixedOperand>
     <PropertyNotSetInConstructor occurrences="1">
       <code>ClassExists</code>
     </PropertyNotSetInConstructor>
@@ -159,10 +123,7 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Check/CpuPerformance.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>string</code>
-    </InvalidNullableReturnType>
-    <InvalidScalarArgument occurrences="15">
+    <InvalidScalarArgument occurrences="13">
       <code>$a</code>
       <code>$a</code>
       <code>$a</code>
@@ -171,8 +132,6 @@
       <code>$p</code>
       <code>$t</code>
       <code>$t</code>
-      <code>1</code>
-      <code>2</code>
       <code>2</code>
       <code>2</code>
       <code>2</code>
@@ -183,14 +142,11 @@
       <code>null</code>
       <code>null</code>
     </NullArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>bcdiv(bcpow(bcadd($a, $b), 2), bcmul(4, $t), $precision)</code>
-    </NullableReturnStatement>
     <PossiblyNullArgument occurrences="4">
       <code>$b</code>
       <code>$b</code>
       <code>$b</code>
-      <code>$x</code>
+      <code>bcsqrt(2)</code>
     </PossiblyNullArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>CpuPerformance</code>
@@ -200,69 +156,24 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Check/DirReadable.php">
-    <ArgumentTypeCoercion occurrences="1">
-      <code>$this-&gt;dir</code>
-    </ArgumentTypeCoercion>
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$path</code>
-    </InvalidPropertyAssignmentValue>
-    <MixedArgument occurrences="2">
-      <code>$dir</code>
-      <code>$dir</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>$nonDirs</code>
-      <code>$unreadable</code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="3">
-      <code>$dir</code>
-      <code>$nonDirs[]</code>
-      <code>$unreadable[]</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="2">
-      <code>current($nonDirs)</code>
-      <code>current($unreadable)</code>
-    </MixedOperand>
     <PropertyNotSetInConstructor occurrences="1">
       <code>DirReadable</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Check/DirWritable.php">
-    <ArgumentTypeCoercion occurrences="1">
-      <code>$this-&gt;dir</code>
-    </ArgumentTypeCoercion>
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$path</code>
-    </InvalidPropertyAssignmentValue>
-    <MixedArgument occurrences="4">
-      <code>$dir</code>
-      <code>$dir</code>
-      <code>current($nonDirs)</code>
-      <code>current($unwritable)</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>$nonDirs</code>
-      <code>$unwritable</code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="3">
-      <code>$dir</code>
-      <code>$nonDirs[]</code>
-      <code>$unwritable[]</code>
-    </MixedAssignment>
     <PropertyNotSetInConstructor occurrences="1">
       <code>DirWritable</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Check/DiskFree.php">
-    <DocblockTypeContradiction occurrences="2">
+    <DocblockTypeContradiction occurrences="1">
       <code>is_scalar($size)</code>
-      <code>is_string($path)</code>
     </DocblockTypeContradiction>
     <InvalidReturnStatement occurrences="1">
       <code>$bytes</code>
     </InvalidReturnStatement>
     <InvalidScalarArgument occurrences="1">
-      <code>$free</code>
+      <code>$size</code>
     </InvalidScalarArgument>
     <MixedArgument occurrences="6">
       <code>$a</code>
@@ -273,6 +184,13 @@
       <code>$this-&gt;path</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1"/>
+    <MixedArrayAccess occurrences="1">
+      <code>$x[$i]</code>
+    </MixedArrayAccess>
+    <MixedArrayOffset occurrences="2">
+      <code>$x[$i]</code>
+      <code>$x[$i]</code>
+    </MixedArrayOffset>
     <MixedAssignment occurrences="3">
       <code>$bytes</code>
       <code>$bytes</code>
@@ -289,18 +207,15 @@
     <MixedReturnStatement occurrences="1">
       <code>$bytes</code>
     </MixedReturnStatement>
-    <PossiblyUndefinedVariable occurrences="4">
-      <code>$a</code>
-      <code>$a</code>
+    <PossiblyUndefinedVariable occurrences="2">
       <code>$k</code>
       <code>$k</code>
     </PossiblyUndefinedVariable>
     <PropertyNotSetInConstructor occurrences="1">
       <code>DiskFree</code>
     </PropertyNotSetInConstructor>
-    <TypeDoesNotContainType occurrences="2">
+    <TypeDoesNotContainType occurrences="1">
       <code>! is_float($free)</code>
-      <code>$free === false || ! is_float($free)</code>
     </TypeDoesNotContainType>
     <UndefinedThisPropertyAssignment occurrences="1">
       <code>$this-&gt;path</code>
@@ -308,20 +223,34 @@
     <UndefinedThisPropertyFetch occurrences="1">
       <code>$this-&gt;path</code>
     </UndefinedThisPropertyFetch>
+    <UndefinedVariable occurrences="3">
+      <code>$a</code>
+      <code>$a</code>
+      <code>$x</code>
+    </UndefinedVariable>
+    <UnusedVariable occurrences="12">
+      <code>$a</code>
+      <code>$a</code>
+      <code>$a</code>
+      <code>$a</code>
+      <code>$a</code>
+      <code>$a</code>
+      <code>$x</code>
+      <code>$x</code>
+      <code>$x</code>
+      <code>$x</code>
+      <code>$x</code>
+      <code>$x</code>
+    </UnusedVariable>
   </file>
   <file src="src/Check/DiskUsage.php">
-    <DocblockTypeContradiction occurrences="3">
+    <DocblockTypeContradiction occurrences="2">
       <code>is_numeric($criticalThreshold)</code>
       <code>is_numeric($warningThreshold)</code>
-      <code>is_string($path)</code>
     </DocblockTypeContradiction>
     <PropertyNotSetInConstructor occurrences="1">
       <code>DiskUsage</code>
     </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType occurrences="2">
-      <code>(int) $criticalThreshold</code>
-      <code>(int) $warningThreshold</code>
-    </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Check/DoctrineMigration.php">
     <MixedInferredReturnType occurrences="2">
@@ -341,42 +270,9 @@
     </UndefinedMethod>
   </file>
   <file src="src/Check/ExtensionLoaded.php">
-    <ArgumentTypeCoercion occurrences="1">
-      <code>$this-&gt;extensions</code>
-    </ArgumentTypeCoercion>
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$extensionName</code>
-    </InvalidPropertyAssignmentValue>
-    <MixedArgument occurrences="4">
-      <code>$ext</code>
-      <code>$ext</code>
-      <code>$ext</code>
-      <code>$ext</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="3">
-      <code>$missing</code>
-      <code>$missing</code>
-      <code>$this-&gt;extensions</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayOffset occurrences="1">
-      <code>$versions[$ext]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="4">
-      <code>$ext</code>
-      <code>$ext</code>
-      <code>$ext</code>
-      <code>$missing[]</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="2">
-      <code>$ext</code>
-      <code>$ext</code>
-    </MixedOperand>
     <PropertyNotSetInConstructor occurrences="1">
       <code>ExtensionLoaded</code>
     </PropertyNotSetInConstructor>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>$this-&gt;extensions</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="src/Check/GuzzleHttpService.php">
     <DocblockTypeContradiction occurrences="2">
@@ -405,9 +301,8 @@
     <PropertyTypeCoercion occurrences="1">
       <code>$guzzle</code>
     </PropertyTypeCoercion>
-    <RedundantCastGivenDocblockType occurrences="2">
+    <RedundantCastGivenDocblockType occurrences="1">
       <code>(int) $response-&gt;getStatusCode()</code>
-      <code>(int) $statusCode</code>
     </RedundantCastGivenDocblockType>
     <UndefinedDocblockClass occurrences="2">
       <code>bool|FailureInterface</code>
@@ -525,55 +420,14 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Check/PhpFlag.php">
-    <DocblockTypeContradiction occurrences="2">
-      <code>is_array($settingName)</code>
-      <code>is_scalar($expectedValue)</code>
-    </DocblockTypeContradiction>
-    <MixedArgument occurrences="1">
-      <code>$name</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>$failures</code>
-      <code>$this-&gt;settings</code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="2">
-      <code>$failures[]</code>
-      <code>$name</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="2">
-      <code>$failures[0]</code>
-      <code>$this-&gt;settings[0]</code>
-    </MixedOperand>
     <PropertyNotSetInConstructor occurrences="1">
       <code>PhpFlag</code>
     </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType occurrences="1">
-      <code>(bool) $expectedValue</code>
-    </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Check/PhpVersion.php">
     <ArgumentTypeCoercion occurrences="1">
       <code>$this-&gt;operator</code>
     </ArgumentTypeCoercion>
-    <DocblockTypeContradiction occurrences="2">
-      <code>is_array($expectedVersion)</code>
-      <code>is_scalar($operator)</code>
-    </DocblockTypeContradiction>
-    <InvalidIterator occurrences="1">
-      <code>$this-&gt;version</code>
-    </InvalidIterator>
-    <InvalidPropertyAssignmentValue occurrences="3">
-      <code>$expectedVersion</code>
-      <code>$expectedVersion</code>
-      <code>[$expectedVersion]</code>
-    </InvalidPropertyAssignmentValue>
-    <MixedArgument occurrences="2">
-      <code>$version</code>
-      <code>$version</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$version</code>
-    </MixedAssignment>
     <PropertyNotSetInConstructor occurrences="1">
       <code>PhpVersion</code>
     </PropertyNotSetInConstructor>
@@ -637,9 +491,6 @@
     </UnnecessaryVarAnnotation>
   </file>
   <file src="src/Check/SecurityAdvisory.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>is_scalar($lockFilePath)</code>
-    </DocblockTypeContradiction>
     <MixedArgument occurrences="1">
       <code>$advisories</code>
     </MixedArgument>
@@ -652,24 +503,12 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Check/StreamWrapperExists.php">
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$wrappers</code>
-    </InvalidPropertyAssignmentValue>
     <MissingClosureParamType occurrences="1">
       <code>$v</code>
     </MissingClosureParamType>
-    <MixedArgument occurrences="2">
+    <MixedArgument occurrences="1">
       <code>$v</code>
-      <code>current($missingWrappers)</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>$missingWrappers</code>
-      <code>$this-&gt;wrappers</code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="2">
-      <code>$class</code>
-      <code>$missingWrappers[]</code>
-    </MixedAssignment>
     <PropertyNotSetInConstructor occurrences="1">
       <code>StreamWrapperExists</code>
     </PropertyNotSetInConstructor>
@@ -700,11 +539,6 @@
     <MissingReturnType occurrences="1">
       <code>updateCounters</code>
     </MissingReturnType>
-    <MixedArgument occurrences="3">
-      <code>$checkResult</code>
-      <code>parent::offsetGet($index)</code>
-      <code>parent::offsetGet($index)</code>
-    </MixedArgument>
     <PossiblyNullArgument occurrences="1">
       <code>$checkResult</code>
     </PossiblyNullArgument>
@@ -722,25 +556,6 @@
       <code>consoleWrite</code>
       <code>consoleWriteLn</code>
     </MissingReturnType>
-    <MixedArgument occurrences="2">
-      <code>$message</code>
-      <code>$result</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$message</code>
-      <code>$result</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="4">
-      <code>getLabel</code>
-      <code>getLabel</code>
-      <code>getLabel</code>
-      <code>getMessage</code>
-    </MixedMethodCall>
-    <MixedOperand occurrences="3">
-      <code>$check-&gt;getLabel()</code>
-      <code>$check-&gt;getLabel()</code>
-      <code>$check-&gt;getLabel()</code>
-    </MixedOperand>
     <PropertyNotSetInConstructor occurrences="2">
       <code>$countLength</code>
       <code>$gutter</code>
@@ -756,12 +571,6 @@
     <InvalidArgument occurrences="1">
       <code>[$this, 'errorHandler']</code>
     </InvalidArgument>
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;reporters</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>array</code>
-    </InvalidReturnType>
     <MissingReturnType occurrences="8">
       <code>addCheck</code>
       <code>addChecks</code>
@@ -772,46 +581,28 @@
       <code>startErrorHandler</code>
       <code>stopErrorHandler</code>
     </MissingReturnType>
-    <MixedArgument occurrences="2">
-      <code>$check</code>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$config</code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment occurrences="2">
       <code>$key</code>
-    </MixedArgument>
-    <MixedArrayOffset occurrences="1">
-      <code>$results[$check]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="7">
-      <code>$alias</code>
-      <code>$check</code>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$reporter</code>
-      <code>$result</code>
       <code>$val</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
       <code>CheckInterface</code>
     </MixedInferredReturnType>
-    <MixedMethodCall occurrences="1">
-      <code>check</code>
-    </MixedMethodCall>
-    <MixedOperand occurrences="1">
-      <code>$key</code>
-    </MixedOperand>
     <MixedReturnStatement occurrences="1">
       <code>$this-&gt;checks[$alias]</code>
     </MixedReturnStatement>
-    <PossiblyInvalidArgument occurrences="1">
-      <code>$this-&gt;reporters</code>
-    </PossiblyInvalidArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>$lastResults</code>
     </PropertyNotSetInConstructor>
     <RedundantCastGivenDocblockType occurrences="1">
       <code>(bool) $breakOnFailure</code>
     </RedundantCastGivenDocblockType>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>$this-&gt;reporters</code>
-    </UndefinedInterfaceMethod>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>is_object($result)</code>
+    </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/autoload.php">
     <MixedArgument occurrences="1">
@@ -825,32 +616,24 @@
     <MixedInferredReturnType occurrences="1">
       <code>array</code>
     </MixedInferredReturnType>
-  </file>
-  <file src="test/ApcFragmentationTest.php">
-    <InvalidScalarArgument occurrences="2">
+    <PossiblyInvalidArgument occurrences="2">
       <code>$criticalThreshold</code>
       <code>$warningThreshold</code>
-    </InvalidScalarArgument>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="test/ApcFragmentationTest.php">
     <MixedInferredReturnType occurrences="1">
       <code>array</code>
     </MixedInferredReturnType>
-  </file>
-  <file src="test/ApcMemoryTest.php">
-    <InvalidScalarArgument occurrences="2">
+    <PossiblyInvalidArgument occurrences="2">
       <code>$criticalThreshold</code>
       <code>$warningThreshold</code>
-    </InvalidScalarArgument>
+    </PossiblyInvalidArgument>
   </file>
   <file src="test/BasicConsoleReporterTest.php">
-    <InvalidScalarArgument occurrences="7">
+    <InvalidArgument occurrences="1">
       <code>$alias</code>
-      <code>$alias</code>
-      <code>$alias</code>
-      <code>$alias</code>
-      <code>$alias</code>
-      <code>$alias</code>
-      <code>$alias</code>
-    </InvalidScalarArgument>
+    </InvalidArgument>
     <UnusedVariable occurrences="8">
       <code>$check</code>
       <code>$check</code>
@@ -863,52 +646,24 @@
     </UnusedVariable>
   </file>
   <file src="test/ChecksTest.php">
-    <ArgumentTypeCoercion occurrences="5">
+    <ArgumentTypeCoercion occurrences="2">
       <code>$allExtensions</code>
       <code>$allWrappers</code>
-      <code>'InvalidArgumentException'</code>
-      <code>'InvalidArgumentException'</code>
-      <code>'InvalidArgumentException'</code>
     </ArgumentTypeCoercion>
     <ForbiddenCode occurrences="1">
       <code>shell_exec('ps -o command= -p ' . $phpPid)</code>
     </ForbiddenCode>
-    <InvalidArgument occurrences="13">
-      <code>$this-&gt;createMock(AdvisoryAnalyzer::class)</code>
-      <code>15</code>
-      <code>[$this, 'foobarbar']</code>
-      <code>[]</code>
-      <code>fopen('php://memory', 'r')</code>
-      <code>new stdClass()</code>
-      <code>new stdClass()</code>
-      <code>new stdClass()</code>
-      <code>new stdClass()</code>
-      <code>new stdClass()</code>
-      <code>new stdClass()</code>
-      <code>new stdClass()</code>
+    <InvalidArgument occurrences="2">
+      <code>'like'</code>
       <code>new stdClass()</code>
     </InvalidArgument>
-    <InvalidCast occurrences="1">
-      <code>[]</code>
-    </InvalidCast>
-    <InvalidScalarArgument occurrences="10">
+    <InvalidScalarArgument occurrences="4">
+      <code>$extensions</code>
       <code>$phpPid</code>
-      <code>2</code>
-      <code>15</code>
-      <code>15</code>
-      <code>15</code>
-      <code>15</code>
-      <code>15</code>
       <code>ceil(strlen($phpPid) / 2)</code>
       <code>rand()</code>
-      <code>true</code>
     </InvalidScalarArgument>
-    <MixedArgument occurrences="19">
-      <code>$dir1</code>
-      <code>$dir1</code>
-      <code>$dir1</code>
-      <code>$dir1</code>
-      <code>$dir1</code>
+    <MixedArgument occurrences="9">
       <code>$dir1</code>
       <code>$dir1</code>
       <code>$dir1</code>
@@ -917,13 +672,15 @@
       <code>$dir2</code>
       <code>$dir2</code>
       <code>$dir2</code>
-      <code>$dir2</code>
-      <code>$dir2</code>
-      <code>$dir2</code>
-      <code>$dir2</code>
-      <code>$name</code>
       <code>$name</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="6">
+      <code>$allFalse</code>
+      <code>$allFalse</code>
+      <code>$name</code>
+      <code>$notAllFalse</code>
+      <code>$notAllFalse</code>
+    </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="3">
       <code>$valueArray['local_value']</code>
       <code>$valueArray['local_value']</code>
@@ -934,34 +691,20 @@
       <code>$valueArray</code>
       <code>$valueArray</code>
     </MixedAssignment>
-    <MixedOperand occurrences="5">
+    <MixedOperand occurrences="2">
       <code>$dir1</code>
-      <code>$dir1</code>
-      <code>$dir1</code>
-      <code>$dir2</code>
       <code>$dir2</code>
     </MixedOperand>
-    <NullArgument occurrences="1">
-      <code>$notAllFalse</code>
-    </NullArgument>
-    <PossiblyUndefinedVariable occurrences="24">
+    <PossiblyInvalidCast occurrences="1">
+      <code>$name</code>
+    </PossiblyInvalidCast>
+    <PossiblyUndefinedVariable occurrences="13">
       <code>$dir1</code>
       <code>$dir1</code>
       <code>$dir1</code>
       <code>$dir1</code>
       <code>$dir1</code>
       <code>$dir1</code>
-      <code>$dir1</code>
-      <code>$dir1</code>
-      <code>$dir1</code>
-      <code>$dir1</code>
-      <code>$dir2</code>
-      <code>$dir2</code>
-      <code>$dir2</code>
-      <code>$dir2</code>
-      <code>$dir2</code>
-      <code>$dir2</code>
-      <code>$dir2</code>
       <code>$dir2</code>
       <code>$dir2</code>
       <code>$dir2</code>
@@ -970,12 +713,10 @@
       <code>$dir2</code>
       <code>$name</code>
     </PossiblyUndefinedVariable>
-    <TooManyArguments occurrences="1">
-      <code>new SecurityAdvisory($this-&gt;createMock(AdvisoryAnalyzer::class), new stdClass())</code>
-    </TooManyArguments>
   </file>
   <file src="test/DirWritableTest.php">
-    <ArgumentTypeCoercion occurrences="1">
+    <ArgumentTypeCoercion occurrences="2">
+      <code>$arguments</code>
       <code>$this-&gt;checkClass</code>
     </ArgumentTypeCoercion>
     <MixedInferredReturnType occurrences="1">
@@ -986,15 +727,6 @@
     <ArgumentTypeCoercion occurrences="1">
       <code>$c</code>
     </ArgumentTypeCoercion>
-    <InvalidArgument occurrences="1">
-      <code>[]</code>
-    </InvalidArgument>
-    <InvalidScalarArgument occurrences="4">
-      <code>$freeRightNow</code>
-      <code>$freeRightNow * 0.5</code>
-      <code>$freeRightNow + 1073741824</code>
-      <code>100</code>
-    </InvalidScalarArgument>
     <MixedInferredReturnType occurrences="3">
       <code>array</code>
       <code>array</code>
@@ -1002,19 +734,13 @@
     </MixedInferredReturnType>
   </file>
   <file src="test/DiskUsageTest.php">
-    <InvalidScalarArgument occurrences="6">
-      <code>$criticalThreshold</code>
-      <code>$dp + 1</code>
-      <code>$dp + 2</code>
-      <code>$dp - 1</code>
-      <code>$dp - 1</code>
-      <code>$warningThreshold</code>
-    </InvalidScalarArgument>
     <MixedInferredReturnType occurrences="1">
       <code>array</code>
     </MixedInferredReturnType>
-    <PossiblyInvalidArgument occurrences="1">
+    <PossiblyInvalidArgument occurrences="3">
+      <code>$criticalThreshold</code>
       <code>$path</code>
+      <code>$warningThreshold</code>
     </PossiblyInvalidArgument>
     <PossiblyInvalidCast occurrences="1">
       <code>$path</code>
@@ -1036,11 +762,6 @@
       <code>Generator</code>
     </MixedInferredReturnType>
   </file>
-  <file src="test/ExtensionLoadedTest.php">
-    <MixedArgument occurrences="1">
-      <code>$extensionName</code>
-    </MixedArgument>
-  </file>
   <file src="test/GuzzleHttpServiceTest.php">
     <ArgumentTypeCoercion occurrences="1">
       <code>$resultClass</code>
@@ -1048,9 +769,6 @@
     <InvalidArgument occurrences="1">
       <code>'not guzzle'</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="1">
-      <code>'200'</code>
-    </InvalidScalarArgument>
     <MixedAssignment occurrences="2">
       <code>$request</code>
       <code>$request</code>
@@ -1086,22 +804,18 @@
       <code>['127.0.0.1']</code>
     </InvalidCast>
   </file>
-  <file src="test/OpCacheMemoryTest.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>$criticalThreshold</code>
-      <code>$warningThreshold</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="test/ResultCollectionTest.php">
     <ArgumentTypeCoercion occurrences="2">
       <code>'Iterator'</code>
       <code>'Traversable'</code>
     </ArgumentTypeCoercion>
-    <MixedArgument occurrences="4">
+    <MixedArgument occurrences="6">
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
+      <code>$key</code>
+      <code>$value</code>
     </MixedArgument>
     <MixedArrayOffset occurrences="2">
       <code>$this-&gt;collection[$key]</code>
@@ -1120,19 +834,16 @@
     <ArgumentTypeCoercion occurrences="1">
       <code>$expectedResult</code>
     </ArgumentTypeCoercion>
-    <InvalidArgument occurrences="2">
+    <InvalidArgument occurrences="1">
       <code>'foo'</code>
-      <code>10</code>
     </InvalidArgument>
     <MixedInferredReturnType occurrences="1">
       <code>array</code>
     </MixedInferredReturnType>
-    <MixedMethodCall occurrences="2">
-      <code>getSeverity</code>
+    <MixedMethodCall occurrences="1">
       <code>getSeverity</code>
     </MixedMethodCall>
-    <PossiblyNullReference occurrences="2">
-      <code>getSeverity</code>
+    <PossiblyNullReference occurrences="1">
       <code>getSeverity</code>
     </PossiblyNullReference>
     <TooManyArguments occurrences="1">
@@ -1164,7 +875,8 @@
     </ImplementedReturnTypeMismatch>
   </file>
   <file src="test/TestAsset/Check/TriggerWarning.php">
-    <TooFewArguments occurrences="1">
+    <TooFewArguments occurrences="2">
+      <code>strpos()</code>
       <code>strpos()</code>
     </TooFewArguments>
   </file>

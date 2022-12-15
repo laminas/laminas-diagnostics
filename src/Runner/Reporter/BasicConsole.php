@@ -112,20 +112,18 @@ class BasicConsole implements ReporterInterface
     }
 
     /**
-     * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
-     *
+     * @inheritDoc
      * @param  string|null    $checkAlias
-     * @return bool|void
+     * @return void
      */
     public function onBeforeRun(CheckInterface $check, $checkAlias = null)
     {
     }
 
     /**
-     * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
-     *
+     * @inheritDoc
      * @param  string|null     $checkAlias
-     * @return bool|void
+     * @return void
      */
     public function onAfterRun(CheckInterface $check, ResultInterface $result, $checkAlias = null)
     {
@@ -166,9 +164,7 @@ class BasicConsole implements ReporterInterface
         $this->iteration++;
     }
 
-    /**
-     * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
-     */
+    /** @inheritDoc */
     public function onFinish(ResultsCollection $results)
     {
         $this->consoleWriteLn();
@@ -252,9 +248,7 @@ class BasicConsole implements ReporterInterface
         }
     }
 
-    /**
-     * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
-     */
+    /** @inheritDoc */
     public function onStop(ResultsCollection $results)
     {
         $this->stopped = true;

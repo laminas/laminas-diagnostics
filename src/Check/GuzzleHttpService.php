@@ -50,7 +50,7 @@ class GuzzleHttpService extends AbstractCheck
      *     The absolute url to check, or a fully-formed request instance.
      * @param array $headers An array of headers used to create the request
      * @param array $options An array of guzzle options to use when sending the request
-     * @param int $statusCode The response status code to check
+     * @param numeric-string|int $statusCode The response status code to check
      * @param null|string $content The response content to check
      * @param null|GuzzleClientInterface $guzzle Instance of guzzle to use
      * @param string $method The method of the request
@@ -61,7 +61,7 @@ class GuzzleHttpService extends AbstractCheck
         $requestOrUrl,
         array $headers = [],
         array $options = [],
-        $statusCode = 200,
+        int|string $statusCode = 200,
         $content = null,
         $guzzle = null,
         $method = 'GET',

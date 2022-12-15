@@ -14,6 +14,8 @@ use function sprintf;
 
 /**
  * Utility class to store Results entities for corresponding Checks
+ *
+ * @template-extends SplObjectStorage<CheckInterface, ResultInterface>
  */
 class Collection extends SplObjectStorage
 {
@@ -102,12 +104,7 @@ class Collection extends SplObjectStorage
         return $this->countUnknown;
     }
 
-    /**
-     * @link http://php.net/manual/en/splobjectstorage.offsetget.php
-     *
-     * @param  object $index
-     * @return mixed
-     */
+    /** @inheritDoc */
     #[ReturnTypeWillChange]
     public function offsetGet($index)
     {
@@ -116,12 +113,7 @@ class Collection extends SplObjectStorage
         return parent::offsetGet($index);
     }
 
-    /**
-     * @link http://php.net/manual/en/splobjectstorage.offsetexists.php
-     *
-     * @param  object $index
-     * @return bool
-     */
+    /** @inheritDoc */
     #[ReturnTypeWillChange]
     public function offsetExists($index)
     {
@@ -130,14 +122,7 @@ class Collection extends SplObjectStorage
         return parent::offsetExists($index);
     }
 
-    /**
-     * @link http://php.net/manual/en/splobjectstorage.offsetset.php
-     *
-     * @param object     $index
-     * @param mixed|null $checkResult
-     *
-     * @return void
-     */
+    /** @inheritDoc */
     #[ReturnTypeWillChange]
     public function offsetSet($index, $checkResult = null)
     {
@@ -156,13 +141,7 @@ class Collection extends SplObjectStorage
         $this->updateCounters($checkResult, 1);
     }
 
-    /**
-     * @link http://php.net/manual/en/splobjectstorage.offsetunset.php
-     *
-     * @param object $index
-     *
-     * @return void
-     */
+    /** @inheritDoc */
     #[ReturnTypeWillChange]
     public function offsetUnset($index)
     {
@@ -200,6 +179,7 @@ class Collection extends SplObjectStorage
      * Validate index object.
      *
      * @param  mixed                    $index
+     * @psalm-assert CheckInterface $index
      * @return string
      * @throws InvalidArgumentException
      */

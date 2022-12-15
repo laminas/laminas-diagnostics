@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Diagnostics;
 
 use InvalidArgumentException;
@@ -9,6 +11,7 @@ use Laminas\Diagnostics\Result\SuccessInterface;
 use Laminas\Diagnostics\Result\WarningInterface;
 use PHPUnit\Framework\TestCase;
 
+use function array_keys;
 use function count;
 use function disk_free_space;
 use function is_writable;
@@ -53,7 +56,7 @@ final class DiskFreeTest extends TestCase
         $multiplierExp  = [0, 3, 6, 9, 12, 15, 18, 21, 10, 20, 30, 40, 50, 60, 10, 20, 30];
         $data           = [];
         foreach ($values as $value) {
-            for ($i = 0; $i < count($prefixSymbol); $i++) {
+            foreach (array_keys($prefixSymbol) as $i) {
                 $v       = $value * pow($multiplierBase[$i], $multiplierExp[$i]);
                 $jedec   = $i >= count($prefixSymbol) - 4;
                 $data[]  = ["{$value}{$prefixSymbol[$i]}B", $jedec, $v];
@@ -188,20 +191,6 @@ final class DiskFreeTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         new DiskFree(-1, $this->getTempDir());
-    }
-
-    public function testInvalidSizeParamThrowsException3(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new DiskFree([], $this->getTempDir());
-    }
-
-    public function testInvalidPathParamThrowsException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new DiskFree(1024, 100);
     }
 
     protected function getTempDir(): string

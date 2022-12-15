@@ -20,7 +20,7 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "7.4.99"
+            "php": "8.0.99"
         },
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
@@ -33,7 +33,7 @@
         }
     },
     "require": {
-        "php": "^7.4 || ~8.0.0 || ~8.1.0 || ~8.2.0",
+        "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
         "enlightn/security-checker": "^1.10"
     },
     "require-dev": {
@@ -47,7 +47,7 @@
         "psalm/plugin-phpunit": "^0.18.0",
         "predis/predis": "^2.0.3",
         "symfony/yaml": "^2.7 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
-        "vimeo/psalm": "^4.29.0"
+        "vimeo/psalm": "^5.0.0"
     },
     "conflict": {
         "guzzlehttp/ringphp": "<1.1.1",

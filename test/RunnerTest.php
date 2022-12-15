@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Diagnostics;
 
 use ArrayObject;
@@ -21,7 +23,6 @@ use LaminasTest\Diagnostics\TestAsset\Check\AlwaysSuccess;
 use LaminasTest\Diagnostics\TestAsset\Check\ReturnThis;
 use LaminasTest\Diagnostics\TestAsset\Check\ThrowException;
 use LaminasTest\Diagnostics\TestAsset\Check\TriggerUserError;
-use LaminasTest\Diagnostics\TestAsset\Check\TriggerWarning;
 use LaminasTest\Diagnostics\TestAsset\Reporter\AbstractReporter;
 use LaminasTest\Diagnostics\TestAsset\Result\Unknown;
 use PHPUnit\Framework\TestCase;
@@ -31,8 +32,6 @@ use stdClass;
 use function is_string;
 
 use const E_USER_ERROR;
-use const E_WARNING;
-use const PHP_MAJOR_VERSION;
 
 /** @covers \Laminas\Diagnostics\Runner\Runner */
 final class RunnerTest extends TestCase
@@ -118,13 +117,6 @@ final class RunnerTest extends TestCase
             'break_on_failure'     => true,
             'catch_error_severity' => 300,
         ], $this->runner->getConfig());
-    }
-
-    public function testInvalidValueForSetConfig(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        $this->runner->setConfig(10);
     }
 
     public function testUnknownValueInConfig(): void
@@ -330,21 +322,6 @@ final class RunnerTest extends TestCase
         $results = $this->runner->run();
 
         self::assertInstanceOf(Failure::class, $results[$check]);
-    }
-
-    public function testPHPWarningResultsInFailure(): void
-    {
-        if (PHP_MAJOR_VERSION >= 8) {
-            self::markTestSkipped('Test case raises a TypeError under PHP 8, instead of a warning');
-        }
-
-        $check = new TriggerWarning();
-        $this->runner->addCheck($check);
-        $results = $this->runner->run();
-
-        self::assertInstanceOf(Failure::class, $results[$check]);
-        self::assertInstanceOf(ErrorException::class, $results[$check]->getData());
-        self::assertSame(E_WARNING, $results[$check]->getData()->getSeverity());
     }
 
     public function testPHPUserErrorResultsInFailure(): void

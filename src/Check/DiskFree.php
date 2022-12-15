@@ -16,7 +16,6 @@ use function in_array;
 use function is_float;
 use function is_numeric;
 use function is_scalar;
-use function is_string;
 use function preg_match;
 use function round;
 use function sprintf;
@@ -127,18 +126,14 @@ class DiskFree extends AbstractCheck implements CheckInterface
     ];
 
     /**
-     * @param  int|string                $size Minimum disk size in bytes or a valid byte string (IEC, SI or Jedec).
-     * @param  string                    $path The disk path to check, i.e. '/tmp' or 'C:' (defaults to /)
+     * @param numeric|string $size Minimum disk size in bytes or a valid byte string (IEC, SI or Jedec).
+     * @param string         $path The disk path to check, i.e. '/tmp' or 'C:' (defaults to /)
      * @throws InvalidArgumentException
      */
-    public function __construct($size, $path = '/')
+    public function __construct(int|float|string $size, string $path = '/')
     {
         if (! is_scalar($size)) {
             throw new InvalidArgumentException('Invalid free disk space argument - expecting a positive number');
-        }
-
-        if (! is_string($path)) {
-            throw new InvalidArgumentException('Invalid disk path argument - expecting a string');
         }
 
         if (is_numeric($size)) {
@@ -188,11 +183,13 @@ class DiskFree extends AbstractCheck implements CheckInterface
      *
      * @link https://en.wikipedia.org/wiki/Binary_prefix
      *
-     * @param  int    $size      Number of bytes to convert
-     * @param  int    $precision Rounding precision (defaults to 0)
-     * @return string Highest rounded multiplication with IEC suffix
+     * @param  numeric $size      Number of bytes to convert
+     * @param  int     $precision Rounding precision (defaults to 0)
+     *
+     * @return string Highest rounded multiplicatio
+     * n with IEC suffix
      */
-    public static function bytesToString($size, $precision = 0)
+    public static function bytesToString(int|float|string $size, int $precision = 0)
     {
         if ($size >= 1125899906842624) {
             $size  /= 1125899906842624;
