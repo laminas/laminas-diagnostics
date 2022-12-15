@@ -2,7 +2,6 @@
 
 namespace LaminasTest\Diagnostics;
 
-use Generator;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Check\Memcache;
 use PHPUnit\Framework\TestCase;
@@ -26,6 +25,7 @@ class MemcacheTest extends TestCase
 
     /**
      * @dataProvider providerValidConstructorArguments
+     * @param array<empty, empty>|array{string}|array{string, positive-int|0} $arguments
      */
     public function testConstructor(array $arguments): void
     {
@@ -34,24 +34,30 @@ class MemcacheTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
-    public function providerValidConstructorArguments(): Generator
+    /**
+     * @return non-empty-array<
+     *     non-empty-string,
+     *     array{array<empty, empty>|array{string}|array{string, positive-int|0}}
+     * >
+     */
+    public static function providerValidConstructorArguments(): array
     {
-        yield 'no arguments' => [
-            [],
-        ];
-        yield 'only host' => [
-            ['127.0.0.1'],
-        ];
-        yield 'host and port' => [
-            [
-                '127.0.0.1',
-                11211,
+        return [
+            'no arguments'  => [[]],
+            'only host'     => [
+                ['127.0.0.1'],
             ],
-        ];
-        yield 'unix socket' => [
-            [
-                'unix:///run/memcached/memcached.sock',
-                0,
+            'host and port' => [
+                [
+                    '127.0.0.1',
+                    11211,
+                ],
+            ],
+            'unix socket'   => [
+                [
+                    'unix:///run/memcached/memcached.sock',
+                    0,
+                ],
             ],
         ];
     }

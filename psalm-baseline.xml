@@ -437,18 +437,21 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Check/Memcache.php">
-    <DocblockTypeContradiction occurrences="1">
+    <DocblockTypeContradiction occurrences="2">
+      <code>$port &lt; 0</code>
       <code>is_string($host)</code>
     </DocblockTypeContradiction>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment occurrences="1">
       <code>$memcache</code>
-      <code>$stats</code>
     </MixedAssignment>
     <MixedMethodCall occurrences="3">
       <code>addServer</code>
       <code>connect</code>
       <code>getExtendedStats</code>
     </MixedMethodCall>
+    <NoValue occurrences="1">
+      <code>$port</code>
+    </NoValue>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Memcache</code>
     </PropertyNotSetInConstructor>
@@ -457,18 +460,21 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Check/Memcached.php">
-    <DocblockTypeContradiction occurrences="1">
+    <DocblockTypeContradiction occurrences="2">
+      <code>$port &lt; 0</code>
       <code>is_string($host)</code>
     </DocblockTypeContradiction>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment occurrences="1">
       <code>$memcached</code>
-      <code>$stats</code>
     </MixedAssignment>
     <MixedMethodCall occurrences="3">
       <code>addServer</code>
       <code>getLastDisconnectedServer</code>
       <code>getStats</code>
     </MixedMethodCall>
+    <NoValue occurrences="1">
+      <code>$port</code>
+    </NoValue>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Memcached</code>
     </PropertyNotSetInConstructor>
@@ -602,9 +608,33 @@
     </UndefinedDocblockClass>
   </file>
   <file src="src/Check/Redis.php">
+    <MixedAssignment occurrences="1">
+      <code>$client</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>PredisClient|RedisExtensionClient</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="2">
+      <code>auth</code>
+      <code>connect</code>
+    </MixedMethodCall>
+    <MixedReturnStatement occurrences="1">
+      <code>$client</code>
+    </MixedReturnStatement>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Redis</code>
     </PropertyNotSetInConstructor>
+    <UndefinedClass occurrences="1">
+      <code>RedisException</code>
+    </UndefinedClass>
+    <UndefinedDocblockClass occurrences="3">
+      <code>$client</code>
+      <code>PredisClient|RedisExtensionClient</code>
+      <code>RedisException</code>
+    </UndefinedDocblockClass>
+    <UnnecessaryVarAnnotation occurrences="1">
+      <code>array</code>
+    </UnnecessaryVarAnnotation>
   </file>
   <file src="src/Check/SecurityAdvisory.php">
     <DocblockTypeContradiction occurrences="1">
@@ -1039,7 +1069,8 @@
     </PossiblyNullArgument>
   </file>
   <file src="test/MemcacheTest.php">
-    <InvalidArgument occurrences="1">
+    <InvalidArgument occurrences="2">
+      <code>-11211</code>
       <code>['127.0.0.1']</code>
     </InvalidArgument>
     <InvalidCast occurrences="1">
@@ -1047,7 +1078,8 @@
     </InvalidCast>
   </file>
   <file src="test/MemcachedTest.php">
-    <InvalidArgument occurrences="1">
+    <InvalidArgument occurrences="2">
+      <code>-11211</code>
       <code>['127.0.0.1']</code>
     </InvalidArgument>
     <InvalidCast occurrences="1">
