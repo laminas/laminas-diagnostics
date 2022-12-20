@@ -127,6 +127,15 @@ class DiskFree extends AbstractCheck implements CheckInterface
     ];
 
     /**
+     * The disk path to check.
+     *
+     * @internal
+     *
+     * @var string
+     */
+    public $path;
+
+    /**
      * @param  int|string                $size Minimum disk size in bytes or a valid byte string (IEC, SI or Jedec).
      * @param  string                    $path The disk path to check, i.e. '/tmp' or 'C:' (defaults to /)
      * @throws InvalidArgumentException
