@@ -39,7 +39,7 @@
     "require-dev": {
         "doctrine/migrations": "^2.0 || ^3.5.2",
         "guzzlehttp/guzzle": "^7.5.0",
-        "laminas/laminas-coding-standard": "~2.4.0",
+        "laminas/laminas-coding-standard": "~2.5.0",
         "laminas/laminas-loader": "^2.9",
         "mikey179/vfsstream": "^1.6.11",
         "php-amqplib/php-amqplib": "^2.0 || ^3.4",
