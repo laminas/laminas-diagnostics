@@ -41,19 +41,28 @@ final class DiskUsageTest extends TestCase
         $result = $check->check();
 
         self::assertInstanceof(SuccessInterface::class, $result);
-        self::assertSame($dp, $result->getData());
+        $data = $result->getData();
+        self::assertNotNull($data);
+        self::assertSame($dp, $data['utilization']['value']);
+        self::assertSame('percentage', $data['utilization']['valueType']);
 
         $check  = new DiskUsage($dp - 1, 100, $this->getTempDir());
         $result = $check->check();
 
         self::assertInstanceof(WarningInterface::class, $result);
-        self::assertSame($dp, $result->getData());
+        $data = $result->getData();
+        self::assertNotNull($data);
+        self::assertSame($dp, $data['utilization']['value']);
+        self::assertSame('percentage', $data['utilization']['valueType']);
 
         $check  = new DiskUsage(0, $dp - 1, $this->getTempDir());
         $result = $check->check();
 
         self::assertInstanceof(FailureInterface::class, $result);
-        self::assertSame($dp, $result->getData());
+        $data = $result->getData();
+        self::assertNotNull($data);
+        self::assertSame($dp, $data['utilization']['value']);
+        self::assertSame('percentage', $data['utilization']['valueType']);
     }
 
     public function invalidArgumentProvider(): array

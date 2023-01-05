@@ -4,20 +4,22 @@ namespace Laminas\Diagnostics\Result;
 
 /**
  * Abstract, simple implementation of ResultInterface
+ *
+ * @template T
  */
 abstract class AbstractResult implements ResultInterface
 {
     /** @var string */
     protected $message;
 
-    /** @var mixed|null */
+    /** @var T|null */
     protected $data;
 
     /**
      * Create new result
      *
-     * @param string      $message
-     * @param mixed|null  $data
+     * @param string $message
+     * @param T|null $data
      */
     public function __construct($message = '', $data = null)
     {
@@ -41,7 +43,7 @@ abstract class AbstractResult implements ResultInterface
     /**
      * Get detailed info on the test result (if available).
      *
-     * @return mixed|null
+     * @return T|null
      */
     public function getData()
     {
@@ -49,7 +51,7 @@ abstract class AbstractResult implements ResultInterface
     }
 
     /**
-     * @param mixed|null $data
+     * @param T|null $data
      */
     public function setData($data)
     {

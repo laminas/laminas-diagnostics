@@ -4,9 +4,9 @@ namespace LaminasTest\Diagnostics;
 
 use InvalidArgumentException;
 use Laminas\Diagnostics\Check\DiskFree;
-use Laminas\Diagnostics\Result\FailureInterface;
-use Laminas\Diagnostics\Result\SuccessInterface;
-use Laminas\Diagnostics\Result\WarningInterface;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Warning;
 use PHPUnit\Framework\TestCase;
 
 use function count;
@@ -142,13 +142,21 @@ final class DiskFreeTest extends TestCase
         $check        = new DiskFree($freeRightNow * 0.5, $tmp);
         $result       = $check->check();
 
-        self::assertInstanceof(SuccessInterface::class, $result);
+        self::assertInstanceof(Success::class, $result);
+        $data = $result->getData();
+        self::assertNotNull($data);
+        self::assertSame($freeRightNow, $data['availability']['value']);
+        self::assertSame('bytes', $data['availability']['valueType']);
 
         $freeRightNow = disk_free_space($tmp);
         $check        = new DiskFree($freeRightNow + 1073741824, $tmp);
         $result       = $check->check();
 
-        self::assertInstanceof(FailureInterface::class, $result);
+        self::assertInstanceof(Failure::class, $result);
+        $data = $result->getData();
+        self::assertNotNull($data);
+        self::assertSame($freeRightNow, $data['availability']['value']);
+        self::assertSame('bytes', $data['availability']['valueType']);
     }
 
     public function testSpaceWithStringConversion(): void
@@ -160,12 +168,15 @@ final class DiskFreeTest extends TestCase
         }
 
         // give some margin of error
-        $freeRightNow      *= 0.9;
-        $freeRightNowString = DiskFree::bytesToString($freeRightNow);
+        $freeRightNowString = DiskFree::bytesToString((int) ($freeRightNow * 0.9));
         $check              = new DiskFree($freeRightNowString, $tmp);
         $result             = $check->check();
 
-        self::assertInstanceof(SuccessInterface::class, $result);
+        self::assertInstanceof(Success::class, $result);
+        $data = $result->getData();
+        self::assertNotNull($data);
+        self::assertSame($freeRightNow, $data['availability']['value']);
+        self::assertSame('bytes', $data['availability']['valueType']);
     }
 
     public function testInvalidPathShouldReturnWarning(): void
@@ -173,7 +184,8 @@ final class DiskFreeTest extends TestCase
         $check  = new DiskFree(1024, __DIR__ . '/someImprobablePath99999999999999999');
         $result = $check->check();
 
-        self::assertInstanceof(WarningInterface::class, $result);
+        self::assertInstanceof(Warning::class, $result);
+        self::assertNull($result->getData());
     }
 
     public function testInvalidSizeParamThrowsException(): void

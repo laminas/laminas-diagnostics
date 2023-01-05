@@ -15,6 +15,8 @@ use function sprintf;
 
 /**
  * Checks to see if the disk usage is below warning/critical percent thresholds
+ *
+ * @psalm-type ResultData array{utilization: array{value: float, valueType: string}}
  */
 class DiskUsage extends AbstractCheck implements CheckInterface
 {
@@ -85,7 +87,7 @@ class DiskUsage extends AbstractCheck implements CheckInterface
     /**
      * Perform the check
      *
-     * @return Failure|Success|Warning
+     * @return Failure<ResultData>|Success<ResultData>|Warning<ResultData>
      */
     public function check()
     {
@@ -95,13 +97,22 @@ class DiskUsage extends AbstractCheck implements CheckInterface
         $dp = ($du / $dt) * 100;
 
         if ($dp >= $this->criticalThreshold) {
-            return new Failure(sprintf('Disk usage too high: %2d percent.', $dp), $dp);
+            return new Failure(
+                sprintf('Disk usage too high: %2d percent.', $dp),
+                ['utilization' => ['value' => $dp, 'valueType' => 'percentage']]
+            );
         }
 
         if ($dp >= $this->warningThreshold) {
-            return new Warning(sprintf('Disk usage high: %2d percent.', $dp), $dp);
+            return new Warning(
+                sprintf('Disk usage high: %2d percent.', $dp),
+                ['utilization' => ['value' => $dp, 'valueType' => 'percentage']]
+            );
         }
 
-        return new Success(sprintf('Disk usage is %2d percent.', $dp), $dp);
+        return new Success(
+            sprintf('Disk usage is %2d percent.', $dp),
+            ['utilization' => ['value' => $dp, 'valueType' => 'percentage']]
+        );
     }
 }

@@ -2,6 +2,9 @@
 
 namespace Laminas\Diagnostics\Result;
 
+/**
+ * @template T
+ */
 interface ResultInterface
 {
     /**
@@ -14,7 +17,7 @@ interface ResultInterface
     /**
      * Get detailed info on the test result (if available).
      *
-     * @return mixed|null
+     * @return T|null
      */
     public function getData();
 }

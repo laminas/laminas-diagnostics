@@ -31,6 +31,8 @@ use function substr;
  *     authors:   Dave Ingram <dave@dmi.me.uk>, Nick Pope <nick@nickpope.me.uk>
  *     license:   http://creativecommons.org/licenses/BSD/ CC-BSD
  *     copyright: Copyright (c) 2010, Dave Ingram, Nick Pope
+ *
+ * @psalm-type ResultData array{availability: array{value: float, valueType: string}}
  */
 class DiskFree extends AbstractCheck implements CheckInterface
 {
@@ -168,7 +170,7 @@ class DiskFree extends AbstractCheck implements CheckInterface
      *
      * @see \Laminas\Diagnostics\Check\CheckInterface::check()
      *
-     * @return Failure|Success|Warning
+     * @return Failure<ResultData>|Success<ResultData>|Warning
      */
     public function check()
     {
@@ -186,10 +188,10 @@ class DiskFree extends AbstractCheck implements CheckInterface
         $description       = sprintf('Remaining space at %s: %s', $this->path, $freeHumanReadable);
 
         if (disk_free_space($this->path) < $this->minDiskBytes) {
-            return new Failure($description, $free);
+            return new Failure($description, ['availability' => ['value' => $free, 'valueType' => 'bytes']]);
         }
 
-        return new Success($description, $free);
+        return new Success($description, ['availability' => ['value' => $free, 'valueType' => 'bytes']]);
     }
 
     /**

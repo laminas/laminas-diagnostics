@@ -86,6 +86,7 @@ final class BasicClassesTest extends TestCase
 
     public function testSetters(): void
     {
+        /** @var Success<mixed> $result */
         $result = new Success();
 
         self::assertSame('', $result->getMessage());
