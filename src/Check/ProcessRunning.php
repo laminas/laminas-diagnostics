@@ -22,8 +22,7 @@ class ProcessRunning extends AbstractCheck
     /** @var string */
     private $processName;
 
-    /** @var int */
-    private $pid;
+    private ?int $pid = null;
 
     /**
      * @param string|int $processNameOrPid   Name or ID of the process to find.
@@ -84,7 +83,7 @@ class ProcessRunning extends AbstractCheck
         exec('ps -p ' . (int) $this->pid, $output, $return);
 
         if ($return === 1) {
-            return new Failure(sprintf('Process with PID %s is not currently running.', $this->pid));
+            return new Failure(sprintf('Process with PID %s is not currently running.', (int) $this->pid));
         }
 
         return new Success();

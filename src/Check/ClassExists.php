@@ -10,7 +10,6 @@ use Traversable;
 use function class_exists;
 use function count;
 use function current;
-use function get_class;
 use function implode;
 use function is_array;
 use function is_object;
@@ -29,22 +28,15 @@ class ClassExists extends AbstractCheck implements CheckInterface
     protected $classes;
 
     /**
-     * Use autoloader when looking for classes? (defaults to true)
-     *
-     * @var bool
-     */
-    protected $autoload = true;
-
-    /**
      * @param  string|array|Traversable $classNames Class name or an array of classes
      * @param  bool                     $autoload   Use autoloader when looking for classes? (defaults to true)
      * @throws InvalidArgumentException
      */
-    public function __construct($classNames, $autoload = true)
+    public function __construct($classNames, protected $autoload = true)
     {
         if (is_object($classNames) && ! $classNames instanceof Traversable) {
             throw new InvalidArgumentException(
-                'Expected a class name (string) , an array or Traversable of strings, got ' . get_class($classNames)
+                'Expected a class name (string) , an array or Traversable of strings, got ' . $classNames::class
             );
         }
 
@@ -57,8 +49,6 @@ class ClassExists extends AbstractCheck implements CheckInterface
         } else {
             $this->classes = $classNames;
         }
-
-        $this->autoload = $autoload;
     }
 
     /**

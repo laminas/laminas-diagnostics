@@ -6,13 +6,8 @@ use Laminas\Diagnostics\Check\AbstractCheck;
 
 final class ReturnThis extends AbstractCheck
 {
-    /** @var mixed */
-    protected $value;
-
-    /** @param mixed $value */
-    public function __construct($value)
+    public function __construct(protected mixed $value)
     {
-        $this->value = $value;
     }
 
     /** @return mixed */

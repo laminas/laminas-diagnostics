@@ -16,9 +16,8 @@ final class ExtensionLoadedTest extends TestCase
 {
     /**
      * @dataProvider invalidArgumentProvider
-     * @param mixed $extensionName
      */
-    public function testInvalidArguments($extensionName): void
+    public function testInvalidArguments(mixed $extensionName): void
     {
         $this->expectException(InvalidArgumentException::class);
 

@@ -8,8 +8,10 @@ use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 
 use function apcu_sma_info;
+use function assert;
 use function function_exists;
 use function ini_get;
+use function is_array;
 use function sprintf;
 
 use const PHP_SAPI;
@@ -28,10 +30,8 @@ class ApcMemory extends AbstractMemoryCheck
 {
     /**
      * APC information
-     *
-     * @var array
      */
-    private $apcInfo;
+    private array|bool $apcInfo = false;
 
     /**
      * Perform the check
@@ -71,6 +71,8 @@ class ApcMemory extends AbstractMemoryCheck
      */
     protected function getTotalMemory()
     {
+        assert(is_array($this->apcInfo));
+
         return $this->apcInfo['num_seg'] * $this->apcInfo['seg_size'];
     }
 
@@ -81,6 +83,8 @@ class ApcMemory extends AbstractMemoryCheck
      */
     protected function getUsedMemory()
     {
+        assert(is_array($this->apcInfo));
+
         return $this->getTotalMemory() - $this->apcInfo['avail_mem'];
     }
 }

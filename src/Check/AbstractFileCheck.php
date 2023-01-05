@@ -9,7 +9,6 @@ use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use Traversable;
 
-use function get_class;
 use function is_array;
 use function is_file;
 use function is_object;
@@ -33,7 +32,7 @@ abstract class AbstractFileCheck extends AbstractCheck
     {
         if (is_object($files) && ! $files instanceof Traversable) {
             throw new InvalidArgumentException(
-                'Expected a file name (string) , an array or Traversable of strings, got ' . get_class($files)
+                'Expected a file name (string) , an array or Traversable of strings, got ' . $files::class
             );
         }
 

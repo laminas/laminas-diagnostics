@@ -94,9 +94,8 @@ final class ResultCollectionTest extends TestCase
 
     /**
      * @dataProvider invalidKeysProvider
-     * @param mixed $key
      */
-    public function testInvalidKeySet($key): void
+    public function testInvalidKeySet(mixed $key): void
     {
         $result = new Success();
 
@@ -107,9 +106,8 @@ final class ResultCollectionTest extends TestCase
 
     /**
      * @dataProvider invalidKeysProvider
-     * @param mixed $key
      */
-    public function testInvalidKeyGet($key): void
+    public function testInvalidKeyGet(mixed $key): void
     {
         new Success();
 
@@ -120,9 +118,8 @@ final class ResultCollectionTest extends TestCase
 
     /**
      * @dataProvider invalidKeysProvider
-     * @param mixed $key
      */
-    public function testInvalidKeyUnset($key): void
+    public function testInvalidKeyUnset(mixed $key): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -131,9 +128,8 @@ final class ResultCollectionTest extends TestCase
 
     /**
      * @dataProvider invalidKeysProvider
-     * @param mixed $key
      */
-    public function testInvalidKeyExists($key): void
+    public function testInvalidKeyExists(mixed $key): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -142,9 +138,8 @@ final class ResultCollectionTest extends TestCase
 
     /**
      * @dataProvider invalidValuesProvider
-     * @param mixed $value
      */
-    public function testInvalidValuesSet($value): void
+    public function testInvalidValuesSet(mixed $value): void
     {
         $key = new AlwaysSuccess();
 

@@ -27,7 +27,6 @@ use function count;
 use function error_reporting;
 use function explode;
 use function func_get_args;
-use function get_class;
 use function gettype;
 use function implode;
 use function is_array;
@@ -160,7 +159,7 @@ class Runner
             } catch (Exception $e) {
                 $this->stopErrorHandler();
                 $result = new Failure(
-                    'Uncaught ' . get_class($e) . ': ' . $e->getMessage(),
+                    'Uncaught ' . $e::class . ': ' . $e->getMessage(),
                     $e
                 );
             }
@@ -169,7 +168,7 @@ class Runner
             if (is_object($result)) {
                 if (! $result instanceof ResultInterface) {
                     $result = new Failure(
-                        'Test returned unknown object ' . get_class($result),
+                        'Test returned unknown object ' . $result::class,
                         $result
                     );
                 }
@@ -226,9 +225,7 @@ class Runner
         }
 
         foreach ($config as $key => $val) {
-            $methodName = 'set' . implode(array_map(function ($value) {
-                return ucfirst($value);
-            }, explode('_', $key)));
+            $methodName = 'set' . implode(array_map(static fn($value): string => ucfirst($value), explode('_', $key)));
 
             if (! is_callable([$this, $methodName])) {
                 throw new BadMethodCallException('Unknown config parameter ' . $key);
@@ -277,13 +274,13 @@ class Runner
         }
 
         if (! is_array($checks) && ! $checks instanceof Traversable) {
-            $what = is_object($checks) ? 'object of class ' . get_class($checks) : gettype($checks);
+            $what = is_object($checks) ? 'object of class ' . $checks::class : gettype($checks);
             throw new InvalidArgumentException('Cannot add Checks from ' . $what . ' - expected array or Traversable');
         }
 
         foreach ($checks as $key => $check) {
             if (! $check instanceof CheckInterface) {
-                $what = is_object($check) ? 'object of class ' . get_class($check) : gettype($check);
+                $what = is_object($check) ? 'object of class ' . $check::class : gettype($check);
                 throw new InvalidArgumentException(
                     'Cannot use ' . $what . ' as Check - expected Laminas\Diagnostics\Check\CheckInterface'
                 );
@@ -306,7 +303,7 @@ class Runner
      */
     public function removeReporter(Reporter $reporter)
     {
-        $this->reporters = array_filter($this->reporters, function (Reporter $r) use (&$reporter) {
+        $this->reporters = array_filter($this->reporters, static function (Reporter $r) use (&$reporter): bool {
             return $r !== $reporter;
         });
     }
@@ -445,41 +442,25 @@ class Runner
      */
     public static function getSeverityDescription($severity)
     {
-        switch ($severity) {
-            case E_WARNING:
-                return 'WARNING';
-            // @codeCoverageIgnoreStart
-            case E_ERROR:
-                return 'ERROR';
-            case E_PARSE:
-                return 'PARSE';
-            case E_NOTICE:
-                return 'NOTICE';
-            case E_CORE_ERROR:
-                return 'CORE_ERROR';
-            case E_CORE_WARNING:
-                return 'CORE_WARNING';
-            case E_COMPILE_ERROR:
-                return 'COMPILE_ERROR';
-            case E_COMPILE_WARNING:
-                return 'COMPILE_WARNING';
-            case E_USER_ERROR:
-                return 'USER_ERROR';
-            case E_USER_WARNING:
-                return 'USER_WARNING';
-            case E_USER_NOTICE:
-                return 'USER_NOTICE';
-            case E_STRICT:
-                return 'STRICT';
-            case E_RECOVERABLE_ERROR:
-                return 'RECOVERABLE_ERROR';
-            case E_DEPRECATED:
-                return 'DEPRECATED';
-            case E_USER_DEPRECATED:
-                return 'USER_DEPRECATED';
-            default:
-                return 'error severity ' . $severity;
-        }
-        // @codeCoverageIgnoreEnd
+        return match ($severity) {
+            E_WARNING => 'WARNING',
+            // @codeCoverageIgnoreEnd
+            E_ERROR => 'ERROR',
+            E_PARSE => 'PARSE',
+            E_NOTICE => 'NOTICE',
+            E_CORE_ERROR => 'CORE_ERROR',
+            E_CORE_WARNING => 'CORE_WARNING',
+            E_COMPILE_ERROR => 'COMPILE_ERROR',
+            E_COMPILE_WARNING => 'COMPILE_WARNING',
+            E_USER_ERROR => 'USER_ERROR',
+            E_USER_WARNING => 'USER_WARNING',
+            E_USER_NOTICE => 'USER_NOTICE',
+            E_STRICT => 'STRICT',
+            E_RECOVERABLE_ERROR => 'RECOVERABLE_ERROR',
+            E_DEPRECATED => 'DEPRECATED',
+            E_USER_DEPRECATED => 'USER_DEPRECATED',
+            default => 'error severity ' . $severity,
+            // @codeCoverageIgnoreEnd
+        };
     }
 }

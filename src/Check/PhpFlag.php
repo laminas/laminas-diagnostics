@@ -8,7 +8,6 @@ use Laminas\Diagnostics\Result\Success;
 use Traversable;
 
 use function count;
-use function get_class;
 use function gettype;
 use function implode;
 use function ini_get;
@@ -40,7 +39,7 @@ class PhpFlag extends AbstractCheck implements CheckInterface
         if (is_object($settingName)) {
             if (! $settingName instanceof Traversable) {
                 throw new InvalidArgumentException(
-                    'Expected setting name as string, array or traversable, got ' . get_class($settingName)
+                    'Expected setting name as string, array or traversable, got ' . $settingName::class
                 );
             }
             $this->settings = iterator_to_array($settingName);

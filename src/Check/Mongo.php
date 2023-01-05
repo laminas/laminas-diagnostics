@@ -16,15 +16,11 @@ use function sprintf;
 
 class Mongo extends AbstractCheck
 {
-    /** @var string */
-    private $connectionUri;
-
     /**
      * @param string $connectionUri
      */
-    public function __construct($connectionUri = 'mongodb://127.0.0.1/')
+    public function __construct(private $connectionUri = 'mongodb://127.0.0.1/')
     {
-        $this->connectionUri = $connectionUri;
     }
 
     /**
