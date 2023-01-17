@@ -336,6 +336,7 @@ use Laminas\Diagnostics\Check\Memcache;
 
 $checkLocal  = new Memcache('127.0.0.1'); // default port
 $checkBackup = new Memcache('10.0.30.40', 11212);
+$checkSocket = new Memcache('unix:///run/memcached/memcached.sock', 0);
 ```
 
 ## Memcached
@@ -348,6 +349,7 @@ use Laminas\Diagnostics\Check\Memcached;
 
 $checkLocal  = new Memcached('127.0.0.1'); // default port
 $checkBackup = new Memcached('10.0.30.40', 11212);
+$checkSocket = new Memcached('/run/memcached/memcached.sock', 0);
 ```
 
 ## MongoDb

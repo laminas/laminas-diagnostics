@@ -159,9 +159,6 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Check/CpuPerformance.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>string</code>
-    </InvalidNullableReturnType>
     <InvalidScalarArgument occurrences="15">
       <code>$a</code>
       <code>$a</code>
@@ -183,14 +180,11 @@
       <code>null</code>
       <code>null</code>
     </NullArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>bcdiv(bcpow(bcadd($a, $b), 2), bcmul(4, $t), $precision)</code>
-    </NullableReturnStatement>
     <PossiblyNullArgument occurrences="4">
       <code>$b</code>
       <code>$b</code>
       <code>$b</code>
-      <code>$x</code>
+      <code>bcsqrt(2)</code>
     </PossiblyNullArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>CpuPerformance</code>
@@ -200,9 +194,6 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Check/DirReadable.php">
-    <ArgumentTypeCoercion occurrences="1">
-      <code>$this-&gt;dir</code>
-    </ArgumentTypeCoercion>
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$path</code>
     </InvalidPropertyAssignmentValue>
@@ -223,14 +214,14 @@
       <code>current($nonDirs)</code>
       <code>current($unreadable)</code>
     </MixedOperand>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$this-&gt;dir</code>
+    </PossiblyInvalidArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>DirReadable</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Check/DirWritable.php">
-    <ArgumentTypeCoercion occurrences="1">
-      <code>$this-&gt;dir</code>
-    </ArgumentTypeCoercion>
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$path</code>
     </InvalidPropertyAssignmentValue>
@@ -249,6 +240,9 @@
       <code>$nonDirs[]</code>
       <code>$unwritable[]</code>
     </MixedAssignment>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$this-&gt;dir</code>
+    </PossiblyInvalidArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>DirWritable</code>
     </PropertyNotSetInConstructor>
@@ -264,13 +258,10 @@
     <InvalidScalarArgument occurrences="1">
       <code>$free</code>
     </InvalidScalarArgument>
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="3">
       <code>$a</code>
       <code>$a</code>
       <code>$k</code>
-      <code>$this-&gt;path</code>
-      <code>$this-&gt;path</code>
-      <code>$this-&gt;path</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1"/>
     <MixedAssignment occurrences="3">
@@ -281,9 +272,8 @@
     <MixedInferredReturnType occurrences="1">
       <code>int</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="3">
+    <MixedOperand occurrences="2">
       <code>$bytes</code>
-      <code>$this-&gt;path</code>
       <code>$x[$i]</code>
     </MixedOperand>
     <MixedReturnStatement occurrences="1">
@@ -302,12 +292,6 @@
       <code>! is_float($free)</code>
       <code>$free === false || ! is_float($free)</code>
     </TypeDoesNotContainType>
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;path</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="1">
-      <code>$this-&gt;path</code>
-    </UndefinedThisPropertyFetch>
   </file>
   <file src="src/Check/DiskUsage.php">
     <DocblockTypeContradiction occurrences="3">
@@ -341,9 +325,6 @@
     </UndefinedMethod>
   </file>
   <file src="src/Check/ExtensionLoaded.php">
-    <ArgumentTypeCoercion occurrences="1">
-      <code>$this-&gt;extensions</code>
-    </ArgumentTypeCoercion>
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$extensionName</code>
     </InvalidPropertyAssignmentValue>
@@ -371,6 +352,9 @@
       <code>$ext</code>
       <code>$ext</code>
     </MixedOperand>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$this-&gt;extensions</code>
+    </PossiblyInvalidArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>ExtensionLoaded</code>
     </PropertyNotSetInConstructor>
@@ -437,18 +421,21 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Check/Memcache.php">
-    <DocblockTypeContradiction occurrences="1">
+    <DocblockTypeContradiction occurrences="2">
+      <code>$port &lt; 0</code>
       <code>is_string($host)</code>
     </DocblockTypeContradiction>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment occurrences="1">
       <code>$memcache</code>
-      <code>$stats</code>
     </MixedAssignment>
     <MixedMethodCall occurrences="3">
       <code>addServer</code>
       <code>connect</code>
       <code>getExtendedStats</code>
     </MixedMethodCall>
+    <NoValue occurrences="1">
+      <code>$port</code>
+    </NoValue>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Memcache</code>
     </PropertyNotSetInConstructor>
@@ -457,18 +444,21 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Check/Memcached.php">
-    <DocblockTypeContradiction occurrences="1">
+    <DocblockTypeContradiction occurrences="2">
+      <code>$port &lt; 0</code>
       <code>is_string($host)</code>
     </DocblockTypeContradiction>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment occurrences="1">
       <code>$memcached</code>
-      <code>$stats</code>
     </MixedAssignment>
     <MixedMethodCall occurrences="3">
       <code>addServer</code>
       <code>getLastDisconnectedServer</code>
       <code>getStats</code>
     </MixedMethodCall>
+    <NoValue occurrences="1">
+      <code>$port</code>
+    </NoValue>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Memcached</code>
     </PropertyNotSetInConstructor>
@@ -602,9 +592,33 @@
     </UndefinedDocblockClass>
   </file>
   <file src="src/Check/Redis.php">
+    <MixedAssignment occurrences="1">
+      <code>$client</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>PredisClient|RedisExtensionClient</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="2">
+      <code>auth</code>
+      <code>connect</code>
+    </MixedMethodCall>
+    <MixedReturnStatement occurrences="1">
+      <code>$client</code>
+    </MixedReturnStatement>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Redis</code>
     </PropertyNotSetInConstructor>
+    <UndefinedClass occurrences="1">
+      <code>RedisException</code>
+    </UndefinedClass>
+    <UndefinedDocblockClass occurrences="3">
+      <code>$client</code>
+      <code>PredisClient|RedisExtensionClient</code>
+      <code>RedisException</code>
+    </UndefinedDocblockClass>
+    <UnnecessaryVarAnnotation occurrences="1">
+      <code>array</code>
+    </UnnecessaryVarAnnotation>
   </file>
   <file src="src/Check/SecurityAdvisory.php">
     <DocblockTypeContradiction occurrences="1">
@@ -1039,7 +1053,8 @@
     </PossiblyNullArgument>
   </file>
   <file src="test/MemcacheTest.php">
-    <InvalidArgument occurrences="1">
+    <InvalidArgument occurrences="2">
+      <code>-11211</code>
       <code>['127.0.0.1']</code>
     </InvalidArgument>
     <InvalidCast occurrences="1">
@@ -1047,7 +1062,8 @@
     </InvalidCast>
   </file>
   <file src="test/MemcachedTest.php">
-    <InvalidArgument occurrences="1">
+    <InvalidArgument occurrences="2">
+      <code>-11211</code>
       <code>['127.0.0.1']</code>
     </InvalidArgument>
     <InvalidCast occurrences="1">
