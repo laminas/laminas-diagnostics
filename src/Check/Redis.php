@@ -58,16 +58,18 @@ class Redis extends AbstractCheck
             "responseTime" => $responseTime,
         ];
 
-        if (array_key_exists('connected_clients', $stats)) {
-            $successInformation['connections'] = (int) $stats['connected_clients'];
-        } elseif (array_key_exists('Clients', $stats) && array_key_exists('connected_clients', $stats['Clients'])) {
-            $successInformation['connections'] = (int) $stats['Clients']['connected_clients'];
-        }
+        if (is_array($stats)) {
+            if (array_key_exists('connected_clients', $stats)) {
+                $successInformation['connections'] = (int)$stats['connected_clients'];
+            } elseif (array_key_exists('Clients', $stats) && array_key_exists('connected_clients', $stats['Clients'])) {
+                $successInformation['connections'] = (int)$stats['Clients']['connected_clients'];
+            }
 
-        if (array_key_exists('uptime_in_seconds', $stats)) {
-            $successInformation['uptime'] = (int) $stats['uptime_in_seconds'];
-        } elseif (array_key_exists('Server', $stats) && array_key_exists('uptime_in_seconds', $stats['Server'])) {
-            $successInformation['uptime'] = (int) $stats['Server']['uptime_in_seconds'];
+            if (array_key_exists('uptime_in_seconds', $stats)) {
+                $successInformation['uptime'] = (int)$stats['uptime_in_seconds'];
+            } elseif (array_key_exists('Server', $stats) && array_key_exists('uptime_in_seconds', $stats['Server'])) {
+                $successInformation['uptime'] = (int)$stats['Server']['uptime_in_seconds'];
+            }
         }
 
         return new Success(
