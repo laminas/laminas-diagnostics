@@ -25,7 +25,7 @@ class HttpService extends AbstractCheck
      * @param int    $port       Port to connect to (defaults to 80)
      * @param string $path       The path to retrieve (defaults to /)
      * @param int    $statusCode (optional) Expected status code
-     * @param string $content    (optional) Expected substring to match against the page content.
+     * @param string|null $content    (optional) Expected substring to match against the page content.
      */
     public function __construct(
         protected $host,
