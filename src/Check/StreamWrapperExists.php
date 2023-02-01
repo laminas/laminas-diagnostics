@@ -65,7 +65,6 @@ class StreamWrapperExists extends AbstractCheck implements CheckInterface
     {
         $missingWrappers   = [];
         $availableWrappers = stream_get_wrappers();
-        array_walk($availableWrappers, static fn($v): string => strtolower($v));
 
         foreach ($this->wrappers as $class) {
             if (! in_array($class, $availableWrappers)) {
