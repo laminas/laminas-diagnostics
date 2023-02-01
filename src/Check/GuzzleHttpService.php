@@ -59,7 +59,7 @@ class GuzzleHttpService extends AbstractCheck
         array $headers = [],
         array $options = [],
         $statusCode = 200,
-        protected ?string $content = null,
+        protected $content = null,
         $guzzle = null,
         $method = 'GET',
         $body = null
