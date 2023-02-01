@@ -7,7 +7,6 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Traversable;
 
-use function array_walk;
 use function count;
 use function current;
 use function implode;
@@ -17,7 +16,6 @@ use function is_object;
 use function is_string;
 use function sprintf;
 use function stream_get_wrappers;
-use function strtolower;
 
 /**
  * Validate that a stream wrapper exists.
