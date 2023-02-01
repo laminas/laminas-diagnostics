@@ -297,10 +297,8 @@ final class RunnerTest extends TestCase
 
     /**
      * @dataProvider checksAndResultsProvider
-     * @param mixed $value
-     * @param mixed $expectedResult
      */
-    public function testStandardResults($value, $expectedResult): void
+    public function testStandardResults(mixed $value, mixed $expectedResult): void
     {
         $check = new ReturnThis($value);
         $this->runner->addCheck($check);

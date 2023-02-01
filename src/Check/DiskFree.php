@@ -20,8 +20,8 @@ use function is_string;
 use function preg_match;
 use function round;
 use function sprintf;
+use function str_starts_with;
 use function strtolower;
-use function substr;
 
 /**
  * Check if there is enough remaining free disk space.
@@ -95,11 +95,11 @@ class DiskFree extends AbstractCheck implements CheckInterface
     public static $iecMultiplier = [
         0 => 1, // 2^00 == 1024^0
         1 => 1024, // 2^10 == 1024^1
-        2 => 1048576, // 2^20 == 1024^2
-        3 => 1073741824, // 2^30 == 1024^3
-        4 => 1099511627776, // 2^40 == 1024^4
-        5 => 1125899906842624, // 2^50 == 1024^5
-        6 => 1152921504606846976, // 2^60 == 1024^6
+        2 => 1_048_576, // 2^20 == 1024^2
+        3 => 1_073_741_824, // 2^30 == 1024^3
+        4 => 1_099_511_627_776, // 2^40 == 1024^4
+        5 => 1_125_899_906_842_624, // 2^50 == 1024^5
+        6 => 1_152_921_504_606_846_976, // 2^60 == 1024^6
     ];
 
     /**
@@ -124,8 +124,8 @@ class DiskFree extends AbstractCheck implements CheckInterface
     public static $jedecMultiplier = [
         0 => 1, // 2^00 == 1024^0
         1 => 1024, // 2^10 == 1024^1
-        2 => 1048576, // 2^20 == 1024^2
-        3 => 1073741824, // 2^30 == 1024^3
+        2 => 1_048_576, // 2^20 == 1024^2
+        3 => 1_073_741_824, // 2^30 == 1024^3
     ];
 
     /**
@@ -205,17 +205,17 @@ class DiskFree extends AbstractCheck implements CheckInterface
      */
     public static function bytesToString($size, $precision = 0)
     {
-        if ($size >= 1125899906842624) {
-            $size  /= 1125899906842624;
+        if ($size >= 1_125_899_906_842_624) {
+            $size  /= 1_125_899_906_842_624;
             $suffix = 'PiB';
-        } elseif ($size >= 1099511627776) {
-            $size  /= 1099511627776;
+        } elseif ($size >= 1_099_511_627_776) {
+            $size  /= 1_099_511_627_776;
             $suffix = 'TiB';
-        } elseif ($size >= 1073741824) {
-            $size  /= 1073741824;
+        } elseif ($size >= 1_073_741_824) {
+            $size  /= 1_073_741_824;
             $suffix = 'GiB';
-        } elseif ($size >= 1048576) {
-            $size  /= 1048576;
+        } elseif ($size >= 1_048_576) {
+            $size  /= 1_048_576;
             $suffix = 'MiB';
         } elseif ($size >= 1024) {
             $size  /= 1024;
@@ -299,7 +299,7 @@ class DiskFree extends AbstractCheck implements CheckInterface
         // Check whether we were provided with bits or bytes - divide if needed.
         if (
             isset($match[4]) && $match[4] === 'b' ||
-            isset($match[6]) && substr(strtolower($match[6]), 0, 3) === 'bit'
+            isset($match[6]) && str_starts_with(strtolower($match[6]), 'bit')
         ) {
             $bytes /= 8;
         }

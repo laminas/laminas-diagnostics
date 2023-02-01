@@ -7,7 +7,6 @@ use Laminas\Diagnostics\Check\CheckInterface;
 use ReturnTypeWillChange;
 use SplObjectStorage;
 
-use function get_class;
 use function gettype;
 use function is_object;
 use function sprintf;
@@ -199,14 +198,13 @@ class Collection extends SplObjectStorage
     /**
      * Validate index object.
      *
-     * @param  mixed                    $index
      * @return string
      * @throws InvalidArgumentException
      */
-    protected function validateIndex($index)
+    protected function validateIndex(mixed $index)
     {
         if (! $index instanceof CheckInterface) {
-            $what = is_object($index) ? 'object of type ' . get_class($index) : gettype($index);
+            $what = is_object($index) ? 'object of type ' . $index::class : gettype($index);
             throw new InvalidArgumentException(sprintf(
                 'Cannot use %s as index for this collection. Expected instance of CheckInterface.',
                 $what
@@ -219,14 +217,13 @@ class Collection extends SplObjectStorage
     /**
      * Validate if the value can be stored in this collection.
      *
-     * @param  mixed                    $checkResult
      * @return mixed
      * @throws InvalidArgumentException
      */
-    protected function validateValue($checkResult)
+    protected function validateValue(mixed $checkResult)
     {
         if (! is_object($checkResult) || ! $checkResult instanceof ResultInterface) {
-            $what = is_object($checkResult) ? 'object of type ' . get_class($checkResult) : gettype($checkResult);
+            $what = is_object($checkResult) ? 'object of type ' . $checkResult::class : gettype($checkResult);
             throw new InvalidArgumentException(sprintf(
                 'This collection cannot hold %s. Expected instance of %s\ResultInterface',
                 $what,

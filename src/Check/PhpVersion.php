@@ -7,7 +7,6 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Traversable;
 
-use function get_class;
 use function gettype;
 use function in_array;
 use function is_array;
@@ -42,7 +41,7 @@ class PhpVersion extends AbstractCheck implements CheckInterface
         if (is_object($expectedVersion)) {
             if (! $expectedVersion instanceof Traversable) {
                 throw new InvalidArgumentException(
-                    'Expected version number as string, array or traversable, got ' . get_class($expectedVersion)
+                    'Expected version number as string, array or traversable, got ' . $expectedVersion::class
                 );
             }
             $this->version = $expectedVersion;

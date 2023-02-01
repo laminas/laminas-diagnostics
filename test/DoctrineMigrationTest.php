@@ -42,9 +42,11 @@ final class DoctrineMigrationTest extends TestCase
         $migrationRepository = $this->createMock(MigrationsRepository::class);
 
         $migrationMock       = $this->createMock(AbstractMigration::class);
-        $availableMigrations = array_map(static function ($version) use ($migrationMock): AvailableMigration {
-            return new AvailableMigration(new Version($version), $migrationMock);
-        }, $availableVersions);
+        $availableMigrations = array_map(
+            static fn($version): AvailableMigration =>
+                new AvailableMigration(new Version($version), $migrationMock),
+            $availableVersions
+        );
 
         $migrationRepository
             ->expects(self::once())
@@ -53,9 +55,11 @@ final class DoctrineMigrationTest extends TestCase
 
         $metadataStorage = $this->createMock(MetadataStorage::class);
 
-        $executedMigrations = array_map(static function ($version): ExecutedMigration {
-            return new ExecutedMigration(new Version($version));
-        }, $migratedVersions);
+        $executedMigrations = array_map(
+            static fn($version): ExecutedMigration =>
+                new ExecutedMigration(new Version($version)),
+            $migratedVersions
+        );
 
         $metadataStorage
             ->expects(self::once())

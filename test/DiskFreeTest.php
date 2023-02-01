@@ -12,7 +12,6 @@ use PHPUnit\Framework\TestCase;
 use function count;
 use function disk_free_space;
 use function is_writable;
-use function pow;
 use function sys_get_temp_dir;
 
 /**
@@ -54,7 +53,7 @@ final class DiskFreeTest extends TestCase
         $data           = [];
         foreach ($values as $value) {
             for ($i = 0; $i < count($prefixSymbol); $i++) {
-                $v       = $value * pow($multiplierBase[$i], $multiplierExp[$i]);
+                $v       = $value * $multiplierBase[$i] ** $multiplierExp[$i];
                 $jedec   = $i >= count($prefixSymbol) - 4;
                 $data[]  = ["{$value}{$prefixSymbol[$i]}B", $jedec, $v];
                 $data[]  = ["{$value}{$prefixSymbol[$i]}Bps", $jedec, $v];
@@ -88,22 +87,22 @@ final class DiskFreeTest extends TestCase
     public static function bytesToStringProvider(): array
     {
         return [
-            [1125899906842624, 5, '1 PiB'],
-            [1099511627776,    5, '1 TiB'],
-            [1073741824,       5, '1 GiB'],
-            [1048576,          5, '1 MiB'],
+            [1_125_899_906_842_624, 5, '1 PiB'],
+            [1_099_511_627_776,    5, '1 TiB'],
+            [1_073_741_824,       5, '1 GiB'],
+            [1_048_576,          5, '1 MiB'],
             [1024,             5, '1 KiB'],
             [999,              5, '999 B'],
-            [1351079888211148, 0, '1 PiB'],
-            [1319413953331,    0, '1 TiB'],
-            [1288490190,       0, '1 GiB'],
-            [1258291,          0, '1 MiB'],
+            [1_351_079_888_211_148, 0, '1 PiB'],
+            [1_319_413_953_331,    0, '1 TiB'],
+            [1_288_490_190,       0, '1 GiB'],
+            [1_258_291,          0, '1 MiB'],
             [1228,             0, '1 KiB'],
             [999,              0, '999 B'],
-            [1351079888211148, 1, '1.2 PiB'],
-            [1319413953331,    1, '1.2 TiB'],
-            [1288490190,       1, '1.2 GiB'],
-            [1258291,          1, '1.2 MiB'],
+            [1_351_079_888_211_148, 1, '1.2 PiB'],
+            [1_319_413_953_331,    1, '1.2 TiB'],
+            [1_288_490_190,       1, '1.2 GiB'],
+            [1_258_291,          1, '1.2 MiB'],
             [1228,             1, '1.2 KiB'],
             [999,              1, '999 B'],
         ];
@@ -148,8 +147,8 @@ final class DiskFreeTest extends TestCase
         self::assertSame($freeRightNow, $data['availability']['value']);
         self::assertSame('bytes', $data['availability']['valueType']);
 
-        $freeRightNow = disk_free_space($tmp);
-        $check        = new DiskFree($freeRightNow + 1073741824, $tmp);
+        $freeRightNow = (int) disk_free_space($tmp);
+        $check        = new DiskFree($freeRightNow + 1_073_741_824, $tmp);
         $result       = $check->check();
 
         self::assertInstanceof(Failure::class, $result);

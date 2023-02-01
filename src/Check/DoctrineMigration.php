@@ -100,9 +100,11 @@ class DoctrineMigration extends AbstractCheck
     {
         $allMigrations = $dependencyFactory->getMigrationRepository()->getMigrations();
 
-        return array_map(static function (AvailableMigration $availableMigration) {
-            return $availableMigration->getVersion();
-        }, $allMigrations->getItems());
+        return array_map(
+            static fn(AvailableMigration $availableMigration): Version =>
+            $availableMigration->getVersion(),
+            $allMigrations->getItems()
+        );
     }
 
     /**
@@ -112,8 +114,10 @@ class DoctrineMigration extends AbstractCheck
     {
         $executedMigrations = $dependencyFactory->getMetadataStorage()->getExecutedMigrations();
 
-        return array_map(static function (ExecutedMigration $executedMigration) {
-            return $executedMigration->getVersion();
-        }, $executedMigrations->getItems());
+        return array_map(
+            static fn(ExecutedMigration $executedMigration): Version =>
+            $executedMigration->getVersion(),
+            $executedMigrations->getItems()
+        );
     }
 }

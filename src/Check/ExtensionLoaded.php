@@ -9,7 +9,6 @@ use Traversable;
 
 use function count;
 use function extension_loaded;
-use function get_class;
 use function implode;
 use function is_array;
 use function is_object;
@@ -35,7 +34,7 @@ class ExtensionLoaded extends AbstractCheck implements CheckInterface
     {
         if (is_object($extensionName) && ! $extensionName instanceof Traversable) {
             throw new InvalidArgumentException(
-                'Expected a module name (string) , an array or Traversable of strings, got ' . get_class($extensionName)
+                'Expected a module name (string) , an array or Traversable of strings, got ' . $extensionName::class
             );
         }
 
@@ -87,7 +86,7 @@ class ExtensionLoaded extends AbstractCheck implements CheckInterface
 
                 return new Success(
                     $ext . ' extension is loaded.',
-                    $ext . ' ' . (phpversion($ext) ? phpversion($ext) : 'loaded')
+                    $ext . ' ' . (phpversion($ext) ?: 'loaded')
                 );
             }
         }

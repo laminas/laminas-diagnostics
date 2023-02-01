@@ -28,7 +28,6 @@ final class GuzzleHttpServiceTest extends TestCase
         EOR;
 
     /**
-     * @param array $params
      * @dataProvider couchDbProvider
      */
     public function testCouchDbCheck(array $params): void
