@@ -7,10 +7,8 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Traversable;
 
-use function array_walk;
 use function count;
 use function current;
-use function get_class;
 use function implode;
 use function in_array;
 use function is_array;
@@ -18,7 +16,6 @@ use function is_object;
 use function is_string;
 use function sprintf;
 use function stream_get_wrappers;
-use function strtolower;
 
 /**
  * Validate that a stream wrapper exists.
@@ -38,7 +35,7 @@ class StreamWrapperExists extends AbstractCheck implements CheckInterface
             throw new InvalidArgumentException(sprintf(
                 'Expected a stream wrapper name (string), or an array or Traversable of strings;'
                 . ' received %s',
-                get_class($wrappers)
+                $wrappers::class
             ));
         }
 
@@ -66,9 +63,6 @@ class StreamWrapperExists extends AbstractCheck implements CheckInterface
     {
         $missingWrappers   = [];
         $availableWrappers = stream_get_wrappers();
-        array_walk($availableWrappers, function ($v) {
-            return strtolower($v);
-        });
 
         foreach ($this->wrappers as $class) {
             if (! in_array($class, $availableWrappers)) {

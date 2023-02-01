@@ -16,25 +16,12 @@ use function microtime;
  */
 class Redis extends AbstractCheck
 {
-    /** @var string|null */
-    protected $auth;
-
-    /** @var string */
-    protected $host;
-
-    /** @var int */
-    protected $port;
-
     /**
      * @param string $host
      * @param int $port
-     * @param string|null $auth
      */
-    public function __construct($host = 'localhost', $port = 6379, $auth = null)
+    public function __construct(protected $host = 'localhost', protected $port = 6379, protected ?string $auth = null)
     {
-        $this->host = $host;
-        $this->port = $port;
-        $this->auth = $auth;
     }
 
     /**

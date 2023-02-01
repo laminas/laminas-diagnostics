@@ -25,14 +25,11 @@ use function is_string;
 use function json_encode;
 use function method_exists;
 use function sprintf;
-use function strpos;
+use function str_contains;
 use function strstr;
 
 class GuzzleHttpService extends AbstractCheck
 {
-    /** @var null|string */
-    protected $content;
-
     /** @var array */
     protected $options;
 
@@ -62,7 +59,7 @@ class GuzzleHttpService extends AbstractCheck
         array $headers = [],
         array $options = [],
         $statusCode = 200,
-        $content = null,
+        protected $content = null,
         $guzzle = null,
         $method = 'GET',
         $body = null
@@ -85,7 +82,6 @@ class GuzzleHttpService extends AbstractCheck
 
         $this->options    = $options;
         $this->statusCode = (int) $statusCode;
-        $this->content    = $content;
     }
 
     /**
@@ -101,12 +97,9 @@ class GuzzleHttpService extends AbstractCheck
     /**
      * @param string $url
      * @param string $method
-     * @param array $headers
-     * @param mixed $body
-     * @param array $options
      * @return PsrRequestInterface
      */
-    private function createRequestFromConstructorArguments($url, $method, array $headers, $body, array $options)
+    private function createRequestFromConstructorArguments($url, $method, array $headers, mixed $body, array $options)
     {
         return $this->createPsr7Request($url, $method, $headers, $body);
     }
@@ -114,12 +107,10 @@ class GuzzleHttpService extends AbstractCheck
     /**
      * @param string $url
      * @param string $method
-     * @param array $headers
-     * @param mixed $body
      * @return PsrRequestInterface
      * @throws InvalidArgumentException If unable to determine how to serialize the body content.
      */
-    private function createPsr7Request($url, $method, array $headers, $body)
+    private function createPsr7Request($url, $method, array $headers, mixed $body)
     {
         $request = new PsrRequest($method, $url, $headers);
         if (empty($body)) {
@@ -229,7 +220,7 @@ class GuzzleHttpService extends AbstractCheck
      */
     private function analyzeResponseContent($content)
     {
-        return ! $this->content || false !== strpos($content, $this->content)
+        return ! $this->content || str_contains($content, $this->content)
             ? true
             : new Failure(sprintf(
                 'Content %s not found in response from %s',

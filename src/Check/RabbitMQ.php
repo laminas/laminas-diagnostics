@@ -17,21 +17,6 @@ use function sprintf;
  */
 class RabbitMQ extends AbstractCheck
 {
-    /** @var string */
-    protected $host;
-
-    /** @var integer */
-    protected $port;
-
-    /** @var string */
-    protected $user;
-
-    /** @var string */
-    protected $password;
-
-    /** @var string */
-    protected $vhost;
-
     /**
      * @param string  $host
      * @param integer $port
@@ -40,17 +25,12 @@ class RabbitMQ extends AbstractCheck
      * @param string  $vhost
      */
     public function __construct(
-        $host = 'localhost',
-        $port = 5672,
-        $user = 'guest',
-        $password = 'guest',
-        $vhost = '/'
+        protected $host = 'localhost',
+        protected $port = 5672,
+        protected $user = 'guest',
+        protected $password = 'guest',
+        protected $vhost = '/'
     ) {
-        $this->host     = $host;
-        $this->port     = $port;
-        $this->user     = $user;
-        $this->password = $password;
-        $this->vhost    = $vhost;
     }
 
     /**

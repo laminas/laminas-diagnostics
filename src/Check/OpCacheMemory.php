@@ -8,6 +8,7 @@ use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 
 use function array_key_exists;
+use function assert;
 use function function_exists;
 use function is_array;
 use function opcache_get_status;
@@ -19,10 +20,8 @@ class OpCacheMemory extends AbstractMemoryCheck
 {
     /**
      * OpCache information
-     *
-     * @var array
      */
-    private $opCacheInfo;
+    private array|bool $opCacheInfo = false;
 
     /**
      * Perform the check
@@ -63,6 +62,8 @@ class OpCacheMemory extends AbstractMemoryCheck
      */
     protected function getTotalMemory()
     {
+        assert(is_array($this->opCacheInfo));
+
         return $this->opCacheInfo['memory_usage']['used_memory']
             + $this->opCacheInfo['memory_usage']['free_memory']
             + $this->opCacheInfo['memory_usage']['wasted_memory'];
@@ -75,6 +76,8 @@ class OpCacheMemory extends AbstractMemoryCheck
      */
     protected function getUsedMemory()
     {
+        assert(is_array($this->opCacheInfo));
+
         return $this->opCacheInfo['memory_usage']['used_memory'];
     }
 }

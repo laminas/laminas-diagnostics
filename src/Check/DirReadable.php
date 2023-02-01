@@ -9,7 +9,6 @@ use Traversable;
 
 use function count;
 use function current;
-use function get_class;
 use function implode;
 use function is_array;
 use function is_dir;
@@ -34,7 +33,7 @@ class DirReadable extends AbstractCheck implements CheckInterface
     {
         if (is_object($path) && ! $path instanceof Traversable) {
             throw new InvalidArgumentException(
-                'Expected a dir name (string) , an array or Traversable of strings, got ' . get_class($path)
+                'Expected a dir name (string) , an array or Traversable of strings, got ' . $path::class
             );
         }
 

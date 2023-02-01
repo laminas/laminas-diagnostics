@@ -13,7 +13,6 @@ use Laminas\Diagnostics\Result\WarningInterface;
 
 use function count;
 use function floor;
-use function get_class;
 use function log10;
 use function round;
 use function sprintf;
@@ -237,7 +236,7 @@ class BasicConsole implements ReporterInterface
                 }
                 $this->consoleWriteLn();
             } elseif (! $result instanceof SuccessInterface) {
-                $this->consoleWriteLn('Unknown result ' . get_class($result) . ': ' . $check->getLabel());
+                $this->consoleWriteLn('Unknown result ' . $result::class . ': ' . $check->getLabel());
                 $message = $result->getMessage();
                 if ($message) {
                     $this->consoleWriteLn($message);

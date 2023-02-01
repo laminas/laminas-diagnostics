@@ -13,30 +13,14 @@ use function sprintf;
  */
 class PDOCheck implements CheckInterface
 {
-    /** @var string */
-    private $dsn;
-
-    /** @var string */
-    private $password;
-
-    /** @var string */
-    private $username;
-
-    /** @var int */
-    private $timeout;
-
     /**
      * @param string $dsn
      * @param string $username
      * @param string $password
      * @param int $timeout
      */
-    public function __construct($dsn, $username, $password, $timeout = 1)
+    public function __construct(private $dsn, private $username, private $password, private $timeout = 1)
     {
-        $this->dsn      = $dsn;
-        $this->username = $username;
-        $this->password = $password;
-        $this->timeout  = $timeout;
     }
 
     /**

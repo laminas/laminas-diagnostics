@@ -88,7 +88,7 @@ final class ChecksTest extends TestCase
 
         self::assertInstanceOf(Success::class, $result);
 
-        $check  = new CpuPerformance(999999999); // improbable to archive
+        $check  = new CpuPerformance(999_999_999); // improbable to archive
         $result = $check->check();
 
         self::assertInstanceOf(Failure::class, $result);
@@ -273,9 +273,8 @@ final class ChecksTest extends TestCase
     {
         $called         = false;
         $expectedResult = new Success();
-        $check          = new Callback(function () use (&$called, $expectedResult) {
+        $check          = new Callback(static function () use (&$called, $expectedResult): Success {
             $called = true;
-
             return $expectedResult;
         });
         $result         = $check->check();

@@ -13,42 +13,27 @@ use function fsockopen;
 use function fwrite;
 use function preg_match;
 use function sprintf;
-use function strpos;
+use function str_contains;
 
 /**
  * Attempt connection to given HTTP host and (optionally) check status code and page content.
  */
 class HttpService extends AbstractCheck
 {
-    /** @var string */
-    protected $host;
-
-    /** @var int */
-    protected $port;
-
-    /** @var string */
-    protected $path;
-
-    /** @var int */
-    protected $statusCode;
-
-    /** @var int */
-    protected $content;
-
     /**
      * @param string $host       Host name or IP address to check.
      * @param int    $port       Port to connect to (defaults to 80)
      * @param string $path       The path to retrieve (defaults to /)
      * @param int    $statusCode (optional) Expected status code
-     * @param null   $content    (optional) Expected substring to match against the page content.
+     * @param string|null $content    (optional) Expected substring to match against the page content.
      */
-    public function __construct($host, $port = 80, $path = '/', $statusCode = null, $content = null)
-    {
-        $this->host       = $host;
-        $this->port       = $port;
-        $this->path       = $path;
-        $this->statusCode = $statusCode;
-        $this->content    = $content;
+    public function __construct(
+        protected $host,
+        protected $port = 80,
+        protected $path = '/',
+        protected $statusCode = null,
+        protected $content = null
+    ) {
     }
 
     /**
@@ -87,7 +72,7 @@ class HttpService extends AbstractCheck
             ));
         }
 
-        if ($this->content && strpos($str, $this->content) === false) {
+        if ($this->content && ! str_contains($str, $this->content)) {
             return new Failure(sprintf(
                 'Content %s not found in response from %s:%d%s',
                 $this->content,
