@@ -33,11 +33,11 @@
         }
     },
     "require": {
-        "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
-        "enlightn/security-checker": "^1.10"
+        "php": "~8.0.0 || ~8.1.0 || ~8.2.0"
     },
     "require-dev": {
         "doctrine/migrations": "^2.0 || ^3.5.2",
+        "enlightn/security-checker": "^1.10",
         "guzzlehttp/guzzle": "^7.5.0",
         "laminas/laminas-coding-standard": "~2.5.0",
         "laminas/laminas-loader": "^2.9",
@@ -60,6 +60,7 @@
         "doctrine/migrations": "Required by Check\\DoctrineMigration",
         "guzzlehttp/guzzle": "Required by Check\\GuzzleHttpService",
         "predis/predis": "Required by Check\\Redis",
+        "enlightn/security-checker": "Required by Check\\SecurityAdvisory",
         "symfony/yaml": "Required by Check\\YamlFile",
         "php-amqplib/php-amqplib": "Required by Check\\RabbitMQ"
     },
