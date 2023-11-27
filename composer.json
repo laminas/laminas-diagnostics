@@ -44,10 +44,10 @@
         "mikey179/vfsstream": "^1.6.11",
         "php-amqplib/php-amqplib": "^2.0 || ^3.4",
         "phpunit/phpunit": "^9.5.26",
-        "psalm/plugin-phpunit": "^0.18.3",
         "predis/predis": "^2.0.3",
+        "psalm/plugin-phpunit": "^0.18.3",
         "symfony/yaml": "^2.7 || ^3.0 || ^4.0 || ^5.0 || ^6.0.14",
-        "vimeo/psalm": "^4.29.0"
+        "vimeo/psalm": "^5.0"
     },
     "conflict": {
         "guzzlehttp/ringphp": "<1.1.1",
