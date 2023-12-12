@@ -183,7 +183,7 @@ class GuzzleHttpService extends AbstractCheck
      */
     private function analyzeResponse($response)
     {
-        $result = $this->analyzeStatusCode((int) $response->getStatusCode());
+        $result = $this->analyzeStatusCode($response->getStatusCode());
         if ($result instanceof Failure) {
             return $result;
         }
