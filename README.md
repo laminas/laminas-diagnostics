@@ -1,6 +1,8 @@
 # laminas-diagnostics
 
-[![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-diagnostics/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-diagnostics?branch=master)
+[![Build Status](https://github.com/laminas/laminas-diagnostic/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/laminas/laminas-diagnostic/actions/workflows/continuous-integration.yml)
+[![type-coverage](https://shepherd.dev/github/laminas/laminas-diagnostic/coverage.svg)](https://shepherd.dev/github/laminas/laminas-diagnostic)
+[![Psalm level](https://shepherd.dev/github/laminas/laminas-diagnostic/level.svg)](https://shepherd.dev/github/laminas/laminas-diagnostic)
 
 > ## 🇷🇺 Русским гражданам
 >
