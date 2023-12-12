@@ -1,8 +1,8 @@
 # laminas-diagnostics
 
-[![Build Status](https://github.com/laminas/laminas-diagnostic/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/laminas/laminas-diagnostic/actions/workflows/continuous-integration.yml)
-[![type-coverage](https://shepherd.dev/github/laminas/laminas-diagnostic/coverage.svg)](https://shepherd.dev/github/laminas/laminas-diagnostic)
-[![Psalm level](https://shepherd.dev/github/laminas/laminas-diagnostic/level.svg)](https://shepherd.dev/github/laminas/laminas-diagnostic)
+[![Build Status](https://github.com/laminas/laminas-diagnostics/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/laminas/laminas-diagnostics/actions/workflows/continuous-integration.yml)
+[![type-coverage](https://shepherd.dev/github/laminas/laminas-diagnostics/coverage.svg)](https://shepherd.dev/github/laminas/laminas-diagnostics)
+[![Psalm level](https://shepherd.dev/github/laminas/laminas-diagnostics/level.svg)](https://shepherd.dev/github/laminas/laminas-diagnostics)
 
 > ## 🇷🇺 Русским гражданам
 >
