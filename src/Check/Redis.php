@@ -8,7 +8,9 @@ use Redis as RedisExtensionClient;
 use RedisException;
 use RuntimeException;
 
+use function array_key_exists;
 use function class_exists;
+use function is_array;
 use function microtime;
 
 /**
@@ -40,13 +42,32 @@ class Redis extends AbstractCheck
         $stats        = $client->info();
         $responseTime = microtime(true) - $startTime;
 
+        $successInformation = [
+            "responseTime" => $responseTime,
+        ];
+
+        if (array_key_exists('connected_clients', $stats)) {
+            $successInformation['connections'] = (int) $stats['connected_clients'];
+        } elseif (
+            array_key_exists('Clients', $stats) &&
+            is_array($stats['Clients']) &&
+            array_key_exists('connected_clients', $stats['Clients'])
+        ) {
+            $successInformation['connections'] = (int) $stats['Clients']['connected_clients'];
+        }
+
+        if (array_key_exists('uptime_in_seconds', $stats)) {
+            $successInformation['uptime'] = (int) $stats['uptime_in_seconds'];
+        } elseif (
+            array_key_exists('Server', $stats) &&
+            is_array($stats['Server']) && array_key_exists('uptime_in_seconds', $stats['Server'])
+        ) {
+            $successInformation['uptime'] = (int) $stats['Server']['uptime_in_seconds'];
+        }
+
         return new Success(
             '',
-            [
-                "responseTime" => $responseTime,
-                "connections"  => (int) $stats["connected_clients"],
-                "uptime"       => (int) $stats["uptime_in_seconds"],
-            ]
+            $successInformation
         );
     }
 
