@@ -2,7 +2,7 @@
 
 PHP_VERSION="$1"
 
-if ! [[ "${PHP_VERSION}" =~ 8\.3 ]]; then
+if ! [[ "${PHP_VERSION}" =~ 8\.4 ]]; then
   echo "memcached is only installed from pecl for PHP 8.3, ${PHP_VERSION} detected."
   exit 0;
 fi
