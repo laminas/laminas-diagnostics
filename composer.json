@@ -37,17 +37,17 @@
         "enlightn/security-checker": "^1.10"
     },
     "require-dev": {
-        "doctrine/migrations": "^2.0 || ^3.5.2",
-        "guzzlehttp/guzzle": "^7.5.0",
+        "doctrine/migrations": "^2.0 || ^3.8.2",
+        "guzzlehttp/guzzle": "^7.9.2",
         "laminas/laminas-coding-standard": "~2.5.0",
-        "laminas/laminas-loader": "^2.9",
-        "mikey179/vfsstream": "^1.6.11",
-        "php-amqplib/php-amqplib": "^2.0 || ^3.4",
-        "phpunit/phpunit": "^9.5.26",
-        "psalm/plugin-phpunit": "^0.18.3",
-        "predis/predis": "^2.0.3",
-        "symfony/yaml": "^6.0.14 || ^7.0.0",
-        "vimeo/psalm": "^4.29.0"
+        "laminas/laminas-loader": "^2.11",
+        "mikey179/vfsstream": "^1.6.12",
+        "php-amqplib/php-amqplib": "^2.0 || ^3.7.1",
+        "phpunit/phpunit": "^9.6.21",
+        "psalm/plugin-phpunit": "^0.18.4",
+        "predis/predis": "^2.2.2",
+        "symfony/yaml": "^6.4.12 || ^7.0.0",
+        "vimeo/psalm": "^4.30.0"
     },
     "conflict": {
         "guzzlehttp/ringphp": "<1.1.1",
