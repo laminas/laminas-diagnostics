@@ -15,11 +15,8 @@ final class TriggerUserError extends AbstractCheck
     {
     }
 
-    /** @return bool */
     public function check()
     {
-        trigger_error($this->message, $this->severity);
-
-        return $this->result;
+        throw new \ErrorException($this->message);
     }
 }

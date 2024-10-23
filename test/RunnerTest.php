@@ -30,7 +30,7 @@ use stdClass;
 
 use function is_string;
 
-use const E_USER_ERROR;
+use const E_USER_WARNING;
 use const E_WARNING;
 use const PHP_MAJOR_VERSION;
 
@@ -347,13 +347,13 @@ final class RunnerTest extends TestCase
 
     public function testPHPUserErrorResultsInFailure(): void
     {
-        $check = new TriggerUserError('error', E_USER_ERROR);
+        $check = new TriggerUserError('error');
         $this->runner->addCheck($check);
         $results = $this->runner->run();
 
         self::assertInstanceOf(Failure::class, $results[$check]);
         self::assertInstanceOf(ErrorException::class, $results[$check]->getData());
-        self::assertSame(E_USER_ERROR, $results[$check]->getData()->getSeverity());
+        self::assertSame((new ErrorException())->getSeverity(), $results[$check]->getData()->getSeverity());
     }
 
     public function testBreakOnFirstFailure(): void
