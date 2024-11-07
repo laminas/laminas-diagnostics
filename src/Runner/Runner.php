@@ -225,7 +225,10 @@ class Runner
         }
 
         foreach ($config as $key => $val) {
-            $methodName = 'set' . implode(array_map(static fn($value): string => ucfirst($value), explode('_', $key)));
+            $methodName = 'set' . implode(
+                '',
+                array_map(static fn($value): string => ucfirst($value), explode('_', $key))
+            );
 
             if (! is_callable([$this, $methodName])) {
                 throw new BadMethodCallException('Unknown config parameter ' . $key);
