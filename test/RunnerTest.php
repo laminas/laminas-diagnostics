@@ -30,7 +30,6 @@ use stdClass;
 
 use function is_string;
 
-use const E_USER_ERROR;
 use const E_WARNING;
 use const PHP_MAJOR_VERSION;
 

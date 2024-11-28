@@ -3,7 +3,6 @@
 namespace LaminasTest\Diagnostics\TestAsset\Check;
 
 use ErrorException;
-use Exception;
 use Laminas\Diagnostics\Check\AbstractCheck;
 
 final class TriggerUserError extends AbstractCheck
