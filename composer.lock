@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f175d1e7798d0b161ccb40b3b1b03e63",
+    "content-hash": "c2c3e3e3e3a80747e95ef572ebfe5e64",
     "packages": [
         {
             "name": "enlightn/security-checker",

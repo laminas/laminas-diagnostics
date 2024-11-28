@@ -39,13 +39,14 @@
     "require-dev": {
         "doctrine/migrations": "^2.0 || ^3.8.2",
         "guzzlehttp/guzzle": "^7.9.2",
+        "guzzlehttp/promises": "2.0.4",
         "laminas/laminas-coding-standard": "~2.5.0",
         "laminas/laminas-loader": "^2.11",
         "mikey179/vfsstream": "^1.6.12",
         "php-amqplib/php-amqplib": "^2.0 || ^3.7.2",
         "phpunit/phpunit": "^9.6.21",
-        "psalm/plugin-phpunit": "^0.18.4",
         "predis/predis": "^2.3.0",
+        "psalm/plugin-phpunit": "^0.18.4",
         "symfony/yaml": "^6.4.13 || ^7.0.0",
         "vimeo/psalm": "^4.30.0"
     },
