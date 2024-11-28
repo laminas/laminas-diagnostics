@@ -39,7 +39,6 @@
     "require-dev": {
         "doctrine/migrations": "^2.0 || ^3.8.2",
         "guzzlehttp/guzzle": "^7.9.2",
-        "guzzlehttp/promises": "2.0.4",
         "laminas/laminas-coding-standard": "~2.5.0",
         "laminas/laminas-loader": "^2.11",
         "mikey179/vfsstream": "^1.6.12",
@@ -52,8 +51,9 @@
     },
     "conflict": {
         "guzzlehttp/ringphp": "<1.1.1",
+        "guzzlehttp/promises": "<2.0.4",
         "symfony/finder": "<5.3.7",
-        "symfony/process": "<5.3.7",
+        "symfony/process": "<5.4.46",
         "zendframework/zenddiagnostics": "*"
     },
     "suggest": {
