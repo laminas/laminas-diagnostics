@@ -15,7 +15,7 @@ if [ ! -z "$GITHUB_BASE_REF" ] && [[ "$GITHUB_BASE_REF" =~ ^[0-9]+\.[0-9] ]]; th
   echo "Exported COMPOSER_ROOT_VERISON as ${COMPOSER_ROOT_VERISON}"
 fi
 
-${WORKING_DIRECTORY}/.laminas-ci/install-mongodb-extension-via-pecl.sh "${PHP_VERSION}" || exit 1
-${WORKING_DIRECTORY}/.laminas-ci/install-apcu-extension-via-pecl.sh "${PHP_VERSION}" || exit 1
-${WORKING_DIRECTORY}/.laminas-ci/install-memcached-extension-via-pecl.sh "${PHP_VERSION}" || exit 1
-${WORKING_DIRECTORY}/.laminas-ci/install-redis-extension-via-pecl.sh "${PHP_VERSION}" || exit 1
+#${WORKING_DIRECTORY}/.laminas-ci/install-mongodb-extension-via-pecl.sh "${PHP_VERSION}" || exit 1
+#${WORKING_DIRECTORY}/.laminas-ci/install-apcu-extension-via-pecl.sh "${PHP_VERSION}" || exit 1
+#${WORKING_DIRECTORY}/.laminas-ci/install-memcached-extension-via-pecl.sh "${PHP_VERSION}" || exit 1
+#${WORKING_DIRECTORY}/.laminas-ci/install-redis-extension-via-pecl.sh "${PHP_VERSION}" || exit 1
