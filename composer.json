@@ -43,7 +43,7 @@
         "laminas/laminas-loader": "^2.11",
         "mikey179/vfsstream": "^1.6.12",
         "php-amqplib/php-amqplib": "^2.0 || ^3.7.2",
-        "phpunit/phpunit": "^9.6.21",
+        "phpunit/phpunit": "^12.0.0",
         "predis/predis": "^2.3.0",
         "psalm/plugin-phpunit": "^0.18.4",
         "symfony/yaml": "^6.4.13 || ^7.0.0",
