@@ -94,6 +94,10 @@ class ProcessRunning extends AbstractCheck
      */
     private function checkAgainstProcessName()
     {
+        /**
+         * @see https://man7.org/linux/man-pages/ps.1.html (search for 'ps -eo') for GNU implementation
+         * @see https://busybox.net/downloads/BusyBox.html (search for 'ps') for BusyBox implementation
+         */
         exec('ps -eo pid,args', $output, $return);
 
         if ($return > 0) {
