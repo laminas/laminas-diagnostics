@@ -100,6 +100,7 @@ class ProcessRunning extends AbstractCheck
             return new Failure(sprintf('Could not find any running process containing "%s"', $this->processName));
         }
 
+        /** @var string $line */
         foreach ($output as $line) {
             if (str_contains($line, $this->processName)) {
                 return new Success();
