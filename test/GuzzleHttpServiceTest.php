@@ -88,8 +88,7 @@ final class GuzzleHttpServiceTest extends TestCase
             ['foo' => 'bar']
         );
 
-        $r = new ReflectionProperty($diagnostic, 'request');
-        $r->setAccessible(true);
+        $r       = new ReflectionProperty($diagnostic, 'request');
         $request = $r->getValue($diagnostic);
 
         if ($request instanceof RequestInterface) {
@@ -109,8 +108,7 @@ final class GuzzleHttpServiceTest extends TestCase
 
         $diagnostic = new GuzzleHttpService($request);
 
-        $r = new ReflectionProperty($diagnostic, 'request');
-        $r->setAccessible(true);
+        $r       = new ReflectionProperty($diagnostic, 'request');
         $request = $r->getValue($diagnostic);
 
         self::assertSame($request, $request);
