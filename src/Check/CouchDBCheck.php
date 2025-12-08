@@ -14,7 +14,6 @@ use function sprintf;
 class CouchDBCheck extends GuzzleHttpService
 {
     /**
-     * @param array $couchDbSettings
      * @param array $headers    An array of headers used to create the request
      * @param array $options    An array of guzzle options used to create the request
      */
@@ -58,7 +57,6 @@ class CouchDBCheck extends GuzzleHttpService
      *  - username (optional)
      *  - password (optional)
      *
-     * @param array $couchDbSettings
      * @return string
      */
     private function createUrlFromParameters(array $couchDbSettings)
