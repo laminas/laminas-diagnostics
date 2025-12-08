@@ -7,12 +7,12 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 
-use function escapeshellarg;
 use function exec;
 use function gettype;
 use function is_numeric;
 use function is_scalar;
 use function sprintf;
+use function str_contains;
 
 /**
  * Check if a process with given name or ID is currently running.
@@ -94,12 +94,23 @@ class ProcessRunning extends AbstractCheck
      */
     private function checkAgainstProcessName()
     {
-        exec('ps -efww | grep ' . escapeshellarg($this->processName) . ' | grep -v grep', $output, $return);
+        /**
+         * @see https://man7.org/linux/man-pages/ps.1.html (search for 'ps -eo') for GNU implementation
+         * @see https://busybox.net/downloads/BusyBox.html (search for 'ps') for BusyBox implementation
+         */
+        exec('ps -eo pid,args', $output, $return);
 
         if ($return > 0) {
             return new Failure(sprintf('Could not find any running process containing "%s"', $this->processName));
         }
 
-        return new Success();
+        /** @var string $line */
+        foreach ($output as $line) {
+            if (str_contains($line, $this->processName)) {
+                return new Success();
+            }
+        }
+
+        return new Failure(sprintf('Could not find any running process containing "%s"', $this->processName));
     }
 }
