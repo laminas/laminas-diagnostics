@@ -63,7 +63,7 @@ class DoctrineMigration extends AbstractCheck
 
         $notAvailableVersion = array_diff($migratedVersions, $availableVersions);
         if (! empty($notAvailableVersion)) {
-            return new Failure('Migrations applied which are not available', $notMigratedVersions);
+            return new Failure('Migrations applied which are not available', $notAvailableVersion);
         }
 
         return new Success();
