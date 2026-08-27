@@ -152,6 +152,7 @@ class Runner
                 $result = $check->check();
                 $this->stopErrorHandler();
             } catch (ErrorException $e) {
+                $this->stopErrorHandler();
                 $result = new Failure(
                     'PHP ' . static::getSeverityDescription($e->getSeverity()) . ': ' . $e->getMessage(),
                     $e
