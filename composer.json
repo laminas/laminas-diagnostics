@@ -46,7 +46,7 @@
         "predis/predis": "^3.0.0",
         "psalm/plugin-phpunit": "^0.18.4",
         "symfony/yaml": "^6.4.26 || ^7.4.1",
-        "vimeo/psalm": "^4.30.0"
+        "vimeo/psalm": "^6.0.0"
     },
     "conflict": {
         "guzzlehttp/ringphp": "<1.1.1",
