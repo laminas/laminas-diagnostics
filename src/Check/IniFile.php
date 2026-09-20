@@ -25,7 +25,7 @@ class IniFile extends AbstractFileCheck
      */
     protected function validateFile($file)
     {
-        set_error_handler(function ($code, $message) {
+        set_error_handler(static function ($code, $message) {
             throw new RuntimeException($message, $code);
         });
         try {
