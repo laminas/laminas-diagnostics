@@ -13,6 +13,7 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
+use Override;
 
 use function class_exists;
 use function count;
@@ -73,6 +74,7 @@ class SecurityAdvisory extends AbstractCheck
      * @return ResultInterface
      * @throws GuzzleException
      */
+    #[Override]
     public function check()
     {
         if ($this->advisoryAnalyzer === null) {

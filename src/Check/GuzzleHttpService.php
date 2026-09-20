@@ -13,6 +13,7 @@ use JsonSerializable;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 use Psr\Http\Message\RequestInterface as PsrRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -89,6 +90,7 @@ class GuzzleHttpService extends AbstractCheck
      *
      * @return ResultInterface
      */
+    #[Override]
     public function check()
     {
         return $this->performGuzzleRequest();

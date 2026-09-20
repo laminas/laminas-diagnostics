@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 
 use function exec;
 use function gettype;
@@ -16,6 +17,8 @@ use function str_contains;
 
 /**
  * Check if a process with given name or ID is currently running.
+ *
+ * @final
  */
 class ProcessRunning extends AbstractCheck
 {
@@ -65,6 +68,7 @@ class ProcessRunning extends AbstractCheck
      *
      * @return ResultInterface
      */
+    #[Override]
     public function check()
     {
         // TODO: make more OS agnostic

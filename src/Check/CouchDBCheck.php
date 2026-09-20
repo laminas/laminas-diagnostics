@@ -3,6 +3,7 @@
 namespace Laminas\Diagnostics\Check;
 
 use Laminas\Diagnostics\Result;
+use Override;
 
 use function array_key_exists;
 use function preg_replace;
@@ -10,6 +11,8 @@ use function sprintf;
 
 /**
  * Ensures a connection to CouchDB is possible.
+ *
+ * @final
  */
 class CouchDBCheck extends GuzzleHttpService
 {
@@ -31,6 +34,7 @@ class CouchDBCheck extends GuzzleHttpService
     /**
      * {@inheritDoc}
      */
+    #[Override]
     public function check()
     {
         $result = parent::check();

@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Check;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 use Traversable;
 
 use function count;
@@ -19,6 +20,8 @@ use function stream_get_wrappers;
 
 /**
  * Validate that a stream wrapper exists.
+ *
+ * @final
  */
 class StreamWrapperExists extends AbstractCheck implements CheckInterface
 {
@@ -59,6 +62,7 @@ class StreamWrapperExists extends AbstractCheck implements CheckInterface
      *
      * @return Failure|Success
      */
+    #[Override]
     public function check()
     {
         $missingWrappers   = [];

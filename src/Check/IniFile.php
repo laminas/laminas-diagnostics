@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Check;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 use RuntimeException;
 
 use function count;
@@ -16,6 +17,8 @@ use function sprintf;
 
 /**
  * Checks if an INI file is available and valid
+ *
+ * @final
  */
 class IniFile extends AbstractFileCheck
 {
@@ -23,6 +26,7 @@ class IniFile extends AbstractFileCheck
      * @param string $file
      * @return ResultInterface
      */
+    #[Override]
     protected function validateFile($file)
     {
         set_error_handler(static function ($code, $message) {

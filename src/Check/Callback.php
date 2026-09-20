@@ -3,12 +3,15 @@
 namespace Laminas\Diagnostics\Check;
 
 use InvalidArgumentException;
+use Override;
 
 use function call_user_func_array;
 use function is_callable;
 
 /**
  * Run a callback function and return result.
+ *
+ * @final
  */
 class Callback extends AbstractCheck implements CheckInterface
 {
@@ -36,6 +39,7 @@ class Callback extends AbstractCheck implements CheckInterface
      *
      * @return mixed
      */
+    #[Override]
     public function check()
     {
         return call_user_func_array($this->callback, $this->params);

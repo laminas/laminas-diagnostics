@@ -2,6 +2,8 @@
 
 namespace Laminas\Diagnostics\Check;
 
+use Override;
+
 use function preg_replace;
 use function strrpos;
 use function substr;
@@ -21,6 +23,7 @@ abstract class AbstractCheck implements CheckInterface
      *
      * @return string
      */
+    #[Override]
     public function getLabel()
     {
         if ($this->label !== null) {

@@ -14,7 +14,7 @@ use Laminas\Diagnostics\Result\WarningInterface;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \Laminas\Diagnostics\Check\ElasticSearch */
-class ElasticSearchTest extends TestCase
+final class ElasticSearchTest extends TestCase
 {
     /**
      * @dataProvider healthStatusProvider

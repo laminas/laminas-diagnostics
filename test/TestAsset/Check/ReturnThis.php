@@ -3,6 +3,7 @@
 namespace LaminasTest\Diagnostics\TestAsset\Check;
 
 use Laminas\Diagnostics\Check\AbstractCheck;
+use Override;
 
 final class ReturnThis extends AbstractCheck
 {
@@ -11,6 +12,7 @@ final class ReturnThis extends AbstractCheck
     }
 
     /** @return mixed */
+    #[Override]
     public function check()
     {
         return $this->value;

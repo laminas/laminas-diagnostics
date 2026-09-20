@@ -11,10 +11,12 @@ use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 
 use function array_diff;
 use function array_map;
 
+/** @final */
 class DoctrineMigration extends AbstractCheck
 {
     /**
@@ -51,6 +53,7 @@ class DoctrineMigration extends AbstractCheck
     /**
      * Perform the actual check and return a ResultInterface
      */
+    #[Override]
     public function check(): ResultInterface
     {
         $availableVersions = $this->getAvailableVersions();

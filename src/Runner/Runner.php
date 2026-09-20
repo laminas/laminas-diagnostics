@@ -61,6 +61,8 @@ use const E_WARNING;
  *
  * A Runner takes one or more Checks and runs them in sequence. One or more Reporters can be attached to
  * display the progress and results of checks.
+ *
+ * @final
  */
 class Runner
 {

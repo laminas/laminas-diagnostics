@@ -3,6 +3,7 @@
 namespace Laminas\Diagnostics\Check;
 
 use Laminas\Diagnostics\Result\Success;
+use Override;
 use Predis\Client as PredisClient;
 use Redis as RedisExtensionClient;
 use RedisException;
@@ -13,6 +14,8 @@ use function microtime;
 
 /**
  * Validate that a Redis service is running
+ *
+ * @final
  */
 class Redis extends AbstractCheck
 {
@@ -31,6 +34,7 @@ class Redis extends AbstractCheck
      *
      * @return Success
      */
+    #[Override]
     public function check()
     {
         $client = $this->createClient();

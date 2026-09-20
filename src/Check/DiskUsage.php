@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
+use Override;
 
 use function disk_free_space;
 use function disk_total_space;
@@ -15,6 +16,8 @@ use function sprintf;
 
 /**
  * Checks to see if the disk usage is below warning/critical percent thresholds
+ *
+ * @final
  */
 class DiskUsage extends AbstractCheck implements CheckInterface
 {
@@ -87,6 +90,7 @@ class DiskUsage extends AbstractCheck implements CheckInterface
      *
      * @return Failure|Success|Warning
      */
+    #[Override]
     public function check()
     {
         $df = disk_free_space($this->path);

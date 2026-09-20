@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Check;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 use Traversable;
 
 use function count;
@@ -20,6 +21,8 @@ use function iterator_to_array;
  * Make sure given PHP flag is turned on or off in php.ini
  *
  * This test accepts a string or array of strings for php flags
+ *
+ * @final
  */
 class PhpFlag extends AbstractCheck implements CheckInterface
 {
@@ -70,6 +73,7 @@ class PhpFlag extends AbstractCheck implements CheckInterface
      *
      * @return Success|Failure
      */
+    #[Override]
     public function check()
     {
         $failures = [];

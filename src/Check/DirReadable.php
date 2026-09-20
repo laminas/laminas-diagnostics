@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Check;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 use Traversable;
 
 use function count;
@@ -19,6 +20,8 @@ use function trim;
 
 /**
  * Validate that a given path (or a collection of paths) is a dir and is readable
+ *
+ * @final
  */
 class DirReadable extends AbstractCheck implements CheckInterface
 {
@@ -55,6 +58,7 @@ class DirReadable extends AbstractCheck implements CheckInterface
      *
      * @return Failure|Success
      */
+    #[Override]
     public function check()
     {
         $nonDirs = $unreadable = [];

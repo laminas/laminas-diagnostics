@@ -6,6 +6,7 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Skip;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
+use Override;
 
 use function array_key_exists;
 use function assert;
@@ -15,6 +16,8 @@ use function opcache_get_status;
 
 /**
  * Checks to see if the OpCache memory usage is below warning/critical thresholds
+ *
+ * @final
  */
 class OpCacheMemory extends AbstractMemoryCheck
 {
@@ -30,6 +33,7 @@ class OpCacheMemory extends AbstractMemoryCheck
      *
      * @return Failure|Skip|Success|Warning
      */
+    #[Override]
     public function check()
     {
         if (! function_exists('opcache_get_status')) {
@@ -50,6 +54,7 @@ class OpCacheMemory extends AbstractMemoryCheck
      *
      * @return string
      */
+    #[Override]
     public function getLabel()
     {
         return 'OPcache Memory';
@@ -60,6 +65,7 @@ class OpCacheMemory extends AbstractMemoryCheck
      *
      * @return int
      */
+    #[Override]
     protected function getTotalMemory()
     {
         assert(is_array($this->opCacheInfo));
@@ -74,6 +80,7 @@ class OpCacheMemory extends AbstractMemoryCheck
      *
      * @return int
      */
+    #[Override]
     protected function getUsedMemory()
     {
         assert(is_array($this->opCacheInfo));

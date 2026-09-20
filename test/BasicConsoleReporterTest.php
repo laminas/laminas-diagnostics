@@ -10,6 +10,7 @@ use Laminas\Diagnostics\Result\Warning;
 use Laminas\Diagnostics\Runner\Reporter\BasicConsole;
 use LaminasTest\Diagnostics\TestAsset\Check\AlwaysSuccess;
 use LaminasTest\Diagnostics\TestAsset\Result\Unknown;
+use Override;
 use PHPUnit\Framework\TestCase;
 
 use function array_fill;
@@ -24,6 +25,7 @@ final class BasicConsoleReporterTest extends TestCase
 {
     private BasicConsole $reporter;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

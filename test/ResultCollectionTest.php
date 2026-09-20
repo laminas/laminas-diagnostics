@@ -10,6 +10,7 @@ use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 use LaminasTest\Diagnostics\TestAsset\Check\AlwaysSuccess;
 use LaminasTest\Diagnostics\TestAsset\Result\Unknown;
+use Override;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -18,6 +19,7 @@ final class ResultCollectionTest extends TestCase
 {
     private Collection $collection;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -148,6 +150,11 @@ final class ResultCollectionTest extends TestCase
         $this->collection[$key] = $value;
     }
 
+    /**
+     * @psalm-suppress UnevaluatedCode
+     * @psalm-suppress DocblockTypeContradiction
+     * @psalm-suppress RedundantConditionGivenDocblockType
+     */
     public function testCounters(): void
     {
         self::assertSame(0, $this->collection->getSuccessCount());

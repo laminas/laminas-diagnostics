@@ -2,6 +2,8 @@
 
 namespace Laminas\Diagnostics\Result;
 
+use Override;
+
 /**
  * Abstract, simple implementation of ResultInterface
  */
@@ -33,6 +35,7 @@ abstract class AbstractResult implements ResultInterface
      *
      * @return string
      */
+    #[Override]
     public function getMessage()
     {
         return $this->message;
@@ -43,6 +46,7 @@ abstract class AbstractResult implements ResultInterface
      *
      * @return mixed|null
      */
+    #[Override]
     public function getData()
     {
         return $this->data;
