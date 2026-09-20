@@ -487,14 +487,6 @@
       <code><![CDATA[$port < 0]]></code>
       <code><![CDATA[is_string($host)]]></code>
     </DocblockTypeContradiction>
-    <MixedAssignment>
-      <code><![CDATA[$memcached]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[addServer]]></code>
-      <code><![CDATA[getLastDisconnectedServer]]></code>
-      <code><![CDATA[getStats]]></code>
-    </MixedMethodCall>
     <NoValue>
       <code><![CDATA[$port]]></code>
     </NoValue>

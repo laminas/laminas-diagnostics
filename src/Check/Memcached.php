@@ -76,7 +76,6 @@ class Memcached extends AbstractCheck
             $memcached->addServer($this->host, $this->port);
 
             $startTime = microtime(true);
-            /** @var false|array<string, false|array<string, int|string>> $stats */
             $stats        = @$memcached->getStats();
             $responseTime = microtime(true) - $startTime;
 
