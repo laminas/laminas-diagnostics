@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Check;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 use Traversable;
 
 use function count;
@@ -20,6 +21,8 @@ use function trim;
 
 /**
  * Validate that a given path (or a collection of paths) is a dir and is writable
+ *
+ * @final
  */
 class DirWritable extends AbstractCheck implements CheckInterface
 {
@@ -56,6 +59,7 @@ class DirWritable extends AbstractCheck implements CheckInterface
      *
      * @return Failure|Success
      */
+    #[Override]
     public function check()
     {
         $nonDirs = $unwritable = [];

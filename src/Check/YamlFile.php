@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Check;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 
@@ -16,6 +17,8 @@ use function yaml_parse_file;
 
 /**
  * Checks if a YAML file is available and valid
+ *
+ * @final
  */
 class YamlFile extends AbstractFileCheck
 {
@@ -23,6 +26,7 @@ class YamlFile extends AbstractFileCheck
      * @param string $file
      * @return ResultInterface
      */
+    #[Override]
     protected function validateFile($file)
     {
         if (class_exists(Parser::class)) {

@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Check;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 
 use function fclose;
 use function feof;
@@ -17,6 +18,8 @@ use function str_contains;
 
 /**
  * Attempt connection to given HTTP host and (optionally) check status code and page content.
+ *
+ * @final
  */
 class HttpService extends AbstractCheck
 {
@@ -41,6 +44,7 @@ class HttpService extends AbstractCheck
      *
      * @return ResultInterface
      */
+    #[Override]
     public function check()
     {
         $fp = @fsockopen($this->host, $this->port, $errno, $errstr, 10);

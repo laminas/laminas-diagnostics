@@ -7,7 +7,7 @@ use Laminas\Diagnostics\Check\Memcached;
 use PHPUnit\Framework\TestCase;
 
 /** @covers \Laminas\Diagnostics\Check\Memcached */
-class MemcachedTest extends TestCase
+final class MemcachedTest extends TestCase
 {
     public function testHostValidation(): void
     {

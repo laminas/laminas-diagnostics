@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Check;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 
 use function file_get_contents;
 use function json_decode;
@@ -12,6 +13,8 @@ use function sprintf;
 
 /**
  * Checks if a JSON file is available and valid
+ *
+ * @final
  */
 class JsonFile extends AbstractFileCheck
 {
@@ -19,6 +22,7 @@ class JsonFile extends AbstractFileCheck
      * @param string $file
      * @return ResultInterface
      */
+    #[Override]
     protected function validateFile($file)
     {
         if (null === json_decode(file_get_contents($file))) {

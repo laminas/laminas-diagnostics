@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Check;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 use Traversable;
 
 use function count;
@@ -17,6 +18,8 @@ use function phpversion;
 
 /**
  * Validate that a named extension or a collection of extensions is available.
+ *
+ * @final
  */
 class ExtensionLoaded extends AbstractCheck implements CheckInterface
 {
@@ -56,6 +59,7 @@ class ExtensionLoaded extends AbstractCheck implements CheckInterface
      *
      * @return Failure|Success
      */
+    #[Override]
     public function check()
     {
         $missing = [];

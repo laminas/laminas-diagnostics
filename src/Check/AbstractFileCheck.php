@@ -7,6 +7,7 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\FailureInterface;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 use Traversable;
 
 use function is_array;
@@ -50,6 +51,7 @@ abstract class AbstractFileCheck extends AbstractCheck
     /**
      * @return ResultInterface
      */
+    #[Override]
     public function check()
     {
         foreach ($this->files as $file) {

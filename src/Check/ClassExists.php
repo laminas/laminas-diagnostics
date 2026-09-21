@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Check;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 use Traversable;
 
 use function class_exists;
@@ -17,6 +18,8 @@ use function is_string;
 
 /**
  * Validate that a class or a collection of classes is available.
+ *
+ * @final
  */
 class ClassExists extends AbstractCheck implements CheckInterface
 {
@@ -58,6 +61,7 @@ class ClassExists extends AbstractCheck implements CheckInterface
      *
      * @return Success|Failure
      */
+    #[Override]
     public function check()
     {
         $missing = [];

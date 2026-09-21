@@ -7,6 +7,7 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Skip;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
+use Override;
 
 use function is_numeric;
 use function sprintf;
@@ -72,6 +73,7 @@ abstract class AbstractMemoryCheck extends AbstractCheck implements CheckInterfa
      *
      * @return Failure|Skip|Success|Warning
      */
+    #[Override]
     public function check()
     {
         $percentUsed = ($this->getUsedMemory() / $this->getTotalMemory()) * 100;

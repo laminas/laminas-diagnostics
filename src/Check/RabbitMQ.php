@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Check;
 use Exception;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Connection\AMQPSocketConnection;
 use RuntimeException;
@@ -14,6 +15,8 @@ use function sprintf;
 
 /**
  * Validate that a RabbitMQ service is running
+ *
+ * @final
  */
 class RabbitMQ extends AbstractCheck
 {
@@ -69,6 +72,7 @@ class RabbitMQ extends AbstractCheck
      *
      * @return Failure|Success
      */
+    #[Override]
     public function check()
     {
         try {

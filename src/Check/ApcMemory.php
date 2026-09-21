@@ -6,6 +6,7 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Skip;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
+use Override;
 
 use function apcu_sma_info;
 use function assert;
@@ -25,6 +26,8 @@ use const PHP_VERSION_ID;
  *      authors:   Ralf Becker <beckerr@php.net>, Rasmus Lerdorf <rasmus@php.net>, Ilia Alshanetsky <ilia@prohost.org>
  *      license:   The PHP License, version 3.01
  *      copyright: Copyright (c) 2006-2011 The PHP Group
+ *
+ * @final
  */
 class ApcMemory extends AbstractMemoryCheck
 {
@@ -40,6 +43,7 @@ class ApcMemory extends AbstractMemoryCheck
      *
      * @return Failure|Skip|Success|Warning
      */
+    #[Override]
     public function check()
     {
         if (! ini_get('apc.enabled')) {
@@ -69,6 +73,7 @@ class ApcMemory extends AbstractMemoryCheck
      *
      * @return int
      */
+    #[Override]
     protected function getTotalMemory()
     {
         assert(is_array($this->apcInfo));
@@ -81,6 +86,7 @@ class ApcMemory extends AbstractMemoryCheck
      *
      * @return int
      */
+    #[Override]
     protected function getUsedMemory()
     {
         assert(is_array($this->apcInfo));

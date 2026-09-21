@@ -4,6 +4,7 @@ namespace Laminas\Diagnostics\Result;
 
 use InvalidArgumentException;
 use Laminas\Diagnostics\Check\CheckInterface;
+use Override;
 use ReturnTypeWillChange;
 use SplObjectStorage;
 
@@ -13,6 +14,8 @@ use function sprintf;
 
 /**
  * Utility class to store Results entities for corresponding Checks
+ *
+ * @final
  */
 class Collection extends SplObjectStorage
 {
@@ -107,6 +110,7 @@ class Collection extends SplObjectStorage
      * @param  object $index
      * @return mixed
      */
+    #[Override]
     #[ReturnTypeWillChange]
     public function offsetGet($index)
     {
@@ -121,6 +125,7 @@ class Collection extends SplObjectStorage
      * @param  object $index
      * @return bool
      */
+    #[Override]
     #[ReturnTypeWillChange]
     public function offsetExists($index)
     {
@@ -137,6 +142,7 @@ class Collection extends SplObjectStorage
      *
      * @return void
      */
+    #[Override]
     #[ReturnTypeWillChange]
     public function offsetSet($index, $checkResult = null)
     {
@@ -162,6 +168,7 @@ class Collection extends SplObjectStorage
      *
      * @return void
      */
+    #[Override]
     #[ReturnTypeWillChange]
     public function offsetUnset($index)
     {

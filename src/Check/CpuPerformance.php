@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
+use Override;
 
 use function bcadd;
 use function bcdiv;
@@ -24,6 +25,8 @@ use function microtime;
  *
  * The baseline has been calculated as the average time needed to calculate 1000 digits of PI
  * on an Amazon AWS EC2 Micro Instance.
+ *
+ * @final
  */
 class CpuPerformance extends AbstractCheck implements CheckInterface
 {
@@ -80,6 +83,7 @@ class CpuPerformance extends AbstractCheck implements CheckInterface
      *
      * @return Failure|Success|Warning
      */
+    #[Override]
     public function check()
     {
         // Check if bcmath extension is present

@@ -24,6 +24,7 @@ use LaminasTest\Diagnostics\TestAsset\Check\TriggerUserError;
 use LaminasTest\Diagnostics\TestAsset\Check\TriggerWarning;
 use LaminasTest\Diagnostics\TestAsset\Reporter\AbstractReporter;
 use LaminasTest\Diagnostics\TestAsset\Result\Unknown;
+use Override;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use stdClass;
@@ -38,6 +39,7 @@ final class RunnerTest extends TestCase
 {
     private Runner $runner;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

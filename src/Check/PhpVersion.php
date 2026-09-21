@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Check;
 use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 use Traversable;
 
 use function gettype;
@@ -22,6 +23,8 @@ use const PHP_VERSION;
  *
  * This test accepts a single version and an operator or an array of
  * versions to test for.
+ *
+ * @final
  */
 class PhpVersion extends AbstractCheck implements CheckInterface
 {
@@ -96,6 +99,7 @@ class PhpVersion extends AbstractCheck implements CheckInterface
      *
      * @return Success|Failure
      */
+    #[Override]
     public function check()
     {
         foreach ($this->version as $version) {

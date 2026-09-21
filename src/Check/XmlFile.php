@@ -5,6 +5,7 @@ namespace Laminas\Diagnostics\Check;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 use XMLReader;
 
 use function simplexml_load_file;
@@ -12,6 +13,8 @@ use function sprintf;
 
 /**
  * Checks if an XML file is available and valid
+ *
+ * @final
  */
 class XmlFile extends AbstractFileCheck
 {
@@ -19,6 +22,7 @@ class XmlFile extends AbstractFileCheck
      * @param string $file
      * @return ResultInterface
      */
+    #[Override]
     protected function validateFile($file)
     {
         $xmlReader = new XMLReader();

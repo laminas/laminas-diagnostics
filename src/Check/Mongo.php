@@ -9,11 +9,13 @@ use Laminas\Diagnostics\Result\Success;
 use MongoClient;
 use MongoConnectionException;
 use MongoDB\Client as MongoDBClient;
+use Override;
 use RuntimeException;
 
 use function class_exists;
 use function sprintf;
 
+/** @final */
 class Mongo extends AbstractCheck
 {
     /**
@@ -26,6 +28,7 @@ class Mongo extends AbstractCheck
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function check()
     {
         try {

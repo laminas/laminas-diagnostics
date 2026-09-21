@@ -8,6 +8,7 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use Memcache as MemcacheService;
+use Override;
 
 use function class_exists;
 use function gettype;
@@ -18,6 +19,8 @@ use function sprintf;
 
 /**
  * Check if MemCache extension is loaded and given server is reachable.
+ *
+ * @final
  */
 class Memcache extends AbstractCheck
 {
@@ -61,6 +64,7 @@ class Memcache extends AbstractCheck
      *
      * @return ResultInterface
      */
+    #[Override]
     public function check()
     {
         if (! class_exists('Memcache', false)) {

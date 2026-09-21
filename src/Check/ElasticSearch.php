@@ -8,6 +8,7 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
+use Override;
 
 use function array_merge;
 use function microtime;
@@ -15,6 +16,8 @@ use function trim;
 
 /**
  * Ensures a connection to ElasticSearch is possible and the cluster health is 'green'
+ *
+ * @final
  */
 class ElasticSearch extends GuzzleHttpService
 {
@@ -30,6 +33,7 @@ class ElasticSearch extends GuzzleHttpService
         parent::__construct($elasticSearchUrl, $headers, $options, 200, null, $guzzle);
     }
 
+    #[Override]
     public function check(): ResultInterface
     {
         try {

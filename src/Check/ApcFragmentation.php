@@ -7,6 +7,7 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Skip;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
+use Override;
 
 use function apcu_sma_info;
 use function count;
@@ -26,6 +27,8 @@ use const PHP_SAPI;
  *      authors:   Ralf Becker <beckerr@php.net>, Rasmus Lerdorf <rasmus@php.net>, Ilia Alshanetsky <ilia@prohost.org>
  *      license:   The PHP License, version 3.01
  *      copyright: Copyright (c) 2006-2011 The PHP Group
+ *
+ * @final
  */
 class ApcFragmentation extends AbstractCheck implements CheckInterface
 {
@@ -85,6 +88,7 @@ class ApcFragmentation extends AbstractCheck implements CheckInterface
      *
      * @return Failure|Skip|Success|Warning
      */
+    #[Override]
     public function check()
     {
         if (! ini_get('apc.enabled')) {

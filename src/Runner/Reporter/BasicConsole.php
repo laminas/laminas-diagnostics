@@ -10,6 +10,7 @@ use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\SkipInterface;
 use Laminas\Diagnostics\Result\SuccessInterface;
 use Laminas\Diagnostics\Result\WarningInterface;
+use Override;
 
 use function count;
 use function floor;
@@ -24,6 +25,8 @@ use const STR_PAD_RIGHT;
 
 /**
  * A simple reporter for displaying Runner results in console window.
+ *
+ * @final
  */
 class BasicConsole implements ReporterInterface
 {
@@ -91,6 +94,7 @@ class BasicConsole implements ReporterInterface
      *
      * @param array       $runnerConfig
      */
+    #[Override]
     public function onStart(ArrayObject $checks, $runnerConfig)
     {
         $this->stopped   = false;
@@ -116,6 +120,7 @@ class BasicConsole implements ReporterInterface
      * @param  string|null    $checkAlias
      * @return bool|void
      */
+    #[Override]
     public function onBeforeRun(CheckInterface $check, $checkAlias = null)
     {
     }
@@ -126,6 +131,7 @@ class BasicConsole implements ReporterInterface
      * @param  string|null     $checkAlias
      * @return bool|void
      */
+    #[Override]
     public function onAfterRun(CheckInterface $check, ResultInterface $result, $checkAlias = null)
     {
         // Draw a symbol for each result
@@ -168,6 +174,7 @@ class BasicConsole implements ReporterInterface
     /**
      * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
      */
+    #[Override]
     public function onFinish(ResultsCollection $results)
     {
         $this->consoleWriteLn();
@@ -254,6 +261,7 @@ class BasicConsole implements ReporterInterface
     /**
      * @see \Laminas\Diagnostics\Runner\Reporter\ReporterInterface
      */
+    #[Override]
     public function onStop(ResultsCollection $results)
     {
         $this->stopped = true;

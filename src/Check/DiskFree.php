@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
+use Override;
 
 use function array_merge;
 use function array_search;
@@ -31,6 +32,8 @@ use function strtolower;
  *     authors:   Dave Ingram <dave@dmi.me.uk>, Nick Pope <nick@nickpope.me.uk>
  *     license:   http://creativecommons.org/licenses/BSD/ CC-BSD
  *     copyright: Copyright (c) 2010, Dave Ingram, Nick Pope
+ *
+ * @final
  */
 class DiskFree extends AbstractCheck implements CheckInterface
 {
@@ -170,6 +173,7 @@ class DiskFree extends AbstractCheck implements CheckInterface
      *
      * @return Failure|Success|Warning
      */
+    #[Override]
     public function check()
     {
         // We are using error suppression because the method will trigger a warning

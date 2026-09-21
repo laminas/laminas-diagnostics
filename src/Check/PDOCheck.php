@@ -3,6 +3,7 @@
 namespace Laminas\Diagnostics\Check;
 
 use Laminas\Diagnostics\Result;
+use Override;
 use PDO;
 use PDOException;
 
@@ -10,6 +11,8 @@ use function sprintf;
 
 /**
  * Ensures a connection to the MySQL server/database is possible.
+ *
+ * @final
  */
 class PDOCheck implements CheckInterface
 {
@@ -26,6 +29,7 @@ class PDOCheck implements CheckInterface
     /**
      * @return Result\Failure|Result\Success
      */
+    #[Override]
     public function check()
     {
         $msg = 'Could not talk to database server';
@@ -53,6 +57,7 @@ class PDOCheck implements CheckInterface
     /**
      * @return string
      */
+    #[Override]
     public function getLabel()
     {
         return sprintf('Check if %s can be reached', $this->dsn);
